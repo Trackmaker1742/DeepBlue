@@ -113,23 +113,3 @@ int main(int argc, char *argv[])
 
     return EXIT_SUCCESS;
 }
-
-// Unrelated C++ code that I need to put into another file
-// int n = 90;
-
-// int counter = 0;
-// int page_per_sheet = 2;
-
-// for (int i = 1; i <= n; i++)
-// {
-//     if (counter < page_per_sheet)
-//     {
-//         std::cout << i << ",";
-//         counter++;   
-//     }
-//     else 
-//     {
-//         i += (page_per_sheet - 1);
-//         counter = 0;
-//     }
-// }

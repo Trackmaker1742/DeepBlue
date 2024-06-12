@@ -14,7 +14,16 @@ SDL_Renderer *Renderer::getRend()
 
 void Renderer::renderPlayer(Player *player)
 {
-    SDL_Rect des = {cam->getRendX(), Scene::HEIGHT - player->getGrid() - cam->getRendY(), player->getGrid(), player->getGrid()};
+    // Values for offsetting the camera from the player when in the edges of the stage
+    int16_t p_cam_offset_x = player->getX() - cam->getX();
+    int16_t p_cam_offset_y = player->getY() - cam->getY();
+
+    SDL_Rect des = {
+        cam->getRendX() + p_cam_offset_x, 
+        Scene::HEIGHT - player->getGrid() - cam->getRendY() - p_cam_offset_y, 
+        player->getGrid(), 
+        player->getGrid()
+    };
     SDL_RenderCopy(renderer, player->getTexture(), NULL, &des);
 }
 
@@ -24,13 +33,18 @@ void Renderer::renderStage(Stage *stage, Player *player)
     SDL_Rect des = {0, 0, Scene::WIDTH, Scene::HEIGHT};
     SDL_RenderCopy(renderer, stage->getBackground(), NULL, &des);
     
-    int delta_x = cam->getRendX() - cam->getX();
-    int delta_y = cam->getRendY() - cam->getY();
+    int16_t delta_x = cam->getRendX() - cam->getX();
+    int16_t delta_y = cam->getRendY() - cam->getY();
 
     // Render blocks
     for (Block* b : stage->getBlockVec())
     { 
-        SDL_Rect des_rect = {int(b->getGridX()) + delta_x, Scene::HEIGHT - b->getGrid() - (int(b->getGridY()) + delta_y), b->getGrid(), b->getGrid()};
+        SDL_Rect des_rect = {
+            int(b->getGridX()) + delta_x, 
+            Scene::HEIGHT - b->getGrid() - (int(b->getGridY()) + delta_y), 
+            b->getGrid(), 
+            b->getGrid()
+        };
         SDL_RenderCopy(renderer, b->getTexture(), NULL, &des_rect);
     }
 

@@ -2,7 +2,7 @@
 
 void File_Handler::readConfig()
 {
-    std::cout << "Hello" << "\n";
+    // std::cout << "Hello" << "\n";
 
     std::ifstream config;
 
@@ -21,4 +21,6 @@ void File_Handler::readConfig()
         config_array.push_back(temp);
         std::cout << temp << "\n";
     }
+
+    // std::cout << "Hello 2" << "\n";
 }

@@ -10,6 +10,13 @@ uint16_t Camera::getRendY() { return render_y; }
 // Update camera
 void Camera::updateCam(Player *player)
 {
-    setX(player->getX());
-    setY(player->getY());
+    // Stop camera from going too far into edges of the screen
+    if (player->getX() > 448)
+    {
+        setX(player->getX());
+    }
+    if (player->getY() > 224)
+    {
+        setY(player->getY());
+    }
 }
