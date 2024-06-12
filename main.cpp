@@ -34,6 +34,7 @@ int main(int argc, char *argv[])
 
     // Camera
     Camera *cam = new Camera();
+    cam->initCam();
 
     // Renderer
     Renderer* renderer = new Renderer(scene->getWindow(), cam);

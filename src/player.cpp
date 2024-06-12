@@ -98,7 +98,7 @@ void Player::playerMovement(Input *input, float dt)
     if (getVelX() < -vel_x_max) setVelX(-vel_x_max);
     if (getVelX() > vel_x_max) setVelX(vel_x_max);
 
-    std::cout << getX() << " " << getY() << "\n";
+    // std::cout << getX() << " " << getY() << "\n";
 
     // Jump
     if (input->getPress(4) && on_ground)
@@ -114,7 +114,7 @@ void Player::playerMovement(Input *input, float dt)
     }
 
     // Movement test
-    // Airial velocity control
+    // Aerial velocity control
     if (!on_ground)
     {
         setVelY(getVelY() + getAccelY() * dt * 0.5f);

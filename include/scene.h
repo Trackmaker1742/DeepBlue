@@ -18,8 +18,8 @@ private:
     SDL_Texture* bg;
 
 public:
-    static const uint16_t WIDTH = 960;
-    static const uint16_t HEIGHT = 512;
+    static const uint16_t WIDTH = 1024;
+    static const uint16_t HEIGHT = 640;
 
     static const uint8_t FPS = 120;
 

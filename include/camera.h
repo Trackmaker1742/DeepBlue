@@ -17,6 +17,8 @@ public:
     uint16_t getRendX();
     uint16_t getRendY();
 
+    void initCam();
+
     // Update camera
     void updateCam(Player *player);
 };

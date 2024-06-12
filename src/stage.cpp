@@ -105,13 +105,16 @@ void Stage::initBlocks()
     // Pillar 1
     Blocks.push_back(new Block(5, 1, "res/Test.png"));
     Blocks.push_back(new Block(5, 2, "res/Test.png"));
-    Blocks.push_back(new Block(5, 3, "res/Test.png"));
 
     // Pillar 2
     Blocks.push_back(new Block(6, 1, "res/Test.png"));
     Blocks.push_back(new Block(6, 2, "res/Test.png"));
     Blocks.push_back(new Block(6, 3, "res/Test.png"));
     Blocks.push_back(new Block(6, 4, "res/Test.png"));
+
+    // Pillar 3
+    Blocks.push_back(new Block(7, 1, "res/Test.png"));
+    Blocks.push_back(new Block(7, 2, "res/Test.png"));
 
     for (Block *b : Blocks)
     {
