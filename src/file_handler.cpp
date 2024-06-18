@@ -64,7 +64,6 @@ void File_Handler::readConfig()
         if (reso_str[i] != '|') 
         {
             temp1 += reso_str[i];
-            std::cout << temp1;
         }
         else
         {
@@ -72,8 +71,8 @@ void File_Handler::readConfig()
             //     screen_width = std::stoi(temp1);
             // else
             //     screen_height = std::stoi(temp1);
+            std::cout << temp1 << "\n";
             temp1 = "";
-            std::cout << "delim" << "\n";
         }
     }
 
