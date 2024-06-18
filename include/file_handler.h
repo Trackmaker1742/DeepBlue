@@ -6,6 +6,7 @@
 #include <vector>
 #include <fstream>
 #include <string>
+#include <sstream>
 
 class File_Handler 
 {
@@ -17,8 +18,16 @@ private:
 
     std::vector<std::string> config_array;
 
+    std::string reso_str;
+
 public:
-    // Fucntion for reading stage layout in CSV form
+    // Checking if a line has a specific string
+    bool compareString(std::string line, std::string str);
+
+    // Remove a certain character in a string
+    void removeChar(std::string str, char ch);
+
+    // Function for reading stage layout in CSV form
     // Convert the block array from string to int and store in stage_int
     void readCSV();
 

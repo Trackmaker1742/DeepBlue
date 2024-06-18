@@ -19,8 +19,8 @@ set(DATA ${PROJECT_SOURCE_DIR}/data)
 file(COPY ${DATA} DESTINATION ${CMAKE_BINARY_DIR})
 
 # Resources
-set(RESOURCES ${PROJECT_SOURCE_DIR}/res)
-file(COPY ${RESOURCES} DESTINATION ${CMAKE_BINARY_DIR})
+set(RES ${PROJECT_SOURCE_DIR}/res)
+file(COPY ${RES} DESTINATION ${CMAKE_BINARY_DIR})
 
 add_executable(DeepBlue
     src/block.cpp
@@ -44,6 +44,6 @@ target_link_libraries(DeepBlue
     SDL2_mixer
 )
 
-add_custom_command( TARGET DeepBlue POST_BUILD
+add_custom_command(TARGET DeepBlue POST_BUILD
                     COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:DeepBlue>
                     ${PROJECT_SOURCE_DIR}/DeepBlue.exe)

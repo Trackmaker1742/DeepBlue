@@ -1,2 +1,9 @@
-Testing | 100 | 200
-Tester | 150
+# Case sensitive, so be careful with what you write
+# The first row should not be changed under any circumstances
+
+Resolution | 1024 | 640 |
+
+FPS | 120 |
+
+# 0: windowed, 1: fullscreen, 2: borderless windowed
+Display option | 0 |
