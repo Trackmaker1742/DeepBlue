@@ -12,7 +12,7 @@ bool File_Handler::compareString(std::string line, std::string str)
     return true;
 }
 
-void File_Handler::removeChar(std::string str, char ch)
+void File_Handler::removeChar(std::string& str, char ch)
 {
     std::string temp;
     for (int i = 0; i < str.length(); i++)
@@ -22,6 +22,32 @@ void File_Handler::removeChar(std::string str, char ch)
             temp.push_back(str[i]);
         }
     }
+    str = temp;
+}
+
+bool File_Handler::grabValue(std::string& row)
+{
+    // Remove all spaces
+    removeChar(row, ' ');
+
+    // Check type of data
+    for (int i = 0; i < data_type.size(); i++)
+    {
+        // Skip to next loop if the data type don't match
+        if (!compareString(row, data_type[i])) continue;
+        else 
+        {
+            // Take value and append to a string
+            std::string value_str = "";
+            for (int j = data_type[i].length() + 1; j < row.length(); j++)
+            {
+                value_str.push_back(row[j]);
+            }
+            // Then convert to int and save the value to a variable
+            values[i] = std::stoi(value_str);
+        }
+    }
+    return true;
 }
 
 void File_Handler::readConfig()
@@ -35,55 +61,19 @@ void File_Handler::readConfig()
         std::cout << "Config not opened" << "\n";
     }
     
-    std::string temp;
+    // Parsing relevant data
+    std::string temp_row;
+    while (std::getline(config, temp_row))
+    {
+        // Skip empty or comment row
+        if (temp_row.empty() || temp_row[0] == '#') continue;
+        
+        // Grab value from the row
+        if (grabValue(temp_row)) continue;
+    }
     
-    // Save all strings without comments into array
-    while (std::getline(config, temp))
-    {
-        if (temp.empty() || temp[0] == '#') continue;
-        // Data filtering, removing all separator "|"
-        config_array.push_back(temp);
-    }
-
-    // Seek for the line that contains resolution data
-    for (std::string test : config_array)
-    {
-        if (compareString(test, "resolution")) reso_str = test;
-        break;
-    }
-
-    // Extracting resolution data
-    removeChar(reso_str, ' ');
-    // Template: resolution|{&screen_width}|{&screen_height}
-    uint16_t screen_width = 0;
-    uint16_t screen_height = 0;
-    bool count = 0;
-    std::string temp1 = "";
-    for (int i = 11; i < reso_str.length(); i++)
-    {
-        if (reso_str[i] != '|') 
-        {
-            temp1 += reso_str[i];
-        }
-        else
-        {
-            // if (!count)
-            //     screen_width = std::stoi(temp1);
-            // else
-            //     screen_height = std::stoi(temp1);
-            std::cout << temp1 << "\n";
-            temp1 = "";
-        }
-    }
-
-    // std::cout << screen_width << " " << screen_height << "\n";
+    std::cout << values[0] << " " << values[1] << "\n";
     
-    // Stored data output
-    // for (std::string test : config_array)
-    // {
-    //     std::cout << screen_width << " " << screen_height << "\n";
-    // }
-
     // Close config
     config.close();
 }
