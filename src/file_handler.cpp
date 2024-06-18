@@ -61,18 +61,23 @@ void File_Handler::readConfig()
     std::string temp1 = "";
     for (int i = 11; i < reso_str.length(); i++)
     {
-        if (reso_str[i] != '|') temp.push_back(reso_str[i]);
+        if (reso_str[i] != '|') 
+        {
+            temp1 += reso_str[i];
+            std::cout << temp1;
+        }
         else
         {
-            if (!count)
-                screen_width = std::stoi(temp1);
-            else
-                screen_height = std::stoi(temp1);
+            // if (!count)
+            //     screen_width = std::stoi(temp1);
+            // else
+            //     screen_height = std::stoi(temp1);
             temp1 = "";
+            std::cout << "delim" << "\n";
         }
     }
 
-    std::cout << screen_width << " " << screen_height << "\n";
+    // std::cout << screen_width << " " << screen_height << "\n";
     
     // Stored data output
     // for (std::string test : config_array)
