@@ -1,16 +1,19 @@
 #include "camera.h"
 
-Camera::Camera(float X, float Y) : Object2d(X, Y)
-{ }
-
 // Getters
 uint16_t Camera::getRendX() { return render_x; }
 uint16_t Camera::getRendY() { return render_y; }
 
-void Camera::initCam()
+void Camera::initCam(Scene* scene)
 {
-    if (getX() > 480) setX(480);
-    if (getY() > 288) setY(288);
+    setX(scene->getWidth()/2 - 32);
+    setY(scene->getHeight()/2 - 32);
+
+    render_x = scene->getWidth()/2 - 32;
+    render_y = scene->getHeight()/2 - 32;
+    
+    if (getX() < 480) setX(480);
+    if (getY() < 288) setY(288);
 }
 
 // Update camera

@@ -17,14 +17,10 @@ private:
     Camera *cam;
     // Stage *stage;
 
-    SDL_Window* window;
-    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    Scene *scene;
 
 public:
-    Renderer(SDL_Window* w, Camera *c);
-
-    // Getters
-    SDL_Renderer *getRend();
+    Renderer(Scene *sc, Camera *c);
 
     void initStage();
 

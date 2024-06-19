@@ -20,43 +20,44 @@
 
 int main(int argc, char *argv[])
 {
-    // Play audio
-    Mix_Music *music = Mix_LoadMUS("res/Audio/BGM/KoiIsLoveLofi.wav");
-    // music = Mix_LoadMUS("res/Audio/BGM/StringTheory.wav");
-    Mix_PlayMusic(music, -1);
+    // // Play audio
+    // Mix_Music *music = Mix_LoadMUS("res/Audio/BGM/KoiIsLoveLofi.wav");
+    // // music = Mix_LoadMUS("res/Audio/BGM/StringTheory.wav");
+    // Mix_PlayMusic(music, -1);
+    
+    // File testing
+    File_Handler *test = new File_Handler();
+    test->readConfig(); 
 
     // Initialize game scene
-    Scene* scene = new Scene();
+    Scene *scene = new Scene();
+    scene->init(test->getValue(0), test->getValue(1), test->getValue(2), test->getValue(3));
 
     // Initialize input
-    Input* input = new Input();
+    Input *input = new Input();
     input->init();
 
     // Camera
     Camera *cam = new Camera();
-    cam->initCam();
+    cam->initCam(scene);
 
     // Renderer
-    Renderer* renderer = new Renderer(scene->getWindow(), cam);
+    Renderer *renderer = new Renderer(scene, cam);
 
     // Player
-    Player* player = new Player(200, 100, "res/Drool.png");
+    Player *player = new Player(200, 100, "res/Drool.png");
     player->playerInit();
-    player->initTexture(renderer->getRend());
+    player->initTexture(scene->getRenderer());
 
     // Stage 
-    Stage* stage = new Stage(renderer->getRend());
+    Stage *stage = new Stage(scene->getRenderer());
     stage->initStage();
 
     // Collision checker
-    Collision* colli = new Collision();
+    Collision *colli = new Collision();
 
     // Initialize variable to save the time of the previous frame
     uint64_t prev_frame = SDL_GetTicks64();
-
-    // File testing
-    File_Handler *test = new File_Handler();
-    test->readConfig(); 
 
     while (!input->input())
     {
@@ -80,7 +81,7 @@ int main(int argc, char *argv[])
         {
             input->setHold(11, false);
             player->setGrid(player->getGrid() + 4);
-            for (Block* b : stage->getBlockVec())
+            for (Block *b : stage->getBlockVec())
             {
                 b->setGrid(b->getGrid() + 4);
             }
@@ -100,15 +101,15 @@ int main(int argc, char *argv[])
         // std::cout << player->getX() << " " << player->getY() << "\n";
 
         // Present renderer
-        SDL_RenderPresent(renderer->getRend());
+        SDL_RenderPresent(scene->getRenderer());
 
         // Get prev frame time (for delta_time)
         prev_frame = current_frame;
         // Framerate handler (cap to FPS)
-	    SDL_Delay(1000.0f/Scene::FPS - scene->getDeltaTime());
+	    SDL_Delay(1000.0f/scene->getFPS() - scene->getDeltaTime());
     }
 
-    SDL_DestroyRenderer(renderer->getRend());
+    SDL_DestroyRenderer(scene->getRenderer());
     SDL_DestroyWindow(scene->getWindow());
     SDL_Quit();
 

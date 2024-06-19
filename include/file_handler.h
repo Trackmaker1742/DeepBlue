@@ -55,6 +55,7 @@ public:
     void readConfig();
     
     // Getters
+    uint16_t getValue(int i);
     std::vector<std::vector<uint8_t>> getStageInt();
 };
 

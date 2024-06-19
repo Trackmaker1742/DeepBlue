@@ -77,3 +77,5 @@ void File_Handler::readConfig()
     // Close config
     config.close();
 }
+
+uint16_t File_Handler::getValue(int i) { return values[i]; }
