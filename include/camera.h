@@ -15,7 +15,7 @@ public:
     uint16_t getRendX();
     uint16_t getRendY();
 
-    void initCam(Scene* scene);
+    void init(Scene* scene);
 
     // Update camera
     void updateCam(Player *player);

@@ -22,6 +22,13 @@ file(COPY ${DATA} DESTINATION ${CMAKE_BINARY_DIR})
 set(RES ${PROJECT_SOURCE_DIR}/res)
 file(COPY ${RES} DESTINATION ${CMAKE_BINARY_DIR})
 
+# .dll files
+set(DLLS
+    SDL2_image.dll
+    SDL2_mixer.dll
+    SDL2.dll
+)
+
 add_executable(DeepBlue
     src/block.cpp
     src/camera.cpp
@@ -44,6 +51,16 @@ target_link_libraries(DeepBlue
     SDL2_mixer
 )
 
+# foreach(DLL ${DLLS})
+#     add_custom_command(TARGET DeepBlue POST_BUILD
+#         COMMAND ${CMAKE_COMMAND} -E copy
+#         ${PROJECT_SOURCE_DIR}/${DLL}
+#         ${CMAKE_BINARY_DIR}/${DLL}
+#     )
+# endforeach()
+
 add_custom_command(TARGET DeepBlue POST_BUILD
-                    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:DeepBlue>
-                    ${PROJECT_SOURCE_DIR}/DeepBlue.exe)
+    COMMAND ${CMAKE_COMMAND} -E copy 
+    $<TARGET_FILE:DeepBlue>
+    ${PROJECT_SOURCE_DIR}/DeepBlue.exe
+)

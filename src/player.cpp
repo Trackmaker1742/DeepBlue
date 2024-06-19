@@ -6,11 +6,12 @@ Player::Player(float X, float Y, const char *P) : Object2d(X, Y, P)
 void Player::setOnGround(bool og) { on_ground = og; }
 bool Player::getOnGround() { return on_ground; }
 
-void Player::playerInit()
+void Player::init(SDL_Renderer *renderer)
 {
     setAccelY(-1000);
     setVelX(0);
     setAccelX(400);
+    initTexture(renderer);
 }
 
 void Player::playerMovement(Input *input, float dt)

@@ -122,7 +122,7 @@ void Stage::initBlocks()
     }
 }
 
-void Stage::initStage()
+void Stage::initAll()
 {
     initAudio();
     initBackground();

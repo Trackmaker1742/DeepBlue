@@ -15,7 +15,7 @@ private:
     SDL_Texture *bg;
     
     // Audio
-    Mix_Chunk* _sample[6];
+    Mix_Chunk *_sample[6];
 
     // Block array
     std::vector<Block*> Blocks;
@@ -30,7 +30,7 @@ public:
     void initAudio();
     void initBackground();
     void initBlocks();
-    void initStage();
+    void initAll();
 
     void unloadAudio();
 };

@@ -8,6 +8,14 @@
 #include <string>
 #include <sstream>
 
+// enum Preset
+// {
+//     WIDTH = 1280,
+//     HEIGHT = 720,
+//     FPS = 60,
+//     DISPLAY_OPTION = 0
+// };
+
 class File_Handler 
 {
 private:
@@ -51,7 +59,7 @@ public:
     // Convert the block array from string to int and store in stage_int
     void readCSV();
 
-    // Function for reading config file, game settings and stuff
+    // Function for reading game settings, configs
     void readConfig();
     
     // Getters

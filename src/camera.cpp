@@ -4,7 +4,7 @@
 uint16_t Camera::getRendX() { return render_x; }
 uint16_t Camera::getRendY() { return render_y; }
 
-void Camera::initCam(Scene* scene)
+void Camera::init(Scene* scene)
 {
     setX(scene->getWidth()/2 - 32);
     setY(scene->getHeight()/2 - 32);

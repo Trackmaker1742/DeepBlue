@@ -72,7 +72,8 @@ void File_Handler::readConfig()
         if (grabValue(temp_row)) continue;
     }
     
-    std::cout << values[0] << " " << values[1] << "\n";
+    // Debug
+    // std::cout << values[0] << " " << values[1] << "\n";
     
     // Close config
     config.close();

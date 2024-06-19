@@ -46,12 +46,11 @@ int main(int argc, char *argv[])
 
     // Player
     Player *player = new Player(200, 100, "res/Drool.png");
-    player->playerInit();
-    player->initTexture(scene->getRenderer());
+    player->init(scene->getRenderer());
 
     // Stage 
     Stage *stage = new Stage(scene->getRenderer());
-    stage->initStage();
+    stage->initAll();
 
     // Collision checker
     Collision *colli = new Collision();

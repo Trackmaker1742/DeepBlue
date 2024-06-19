@@ -1,5 +1,5 @@
-# Case sensitive, so be careful with what you write
-# The first row should not be changed under any circumstances
+# Case insensitive, but the word must have all the right characters
+# The order of the settings are not important
 
 # Window size (width, height)
 width | 1024

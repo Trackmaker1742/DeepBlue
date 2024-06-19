@@ -27,7 +27,7 @@ public:
     void setOnGround(bool og);
     bool getOnGround();
 
-    void playerInit();
+    void init(SDL_Renderer *renderer);
     void playerMovement(Input *input, float dt);
 };
 
