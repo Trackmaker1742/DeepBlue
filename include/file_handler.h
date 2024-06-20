@@ -49,19 +49,16 @@ public:
     // Remove a certain character in a string
     void removeChar(std::string& str, char ch);
 
-    // Return integer value in config
-    int value(int iter, std::string row);
-
     // Grab value from a data row
-    bool grabValue(std::string& row);
-
-    // Function for reading stage layout in CSV form
-    // Convert the block array from string to int and store in stage_int
-    void readCSV();
+    void grabValue(std::string& row);
 
     // Function for reading game settings, configs
     void readConfig();
     
+    // Function for reading stage layout in CSV form
+    // Convert the block array from string to int and store in stage_int
+    void readCSV(const char *path);
+
     // Getters
     uint16_t getValue(int i);
     std::vector<std::vector<uint8_t>> getStageInt();

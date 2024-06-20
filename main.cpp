@@ -28,6 +28,7 @@ int main(int argc, char *argv[])
     // File testing
     File_Handler *test = new File_Handler();
     test->readConfig(); 
+    test->readCSV("data/stage_layout.csv");
 
     // Initialize game scene
     Scene *scene = new Scene();
@@ -39,7 +40,7 @@ int main(int argc, char *argv[])
 
     // Camera
     Camera *cam = new Camera();
-    cam->initCam(scene);
+    cam->init(scene);
 
     // Renderer
     Renderer *renderer = new Renderer(scene, cam);

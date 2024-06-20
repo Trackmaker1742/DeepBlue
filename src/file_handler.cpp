@@ -25,7 +25,7 @@ void File_Handler::removeChar(std::string& str, char ch)
     str = temp;
 }
 
-bool File_Handler::grabValue(std::string& row)
+void File_Handler::grabValue(std::string& row)
 {
     // Remove all spaces
     removeChar(row, ' ');
@@ -47,7 +47,6 @@ bool File_Handler::grabValue(std::string& row)
             values[i] = std::stoi(value_str);
         }
     }
-    return true;
 }
 
 void File_Handler::readConfig()
@@ -58,7 +57,7 @@ void File_Handler::readConfig()
     // Error checking
     if (!config.is_open())
     {
-        std::cout << "Config not opened" << "\n";
+        std::cout << "Unable to open config" << "\n";
     }
     
     // Parsing relevant data
@@ -69,7 +68,7 @@ void File_Handler::readConfig()
         if (temp_row.empty() || temp_row[0] == '#') continue;
         
         // Grab value from the row
-        if (grabValue(temp_row)) continue;
+        grabValue(temp_row);
     }
     
     // Debug
@@ -77,6 +76,38 @@ void File_Handler::readConfig()
     
     // Close config
     config.close();
+}
+
+void File_Handler::readCSV(const char *path)
+{
+    // Open stage layout csv
+    std::ifstream layout(path);
+
+    // Error checking
+    if (!layout.is_open())
+    {
+        std::cout << "Unable to open csv file" << "\n";
+    }
+
+    // Parsing relevant data
+    std::string temp_row_str;
+    while(std::getline(layout, temp_row_str))
+    {
+        // Temp int array to store all numbers in a row
+        std::vector<uint8_t> temp_row_int;
+        // Parsing each row
+        std::stringstream ss(temp_row_str);
+        std::string token;
+        while(std::getline(ss, token, ','))
+        {
+            temp_row_int.push_back(std::stoi(token));
+        }
+        // Push row to stage vector
+        stage_int.push_back(temp_row_int);
+    }
+
+    // Close file
+    layout.close();
 }
 
 uint16_t File_Handler::getValue(int i) { return values[i]; }
