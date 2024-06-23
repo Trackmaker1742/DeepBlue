@@ -349,4 +349,12 @@ CMakeFiles/DeepBlue.dir/src/renderer.cpp.obj: \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/vector.tcc \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/stage.h \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_mixer.h \
+ C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/file_handler.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/fstream \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/codecvt.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/x86_64-w64-mingw32/bits/basic_file.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/x86_64-w64-mingw32/bits/c++io.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/fstream.tcc \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/sstream \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/sstream.tcc \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/block.h

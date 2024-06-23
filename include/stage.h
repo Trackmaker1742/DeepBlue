@@ -4,6 +4,7 @@
 #include <SDL2/SDL_mixer.h>
 #include <vector>
 
+#include "file_handler.h"
 #include "block.h"
 
 class Stage
@@ -29,8 +30,8 @@ public:
     // Initialize
     void initAudio();
     void initBackground();
-    void initBlocks();
-    void initAll();
+    void initBlocks(const char *path);
+    void initAll(const char *path);
 
     void unloadAudio();
 };

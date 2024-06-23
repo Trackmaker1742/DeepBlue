@@ -8,13 +8,14 @@
 #include <string>
 #include <sstream>
 
-// enum Preset
-// {
-//     WIDTH = 1280,
-//     HEIGHT = 720,
-//     FPS = 60,
-//     DISPLAY_OPTION = 0
-// };
+enum Preset
+{
+    WIDTH,
+    HEIGHT,
+    FPS,
+    DISPLAY_OPTION,
+    SCALING
+};
 
 class File_Handler 
 {
@@ -30,12 +31,16 @@ private:
         "width",
         "height",
         "fps",
-        "display option"
+        "display option",
+        "scaling"
     };
+
+    
 
     // Array for values (same order as data type for easier parsing)
     std::vector<uint16_t> values =
     {
+        0,
         0,
         0,
         0,
@@ -50,7 +55,7 @@ public:
     void removeChar(std::string& str, char ch);
 
     // Grab value from a data row
-    void grabValue(std::string& row);
+    void grabConfigValue(std::string& row);
 
     // Function for reading game settings, configs
     void readConfig();

@@ -27,8 +27,7 @@ int main(int argc, char *argv[])
     
     // File testing
     File_Handler *test = new File_Handler();
-    test->readConfig(); 
-    test->readCSV("data/stage_layout.csv");
+    test->readConfig();
 
     // Initialize game scene
     Scene *scene = new Scene();
@@ -51,7 +50,7 @@ int main(int argc, char *argv[])
 
     // Stage 
     Stage *stage = new Stage(scene->getRenderer());
-    stage->initAll();
+    stage->initAll("data/stage1.csv");
 
     // Collision checker
     Collision *colli = new Collision();

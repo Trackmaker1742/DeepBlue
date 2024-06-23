@@ -8,5 +8,8 @@ HEIght | 640
 # Frame rate (FPS)
 FPS | 120
 
+# Scaling (min: 10, max: 100 (native, default))
+Scaling | 100
+
 # Display option (0: windowed, 1: fullscreen, 2: borderless windowed)
 Display option | 0

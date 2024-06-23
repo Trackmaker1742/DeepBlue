@@ -25,7 +25,7 @@ void File_Handler::removeChar(std::string& str, char ch)
     str = temp;
 }
 
-void File_Handler::grabValue(std::string& row)
+void File_Handler::grabConfigValue(std::string& row)
 {
     // Remove all spaces
     removeChar(row, ' ');
@@ -68,7 +68,7 @@ void File_Handler::readConfig()
         if (temp_row.empty() || temp_row[0] == '#') continue;
         
         // Grab value from the row
-        grabValue(temp_row);
+        grabConfigValue(temp_row);
     }
     
     // Debug
@@ -93,21 +93,45 @@ void File_Handler::readCSV(const char *path)
     std::string temp_row_str;
     while(std::getline(layout, temp_row_str))
     {
-        // Temp int array to store all numbers in a row
+        // Take value and append to a string
+        std::string value_str = "";
         std::vector<uint8_t> temp_row_int;
-        // Parsing each row
-        std::stringstream ss(temp_row_str);
-        std::string token;
-        while(std::getline(ss, token, ','))
+        for (int i = 0; i < temp_row_str.length(); i++)
         {
-            temp_row_int.push_back(std::stoi(token));
+            if (temp_row_str[i] != ',')
+            {
+                // std::cout << temp_row_str[i] << " ";
+                value_str.push_back(temp_row_str[i]);
+            }
+            else
+            {
+                // Save int to stage layout array
+                // std::cout << std::stoi(value_str) << " ";
+                
+                temp_row_int.push_back(std::stoi(value_str));
+                value_str = "";
+            }
         }
-        // Push row to stage vector
         stage_int.push_back(temp_row_int);
     }
+
+    // Debug
+    // std::cout << stage_int.size() << " ";
+    // std::cout << stage_int[1].size() << " ";
+    // std::cout << stage_int[2].size() << " ";
+        
+    // for (int i = 0; i < stage_int.size(); i++)
+    // {
+    //     for (int j = 0; j < stage_int[i].size(); j++)
+    //     {
+    //         std::cout << stage_int[i][j] << " ";
+    //     }
+    //     std::cout << "\n";
+    // }
 
     // Close file
     layout.close();
 }
 
 uint16_t File_Handler::getValue(int i) { return values[i]; }
+std::vector<std::vector<uint8_t>> File_Handler::getStageInt() { return stage_int; }

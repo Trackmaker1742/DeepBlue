@@ -46,75 +46,24 @@ void Stage::initBackground()
     SDL_FreeSurface(surface);
 }
 
-void Stage::initBlocks()
+void Stage::initBlocks(const char *path)
 {
-    // Left boundary
-    Blocks.push_back(new Block(0, 1, "res/Test.png"));
-    Blocks.push_back(new Block(0, 2, "res/Test.png"));
-    Blocks.push_back(new Block(0, 3, "res/Test.png"));
-    Blocks.push_back(new Block(0, 4, "res/Test.png"));
-    Blocks.push_back(new Block(0, 5, "res/Test.png"));
-    Blocks.push_back(new Block(0, 6, "res/Test.png"));
-    Blocks.push_back(new Block(0, 7, "res/Test.png"));
-    Blocks.push_back(new Block(0, 8, "res/Test.png"));
-    Blocks.push_back(new Block(0, 9, "res/Test.png"));
+    // Read stage layout straight from csv file
+    File_Handler *file = new File_Handler();
 
-    // Ground
-    Blocks.push_back(new Block(0, 0, "res/Test.png"));
-    Blocks.push_back(new Block(1, 0, "res/Test.png"));
-    Blocks.push_back(new Block(2, 0, "res/Test.png"));
-    Blocks.push_back(new Block(3, 0, "res/Test.png"));
-    Blocks.push_back(new Block(4, 0, "res/Test.png"));
-    Blocks.push_back(new Block(5, 0, "res/Test.png"));
-    Blocks.push_back(new Block(6, 0, "res/Test.png"));
-    Blocks.push_back(new Block(7, 0, "res/Test.png"));
-    Blocks.push_back(new Block(8, 0, "res/Test.png"));
-    Blocks.push_back(new Block(9, 0, "res/Test.png"));
-    Blocks.push_back(new Block(10, 0, "res/Test.png"));
-    Blocks.push_back(new Block(11, 0, "res/Test.png"));
-    Blocks.push_back(new Block(12, 0, "res/Test.png"));
-    Blocks.push_back(new Block(13, 0, "res/Test.png"));
-    Blocks.push_back(new Block(14, 0, "res/Test.png"));
-    Blocks.push_back(new Block(15, 0, "res/Test.png"));
-    Blocks.push_back(new Block(16, 0, "res/Test.png"));
-    Blocks.push_back(new Block(17, 0, "res/Test.png"));
-    Blocks.push_back(new Block(18, 0, "res/Test.png"));
-    Blocks.push_back(new Block(19, 0, "res/Test.png"));
-    Blocks.push_back(new Block(20, 0, "res/Test.png"));
-    Blocks.push_back(new Block(21, 0, "res/Test.png"));
-    Blocks.push_back(new Block(22, 0, "res/Test.png"));
-    Blocks.push_back(new Block(23, 0, "res/Test.png"));
-    Blocks.push_back(new Block(24, 0, "res/Test.png"));
-    Blocks.push_back(new Block(25, 0, "res/Test.png"));
-    Blocks.push_back(new Block(26, 0, "res/Test.png"));
-    Blocks.push_back(new Block(27, 0, "res/Test.png"));
-    Blocks.push_back(new Block(28, 0, "res/Test.png"));
-    Blocks.push_back(new Block(29, 0, "res/Test.png"));
-    Blocks.push_back(new Block(30, 0, "res/Test.png"));
-    Blocks.push_back(new Block(31, 0, "res/Test.png"));
-    Blocks.push_back(new Block(32, 0, "res/Test.png"));
-    Blocks.push_back(new Block(33, 0, "res/Test.png"));
-    Blocks.push_back(new Block(34, 0, "res/Test.png"));
-    Blocks.push_back(new Block(35, 0, "res/Test.png"));
-    Blocks.push_back(new Block(36, 0, "res/Test.png"));
-    Blocks.push_back(new Block(37, 0, "res/Test.png"));
-    Blocks.push_back(new Block(38, 0, "res/Test.png"));
-    Blocks.push_back(new Block(39, 0, "res/Test.png"));
-    Blocks.push_back(new Block(40, 0, "res/Test.png"));
+    file->readCSV(path);
 
-    // Pillar 1
-    Blocks.push_back(new Block(5, 1, "res/Test.png"));
-    Blocks.push_back(new Block(5, 2, "res/Test.png"));
+    for (int i = 0; i < file->getStageInt().size(); i++)
+    {
+        for (int j = 0; j < file->getStageInt()[i].size(); j++)
+        {
+            // Add blocks, skip 0 (empty space)
+            // Numeric data for block (coming soon)
+            if (file->getStageInt()[file->getStageInt().size() - 1 - i][j] != 0) Blocks.push_back(new Block(j, i, "res/Test.png"));
+        }
+    }
 
-    // Pillar 2
-    Blocks.push_back(new Block(6, 1, "res/Test.png"));
-    Blocks.push_back(new Block(6, 2, "res/Test.png"));
-    Blocks.push_back(new Block(6, 3, "res/Test.png"));
-    Blocks.push_back(new Block(6, 4, "res/Test.png"));
-
-    // Pillar 3
-    Blocks.push_back(new Block(7, 1, "res/Test.png"));
-    Blocks.push_back(new Block(7, 2, "res/Test.png"));
+    delete file;
 
     for (Block *b : Blocks)
     {
@@ -122,11 +71,11 @@ void Stage::initBlocks()
     }
 }
 
-void Stage::initAll()
+void Stage::initAll(const char *path)
 {
     initAudio();
     initBackground();
-    initBlocks();
+    initBlocks(path);
 }
 
 void Stage::unloadAudio()

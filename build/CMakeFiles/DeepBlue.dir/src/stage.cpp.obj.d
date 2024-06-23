@@ -96,7 +96,90 @@ CMakeFiles/DeepBlue.dir/src/stage.cpp.obj: \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/ranges_base.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/max_size_type.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/numbers \
- C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/block.h \
+ C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/file_handler.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/iostream \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/ostream \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/ios \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/iosfwd \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stringfwd.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/postypes.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/cwchar \
+ C:/Media/Environments/msys64/mingw64/include/wchar.h \
+ C:/Media/Environments/msys64/mingw64/include/corecrt_stdio_config.h \
+ C:/Media/Environments/msys64/mingw64/include/corecrt_wstdlib.h \
+ C:/Media/Environments/msys64/mingw64/include/_mingw_stat64.h \
+ C:/Media/Environments/msys64/mingw64/include/swprintf.inl \
+ C:/Media/Environments/msys64/mingw64/include/sec_api/wchar_s.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/exception \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/exception_ptr.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/cxxabi_init_exception.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/typeinfo \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/nested_exception.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/char_traits.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/localefwd.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/x86_64-w64-mingw32/bits/c++locale.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/clocale \
+ C:/Media/Environments/msys64/mingw64/include/locale.h \
+ C:/Media/Environments/msys64/mingw64/include/stdio.h \
+ C:/Media/Environments/msys64/mingw64/include/sec_api/stdio_s.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/cctype \
+ C:/Media/Environments/msys64/mingw64/include/ctype.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/ios_base.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/ext/atomicity.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/x86_64-w64-mingw32/bits/gthr.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/x86_64-w64-mingw32/bits/gthr-default.h \
+ C:/Media/Environments/msys64/mingw64/include/pthread.h \
+ C:/Media/Environments/msys64/mingw64/include/errno.h \
+ C:/Media/Environments/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.1.0/include/limits.h \
+ C:/Media/Environments/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.1.0/include/syslimits.h \
+ C:/Media/Environments/msys64/mingw64/include/limits.h \
+ C:/Media/Environments/msys64/mingw64/include/signal.h \
+ C:/Media/Environments/msys64/mingw64/include/pthread_signal.h \
+ C:/Media/Environments/msys64/mingw64/include/time.h \
+ C:/Media/Environments/msys64/mingw64/include/sys/timeb.h \
+ C:/Media/Environments/msys64/mingw64/include/sec_api/sys/timeb_s.h \
+ C:/Media/Environments/msys64/mingw64/include/_timeval.h \
+ C:/Media/Environments/msys64/mingw64/include/pthread_time.h \
+ C:/Media/Environments/msys64/mingw64/include/pthread_compat.h \
+ C:/Media/Environments/msys64/mingw64/include/pthread_unistd.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/x86_64-w64-mingw32/bits/atomic_word.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/locale_classes.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/string \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/ostream_insert.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/cxxabi_forced.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/basic_string.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/string_view \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/string_view.tcc \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/ext/string_conversions.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/cstdlib \
+ C:/Media/Environments/msys64/mingw64/include/stdlib.h \
+ C:/Media/Environments/msys64/mingw64/include/sec_api/stdlib_s.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/stdlib.h \
+ C:/Media/Environments/msys64/mingw64/include/malloc.h \
+ C:/Media/Environments/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.1.0/include/mm_malloc.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/std_abs.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/cstdio \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/cerrno \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/charconv.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/basic_string.tcc \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/locale_classes.tcc \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/system_error \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/x86_64-w64-mingw32/bits/error_constants.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/stdexcept \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/streambuf \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/streambuf.tcc \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/basic_ios.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/locale_facets.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/cwctype \
+ C:/Media/Environments/msys64/mingw64/include/wctype.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/x86_64-w64-mingw32/bits/ctype_base.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/streambuf_iterator.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/x86_64-w64-mingw32/bits/ctype_inline.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/locale_facets.tcc \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/basic_ios.tcc \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/ostream.tcc \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/istream \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/istream.tcc \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL.h \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_main.h \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_assert.h \
@@ -105,18 +188,6 @@ CMakeFiles/DeepBlue.dir/src/stage.cpp.obj: \
  C:/Media/Environments/msys64/mingw64/include/intrin.h \
  C:/Media/Environments/msys64/mingw64/include/setjmp.h \
  C:/Media/Environments/msys64/mingw64/include/psdk_inc/intrin-impl.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/stdlib.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/cstdlib \
- C:/Media/Environments/msys64/mingw64/include/stdlib.h \
- C:/Media/Environments/msys64/mingw64/include/corecrt_wstdlib.h \
- C:/Media/Environments/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.1.0/include/limits.h \
- C:/Media/Environments/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.1.0/include/syslimits.h \
- C:/Media/Environments/msys64/mingw64/include/limits.h \
- C:/Media/Environments/msys64/mingw64/include/sec_api/stdlib_s.h \
- C:/Media/Environments/msys64/mingw64/include/malloc.h \
- C:/Media/Environments/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.1.0/include/mm_malloc.h \
- C:/Media/Environments/msys64/mingw64/include/errno.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/std_abs.h \
  C:/Media/Environments/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.1.0/include/x86intrin.h \
  C:/Media/Environments/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.1.0/include/x86gprintrin.h \
  C:/Media/Environments/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.1.0/include/ia32intrin.h \
@@ -254,6 +325,14 @@ CMakeFiles/DeepBlue.dir/src/stage.cpp.obj: \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_timer.h \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_locale.h \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_misc.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/fstream \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/codecvt.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/x86_64-w64-mingw32/bits/basic_file.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/x86_64-w64-mingw32/bits/c++io.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/fstream.tcc \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/sstream \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/sstream.tcc \
+ C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/block.h \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/object2d.h \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_image.h \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL.h \
