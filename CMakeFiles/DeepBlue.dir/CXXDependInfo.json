@@ -1,0 +1,22 @@
+{
+	"bmi-installation" : null,
+	"compiler-frontend-variant" : "GNU",
+	"compiler-id" : "GNU",
+	"compiler-simulate-id" : "",
+	"config" : "Debug",
+	"cxx-modules" : {},
+	"dir-cur-bld" : "C:/Users/huutu/OneDrive/Desktop/DeepBlue/build",
+	"dir-cur-src" : "C:/Users/huutu/OneDrive/Desktop/DeepBlue",
+	"dir-top-bld" : "C:/Users/huutu/OneDrive/Desktop/DeepBlue/build",
+	"dir-top-src" : "C:/Users/huutu/OneDrive/Desktop/DeepBlue",
+	"exports" : [],
+	"forward-modules-from-target-dirs" : [],
+	"include-dirs" : 
+	[
+		"C:\\Users\\huutu\\OneDrive\\Desktop\\DeepBlue\\libraries\\include",
+		"C:\\Users\\huutu\\OneDrive\\Desktop\\DeepBlue\\include"
+	],
+	"language" : "CXX",
+	"linked-target-dirs" : [],
+	"module-dir" : "C:/Users/huutu/OneDrive/Desktop/DeepBlue/build/CMakeFiles/DeepBlue.dir"
+}
