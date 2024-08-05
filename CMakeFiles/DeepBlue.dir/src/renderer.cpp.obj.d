@@ -199,16 +199,68 @@ CMakeFiles/DeepBlue.dir/src/renderer.cpp.obj: \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_image.h \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL.h \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/scene.h \
- C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/object2d.h \
- C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/camera.h \
- C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/player.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/iostream \
+ C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/input.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/vector \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/requires_hosted.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_algobase.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/functexcept.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/exception_defines.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/cpp_type_traits.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/ext/type_traits.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/ext/numeric_traits.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_pair.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/type_traits \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/version.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/move.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/utility.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/compare \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/concepts \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_iterator_base_types.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/iterator_concepts.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/ptr_traits.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/ranges_cmp.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_iterator_base_funcs.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/concept_check.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/debug/assertions.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_iterator.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/new \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/exception.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_construct.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/debug/debug.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/predefined_ops.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bit \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/allocator.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/x86_64-w64-mingw32/bits/c++allocator.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/new_allocator.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/memoryfwd.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_uninitialized.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/ext/alloc_traits.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/alloc_traits.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_vector.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/initializer_list \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_bvector.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/functional_hash.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/hash_bytes.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/refwrap.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/invoke.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_function.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/backward/binders.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/range_access.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/vector.tcc \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/memory_resource.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/cstddef \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/uses_allocator.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/uses_allocator_args.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/tuple \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/ranges_util.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/ranges_base.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/max_size_type.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/numbers \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/iostream \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/ostream \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/ios \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/iosfwd \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stringfwd.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/memoryfwd.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/postypes.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/cwchar \
  C:/Media/Environments/msys64/mingw64/include/wchar.h \
@@ -217,28 +269,11 @@ CMakeFiles/DeepBlue.dir/src/renderer.cpp.obj: \
  C:/Media/Environments/msys64/mingw64/include/swprintf.inl \
  C:/Media/Environments/msys64/mingw64/include/sec_api/wchar_s.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/exception \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/exception.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/version.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/exception_ptr.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/exception_defines.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/cxxabi_init_exception.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/typeinfo \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/hash_bytes.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/new \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/move.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/type_traits \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/nested_exception.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/char_traits.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/compare \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/concepts \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_construct.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_iterator_base_types.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/iterator_concepts.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/ptr_traits.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/ranges_cmp.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_iterator_base_funcs.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/concept_check.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/debug/assertions.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/localefwd.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/x86_64-w64-mingw32/bits/c++locale.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/clocale \
@@ -264,48 +299,16 @@ CMakeFiles/DeepBlue.dir/src/renderer.cpp.obj: \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/x86_64-w64-mingw32/bits/atomic_word.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/locale_classes.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/string \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/allocator.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/x86_64-w64-mingw32/bits/c++allocator.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/new_allocator.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/functexcept.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/cpp_type_traits.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/ostream_insert.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/cxxabi_forced.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_iterator.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/ext/type_traits.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_function.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/backward/binders.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/ext/numeric_traits.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_algobase.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_pair.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/utility.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/debug/debug.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/predefined_ops.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bit \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/refwrap.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/invoke.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/range_access.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/initializer_list \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/basic_string.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/ext/alloc_traits.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/alloc_traits.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/string_view \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/functional_hash.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/ranges_base.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/max_size_type.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/numbers \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/string_view.tcc \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/ext/string_conversions.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/cstdio \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/cerrno \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/charconv.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/basic_string.tcc \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/memory_resource.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/cstddef \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/uses_allocator.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/uses_allocator_args.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/tuple \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/ranges_util.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/locale_classes.tcc \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/system_error \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/x86_64-w64-mingw32/bits/error_constants.h \
@@ -324,6 +327,9 @@ CMakeFiles/DeepBlue.dir/src/renderer.cpp.obj: \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/ostream.tcc \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/istream \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/istream.tcc \
+ C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/object2d.h \
+ C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/camera.h \
+ C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/player.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/math.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/cmath \
  C:/Media/Environments/msys64/mingw64/include/math.h \
@@ -341,12 +347,6 @@ CMakeFiles/DeepBlue.dir/src/renderer.cpp.obj: \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/tr1/poly_hermite.tcc \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/tr1/poly_laguerre.tcc \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/tr1/riemann_zeta.tcc \
- C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/input.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/vector \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_uninitialized.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_vector.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_bvector.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/vector.tcc \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/stage.h \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_mixer.h \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/file_handler.h \
