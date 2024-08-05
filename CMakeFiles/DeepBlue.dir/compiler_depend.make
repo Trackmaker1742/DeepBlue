@@ -440,7 +440,6 @@ CMakeFiles/DeepBlue.dir/main.cpp.obj: C:/Users/huutu/OneDrive/Desktop/DeepBlue/m
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/collision.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/file_handler.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/input.h \
-  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/menu.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/object2d.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/player.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/renderer.h \
@@ -4513,8 +4512,6 @@ C:/Media/Environments/msys64/mingw64/include/rpc.h:
 C:/Media/Environments/msys64/mingw64/include/nb30.h:
 
 C:/Media/Environments/msys64/mingw64/include/objbase.h:
-
-C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/menu.h:
 
 C:/Media/Environments/msys64/mingw64/include/objidlbase.h:
 
