@@ -128,7 +128,6 @@ void Scene::updateSettings()
     // This one is gonna be painful
     // I'm thinking of limiting it to just config settings
     // Allowing for input mapping would require a full input rework
-    // Which, is very time-consuming
     // Exit this will write into config.txt
     // Exit and save setting prompt
 }
