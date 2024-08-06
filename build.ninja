@@ -100,6 +100,23 @@ build CMakeFiles/DeepBlue.dir/src/collision.cpp.obj: CXX_COMPILER__DeepBlue_scan
   OBJECT_FILE_DIR = CMakeFiles\DeepBlue.dir\src
   dyndep = CMakeFiles/DeepBlue.dir/CXX.dd
 
+build CMakeFiles/DeepBlue.dir/src/enemy.cpp.obj.ddi: CXX_SCAN__DeepBlue_Debug C$:/Users/huutu/OneDrive/Desktop/DeepBlue/src/enemy.cpp || cmake_object_order_depends_target_DeepBlue
+  DEP_FILE = CMakeFiles\DeepBlue.dir\src\enemy.cpp.obj.ddi.d
+  DYNDEP_INTERMEDIATE_FILE = CMakeFiles\DeepBlue.dir\src\enemy.cpp.obj.ddi
+  FLAGS = -g -std=gnu++20
+  INCLUDES = -IC:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include -IC:/Users/huutu/OneDrive/Desktop/DeepBlue/include
+  OBJ_FILE = CMakeFiles\DeepBlue.dir\src\enemy.cpp.obj
+  PREPROCESSED_OUTPUT_FILE = CMakeFiles\DeepBlue.dir\src\enemy.cpp.obj.ddi.i
+
+build CMakeFiles/DeepBlue.dir/src/enemy.cpp.obj: CXX_COMPILER__DeepBlue_scanned_Debug C$:/Users/huutu/OneDrive/Desktop/DeepBlue/src/enemy.cpp | CMakeFiles/DeepBlue.dir/src/enemy.cpp.obj.modmap || cmake_object_order_depends_target_DeepBlue CMakeFiles/DeepBlue.dir/CXX.dd
+  DEP_FILE = CMakeFiles\DeepBlue.dir\src\enemy.cpp.obj.d
+  DYNDEP_MODULE_MAP_FILE = CMakeFiles\DeepBlue.dir\src\enemy.cpp.obj.modmap
+  FLAGS = -g -std=gnu++20
+  INCLUDES = -IC:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include -IC:/Users/huutu/OneDrive/Desktop/DeepBlue/include
+  OBJECT_DIR = CMakeFiles\DeepBlue.dir
+  OBJECT_FILE_DIR = CMakeFiles\DeepBlue.dir\src
+  dyndep = CMakeFiles/DeepBlue.dir/CXX.dd
+
 build CMakeFiles/DeepBlue.dir/src/file_handler.cpp.obj.ddi: CXX_SCAN__DeepBlue_Debug C$:/Users/huutu/OneDrive/Desktop/DeepBlue/src/file_handler.cpp || cmake_object_order_depends_target_DeepBlue
   DEP_FILE = CMakeFiles\DeepBlue.dir\src\file_handler.cpp.obj.ddi.d
   DYNDEP_INTERMEDIATE_FILE = CMakeFiles\DeepBlue.dir\src\file_handler.cpp.obj.ddi
@@ -162,6 +179,23 @@ build CMakeFiles/DeepBlue.dir/src/player.cpp.obj.ddi: CXX_SCAN__DeepBlue_Debug C
 build CMakeFiles/DeepBlue.dir/src/player.cpp.obj: CXX_COMPILER__DeepBlue_scanned_Debug C$:/Users/huutu/OneDrive/Desktop/DeepBlue/src/player.cpp | CMakeFiles/DeepBlue.dir/src/player.cpp.obj.modmap || cmake_object_order_depends_target_DeepBlue CMakeFiles/DeepBlue.dir/CXX.dd
   DEP_FILE = CMakeFiles\DeepBlue.dir\src\player.cpp.obj.d
   DYNDEP_MODULE_MAP_FILE = CMakeFiles\DeepBlue.dir\src\player.cpp.obj.modmap
+  FLAGS = -g -std=gnu++20
+  INCLUDES = -IC:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include -IC:/Users/huutu/OneDrive/Desktop/DeepBlue/include
+  OBJECT_DIR = CMakeFiles\DeepBlue.dir
+  OBJECT_FILE_DIR = CMakeFiles\DeepBlue.dir\src
+  dyndep = CMakeFiles/DeepBlue.dir/CXX.dd
+
+build CMakeFiles/DeepBlue.dir/src/projectile.cpp.obj.ddi: CXX_SCAN__DeepBlue_Debug C$:/Users/huutu/OneDrive/Desktop/DeepBlue/src/projectile.cpp || cmake_object_order_depends_target_DeepBlue
+  DEP_FILE = CMakeFiles\DeepBlue.dir\src\projectile.cpp.obj.ddi.d
+  DYNDEP_INTERMEDIATE_FILE = CMakeFiles\DeepBlue.dir\src\projectile.cpp.obj.ddi
+  FLAGS = -g -std=gnu++20
+  INCLUDES = -IC:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include -IC:/Users/huutu/OneDrive/Desktop/DeepBlue/include
+  OBJ_FILE = CMakeFiles\DeepBlue.dir\src\projectile.cpp.obj
+  PREPROCESSED_OUTPUT_FILE = CMakeFiles\DeepBlue.dir\src\projectile.cpp.obj.ddi.i
+
+build CMakeFiles/DeepBlue.dir/src/projectile.cpp.obj: CXX_COMPILER__DeepBlue_scanned_Debug C$:/Users/huutu/OneDrive/Desktop/DeepBlue/src/projectile.cpp | CMakeFiles/DeepBlue.dir/src/projectile.cpp.obj.modmap || cmake_object_order_depends_target_DeepBlue CMakeFiles/DeepBlue.dir/CXX.dd
+  DEP_FILE = CMakeFiles\DeepBlue.dir\src\projectile.cpp.obj.d
+  DYNDEP_MODULE_MAP_FILE = CMakeFiles\DeepBlue.dir\src\projectile.cpp.obj.modmap
   FLAGS = -g -std=gnu++20
   INCLUDES = -IC:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include -IC:/Users/huutu/OneDrive/Desktop/DeepBlue/include
   OBJECT_DIR = CMakeFiles\DeepBlue.dir
@@ -236,7 +270,7 @@ build CMakeFiles/DeepBlue.dir/main.cpp.obj: CXX_COMPILER__DeepBlue_scanned_Debug
   OBJECT_FILE_DIR = CMakeFiles\DeepBlue.dir
   dyndep = CMakeFiles/DeepBlue.dir/CXX.dd
 
-build CMakeFiles/DeepBlue.dir/CXX.dd | C$:/Users/huutu/OneDrive/Desktop/DeepBlue/build/CMakeFiles/DeepBlue.dir/CXXModules.json CMakeFiles/DeepBlue.dir/src/block.cpp.obj.modmap CMakeFiles/DeepBlue.dir/src/camera.cpp.obj.modmap CMakeFiles/DeepBlue.dir/src/collision.cpp.obj.modmap CMakeFiles/DeepBlue.dir/src/file_handler.cpp.obj.modmap CMakeFiles/DeepBlue.dir/src/input.cpp.obj.modmap CMakeFiles/DeepBlue.dir/src/object2d.cpp.obj.modmap CMakeFiles/DeepBlue.dir/src/player.cpp.obj.modmap CMakeFiles/DeepBlue.dir/src/renderer.cpp.obj.modmap CMakeFiles/DeepBlue.dir/src/scene.cpp.obj.modmap CMakeFiles/DeepBlue.dir/src/stage.cpp.obj.modmap CMakeFiles/DeepBlue.dir/main.cpp.obj.modmap: CXX_DYNDEP__DeepBlue_Debug CMakeFiles/DeepBlue.dir/src/block.cpp.obj.ddi CMakeFiles/DeepBlue.dir/src/camera.cpp.obj.ddi CMakeFiles/DeepBlue.dir/src/collision.cpp.obj.ddi CMakeFiles/DeepBlue.dir/src/file_handler.cpp.obj.ddi CMakeFiles/DeepBlue.dir/src/input.cpp.obj.ddi CMakeFiles/DeepBlue.dir/src/object2d.cpp.obj.ddi CMakeFiles/DeepBlue.dir/src/player.cpp.obj.ddi CMakeFiles/DeepBlue.dir/src/renderer.cpp.obj.ddi CMakeFiles/DeepBlue.dir/src/scene.cpp.obj.ddi CMakeFiles/DeepBlue.dir/src/stage.cpp.obj.ddi CMakeFiles/DeepBlue.dir/main.cpp.obj.ddi | C$:/Users/huutu/OneDrive/Desktop/DeepBlue/build/CMakeFiles/DeepBlue.dir/CXXDependInfo.json
+build CMakeFiles/DeepBlue.dir/CXX.dd | C$:/Users/huutu/OneDrive/Desktop/DeepBlue/build/CMakeFiles/DeepBlue.dir/CXXModules.json CMakeFiles/DeepBlue.dir/src/block.cpp.obj.modmap CMakeFiles/DeepBlue.dir/src/camera.cpp.obj.modmap CMakeFiles/DeepBlue.dir/src/collision.cpp.obj.modmap CMakeFiles/DeepBlue.dir/src/enemy.cpp.obj.modmap CMakeFiles/DeepBlue.dir/src/file_handler.cpp.obj.modmap CMakeFiles/DeepBlue.dir/src/input.cpp.obj.modmap CMakeFiles/DeepBlue.dir/src/object2d.cpp.obj.modmap CMakeFiles/DeepBlue.dir/src/player.cpp.obj.modmap CMakeFiles/DeepBlue.dir/src/projectile.cpp.obj.modmap CMakeFiles/DeepBlue.dir/src/renderer.cpp.obj.modmap CMakeFiles/DeepBlue.dir/src/scene.cpp.obj.modmap CMakeFiles/DeepBlue.dir/src/stage.cpp.obj.modmap CMakeFiles/DeepBlue.dir/main.cpp.obj.modmap: CXX_DYNDEP__DeepBlue_Debug CMakeFiles/DeepBlue.dir/src/block.cpp.obj.ddi CMakeFiles/DeepBlue.dir/src/camera.cpp.obj.ddi CMakeFiles/DeepBlue.dir/src/collision.cpp.obj.ddi CMakeFiles/DeepBlue.dir/src/enemy.cpp.obj.ddi CMakeFiles/DeepBlue.dir/src/file_handler.cpp.obj.ddi CMakeFiles/DeepBlue.dir/src/input.cpp.obj.ddi CMakeFiles/DeepBlue.dir/src/object2d.cpp.obj.ddi CMakeFiles/DeepBlue.dir/src/player.cpp.obj.ddi CMakeFiles/DeepBlue.dir/src/projectile.cpp.obj.ddi CMakeFiles/DeepBlue.dir/src/renderer.cpp.obj.ddi CMakeFiles/DeepBlue.dir/src/scene.cpp.obj.ddi CMakeFiles/DeepBlue.dir/src/stage.cpp.obj.ddi CMakeFiles/DeepBlue.dir/main.cpp.obj.ddi | C$:/Users/huutu/OneDrive/Desktop/DeepBlue/build/CMakeFiles/DeepBlue.dir/CXXDependInfo.json
 
 
 # =============================================================================
@@ -246,7 +280,7 @@ build CMakeFiles/DeepBlue.dir/CXX.dd | C$:/Users/huutu/OneDrive/Desktop/DeepBlue
 #############################################
 # Link the executable DeepBlue.exe
 
-build DeepBlue.exe: CXX_EXECUTABLE_LINKER__DeepBlue_Debug CMakeFiles/DeepBlue.dir/src/block.cpp.obj CMakeFiles/DeepBlue.dir/src/camera.cpp.obj CMakeFiles/DeepBlue.dir/src/collision.cpp.obj CMakeFiles/DeepBlue.dir/src/file_handler.cpp.obj CMakeFiles/DeepBlue.dir/src/input.cpp.obj CMakeFiles/DeepBlue.dir/src/object2d.cpp.obj CMakeFiles/DeepBlue.dir/src/player.cpp.obj CMakeFiles/DeepBlue.dir/src/renderer.cpp.obj CMakeFiles/DeepBlue.dir/src/scene.cpp.obj CMakeFiles/DeepBlue.dir/src/stage.cpp.obj CMakeFiles/DeepBlue.dir/main.cpp.obj
+build DeepBlue.exe: CXX_EXECUTABLE_LINKER__DeepBlue_Debug CMakeFiles/DeepBlue.dir/src/block.cpp.obj CMakeFiles/DeepBlue.dir/src/camera.cpp.obj CMakeFiles/DeepBlue.dir/src/collision.cpp.obj CMakeFiles/DeepBlue.dir/src/enemy.cpp.obj CMakeFiles/DeepBlue.dir/src/file_handler.cpp.obj CMakeFiles/DeepBlue.dir/src/input.cpp.obj CMakeFiles/DeepBlue.dir/src/object2d.cpp.obj CMakeFiles/DeepBlue.dir/src/player.cpp.obj CMakeFiles/DeepBlue.dir/src/projectile.cpp.obj CMakeFiles/DeepBlue.dir/src/renderer.cpp.obj CMakeFiles/DeepBlue.dir/src/scene.cpp.obj CMakeFiles/DeepBlue.dir/src/stage.cpp.obj CMakeFiles/DeepBlue.dir/main.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lmingw32  -lSDL2main  -lSDL2  -lSDL2_image  -lSDL2_mixer  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   LINK_PATH = -LC:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/lib

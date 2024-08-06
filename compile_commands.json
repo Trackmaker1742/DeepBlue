@@ -19,6 +19,12 @@
 },
 {
   "directory": "C:/Users/huutu/OneDrive/Desktop/DeepBlue/build",
+  "command": "C:\\Media\\Environments\\msys64\\mingw64\\bin\\c++.exe -IC:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include -IC:/Users/huutu/OneDrive/Desktop/DeepBlue/include -g -std=gnu++20 -fmodules-ts -fmodule-mapper=CMakeFiles\\DeepBlue.dir\\src\\enemy.cpp.obj.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles\\DeepBlue.dir\\src\\enemy.cpp.obj -c C:\\Users\\huutu\\OneDrive\\Desktop\\DeepBlue\\src\\enemy.cpp",
+  "file": "C:\\Users\\huutu\\OneDrive\\Desktop\\DeepBlue\\src\\enemy.cpp",
+  "output": "CMakeFiles\\DeepBlue.dir\\src\\enemy.cpp.obj"
+},
+{
+  "directory": "C:/Users/huutu/OneDrive/Desktop/DeepBlue/build",
   "command": "C:\\Media\\Environments\\msys64\\mingw64\\bin\\c++.exe -IC:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include -IC:/Users/huutu/OneDrive/Desktop/DeepBlue/include -g -std=gnu++20 -fmodules-ts -fmodule-mapper=CMakeFiles\\DeepBlue.dir\\src\\file_handler.cpp.obj.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles\\DeepBlue.dir\\src\\file_handler.cpp.obj -c C:\\Users\\huutu\\OneDrive\\Desktop\\DeepBlue\\src\\file_handler.cpp",
   "file": "C:\\Users\\huutu\\OneDrive\\Desktop\\DeepBlue\\src\\file_handler.cpp",
   "output": "CMakeFiles\\DeepBlue.dir\\src\\file_handler.cpp.obj"
@@ -40,6 +46,12 @@
   "command": "C:\\Media\\Environments\\msys64\\mingw64\\bin\\c++.exe -IC:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include -IC:/Users/huutu/OneDrive/Desktop/DeepBlue/include -g -std=gnu++20 -fmodules-ts -fmodule-mapper=CMakeFiles\\DeepBlue.dir\\src\\player.cpp.obj.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles\\DeepBlue.dir\\src\\player.cpp.obj -c C:\\Users\\huutu\\OneDrive\\Desktop\\DeepBlue\\src\\player.cpp",
   "file": "C:\\Users\\huutu\\OneDrive\\Desktop\\DeepBlue\\src\\player.cpp",
   "output": "CMakeFiles\\DeepBlue.dir\\src\\player.cpp.obj"
+},
+{
+  "directory": "C:/Users/huutu/OneDrive/Desktop/DeepBlue/build",
+  "command": "C:\\Media\\Environments\\msys64\\mingw64\\bin\\c++.exe -IC:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include -IC:/Users/huutu/OneDrive/Desktop/DeepBlue/include -g -std=gnu++20 -fmodules-ts -fmodule-mapper=CMakeFiles\\DeepBlue.dir\\src\\projectile.cpp.obj.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles\\DeepBlue.dir\\src\\projectile.cpp.obj -c C:\\Users\\huutu\\OneDrive\\Desktop\\DeepBlue\\src\\projectile.cpp",
+  "file": "C:\\Users\\huutu\\OneDrive\\Desktop\\DeepBlue\\src\\projectile.cpp",
+  "output": "CMakeFiles\\DeepBlue.dir\\src\\projectile.cpp.obj"
 },
 {
   "directory": "C:/Users/huutu/OneDrive/Desktop/DeepBlue/build",
