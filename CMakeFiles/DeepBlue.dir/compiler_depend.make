@@ -438,10 +438,12 @@ CMakeFiles/DeepBlue.dir/main.cpp.obj: C:/Users/huutu/OneDrive/Desktop/DeepBlue/m
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/block.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/camera.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/collision.h \
+  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/enemy.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/file_handler.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/input.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/object2d.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/player.h \
+  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/projectile.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/renderer.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/scene.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/stage.h \
@@ -1121,6 +1123,7 @@ CMakeFiles/DeepBlue.dir/src/camera.cpp.obj: C:/Users/huutu/OneDrive/Desktop/Deep
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/input.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/object2d.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/player.h \
+  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/projectile.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/scene.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_assert.h \
@@ -1477,6 +1480,7 @@ CMakeFiles/DeepBlue.dir/src/collision.cpp.obj: C:/Users/huutu/OneDrive/Desktop/D
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/input.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/object2d.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/player.h \
+  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/projectile.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/scene.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/stage.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL.h \
@@ -2810,6 +2814,7 @@ CMakeFiles/DeepBlue.dir/src/player.cpp.obj: C:/Users/huutu/OneDrive/Desktop/Deep
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/input.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/object2d.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/player.h \
+  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/projectile.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/scene.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_assert.h \
@@ -3166,6 +3171,7 @@ CMakeFiles/DeepBlue.dir/src/renderer.cpp.obj: C:/Users/huutu/OneDrive/Desktop/De
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/input.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/object2d.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/player.h \
+  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/projectile.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/renderer.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/scene.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/stage.h \
@@ -4085,6 +4091,8 @@ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/locale_classes.tcc:
 
 C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/memory_resource.h:
 
+C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/projectile.h:
+
 C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/tuple:
 
 C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/predefined_ops.h:
@@ -4114,6 +4122,8 @@ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_algobase.h:
 C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_construct.h:
 
 C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_bvector.h:
+
+C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/enemy.h:
 
 C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_function.h:
 
