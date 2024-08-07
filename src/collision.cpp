@@ -205,27 +205,35 @@ void Collision::playerRhythmColli(Stage *stage, Player *player, std::vector<Bloc
     // ####***
     // ####
 
-
     // Object collision
     for (Block *b : Blocks)
     {
         // If player, block are on the same lane
         if (player->getLane() == b->getLane())
         {
-            // And collide
-            if (player->getX() + player->getGrid() > b->getGridX() &&
+            // And collide, only check if not invul
+            if (!player->getInvul() && 
+            player->getX() + player->getGrid() > b->getGridX() &&
             player->getX() < b->getGridX() + b->getGrid() &&
             player->getY() + player->getGrid() > b->getGridY() &&
             player->getY() < b->getGridY() + b->getGrid())
             {
                 // Respawn on hit, will implement 
                 // a black screen, music reset and stuff later
-                player->setX(stage->getRespX());
-                player->setY(stage->getRespY());
+                player->setRhyBar(player->getRhyBar() - 30);
             }
 
-            // Collision with attack hurtbox
-
+            // Collision with attack hurtbox, works even when invul
+            // If currently attacking, and hitting breakable block
+            // Then overlapping hitbox, the usual
+            if (player->getRhyAtk() && b->getType() == 4 &&
+            player->getRhyAtkX() + player->getRhyAtkGrid() > b->getGridX() &&
+            player->getRhyAtkX() < b->getGridX() + b->getGrid() &&
+            player->getRhyAtkY() + player->getRhyAtkGrid() > b->getGridY() &&
+            player->getRhyAtkY() < b->getGridY() + b->getGrid())
+            {
+                
+            }
         }
     }
 }

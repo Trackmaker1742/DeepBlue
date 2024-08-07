@@ -11,26 +11,49 @@ bool Player::getOnGround() { return on_ground; }
 void Player::setOnWall(bool ow) { on_wall = ow; }
 bool Player::getOnWall() { return on_wall; }
 
-uint8_t Player::getLane() { return current_lane; }
+bool Player::getInvul() { return invul; }
 
+uint8_t Player::getLane() { return current_lane; }
+void Player::setRhyBar(float bar) { rhythm_bar = bar; } 
+float Player::getRhyBar() { return rhythm_bar; }
 bool Player::getRhyAtk() { return rhythm_atk; }
 float Player::getRhySpeed() { return rhythm_speed; }
+float Player::getRhyAtkX() { return rhythm_atk_x; }
+float Player::getRhyAtkY() { return rhythm_atk_y; }
+uint16_t Player::getRhyAtkGrid() { return rhythm_atk_grid; }
 
 bool Player::getVertical() { return vertical; }
 
 void Player::initPlat(SDL_Renderer *renderer)
 {
     setGrid(64);
-    setAccelY(-getGrid() * 30);
+
+    on_ground = false;
+    right = true;
+
+    // Velocity, acceleration
     vel_terminal = -getGrid() * 17;
     vel_x_max = getGrid() * 8;
     setAccelX(getGrid() * 5);
+    setAccelY(-getGrid() * 30);
 
+    // Dash
+    can_dash = true;
+    on_dash = false;
+    on_dash_delay = false;
+    dash_counter = 0;
     dash_frame_max = game_fps / 5;
     dash_frame_delay = game_fps / 2;
 
+    // Wall
+    on_wall = false;
+    on_wall_jump = false;
+    wall_jump_counter = 0;
     wall_climb_speed = getGrid() * 1.5;
     wall_jump_frame_max = game_fps / 5;
+
+    // Jump / double jump
+    jump_count = 2;
 
     initTexture(renderer);
 }
@@ -38,16 +61,29 @@ void Player::initPlat(SDL_Renderer *renderer)
 void Player::initRhythm(SDL_Renderer *renderer)
 {
     setGrid(128);
+
+    on_ground = false;
+
+    // Invul period after taking damage
+    invul = false;
+    invul_counter = 0;
+    invul_frame_max = game_fps;
+
     current_lane = 2;
 
+    // Dash
     dash_frame_max = game_fps / 5;
     dash_frame_delay = game_fps / 2;
 
+    // Attack
     rhythm_bar = 0;
     rhythm_bar_regen_rate = 8;
     rhythm_speed = getGrid() * 8;
+    rhythm_can_atk = false;
+    rhythm_atk = false;
+    rhythm_atk_counter = 0;
     rhythm_atk_frame_max = game_fps / 5;
-    rhythm_grid = 96;   // 1.5 times the size of a normal grid
+    rhythm_atk_grid = 96;   // 1.5 times the size of a normal grid
 
     initTexture(renderer);
 }
@@ -56,12 +92,22 @@ void Player::initVertShooter(SDL_Renderer *renderer)
 {
     setGrid(64);
 
+    // Invul period after taking damage
+    invul = false;
+    invul_counter = 0;
+    invul_frame_max = game_fps;
+
     initTexture(renderer);
 }
 
 void Player::initHoriShooter(SDL_Renderer *renderer)
 {
     setGrid(128);
+
+    // Invul period after taking damage
+    invul = false;
+    invul_counter = 0;
+    invul_frame_max = game_fps;
 
     initTexture(renderer);
 }
@@ -426,6 +472,13 @@ void Player::playerRhythmMvt(Input *input, float dt)
             rhythm_atk_delay = false;
             rhythm_can_atk = true;
         }
+    }
+
+    // Invul
+    if (invul)
+    {
+        invul_counter++;
+        if (invul_counter >= invul_frame_max) invul = false;
     }
 }
 

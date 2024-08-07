@@ -9,39 +9,47 @@
 #include "projectile.h"
 
 // Player class can handle all 3 game mode, with different attribute for each
+// Grid is used as an unit of measurement, 
+// allowing for dynamic game update and more consistent calculation
 
 class Player : public Object2d
 {
 private:
-    bool on_ground = false;
+    bool on_ground;
+    bool right;     // true: facing right
+                    // false: facing left
 
-    // Dash related variables
-    bool can_dash = true;
-    bool on_dash = false;
-    bool on_dash_delay = false;
-    uint8_t dash_counter = 0;
-    float dash_frame_max;     // = fps / 5
-    float dash_frame_delay;   // = fps / 2
-
-    // Wall related variables
-    bool on_wall = false;
-    float wall_climb_speed;
-    bool on_wall_jump = false;
-    uint8_t wall_jump_counter = 0;
-    float wall_jump_frame_max;
-
-    // Jump / double jump related variables
-    int jump_count = 2;
-
-    bool right = true;  // true: facing right
-                        // false: facing left
-
+    // Max velocity, both x and y
     float vel_terminal;
     float vel_x_max;
 
     // No jitter decel
     float temp_speed_left;
     float temp_speed_right;
+
+    // Dash related variables
+    bool can_dash;
+    bool on_dash;
+    bool on_dash_delay;
+    uint8_t dash_counter;
+    float dash_frame_max;     // = fps / 5
+    float dash_frame_delay;   // = fps / 2
+
+    // Wall related variables
+    bool on_wall;
+    float wall_climb_speed;
+    bool on_wall_jump;
+    uint8_t wall_jump_counter;
+    float wall_jump_frame_max;
+
+    // Jump / double jump related variables
+    int jump_count;
+
+    // Invul state, used for rhythm and shooter
+    // 1 second is the max invul time
+    bool invul;
+    uint16_t invul_counter;
+    float invul_frame_max;  // = fps
 
     // Rhythm stuff
     // A meter will regenerate over time, maxing out at 100
@@ -61,15 +69,15 @@ private:
     float rhythm_speed;     // Default speed during rhythm mode
     // Rhythm attack creates a hurtbox in front of the player
     // This block will have its own block collision
-    bool rhythm_can_atk = false;
-    bool rhythm_atk = false;
-    uint8_t rhythm_atk_counter = 0;
+    bool rhythm_can_atk;
+    bool rhythm_atk;
+    uint8_t rhythm_atk_counter;
     float rhythm_atk_frame_max;     // = fps / 5
     float rhythm_atk_delay;         // = fps / 2
 
     float rhythm_atk_x;
     float rhythm_atk_y;
-    uint16_t rhythm_grid;       // Hurtbox size, square because I'm lazy
+    uint16_t rhythm_atk_grid;       // Hurtbox size, square because I'm lazy
 
     // Shooter stuff
     // Will need a different hitbox for both as well
@@ -97,10 +105,16 @@ public:
     void setOnWall(bool ow);
     bool getOnWall();
 
-    uint8_t getLane();
+    bool getInvul();
 
+    uint8_t getLane();
+    void setRhyBar(float bar);
+    float getRhyBar();
     bool getRhyAtk();
     float getRhySpeed();
+    float getRhyAtkX();
+    float getRhyAtkY();
+    uint16_t getRhyAtkGrid();
 
     bool getVertical();
 

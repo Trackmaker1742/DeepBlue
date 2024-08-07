@@ -276,3 +276,6 @@ int main(int argc, char *argv[])
 // And there will still be a proper dash
 // During the dash duration, if the attack button is pressed,
 // a dash attack will be triggered
+// Rhythm is about done-ish now?
+// Right, invul
+// I'll also need to deal with texture for each game mode later
