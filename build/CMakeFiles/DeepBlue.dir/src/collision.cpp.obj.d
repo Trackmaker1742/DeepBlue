@@ -356,5 +356,6 @@ CMakeFiles/DeepBlue.dir/src/collision.cpp.obj: \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL.h \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/scene.h \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/input.h \
- C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/player.h \
- C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/projectile.h
+ C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/enemy.h \
+ C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/projectile.h \
+ C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/player.h

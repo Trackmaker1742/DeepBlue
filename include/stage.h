@@ -6,6 +6,8 @@
 
 #include "file_handler.h"
 #include "block.h"
+#include "enemy.h"
+#include "projectile.h"
 
 class Stage
 {

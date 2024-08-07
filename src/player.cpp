@@ -16,6 +16,8 @@ uint8_t Player::getLane() { return current_lane; }
 
 bool Player::getRhyAtk() { return rhythm_atk; }
 
+bool Player::getVertical() { return vertical; }
+
 void Player::init(SDL_Renderer *renderer)
 {
     setAccelY(-getGrid() * 30);
@@ -360,15 +362,17 @@ void Player::playerShootMvt(Input *input, float dt)
     }
 }
 // Different attack style
-void Player::playerVertAtk(Input *input, float dt)
+void Player::playerVertAtk(Input *input, Projectile *proj, float dt)
 {
     // Allows for hold, no need to spam attack to shoot
+    // An interval of half a second for default projectile speed
+    // and a quarter of a second for stage 1 and beyond
     if (input->getPress(6))
     {
         // Create a projectile, huh, new object I guess
     }
 }
-void Player::playerHoriAtk(Input *input, float dt)
+void Player::playerHoriAtk(Input *input, Projectile *proj, float dt)
 {
 
 }

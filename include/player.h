@@ -8,6 +8,8 @@
 #include "input.h"
 #include "projectile.h"
 
+// Player class can handle all 3 game mode, with different attribute for each
+
 class Player : public Object2d
 {
 private:
@@ -42,13 +44,28 @@ private:
     float temp_speed_right;
 
     // Rhythm stuff
-    int current_lane = 2;   // 1 is the lowest, 3 is the highest
+    uint8_t current_lane = 2;   // 1 is the lowest, 3 is the highest
+                                //     3
                                 //     3
                                 //   2
+                                //   2                                
+                                // 1
                                 // 1
                                 // Kinda like this
+                                // 2 rows because the sprite will be 128x128
 
     bool rhythm_atk = false;
+
+    // Shooter stuff
+    // Will need a different hitbox for both as well
+    bool vertical = true;   // To identify each mode during collision calc
+    // Vertical
+    uint8_t level = 0;      // Increase as more item is collected, max is 4
+
+    // Horizontal
+    uint8_t health = 3;     // 3 hp, restart at 0, can be refilled with item
+    uint16_t energy = 0;    // Increase as more shot lands, max 300?
+    bool dark = true;       // 2 states, light and dark
 
     uint8_t game_fps = 0;
 
@@ -68,6 +85,8 @@ public:
 
     bool getRhyAtk();
 
+    bool getVertical();
+
     void init(SDL_Renderer *renderer);  // Used to init and reinit all the values related to 
                                         // fps or scaling (grid size) to dynamically change settings 
     
@@ -81,8 +100,8 @@ public:
     // Same physics
     void playerShootMvt(Input *input, float dt);
     // Different attack style
-    void playerVertAtk(Input *input, float dt);
-    void playerHoriAtk(Input *input, float dt);
+    void playerVertAtk(Input *input, Projectile *proj, float dt);
+    void playerHoriAtk(Input *input, Projectile *proj, float dt);
 
     ~Player();
 };

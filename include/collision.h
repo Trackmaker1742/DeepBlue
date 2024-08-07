@@ -21,9 +21,9 @@ public:
     void playerObsColli(Stage *stage, Player *player, std::vector<Block*> Blocks);
 
     // Shooter stuff
-    void playerEnemyColli();
-    void playerProjectileColli();
-    void projectileEnemyColli();
+    void playerEnemyColli(Enemy *enemy, Player *player);
+    void projectilePlayerColli(Projectile *proj, Player *player);
+    void projectileEnemyColli(Projectile *proj, Enemy *enemy);
 
     ~Collision();
 };

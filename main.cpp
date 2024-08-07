@@ -42,9 +42,6 @@ int main(int argc, char *argv[])
     scene->initAllMenu();
     scene->setState(6);
 
-    // Proj test
-    Projectile *proj = new Projectile(10, 10, "");
-
     // Camera
     // Only applies to platforming sections as of rn
     Camera *cam = new Camera();
@@ -266,3 +263,8 @@ int main(int argc, char *argv[])
 // I'll have to create enemies and a boss...
 // Took forever to deal with the sudden compiler issue
 // Dang it
+// Current progress: still working on the projectile/player/enemy interaction
+// I'll have to expand the rhythm game block area later on
+// With the sprites being so hi res, the entire rhythm sprites might take up 2x2 grid
+// So the rhythm map will have to change as well
+// Still 3 lanes, but each lane is now 2 grid high

@@ -223,5 +223,38 @@ void Collision::playerObsColli(Stage *stage, Player *player, std::vector<Block*>
     }
 }
 
+// Shooter stuff
+void Collision::playerEnemyColli(Enemy *enemy, Player *player)
+{
+    // Every object is a square now with how I use grid collision lol
+    if (player->getX() < enemy->getX() + enemy->getGrid() &&
+    player->getX() + player->getX() > enemy->getX() &&
+    player->getY() < enemy->getY() + enemy->getGrid() &&
+    player->getY() + player->getGrid() > enemy->getY())
+    {
+        // Do something when player collide with enemy
+    }
+}
+void Collision::projectilePlayerColli(Projectile *proj, Player *player)
+{
+    if (player->getX() < proj->getX() + proj->getGrid() &&
+    player->getX() + player->getX() > proj->getX() &&
+    player->getY() < proj->getY() + proj->getGrid() &&
+    player->getY() + player->getGrid() > proj->getY())
+    {
+        // Do something when player collide with proj
+    }
+}
+void Collision::projectileEnemyColli(Projectile *proj, Enemy *enemy)
+{
+    if (enemy->getX() < proj->getX() + proj->getGrid() &&
+    enemy->getX() + enemy->getX() > proj->getX() &&
+    enemy->getY() < proj->getY() + proj->getGrid() &&
+    enemy->getY() + enemy->getGrid() > proj->getY())
+    {
+        // Do something when enemy collide with proj
+    }
+}
+
 Collision::~Collision()
 { }
