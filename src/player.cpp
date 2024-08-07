@@ -11,15 +11,16 @@ bool Player::getOnGround() { return on_ground; }
 void Player::setOnWall(bool ow) { on_wall = ow; }
 bool Player::getOnWall() { return on_wall; }
 
-// void Player::setLane(uint8_t l) { current_lane = l; }
 uint8_t Player::getLane() { return current_lane; }
 
 bool Player::getRhyAtk() { return rhythm_atk; }
+float Player::getRhySpeed() { return rhythm_speed; }
 
 bool Player::getVertical() { return vertical; }
 
-void Player::init(SDL_Renderer *renderer)
+void Player::initPlat(SDL_Renderer *renderer)
 {
+    setGrid(64);
     setAccelY(-getGrid() * 30);
     vel_terminal = -getGrid() * 17;
     vel_x_max = getGrid() * 8;
@@ -28,8 +29,39 @@ void Player::init(SDL_Renderer *renderer)
     dash_frame_max = game_fps / 5;
     dash_frame_delay = game_fps / 2;
 
-    wall_climb_speed = getGrid();
+    wall_climb_speed = getGrid() * 1.5;
     wall_jump_frame_max = game_fps / 5;
+
+    initTexture(renderer);
+}
+
+void Player::initRhythm(SDL_Renderer *renderer)
+{
+    setGrid(128);
+    current_lane = 2;
+
+    dash_frame_max = game_fps / 5;
+    dash_frame_delay = game_fps / 2;
+
+    rhythm_bar = 0;
+    rhythm_bar_regen_rate = 8;
+    rhythm_speed = getGrid() * 8;
+    rhythm_atk_frame_max = game_fps / 5;
+    rhythm_grid = 96;   // 1.5 times the size of a normal grid
+
+    initTexture(renderer);
+}
+
+void Player::initVertShooter(SDL_Renderer *renderer)
+{
+    setGrid(64);
+
+    initTexture(renderer);
+}
+
+void Player::initHoriShooter(SDL_Renderer *renderer)
+{
+    setGrid(128);
 
     initTexture(renderer);
 }
@@ -173,10 +205,10 @@ void Player::playerPlatMvt(Input *input, float dt)
             on_wall_jump = true;
         }
     }
-    if(on_wall_jump) wall_jump_frame++;
-    if(wall_jump_frame >= wall_jump_frame_max) 
+    if (on_wall_jump) wall_jump_counter++;
+    if (wall_jump_counter >= wall_jump_frame_max) 
     {
-        wall_jump_frame = 0;
+        wall_jump_counter = 0;
         on_wall_jump = false;
     }
     if (getVelY() < vel_terminal)
@@ -207,10 +239,10 @@ void Player::playerPlatMvt(Input *input, float dt)
     }
     if (on_dash)
     {
-        dash_frame++;
+        dash_counter++;
 
-        if (dash_frame < dash_frame_max) setVelX((right ? 1 : -1) * getGrid() * 20);
-        else if (dash_frame == dash_frame_max) 
+        if (dash_counter < dash_frame_max) setVelX((right ? 1 : -1) * getGrid() * 20);
+        else if (dash_counter == dash_frame_max)
         {
             on_dash = false;
             on_dash_delay = true;
@@ -219,12 +251,12 @@ void Player::playerPlatMvt(Input *input, float dt)
     } 
     if (on_dash_delay)
     {
-        dash_frame++;
+        dash_counter++;
         
-        if (dash_frame >= dash_frame_delay)
+        if (dash_counter >= dash_frame_delay)
         {
             on_dash_delay = false;
-            dash_frame = 0;
+            dash_counter = 0;
         }
     }
 
@@ -250,10 +282,28 @@ void Player::playerPlatMvt(Input *input, float dt)
 // Player rhythm movement
 void Player::playerRhythmMvt(Input *input, float dt)
 {
-    // Constant speed, no stopping
-    // setVelX(getVelX() + getAccelX() * dt * 0.5f);
-    // setX(getX() + getVelX() * dt);  
-    // setVelX(getVelX() + getAccelX() * dt * 0.5f);
+    right = true;
+    // Constant default camera speed, player can speed up or slow down
+    // as they want, invisible wall on left and right boundary
+    setVelX(rhythm_speed);
+    // Set hurtbox location
+    // About the attack hurtbox
+    // Since the player grid will be around 128x128
+    // The hurtbox will have to be in front of that
+    // Each # or * is 32x32
+    // # represent the player hitbox
+    // * represent the hurtbox
+    // This can be adjusted later on
+    // Visual demonstration
+    // ####***
+    // ####***
+    // ####***
+    // ####
+    rhythm_atk_x = getX() + getGrid();
+    rhythm_atk_y = getY() + getGrid() * 0.25;
+
+    // Refilling bar (kinda like in osu, I think?)
+    if (rhythm_bar < 100) { rhythm_bar += rhythm_bar_regen_rate * dt; }
 
     // Concept:
     // 3 obstacle type: water geyser (low and high), break-able object
@@ -261,45 +311,122 @@ void Player::playerRhythmMvt(Input *input, float dt)
     // Attack to break apart object
     // Jump to bypass low geyser
     // Dodge to avoid high geyser
-
+    
+    // Lane switching
     if (input->getPress(0) && current_lane < 3)
     {
         input->setHold(0, false);
         setX(getX() + getGrid());
-        setY(getY() + getGrid());
+        setY(getY() + getGrid() * 3);
         current_lane++;
     }
     if (input->getPress(1) && current_lane > 1)
     {
         input->setHold(1, false);
         setX(getX() - getGrid());
-        setY(getY() - getGrid());
+        setY(getY() - getGrid() * 3);
         current_lane--;
     }
-    // Collision first, then jump and attack later
+
+    // Horizontal movement
+    // Left and right movement
+    if (!on_dash && input->getPress(2))
+    {
+        setVelX(getVelX() - getGrid() * 4);
+    }
+    if (!on_dash && input->getPress(3))
+    {
+        setVelX(getVelX() + getGrid() * 4);
+    }
+    // Dash
+    if (input->getPress(5) && can_dash && !on_dash)
+    {
+        input->setHold(5, false);
+        can_dash = false;
+        on_dash = true;
+    }
+    if (on_dash)
+    {
+        dash_counter++;
+
+        if (dash_counter < dash_frame_max) setVelX(getVelX() + getGrid() * 10);
+        else if (dash_counter == dash_frame_max)
+        {
+            on_dash = false;
+            on_dash_delay = true;
+            // Remember to set this back to 
+            // default rhythm speed after dash
+            setVelX((right ? 1 : -1) * 0);
+        }
+    } 
+    if (on_dash_delay)
+    {
+        dash_counter++;
+        
+        if (dash_counter >= dash_frame_delay)
+        {
+            on_dash_delay = false;
+            dash_counter = 0;
+        }
+    }
+    // Horizontal movement calculation
+    setX(getX() + getVelX() * dt);  
+
+    // Vertical movement + gravity
+    // Jump
     if (input->getPress(4))
     {
         input->setHold(4, false);
-        setVelY(getGrid() * 10);
+        setVelY(getGrid() * 12);
         on_ground = false;
     }
     for (int i = 1; i < 4; i++)
     {
-        if (current_lane == i && getY() < getGrid() * i)
+        if (current_lane == i && getY() < getGrid() * i * 2)
         {
-            setY(getGrid() * i);
+            setY(getGrid() * i * 2);
             on_ground = true;
         }
     }
     // Gravity
-    if (!on_ground)
+    if (on_ground || on_dash)
+    {
+        setVelY(0);
+        can_dash = true;
+    }
+    else 
     {
         setVelY(getVelY() + getAccelY() * dt * 0.5f);
         setY(getY() + getVelY() * dt);
         setVelY(getVelY() + getAccelY() * dt * 0.5f);
     }
-    else setVelY(0);
-    std::cout << getY() << " " << getGrid() << "\n";
+
+    // Attack
+    if (input->getPress(6) && rhythm_can_atk)
+    {
+        input->setHold(6, false);
+        rhythm_atk = true;
+        rhythm_can_atk = false;
+    }
+    if (rhythm_atk)
+    {
+        rhythm_atk_counter++;
+        if (rhythm_atk_counter >= rhythm_atk_frame_max)
+        {
+            rhythm_atk = false;
+            rhythm_atk_delay = true;
+        }   
+    }
+    if (rhythm_atk_delay)
+    {
+        rhythm_atk_counter++;
+        if (rhythm_atk_counter >= rhythm_atk_delay)
+        {
+            rhythm_atk_counter = 0;
+            rhythm_atk_delay = false;
+            rhythm_can_atk = true;
+        }
+    }
 }
 
 // Player shooter movement

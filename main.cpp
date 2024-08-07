@@ -56,7 +56,8 @@ int main(int argc, char *argv[])
 
     // Player
     Player *player = new Player(scene->getFPS(), stage->getRespX(), stage->getRespY(), "res/Player Sprites/pixel.png");
-    player->init(scene->getRenderer());
+    player->initPlat(scene->getRenderer());
+    // player->initRhythm(scene->getRenderer());
 
     // Collision checker
     Collision *colli = new Collision();
@@ -131,6 +132,7 @@ int main(int argc, char *argv[])
             // Rhythm stage
             case 9:
                 player->playerRhythmMvt(input, scene->getDeltaTime());
+                cam->updateRhyCam(player, scene->getDeltaTime());
                 renderer->renderStage(stage, player);
             break;
             // Cutscenes
@@ -268,3 +270,9 @@ int main(int argc, char *argv[])
 // With the sprites being so hi res, the entire rhythm sprites might take up 2x2 grid
 // So the rhythm map will have to change as well
 // Still 3 lanes, but each lane is now 2 grid high
+// I think the shooter stuff has a proper framework now
+// I should go back to finish the rhythm game portion properly
+// The attack will be a melee smack
+// And there will still be a proper dash
+// During the dash duration, if the attack button is pressed,
+// a dash attack will be triggered

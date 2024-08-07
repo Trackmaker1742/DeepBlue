@@ -18,7 +18,7 @@ public:
     void playerPrev(Player *player);
 
     // Rhythm stuff
-    void playerObsColli(Stage *stage, Player *player, std::vector<Block*> Blocks);
+    void playerRhythmColli(Stage *stage, Player *player, std::vector<Block*> Blocks);
 
     // Shooter stuff
     void playerEnemyColli(Enemy *enemy, Player *player);

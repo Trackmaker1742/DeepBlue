@@ -39,3 +39,8 @@ void Object2d::initTexture(SDL_Renderer *renderer)
     SDL_FreeSurface(surface);
     SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
 }
+
+Object2d::~Object2d()
+{ 
+    delete path;
+}

@@ -21,7 +21,9 @@ public:
     void updatePlatCam(Player *player);
 
     // Update rhythm camera
-    void updateRhyCam(Player *player);
+    void updateRhyCam(Player *player, float dt);
+
+    ~Camera();
 };
 
 #endif

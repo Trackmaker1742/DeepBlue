@@ -8,7 +8,7 @@ class Enemy : public Object2d
 private:
     
 public:
-
+    ~Enemy();
 };
 
 #endif

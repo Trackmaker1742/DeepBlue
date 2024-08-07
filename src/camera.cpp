@@ -26,9 +26,11 @@ void Camera::updatePlatCam(Player *player)
     else setY(render_y);
 }
 
-void updateRhyCam(Player *player)
+void Camera::updateRhyCam(Player *player, float dt)
 {
     // Adjust to the x position and maintain it across all 3 lanes
-    // setX(player->getX() + (3 - player->getLane()));
-    // Should be easy, I'll leave it for later
+    setX(getX() + player->getRhySpeed() * dt);
 }
+
+Camera::~Camera()
+{ }

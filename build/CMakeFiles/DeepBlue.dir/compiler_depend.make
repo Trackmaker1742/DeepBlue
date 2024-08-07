@@ -1476,6 +1476,7 @@ CMakeFiles/DeepBlue.dir/src/collision.cpp.obj: C:/Users/huutu/OneDrive/Desktop/D
   C:/Media/Environments/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.1.0/include/xtestintrin.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/block.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/collision.h \
+  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/enemy.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/file_handler.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/input.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/object2d.h \
@@ -3842,6 +3843,7 @@ CMakeFiles/DeepBlue.dir/src/renderer.cpp.obj: C:/Users/huutu/OneDrive/Desktop/De
   C:/Media/Environments/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.1.0/include/xtestintrin.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/block.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/camera.h \
+  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/enemy.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/file_handler.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/input.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/object2d.h \
@@ -4286,6 +4288,7 @@ CMakeFiles/DeepBlue.dir/src/stage.cpp.obj: C:/Users/huutu/OneDrive/Desktop/DeepB
   C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/ranges_util.h \
   C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/refwrap.h \
   C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/requires_hosted.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/specfun.h \
   C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/sstream.tcc \
   C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/std_abs.h \
   C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_algobase.h \
@@ -4310,6 +4313,7 @@ CMakeFiles/DeepBlue.dir/src/stage.cpp.obj: C:/Users/huutu/OneDrive/Desktop/DeepB
   C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/cctype \
   C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/cerrno \
   C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/clocale \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/cmath \
   C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/compare \
   C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/concepts \
   C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/cstddef \
@@ -4331,6 +4335,8 @@ CMakeFiles/DeepBlue.dir/src/stage.cpp.obj: C:/Users/huutu/OneDrive/Desktop/DeepB
   C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/iosfwd \
   C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/iostream \
   C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/istream \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/limits \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/math.h \
   C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/new \
   C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/numbers \
   C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/ostream \
@@ -4342,6 +4348,18 @@ CMakeFiles/DeepBlue.dir/src/stage.cpp.obj: C:/Users/huutu/OneDrive/Desktop/DeepB
   C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/string \
   C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/string_view \
   C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/system_error \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/tr1/bessel_function.tcc \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/tr1/beta_function.tcc \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/tr1/ell_integral.tcc \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/tr1/exp_integral.tcc \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/tr1/gamma.tcc \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/tr1/hypergeometric.tcc \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/tr1/legendre_function.tcc \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/tr1/modified_bessel_func.tcc \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/tr1/poly_hermite.tcc \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/tr1/poly_laguerre.tcc \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/tr1/riemann_zeta.tcc \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/tr1/special_function_util.h \
   C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/tuple \
   C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/type_traits \
   C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/typeinfo \
@@ -4370,6 +4388,7 @@ CMakeFiles/DeepBlue.dir/src/stage.cpp.obj: C:/Users/huutu/OneDrive/Desktop/DeepB
   C:/Media/Environments/msys64/mingw64/include/limits.h \
   C:/Media/Environments/msys64/mingw64/include/locale.h \
   C:/Media/Environments/msys64/mingw64/include/malloc.h \
+  C:/Media/Environments/msys64/mingw64/include/math.h \
   C:/Media/Environments/msys64/mingw64/include/process.h \
   C:/Media/Environments/msys64/mingw64/include/psdk_inc/intrin-impl.h \
   C:/Media/Environments/msys64/mingw64/include/pthread.h \
@@ -4511,9 +4530,11 @@ CMakeFiles/DeepBlue.dir/src/stage.cpp.obj: C:/Users/huutu/OneDrive/Desktop/DeepB
   C:/Media/Environments/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.1.0/include/xsavesintrin.h \
   C:/Media/Environments/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.1.0/include/xtestintrin.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/block.h \
+  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/enemy.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/file_handler.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/input.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/object2d.h \
+  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/projectile.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/scene.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/stage.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL.h \

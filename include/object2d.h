@@ -61,6 +61,8 @@ public:
 
     // Intitializations
     void initTexture(SDL_Renderer* renderer);
+
+    ~Object2d();
 };
 
 #endif

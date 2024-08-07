@@ -127,7 +127,7 @@ void Collision::playerBlockColli(Stage* stage, Player* player, std::vector<Block
                 if (b->getType() == 6)
                 {
                     player->setX(b->getGridX() + b->getGrid());
-                    player->setVelX(-player->getVelX() * 0.5);
+                    player->setVelX(-player->getVelX() * 0.3);
                     continue;
                 }
                 // Wall grab block collision
@@ -147,7 +147,7 @@ void Collision::playerBlockColli(Stage* stage, Player* player, std::vector<Block
                 if (b->getType() == 6)
                 {
                     player->setX(b->getGridX() - player->getGrid());
-                    player->setVelX(-player->getVelX() * 0.5);
+                    player->setVelX(-player->getVelX() * 0.3);
                     continue;
                 }
                 // Wall grab block collision
@@ -185,22 +185,26 @@ void Collision::playerPrev(Player *player)
     player_prev_y = player->getY();
 }
 
-void Collision::playerObsColli(Stage *stage, Player *player, std::vector<Block*> Blocks)
+void Collision::playerRhythmColli(Stage *stage, Player *player, std::vector<Block*> Blocks)
 {
     // Get lane, then proceed to deal with collision on each lane
     // New csv reading method required
-    player->setOnGround(false);
-    // Ground collision
+    // No need to worry about ground collision
 
-    for (Block *b : Blocks)
-    {
-        if (player->getY() > b->getGridY() && player->getY() < b->getGridY() + b->getGrid())
-        {
-            player->setY(b->getGridY() + b->getGrid());
-            player->setOnGround(true);
-            break;
-        }
-    }
+    // About the attack hurtbox
+    // Since the player grid will be around 128x128
+    // The hurtbox will have to be in front of that
+    // Each # or * is 32x32
+    // # represent the player hitbox
+    // * represent the hurtbox
+
+    // This can be adjusted later on
+    // Visual demonstration
+    // ####***
+    // ####***
+    // ####***
+    // ####
+
 
     // Object collision
     for (Block *b : Blocks)
@@ -219,6 +223,9 @@ void Collision::playerObsColli(Stage *stage, Player *player, std::vector<Block*>
                 player->setX(stage->getRespX());
                 player->setY(stage->getRespY());
             }
+
+            // Collision with attack hurtbox
+
         }
     }
 }

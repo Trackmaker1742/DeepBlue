@@ -19,16 +19,16 @@ private:
     bool can_dash = true;
     bool on_dash = false;
     bool on_dash_delay = false;
-    uint8_t dash_frame = 0;
-    uint8_t dash_frame_max;     // = fps / 5
-    uint8_t dash_frame_delay;   // = fps / 2
+    uint8_t dash_counter = 0;
+    float dash_frame_max;     // = fps / 5
+    float dash_frame_delay;   // = fps / 2
 
     // Wall related variables
     bool on_wall = false;
     float wall_climb_speed;
     bool on_wall_jump = false;
-    uint8_t wall_jump_frame = 0;
-    uint8_t wall_jump_frame_max;
+    uint8_t wall_jump_counter = 0;
+    float wall_jump_frame_max;
 
     // Jump / double jump related variables
     int jump_count = 2;
@@ -44,7 +44,12 @@ private:
     float temp_speed_right;
 
     // Rhythm stuff
-    uint8_t current_lane = 2;   // 1 is the lowest, 3 is the highest
+    // A meter will regenerate over time, maxing out at 100
+    // Taking damage will lower the meter by 30
+    // Meaning 4 consecutive hit will end the game
+    float rhythm_bar;
+    float rhythm_bar_regen_rate;
+    uint8_t current_lane;   // 1 is the lowest, 3 is the highest
                                 //     3
                                 //     3
                                 //   2
@@ -53,20 +58,32 @@ private:
                                 // 1
                                 // Kinda like this
                                 // 2 rows because the sprite will be 128x128
-
+    float rhythm_speed;     // Default speed during rhythm mode
+    // Rhythm attack creates a hurtbox in front of the player
+    // This block will have its own block collision
+    bool rhythm_can_atk = false;
     bool rhythm_atk = false;
+    uint8_t rhythm_atk_counter = 0;
+    float rhythm_atk_frame_max;     // = fps / 5
+    float rhythm_atk_delay;         // = fps / 2
+
+    float rhythm_atk_x;
+    float rhythm_atk_y;
+    uint16_t rhythm_grid;       // Hurtbox size, square because I'm lazy
 
     // Shooter stuff
     // Will need a different hitbox for both as well
     bool vertical = true;   // To identify each mode during collision calc
     // Vertical
     uint8_t level = 0;      // Increase as more item is collected, max is 4
-
     // Horizontal
     uint8_t health = 3;     // 3 hp, restart at 0, can be refilled with item
     uint16_t energy = 0;    // Increase as more shot lands, max 300?
     bool dark = true;       // 2 states, light and dark
 
+    // For cooldown handler and the likes
+    // I could use dt but that isn't as precise
+    // While a fraction of a second is a lot easier to visualize
     uint8_t game_fps = 0;
 
 public:
@@ -80,16 +97,20 @@ public:
     void setOnWall(bool ow);
     bool getOnWall();
 
-    // void setLane(uint8_t l);
     uint8_t getLane();
 
     bool getRhyAtk();
+    float getRhySpeed();
 
     bool getVertical();
 
-    void init(SDL_Renderer *renderer);  // Used to init and reinit all the values related to 
-                                        // fps or scaling (grid size) to dynamically change settings 
+    void initPlat(SDL_Renderer *renderer);      // Used to init and reinit all the values related to 
+                                                // fps or scaling (grid size) to dynamically change settings 
     
+    void initRhythm(SDL_Renderer *renderer);
+    void initVertShooter(SDL_Renderer *renderer);
+    void initHoriShooter(SDL_Renderer *renderer);
+
     // Player platformer movement
     void playerPlatMvt(Input *input, float dt);
 
