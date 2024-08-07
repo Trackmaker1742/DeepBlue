@@ -264,3 +264,5 @@ int main(int argc, char *argv[])
 // Note: deleting the stuff from sdl can get weird
 // And only delete the stuff from the object that OWNS the pointer
 // I'll have to create enemies and a boss...
+// Took forever to deal with the sudden compiler issue
+// Dang it
