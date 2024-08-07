@@ -225,6 +225,30 @@ src/collision.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeepBlue.dir/build.make CMakeFiles/DeepBlue.dir/src/collision.cpp.s
 .PHONY : src/collision.cpp.s
 
+src/enemy.obj: src/enemy.cpp.obj
+.PHONY : src/enemy.obj
+
+# target to build an object file
+src/enemy.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeepBlue.dir/build.make CMakeFiles/DeepBlue.dir/src/enemy.cpp.obj
+.PHONY : src/enemy.cpp.obj
+
+src/enemy.i: src/enemy.cpp.i
+.PHONY : src/enemy.i
+
+# target to preprocess a source file
+src/enemy.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeepBlue.dir/build.make CMakeFiles/DeepBlue.dir/src/enemy.cpp.i
+.PHONY : src/enemy.cpp.i
+
+src/enemy.s: src/enemy.cpp.s
+.PHONY : src/enemy.s
+
+# target to generate assembly for a file
+src/enemy.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeepBlue.dir/build.make CMakeFiles/DeepBlue.dir/src/enemy.cpp.s
+.PHONY : src/enemy.cpp.s
+
 src/file_handler.obj: src/file_handler.cpp.obj
 .PHONY : src/file_handler.obj
 
@@ -321,6 +345,30 @@ src/player.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeepBlue.dir/build.make CMakeFiles/DeepBlue.dir/src/player.cpp.s
 .PHONY : src/player.cpp.s
 
+src/projectile.obj: src/projectile.cpp.obj
+.PHONY : src/projectile.obj
+
+# target to build an object file
+src/projectile.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeepBlue.dir/build.make CMakeFiles/DeepBlue.dir/src/projectile.cpp.obj
+.PHONY : src/projectile.cpp.obj
+
+src/projectile.i: src/projectile.cpp.i
+.PHONY : src/projectile.i
+
+# target to preprocess a source file
+src/projectile.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeepBlue.dir/build.make CMakeFiles/DeepBlue.dir/src/projectile.cpp.i
+.PHONY : src/projectile.cpp.i
+
+src/projectile.s: src/projectile.cpp.s
+.PHONY : src/projectile.s
+
+# target to generate assembly for a file
+src/projectile.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeepBlue.dir/build.make CMakeFiles/DeepBlue.dir/src/projectile.cpp.s
+.PHONY : src/projectile.cpp.s
+
 src/renderer.obj: src/renderer.cpp.obj
 .PHONY : src/renderer.obj
 
@@ -414,6 +462,9 @@ help:
 	@echo "... src/collision.obj"
 	@echo "... src/collision.i"
 	@echo "... src/collision.s"
+	@echo "... src/enemy.obj"
+	@echo "... src/enemy.i"
+	@echo "... src/enemy.s"
 	@echo "... src/file_handler.obj"
 	@echo "... src/file_handler.i"
 	@echo "... src/file_handler.s"
@@ -426,6 +477,9 @@ help:
 	@echo "... src/player.obj"
 	@echo "... src/player.i"
 	@echo "... src/player.s"
+	@echo "... src/projectile.obj"
+	@echo "... src/projectile.i"
+	@echo "... src/projectile.s"
 	@echo "... src/renderer.obj"
 	@echo "... src/renderer.i"
 	@echo "... src/renderer.s"
