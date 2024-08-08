@@ -92,10 +92,10 @@ private:
     // For cooldown handler and the likes
     // I could use dt but that isn't as precise
     // While a fraction of a second is a lot easier to visualize
-    uint8_t game_fps = 0;
+    float game_fps;
 
 public:
-    Player(uint8_t fps, float X = 0, float Y = 0, const char* P = "");
+    Player(uint8_t fps, float X = 0, float Y = 0, const char *P = "");
     
     void setRight(bool r);
 

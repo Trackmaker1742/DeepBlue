@@ -1,6 +1,7 @@
 #include "player.h"
 
-Player::Player(uint8_t fps, float X, float Y, const char *P) : game_fps(fps), Object2d(X, Y, P)
+Player::Player(uint8_t fps, float X, float Y, const char *P) : 
+    Object2d(X, Y, P), game_fps(fps)
 { }
     
 void Player::setRight(bool r) { right = r; }    

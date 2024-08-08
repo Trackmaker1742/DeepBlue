@@ -279,3 +279,21 @@ int main(int argc, char *argv[])
 // Rhythm is about done-ish now?
 // Right, invul
 // I'll also need to deal with texture for each game mode later
+// I'm starting to experience burnout, uh oh
+// I'll take a small break and listen to the lesson for once
+// Coding constantly like this isn't good
+// ... Fuck
+// My selling habit is gonna cost me dearly
+
+// Vertical shooter segment
+// Wave will be in the form of csv, each wave clear will prompt a file read
+// Allowing new enemies to spawn in after the previous wave is dead
+// Time to get to the enemy pattern
+// I'll need to get an idea of which enemy type I want first
+// All enemies will start at the top of the screen
+// Type 1: Move straight down into position then stop 
+// (no change in x, y change until the condition is satisfied)
+// Type 2: Move diagonally into position then stop
+// (x, y change until the condition is satisfied)
+// Type 3: Move down, then strafe around
+// (x, y change until the condition is satisfied, then wander around designated coordinates)
