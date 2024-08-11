@@ -117,6 +117,8 @@ private:
     bool descend;
     bool apex;      // Apex of a jump or ascend, to render the transition
     bool land;
+    bool climb_up;
+    bool climb_down;
 
 public:
     Player(uint8_t fps, float X = 0, float Y = 0, const char *P = "");
@@ -164,6 +166,8 @@ public:
     bool getDescend();
     bool getApex();
     bool getLand();
+    bool getClimbUp();
+    bool getClimbDown();
 
     void initPlat(SDL_Renderer *renderer);      // Used to init and reinit all the values related to 
                                                 // fps or scaling (grid size) to dynamically change settings 

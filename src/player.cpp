@@ -47,6 +47,8 @@ bool Player::getAscend() { return ascend; }
 bool Player::getDescend() { return descend; }
 bool Player::getApex() { return apex; }
 bool Player::getLand() { return land; }
+bool Player::getClimbUp() { return climb_up; }
+bool Player::getClimbDown() { return climb_down; }
 
 void Player::initPlat(SDL_Renderer *renderer)
 {
@@ -91,6 +93,8 @@ void Player::initPlat(SDL_Renderer *renderer)
     apex = false;
     descend = false;
     land = false;
+    climb_up = false;
+    climb_down = false;
 
     initTexture(renderer);
 }
@@ -267,17 +271,21 @@ void Player::platformerMvt(Input *input, float dt)
     }
 
     // Wall climb input handler
+    climb_up = false;
+    climb_down = false;
     if (on_wall)
     {
-        if (input->getPress(0))
+        if (input->getPress(0) && !input->getPress(1))
         {
             // Vertical movement calculation
-            setY(getY() + wall_climb_speed * dt);  
+            setY(getY() + wall_climb_speed * dt);
+            climb_up = true;
         }
-        if (input->getPress(1))
+        if (input->getPress(1) && !input->getPress(0))
         {
             // Vertical movement calculation
-            setY(getY() - wall_climb_speed * dt);  
+            setY(getY() - wall_climb_speed * dt);
+            climb_down = true;
         }
         can_dash = true;
         jump_count = 2;
@@ -286,40 +294,39 @@ void Player::platformerMvt(Input *input, float dt)
     // Jump / double jump / wall jump
     if (input->getPress(4) && jump_count > 0)
     {
-        if (!on_wall)
-        {
-            input->setHold(4, false);
-            jump_start = true;
-            jump = true;
-        }
-        else 
-        {
-            input->setHold(4, false);
-            setX(getX() + (right ? -1 : 1) * 50);
-            setVelX((right ? -1 : 1) * getGrid() * 5);
-            setVelY(getGrid() * 10);
-            if (right) right = false;
-            else right = true;
-            jump_count--;
-            on_wall = false;
-            on_wall_jump = true;
-        }
+        input->setHold(4, false);
+        jump_start = true;
+        jump = true;
     }
     if (jump == true && jump_start == false) 
     {
-        switch (jump_count)
+        if (!on_wall)
         {
-            case 2:
-                setVelY(getGrid() * 12);
-                on_ground = false;
-            break;
-            case 1:
-                setVelY(getGrid() * 9);
-            break;
-            default:
-            break;
+            switch (jump_count)
+            {
+                case 2:
+                    setVelY(getGrid() * 12);
+                    on_ground = false;
+                break;
+                case 1:
+                    setVelY(getGrid() * 9);
+                break;
+                default:
+                break;
+            }
+            jump_count--;
         }
-        jump_count--;
+        else 
+        {
+            if (right) right = false;
+            else right = true;
+            setX(getX() + (right ? 1 : -1) * 50);
+            setVelX((right ? 1 : -1) * getGrid() * 5);
+            setVelY(getGrid() * 10);
+            on_wall = false;
+            on_wall_jump = true;
+            jump_count--;
+        }
         jump = false;
     }
     if (on_wall_jump) wall_jump_counter++;

@@ -88,13 +88,29 @@ void Renderer::renderPlayer(Player *player, float dt)
             64,
             64
         };
+    }    
+    // Wall (can work with looped counter)
+    if (player->getOnWall())
+    {
+        if (player->getClimbUp()) looped_counter += dt * 4;
+        else if (player->getClimbDown()) looped_counter -= dt * 4;
+        
+        if (looped_counter > 3) looped_counter = 0;
+        if (looped_counter < 0) looped_counter = 3;
+        
+        src_rect = {
+            8 * 64 + (player->getRight() ? 0 : 13) * 64 + int(looped_counter) * 64, 
+            64,
+            64,
+            64
+        };
     }
 
     // Actions with no looping sprites 
     // (jump start, peak jump height, landing)
     if (player->getJumpStart())
     {
-        temp_counter += dt * 30;
+        temp_counter += dt * 25;
         if (temp_counter > 2)
         {
             temp_counter = 0;
