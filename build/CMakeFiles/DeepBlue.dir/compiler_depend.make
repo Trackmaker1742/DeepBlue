@@ -435,6 +435,7 @@ CMakeFiles/DeepBlue.dir/main.cpp.obj: C:/Users/huutu/OneDrive/Desktop/DeepBlue/m
   C:/Media/Environments/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.1.0/include/xsaveoptintrin.h \
   C:/Media/Environments/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.1.0/include/xsavesintrin.h \
   C:/Media/Environments/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.1.0/include/xtestintrin.h \
+  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/audio.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/block.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/camera.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/collision.h \
@@ -497,6 +498,104 @@ CMakeFiles/DeepBlue.dir/main.cpp.obj: C:/Users/huutu/OneDrive/Desktop/DeepBlue/m
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_touch.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_version.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_video.h \
+  C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/begin_code.h \
+  C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/close_code.h
+
+CMakeFiles/DeepBlue.dir/src/audio.cpp.obj: C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/audio.cpp \
+  C:/Media/Environments/msys64/mingw64/include/_mingw.h \
+  C:/Media/Environments/msys64/mingw64/include/_mingw_mac.h \
+  C:/Media/Environments/msys64/mingw64/include/_mingw_off_t.h \
+  C:/Media/Environments/msys64/mingw64/include/_mingw_secapi.h \
+  C:/Media/Environments/msys64/mingw64/include/_mingw_stdarg.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/backward/binders.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bit \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/alloc_traits.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/allocator.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/concept_check.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/cpp_type_traits.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/exception.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/exception_defines.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/functexcept.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/functional_hash.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/hash_bytes.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/invoke.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/iterator_concepts.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/max_size_type.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/memory_resource.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/memoryfwd.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/move.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/new_allocator.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/predefined_ops.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/ptr_traits.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/range_access.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/ranges_base.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/ranges_cmp.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/ranges_util.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/refwrap.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/requires_hosted.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_algobase.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_bvector.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_construct.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_function.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_iterator.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_iterator_base_funcs.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_iterator_base_types.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_pair.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_uninitialized.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_vector.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/uses_allocator.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/uses_allocator_args.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/utility.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/vector.tcc \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/version.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/compare \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/concepts \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/cstddef \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/debug/assertions.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/debug/debug.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/ext/alloc_traits.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/ext/numeric_traits.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/ext/type_traits.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/initializer_list \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/new \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/numbers \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/pstl/pstl_config.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/tuple \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/type_traits \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/vector \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/x86_64-w64-mingw32/bits/c++allocator.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/x86_64-w64-mingw32/bits/c++config.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/x86_64-w64-mingw32/bits/cpu_defines.h \
+  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/x86_64-w64-mingw32/bits/os_defines.h \
+  C:/Media/Environments/msys64/mingw64/include/corecrt.h \
+  C:/Media/Environments/msys64/mingw64/include/corecrt_startup.h \
+  C:/Media/Environments/msys64/mingw64/include/crtdefs.h \
+  C:/Media/Environments/msys64/mingw64/include/process.h \
+  C:/Media/Environments/msys64/mingw64/include/sdkddkver.h \
+  C:/Media/Environments/msys64/mingw64/include/sdks/_mingw_ddk.h \
+  C:/Media/Environments/msys64/mingw64/include/stdarg.h \
+  C:/Media/Environments/msys64/mingw64/include/stddef.h \
+  C:/Media/Environments/msys64/mingw64/include/stdint.h \
+  C:/Media/Environments/msys64/mingw64/include/sys/types.h \
+  C:/Media/Environments/msys64/mingw64/include/vadefs.h \
+  C:/Media/Environments/msys64/mingw64/include/winapifamily.h \
+  C:/Media/Environments/msys64/mingw64/include/winsdkver.h \
+  C:/Media/Environments/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.1.0/include/stdarg.h \
+  C:/Media/Environments/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.1.0/include/stddef.h \
+  C:/Media/Environments/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.1.0/include/stdint.h \
+  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/audio.h \
+  C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_atomic.h \
+  C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_audio.h \
+  C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_config.h \
+  C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_endian.h \
+  C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_error.h \
+  C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_mixer.h \
+  C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_mutex.h \
+  C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_platform.h \
+  C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_rwops.h \
+  C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_stdinc.h \
+  C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_thread.h \
+  C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_version.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/begin_code.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/close_code.h
 
@@ -1119,6 +1218,7 @@ CMakeFiles/DeepBlue.dir/src/camera.cpp.obj: C:/Users/huutu/OneDrive/Desktop/Deep
   C:/Media/Environments/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.1.0/include/xsaveoptintrin.h \
   C:/Media/Environments/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.1.0/include/xsavesintrin.h \
   C:/Media/Environments/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.1.0/include/xtestintrin.h \
+  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/audio.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/camera.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/input.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/object2d.h \
@@ -1154,6 +1254,7 @@ CMakeFiles/DeepBlue.dir/src/camera.cpp.obj: C:/Users/huutu/OneDrive/Desktop/Deep
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_messagebox.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_metal.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_misc.h \
+  C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_mixer.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_mouse.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_mutex.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_pixels.h \
@@ -1345,6 +1446,7 @@ CMakeFiles/DeepBlue.dir/src/collision.cpp.obj: C:/Users/huutu/OneDrive/Desktop/D
   C:/Media/Environments/msys64/mingw64/include/sdks/_mingw_ddk.h \
   C:/Media/Environments/msys64/mingw64/include/sec_api/stdio_s.h \
   C:/Media/Environments/msys64/mingw64/include/sec_api/stdlib_s.h \
+  C:/Media/Environments/msys64/mingw64/include/sec_api/string_s.h \
   C:/Media/Environments/msys64/mingw64/include/sec_api/sys/timeb_s.h \
   C:/Media/Environments/msys64/mingw64/include/sec_api/wchar_s.h \
   C:/Media/Environments/msys64/mingw64/include/setjmp.h \
@@ -1354,6 +1456,7 @@ CMakeFiles/DeepBlue.dir/src/collision.cpp.obj: C:/Users/huutu/OneDrive/Desktop/D
   C:/Media/Environments/msys64/mingw64/include/stdint.h \
   C:/Media/Environments/msys64/mingw64/include/stdio.h \
   C:/Media/Environments/msys64/mingw64/include/stdlib.h \
+  C:/Media/Environments/msys64/mingw64/include/string.h \
   C:/Media/Environments/msys64/mingw64/include/swprintf.inl \
   C:/Media/Environments/msys64/mingw64/include/sys/timeb.h \
   C:/Media/Environments/msys64/mingw64/include/sys/types.h \
@@ -1474,6 +1577,7 @@ CMakeFiles/DeepBlue.dir/src/collision.cpp.obj: C:/Users/huutu/OneDrive/Desktop/D
   C:/Media/Environments/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.1.0/include/xsaveoptintrin.h \
   C:/Media/Environments/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.1.0/include/xsavesintrin.h \
   C:/Media/Environments/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.1.0/include/xtestintrin.h \
+  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/audio.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/block.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/collision.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/enemy.h \
@@ -3141,6 +3245,7 @@ CMakeFiles/DeepBlue.dir/src/player.cpp.obj: C:/Users/huutu/OneDrive/Desktop/Deep
   C:/Media/Environments/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.1.0/include/xsaveoptintrin.h \
   C:/Media/Environments/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.1.0/include/xsavesintrin.h \
   C:/Media/Environments/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.1.0/include/xtestintrin.h \
+  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/audio.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/input.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/object2d.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/player.h \
@@ -3175,6 +3280,7 @@ CMakeFiles/DeepBlue.dir/src/player.cpp.obj: C:/Users/huutu/OneDrive/Desktop/Deep
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_messagebox.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_metal.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_misc.h \
+  C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_mixer.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_mouse.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_mutex.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_pixels.h \
@@ -3712,6 +3818,7 @@ CMakeFiles/DeepBlue.dir/src/renderer.cpp.obj: C:/Users/huutu/OneDrive/Desktop/De
   C:/Media/Environments/msys64/mingw64/include/sdks/_mingw_ddk.h \
   C:/Media/Environments/msys64/mingw64/include/sec_api/stdio_s.h \
   C:/Media/Environments/msys64/mingw64/include/sec_api/stdlib_s.h \
+  C:/Media/Environments/msys64/mingw64/include/sec_api/string_s.h \
   C:/Media/Environments/msys64/mingw64/include/sec_api/sys/timeb_s.h \
   C:/Media/Environments/msys64/mingw64/include/sec_api/wchar_s.h \
   C:/Media/Environments/msys64/mingw64/include/setjmp.h \
@@ -3721,6 +3828,7 @@ CMakeFiles/DeepBlue.dir/src/renderer.cpp.obj: C:/Users/huutu/OneDrive/Desktop/De
   C:/Media/Environments/msys64/mingw64/include/stdint.h \
   C:/Media/Environments/msys64/mingw64/include/stdio.h \
   C:/Media/Environments/msys64/mingw64/include/stdlib.h \
+  C:/Media/Environments/msys64/mingw64/include/string.h \
   C:/Media/Environments/msys64/mingw64/include/swprintf.inl \
   C:/Media/Environments/msys64/mingw64/include/sys/timeb.h \
   C:/Media/Environments/msys64/mingw64/include/sys/types.h \
@@ -3841,6 +3949,7 @@ CMakeFiles/DeepBlue.dir/src/renderer.cpp.obj: C:/Users/huutu/OneDrive/Desktop/De
   C:/Media/Environments/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.1.0/include/xsaveoptintrin.h \
   C:/Media/Environments/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.1.0/include/xsavesintrin.h \
   C:/Media/Environments/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.1.0/include/xtestintrin.h \
+  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/audio.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/block.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/camera.h \
   C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/enemy.h \
@@ -4400,6 +4509,7 @@ CMakeFiles/DeepBlue.dir/src/stage.cpp.obj: C:/Users/huutu/OneDrive/Desktop/DeepB
   C:/Media/Environments/msys64/mingw64/include/sdks/_mingw_ddk.h \
   C:/Media/Environments/msys64/mingw64/include/sec_api/stdio_s.h \
   C:/Media/Environments/msys64/mingw64/include/sec_api/stdlib_s.h \
+  C:/Media/Environments/msys64/mingw64/include/sec_api/string_s.h \
   C:/Media/Environments/msys64/mingw64/include/sec_api/sys/timeb_s.h \
   C:/Media/Environments/msys64/mingw64/include/sec_api/wchar_s.h \
   C:/Media/Environments/msys64/mingw64/include/setjmp.h \
@@ -4409,6 +4519,7 @@ CMakeFiles/DeepBlue.dir/src/stage.cpp.obj: C:/Users/huutu/OneDrive/Desktop/DeepB
   C:/Media/Environments/msys64/mingw64/include/stdint.h \
   C:/Media/Environments/msys64/mingw64/include/stdio.h \
   C:/Media/Environments/msys64/mingw64/include/stdlib.h \
+  C:/Media/Environments/msys64/mingw64/include/string.h \
   C:/Media/Environments/msys64/mingw64/include/swprintf.inl \
   C:/Media/Environments/msys64/mingw64/include/sys/timeb.h \
   C:/Media/Environments/msys64/mingw64/include/sys/types.h \
@@ -5557,6 +5668,8 @@ C:/Media/Environments/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.1.0/include/x
 
 C:/Media/Environments/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/14.1.0/include/xsavecintrin.h:
 
+C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/audio.h:
+
 C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/file_handler.h:
 
 C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/input.h:
@@ -5600,6 +5713,8 @@ C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_system.h:
 C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_thread.h:
 
 C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_timer.h:
+
+C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/audio.cpp:
 
 C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/block.cpp:
 

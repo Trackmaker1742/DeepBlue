@@ -4,7 +4,13 @@ Player::Player(uint8_t fps, float X, float Y, const char *P) :
     Object2d(X, Y, P), game_fps(fps)
 { }
     
+uint8_t Player::getWidth() { return width; }
+uint8_t Player::getHeight() { return height; }
+
+float Player::getVelXMax() { return vel_x_max; }
+
 void Player::setRight(bool r) { right = r; }    
+bool Player::getRight() { return right; }
 
 void Player::setOnGround(bool og) { on_ground = og; }
 bool Player::getOnGround() { return on_ground; }
@@ -25,17 +31,38 @@ uint16_t Player::getRhyAtkGrid() { return rhythm_atk_grid; }
 
 bool Player::getVertical() { return vertical; }
 
+void Player::setRenderX(float x) { render_x = x; }
+void Player::setRenderY(float y) { render_y = y; }
+float Player::getRenderX() { return render_x; }
+float Player::getRenderY() { return render_y; }
+
+void Player::setJumpStart(bool js) { jump_start = js; }
+void Player::setAscend(bool a) { ascend = a; }
+void Player::setDescend(bool d) { descend = d; }
+void Player::setApex(bool a) { apex = a; }
+void Player::setLand(bool l) { land = l; }
+
+bool Player::getJumpStart() { return jump_start; }
+bool Player::getAscend() { return ascend; }
+bool Player::getDescend() { return descend; }
+bool Player::getApex() { return apex; }
+bool Player::getLand() { return land; }
+
 void Player::initPlat(SDL_Renderer *renderer)
 {
-    setGrid(64);
+    setGrid(128);
+
+    // Hitbox
+    width = getGrid() * 0.40625;
+    height = getGrid() * 0.625;
 
     on_ground = false;
     right = true;
 
     // Velocity, acceleration
     vel_terminal = -getGrid() * 17;
-    vel_x_max = getGrid() * 8;
-    setAccelX(getGrid() * 5);
+    vel_x_max = getGrid() * 6;
+    setAccelX(getGrid() * 3);
     setAccelY(-getGrid() * 30);
 
     // Dash
@@ -50,18 +77,27 @@ void Player::initPlat(SDL_Renderer *renderer)
     on_wall = false;
     on_wall_jump = false;
     wall_jump_counter = 0;
-    wall_climb_speed = getGrid() * 1.5;
+    wall_climb_speed = getGrid() * 1.2;
     wall_jump_frame_max = game_fps / 5;
 
     // Jump / double jump
     jump_count = 2;
+
+    // Rendering stuff
+    jump_start = false;
+    jump = false;
+    jump_counter = 0;
+    ascend = false;
+    apex = false;
+    descend = false;
+    land = false;
 
     initTexture(renderer);
 }
 
 void Player::initRhythm(SDL_Renderer *renderer)
 {
-    setGrid(128);
+    setGrid(256);
 
     on_ground = false;
 
@@ -91,30 +127,48 @@ void Player::initRhythm(SDL_Renderer *renderer)
 
 void Player::initVertShooter(SDL_Renderer *renderer)
 {
-    setGrid(64);
+    setGrid(52);
 
     // Invul period after taking damage
     invul = false;
     invul_counter = 0;
     invul_frame_max = game_fps;
+
+    // Attack
+    shooter_can_atk = true;
+    shooter_atk_counter = 0;
+    shooter_atk_delay = game_fps / 4;
+
+    // Player status
+    level = 0;
 
     initTexture(renderer);
 }
 
 void Player::initHoriShooter(SDL_Renderer *renderer)
 {
-    setGrid(128);
+    setGrid(104);
 
     // Invul period after taking damage
     invul = false;
     invul_counter = 0;
     invul_frame_max = game_fps;
 
+    // Attack
+    shooter_can_atk = true;
+    shooter_atk_counter = 0;
+    shooter_atk_delay = game_fps / 3;
+
+    // Player status
+    health = 3;
+    energy = 0;
+    dark = true;
+
     initTexture(renderer);
 }
 
 // Player platformer movement
-void Player::playerPlatMvt(Input *input, float dt)
+void Player::platformerMvt(Input *input, float dt)
 {
     // Accel & decel are performed before and after setX()
     // to avoid difference in distance travelled in different frame rate
@@ -124,19 +178,21 @@ void Player::playerPlatMvt(Input *input, float dt)
 
     // Accel (First half)
     // Left
-    if (!on_wall && !on_dash && input->getPress(2) && getVelX() > -vel_x_max)
+    if (!on_wall && !on_dash && !on_wall_jump && 
+    input->getPress(2) && getVelX() > -vel_x_max)
     {
         right = false;
         setVelX(getVelX() - getAccelX() * dt * 0.5f);
     }
     // Right (First half accel)
-    if (!on_wall && !on_dash && input->getPress(3) && getVelX() < vel_x_max)
+    if (!on_wall && !on_dash && !on_wall_jump &&
+    input->getPress(3) && getVelX() < vel_x_max)
     {
         right = true;
         setVelX(getVelX() + getAccelX() * dt * 0.5f);
     }
     // Decel (First half)
-    if (!on_wall && !on_dash &&             // Not on wall, not currently dashing
+    if (!on_wall && !on_dash && !on_wall_jump &&        // Not on wall, not currently dashing
         getVelX() &&                                    // Speed != 0
         input->getPress(2) && input->getPress(3) ||     // Dual input
         !input->getPress(2) && !input->getPress(3) ||   // No input
@@ -163,19 +219,21 @@ void Player::playerPlatMvt(Input *input, float dt)
     
     // Accel (Second half)
     // Left
-    if (!on_wall && !on_dash && input->getPress(2) && getVelX() > -vel_x_max)
+    if (!on_wall && !on_dash && !on_wall_jump &&
+    input->getPress(2) && getVelX() > -vel_x_max)
     {
         right = false;
         setVelX(getVelX() - getAccelX() * dt * 0.5f);
     }
     // Right
-    if (!on_wall && !on_dash && input->getPress(3) && getVelX() < vel_x_max)
+    if (!on_wall && !on_dash && !on_wall_jump &&
+    input->getPress(3) && getVelX() < vel_x_max)
     {
         right = true;
         setVelX(getVelX() + getAccelX() * dt * 0.5f);
     }
     // Decel (Second half)
-    if (!on_wall && !on_dash &&                                     // Not on wall
+    if (!on_wall && !on_dash && !on_wall_jump &&        // Not on wall
         getVelX() &&                                    // Speed != 0
         input->getPress(2) && input->getPress(3) ||     // Dual input
         !input->getPress(2) && !input->getPress(3) ||   // No input
@@ -222,35 +280,47 @@ void Player::playerPlatMvt(Input *input, float dt)
             setY(getY() - wall_climb_speed * dt);  
         }
         can_dash = true;
-        jump_count = 1;
+        jump_count = 2;
     }
 
     // Jump / double jump / wall jump
     if (input->getPress(4) && jump_count > 0)
     {
-        if (on_ground)
+        if (!on_wall)
         {
             input->setHold(4, false);
-            setVelY(getGrid() * 15);
-            jump_count--;
-            on_ground = false;
+            jump_start = true;
+            jump = true;
         }
-        else if (!on_wall)
+        else 
         {
             input->setHold(4, false);
-            setVelY(getGrid() * 12);
-            jump_count--;
-        }
-        if (on_wall)
-        {
-            input->setHold(4, false);
-            setX(getX() + (right ? -1 : 1) * 10);
-            setVelX((right ? -1 : 1) * getGrid() * 10);
-            setVelY(getGrid() * 12);
+            setX(getX() + (right ? -1 : 1) * 50);
+            setVelX((right ? -1 : 1) * getGrid() * 5);
+            setVelY(getGrid() * 10);
+            if (right) right = false;
+            else right = true;
             jump_count--;
             on_wall = false;
             on_wall_jump = true;
         }
+    }
+    if (jump == true && jump_start == false) 
+    {
+        switch (jump_count)
+        {
+            case 2:
+                setVelY(getGrid() * 12);
+                on_ground = false;
+            break;
+            case 1:
+                setVelY(getGrid() * 9);
+            break;
+            default:
+            break;
+        }
+        jump_count--;
+        jump = false;
     }
     if (on_wall_jump) wall_jump_counter++;
     if (wall_jump_counter >= wall_jump_frame_max) 
@@ -288,7 +358,7 @@ void Player::playerPlatMvt(Input *input, float dt)
     {
         dash_counter++;
 
-        if (dash_counter < dash_frame_max) setVelX((right ? 1 : -1) * getGrid() * 20);
+        if (dash_counter < dash_frame_max) setVelX((right ? 1 : -1) * getGrid() * 15);
         else if (dash_counter == dash_frame_max)
         {
             on_dash = false;
@@ -327,7 +397,7 @@ void Player::playerPlatMvt(Input *input, float dt)
 }
 
 // Player rhythm movement
-void Player::playerRhythmMvt(Input *input, float dt)
+void Player::rhythmMvt(Input *input, float dt)
 {
     right = true;
     // Constant default camera speed, player can speed up or slow down
@@ -485,7 +555,7 @@ void Player::playerRhythmMvt(Input *input, float dt)
 
 // Player shooter movement
 // Same physics
-void Player::playerShootMvt(Input *input, float dt)
+void Player::shooterMvt(Input *input, float dt)
 {
     // Gotta handle dual input, huh
     // Diagonal movement needs to be controlled
@@ -494,22 +564,22 @@ void Player::playerShootMvt(Input *input, float dt)
     if (input->getPress(0) && 
     !input->getPress(1) && !input->getPress(2) && !input->getPress(3))
     {
-        setY(getY() + getGrid() * dt);
+        setY(getY() + getGrid() * 10 * dt);
     }
     if (input->getPress(1) &&
     !input->getPress(0) && !input->getPress(2) && !input->getPress(3))
     {
-        setY(getY() - getGrid() * dt);
+        setY(getY() - getGrid() * 10 * dt);
     }
     if (input->getPress(2) &&
     !input->getPress(1) && !input->getPress(0) && !input->getPress(3))
     {
-        setX(getX() - getGrid() * dt);
+        setX(getX() - getGrid() * 10 * dt);
     }
     if (input->getPress(3) &&
     !input->getPress(1) && !input->getPress(2) && !input->getPress(0))
     {
-        setX(getX() + getGrid() * dt);
+        setX(getX() + getGrid() * 10 * dt);
     }
 
     // The other 4 diagonal movement
@@ -517,45 +587,64 @@ void Player::playerShootMvt(Input *input, float dt)
     if (input->getPress(0) && 
     !input->getPress(1) && input->getPress(2) && !input->getPress(3))
     {
-        setY(getY() + (getGrid() / 2) * dt);
-        setX(getX() - (getGrid() / 2) * dt);
+        setY(getY() + getGrid() * 7 * dt);
+        setX(getX() - getGrid() * 7 * dt);
     }
     // Up right
     if (input->getPress(0) && 
     !input->getPress(1) && !input->getPress(2) && input->getPress(3))
     {
-        setY(getY() + (getGrid() / 2) * dt);
-        setX(getX() + (getGrid() / 2) * dt);
+        setY(getY() + getGrid() * 7 * dt);
+        setX(getX() + getGrid() * 7 * dt);
     }
     // Down left
     if (!input->getPress(0) && 
     input->getPress(1) && input->getPress(2) && !input->getPress(3))
     {
-        setY(getY() - (getGrid() / 2) * dt);
-        setX(getX() - (getGrid() / 2) * dt);
+        setY(getY() - getGrid() * 7 * dt);
+        setX(getX() - getGrid() * 7 * dt);
     }
     // Down right
     if (!input->getPress(0) && 
     input->getPress(1) && !input->getPress(2) && input->getPress(3))
     {
-        setY(getY() - (getGrid() / 2) * dt);
-        setX(getX() + (getGrid() / 2) * dt);
+        setY(getY() - getGrid() * 7 * dt);
+        setX(getX() + getGrid() * 7 * dt);
     }
 }
 // Different attack style
-void Player::playerVertAtk(Input *input, Projectile *proj, float dt)
+void Player::shooterVertAtk(SDL_Renderer *renderer, Input *input, Projectile *proj, float dt)
 {
     // Allows for hold, no need to spam attack to shoot
     // An interval of half a second for default projectile speed
     // and a quarter of a second for stage 1 and beyond
-    if (input->getPress(6))
+    if (input->getPress(6) && shooter_can_atk)
     {
-        // Create a projectile, huh, new object I guess
+        Projectile *proj = new Projectile(getX() + 24, getY() + getGrid(), "res/Player Sprites/Drool.png");
+        proj->initStraightProj(renderer, true);
+        shooter_can_atk = false;
+    }
+    if (!shooter_can_atk)
+    {
+        shooter_atk_counter++;
+        if (shooter_atk_counter >= shooter_atk_delay) shooter_can_atk = true;
     }
 }
-void Player::playerHoriAtk(Input *input, Projectile *proj, float dt)
+void Player::shooterHoriAtk(SDL_Renderer *renderer, Input *input, Projectile *proj, float dt)
 {
-
+    // Allows for hold, no need to spam attack to shoot
+    // An interval of half one third of a second for projectile
+    if (input->getPress(6) && shooter_can_atk)
+    {
+        // Projectile spawn coordinates tbd, as the sprite isn't done yet
+        // Projectile *proj = new Projectile();
+        // proj->initStraightProj()
+    }
+    if (!shooter_can_atk)
+    {
+        shooter_atk_counter++;
+        if (shooter_atk_counter >= shooter_atk_delay) shooter_can_atk = true;
+    }
 }
 
 Player::~Player()

@@ -96,6 +96,8 @@ CMakeFiles/DeepBlue.dir/src/stage.cpp.obj: \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/ranges_base.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/max_size_type.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/numbers \
+ C:/Media/Environments/msys64/mingw64/include/string.h \
+ C:/Media/Environments/msys64/mingw64/include/sec_api/string_s.h \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/file_handler.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/iostream \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/ostream \

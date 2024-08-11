@@ -5,39 +5,15 @@ Stage::Stage(SDL_Renderer *rend) : renderer(rend)
 
 // Getters
 SDL_Texture *Stage::getBackground() { return bg; }
+std::vector<SDL_Texture*> Stage::getBackgroundLayers() { return background_layers; }
 std::vector<Block*> Stage::getBlockVec() { return Blocks; }
+std::vector<Projectile*> Stage::getProjVec() { return Projectiles; }
 uint16_t Stage::getRespX() { return resp_x; }
 uint16_t Stage::getRespY() { return resp_y; }
 
 // Setters
 void Stage::setRespX(uint16_t x) { resp_x = x; }
 void Stage::setRespY(uint16_t y) { resp_y = y; }
-
-// Initialize
-void Stage::initAudio() 
-{
-    const char* _waveFileNames[] =
-    {
-        "res/Audio/SFX/Snare-Drum-1.wav",
-        "res/Audio/SFX/Kick-Drum-1.wav",
-        "res/Audio/SFX/CombatReady.wav",
-        "res/Audio/SFX/Hurt.wav",
-        "res/Audio/SFX/NakuHurt.wav",
-        "res/Audio/SFX/Parry.wav",
-    };
-    memset(_sample, 0, sizeof(Mix_Chunk*) * 2);
-
-    // Set up the audio stream
-    int result = Mix_OpenAudio(44100, AUDIO_S16SYS, 2, 512);
-
-    result = Mix_AllocateChannels(4);
-
-    // Load waveforms
-    for( int i = 0; i < 6; i++ )
-    {
-        _sample[i] = Mix_LoadWAV(_waveFileNames[i]);
-    }
-}
 
 void Stage::initBackground()
 {
@@ -127,14 +103,12 @@ void Stage::initRhyObs(const char *path)
 
 void Stage::initPlatAll(const char *path)
 {
-    initAudio();
     initBackground();
     initBlocks(path);
 }
 
 void Stage::initRhyAll(const char *path)
 {
-    initAudio();
     initBackground();
     initRhyObs(path);
 }
@@ -146,16 +120,6 @@ void Stage::unloadStage()
     // Set spawn back to 0
     resp_x = 0;
     resp_y = 0;
-}
-
-void Stage::unloadAudio()
-{
-    // Unloading audio
-    for(int i = 0; i < 6; i++)
-    {
-        Mix_FreeChunk(_sample[i]);
-    }
-    Mix_CloseAudio();
 }
 
 Stage::~Stage()

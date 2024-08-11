@@ -15,9 +15,9 @@ void Collision::playerBlockColli(Stage* stage, Player* player, std::vector<Block
     {
         if (b->getType() > 5) continue;
         // If player hitbox overlaps with block hitbox
-        if (player->getX() + player->getGrid() > b->getGridX() &&
+        if (player->getX() + player->getWidth() > b->getGridX() &&
         player->getX() < b->getGridX() + b->getGrid() &&
-        player->getY() + player->getGrid() > b->getGridY() &&
+        player->getY() + player->getHeight() > b->getGridY() &&
         player->getY() < b->getGridY() + b->getGrid())
         {
             // Gotta work on respawn points
@@ -53,32 +53,32 @@ void Collision::playerBlockColli(Stage* stage, Player* player, std::vector<Block
         if (b->getType() != 7 && b->getType() != 8 &&
         player_prev_x < b->getGridX() + b->getGrid() && 
         player->getX() < b->getGridX() + b->getGrid() && 
-        player_prev_x + player->getGrid() > b->getGridX() && 
-        player->getX() + player->getGrid() > b->getGridX())
+        player_prev_x + player->getWidth() > b->getGridX() && 
+        player->getX() + player->getWidth() > b->getGridX())
         {
-            if (player->getY() > b->getGridY() && player->getY() < b->getGridY() + b->getGrid())
+            if (player->getY() > b->getGridY() && player->getY() <= b->getGridY() + b->getGrid())
             {
                 player->setY(b->getGridY() + b->getGrid());
                 player->setOnGround(true);
-                break;
+                continue;
             }
         }
 
         // Slope
-        if (player->getX() + player->getGrid() > b->getGridX() &&
+        if (player->getX() + player->getWidth() > b->getGridX() &&
         player->getX() < b->getGridX() + b->getGrid())
         {
             // Left slope
             if (b->getType() == 7)
             {
-                if (player->getX() <= b->getGridX() && 
-                player->getY() <= int(player->getX()) % player->getGrid() + player->getX() - int(player->getX()) + b->getGridY() + 1)
+                if (player->getX() + player->getWidth() <= b->getGridX() + b->getGrid() && 
+                player->getY() <= player->getX() + player->getWidth() - b->getGridX() + b->getGridY() + 1)
                 {
-                    player->setY(player->getX() - b->getGridX() + b->getGridY() + player->getGrid() + 1);
+                    player->setY(player->getX() + player->getWidth() - b->getGridX() + b->getGridY() + 1);
                     player->setOnGround(true);
                     break;
                 }
-                else if (player->getX() >= b->getGridX() && 
+                else if (player->getX() + player->getWidth() >= b->getGridX() + b->getGrid() && 
                 player->getY() <= b->getGridY() + b->getGrid())
                 {
                     player->setY(b->getGridY() + b->getGrid());
@@ -90,9 +90,9 @@ void Collision::playerBlockColli(Stage* stage, Player* player, std::vector<Block
             if (b->getType() == 8)
             {
                 if (player->getX() >= b->getGridX() && 
-                player->getY() <= b->getGrid() - (int(player->getX()) % player->getGrid() + player->getX() - int(player->getX())) + b->getGridY() + 1)
+                player->getY() <= b->getGrid() - player->getX() + b->getGridX() + b->getGridY() + 1)
                 {
-                    player->setY(b->getGridX() - player->getX() + b->getGridY() + player->getGrid() + 1);
+                    player->setY(b->getGrid() - player->getX() + b->getGridX() + b->getGridY() + 1);
                     player->setOnGround(true);
                     break;
                 }
@@ -116,8 +116,8 @@ void Collision::playerBlockColli(Stage* stage, Player* player, std::vector<Block
         // Due to some condition overlaps, left and right collision of slope doesn't work
         if (player_prev_y < b->getGridY() + b->getGrid() && 
         player->getY() < b->getGridY() + b->getGrid() && 
-        player_prev_y + player->getGrid() > b->getGridY() && 
-        player->getY() + player->getGrid() > b->getGridY())
+        player_prev_y + player->getHeight() > b->getGridY() && 
+        player->getY() + player->getHeight() > b->getGridY())
         {
             // Left
             if (player->getX() > b->getGridX() && 
@@ -141,12 +141,12 @@ void Collision::playerBlockColli(Stage* stage, Player* player, std::vector<Block
             }
             // Right
             if (player->getX() < b->getGridX() && 
-            player->getX() + player->getGrid() > b->getGridX())
+            player->getX() + player->getWidth() > b->getGridX())
             {
                 // Normal, moving platform block
                 if (b->getType() == 6)
                 {
-                    player->setX(b->getGridX() - player->getGrid());
+                    player->setX(b->getGridX() - player->getWidth());
                     player->setVelX(-player->getVelX() * 0.3);
                     continue;
                 }
@@ -155,7 +155,7 @@ void Collision::playerBlockColli(Stage* stage, Player* player, std::vector<Block
                 {
                     player->setOnWall(true);
                     player->setRight(true);
-                    player->setX(b->getGridX() - player->getGrid());
+                    player->setX(b->getGridX() - player->getWidth());
                     continue;
                 }
             }
@@ -164,25 +164,62 @@ void Collision::playerBlockColli(Stage* stage, Player* player, std::vector<Block
         // Top collision (hitting ceiling)
         if (player_prev_x < b->getGridX() + b->getGrid() && 
         player->getX() < b->getGridX() + b->getGrid() && 
-        player_prev_x + player->getGrid() > b->getGridX() && 
-        player->getX() + player->getGrid() > b->getGridX())
+        player_prev_x + player->getWidth() > b->getGridX() && 
+        player->getX() + player->getWidth() > b->getGridX())
         {
             if (player->getY() < b->getGridY() && 
-            player->getY() + player->getGrid() > b->getGridY())
+            player->getY() + player->getHeight() > b->getGridY())
             {
-                player->setY(b->getGridY() - player->getGrid());
+                player->setY(b->getGridY() - player->getHeight());
                 player->setVelY(-player->getVelY() * 0.1);
                 continue;
             }
         }
     }
-}
 
-void Collision::playerPrev(Player *player)
-{
+    // Ascend, descend check
+    if (player->getVelY() != 0)
+    {
+        if (player->getY() > player_prev_y && 
+        !player->getJumpStart() && !player->getApex() && !player->getLand())
+        {
+            player->setAscend(true);
+            player->setDescend(false);
+        }
+        else if (player->getY() < player_prev_y && 
+        !player->getJumpStart() && !player->getApex() && !player->getLand())
+        {
+            player->setAscend(false);
+            player->setDescend(true);
+        }
+        // If vel y suddenly shifts from + to -
+        // The result of gravity on ascend velocity
+        if (player_prev_vel_y > 0 && player->getVelY() < 0)
+        {
+            player->setApex(true);
+            player->setAscend(false);
+            player->setDescend(false);
+        }
+    }
+    else
+    {
+        player->setAscend(false);
+        player->setDescend(false);
+    }
+    // Landing trigger, a shift from not on ground to on ground
+    if (player->getOnGround() && player_prev_on_ground == false)
+    {
+        player->setLand(true);
+        player->setAscend(false);
+        player->setDescend(false);
+    }
+
     // Get previous position
     player_prev_x = player->getX();
     player_prev_y = player->getY();
+    // Get previous y velocity
+    player_prev_vel_y = player->getVelY();
+    player_prev_on_ground = player->getOnGround();
 }
 
 void Collision::playerRhythmColli(Stage *stage, Player *player, std::vector<Block*> Blocks)

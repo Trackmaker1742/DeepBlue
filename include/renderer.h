@@ -22,10 +22,21 @@ private:
     bool init_x = false;    // Flag for initializing the initial position (for moving bg)
     uint16_t initial_x;    // Initial x position of player
 
+    SDL_Rect src_rect;
+    SDL_Rect des_rect;
+
+    // Rendering variable
+    float idle_counter = 0;
+    float run_counter = 0;
+
+    float looped_counter = 0;   // Ascend, descend
+
+    float temp_counter = 0;     // Jump_start, apex, land
+
 public:
     Renderer(Scene *sc, Camera *c);
 
-    void renderPlayer(Player *player);
+    void renderPlayer(Player *player, float dt);
     void renderBackground(Stage *stage, Player *player);
     void renderStage(Stage *stage, Player *player);
 

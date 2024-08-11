@@ -22,10 +22,9 @@
 
 int main(int argc, char *argv[])
 {
-    // // Play audio
-    // Mix_Music *music = Mix_LoadMUS("res/Audio/BGM/KoiIsLoveLofi.wav");
-    // // music = Mix_LoadMUS("res/Audio/BGM/StringTheory.wav");
-    // Mix_PlayMusic(music, -1);
+    // Play audio
+    Audio *audio = new Audio();
+    audio->init();
     
     // File testing
     File_Handler *test = new File_Handler();
@@ -55,7 +54,7 @@ int main(int argc, char *argv[])
     stage->initPlatAll("data/stage1.csv");
 
     // Player
-    Player *player = new Player(scene->getFPS(), stage->getRespX(), stage->getRespY(), "res/Player Sprites/pixel.png");
+    Player *player = new Player(scene->getFPS(), stage->getRespX(), stage->getRespY(), "res/Player Sprites/sheet.png");
     player->initPlat(scene->getRenderer());
     // player->initRhythm(scene->getRenderer());
 
@@ -108,30 +107,45 @@ int main(int argc, char *argv[])
             break;
             // Platforming stage
             case 6:
+                // Audio test
+                // input 7 is u key
+                if (input->getPress(7))
+                {
+                    input->setHold(7, false);
+                    Audio::playSoundFX(1, 0);
+                }
+                if (input->getPress(8))
+                {
+                    input->setHold(8, false);
+                    Audio::playSoundFX(2, 0);
+                }
+
                 // Platforming only, will try switch case to work out the states later
                 // Player movement
-                player->playerPlatMvt(input, scene->getDeltaTime());
+                player->platformerMvt(input, scene->getDeltaTime());
                 // Collision handler
                 colli->playerBlockColli(stage, player, stage->getBlockVec());
-                colli->playerPrev(player);
                 // Camera update
-                cam->updatePlatCam(player);
+                cam->updatePlatCam(player, scene->getDeltaTime());
                 // Render stuff
                 renderer->renderStage(stage, player);
+                renderer->renderPlayer(player, scene->getDeltaTime());
             break;
 
             // WIP
             // Vertical shooting stage
             case 7:
-
+                player->shooterMvt(input, scene->getDeltaTime());
+                renderer->renderStage(stage, player);
             break;
             // Horizontal shooting stage
             case 8:
-
+                player->shooterMvt(input, scene->getDeltaTime());
+                renderer->renderStage(stage, player);
             break;
             // Rhythm stage
             case 9:
-                player->playerRhythmMvt(input, scene->getDeltaTime());
+                player->rhythmMvt(input, scene->getDeltaTime());
                 cam->updateRhyCam(player, scene->getDeltaTime());
                 renderer->renderStage(stage, player);
             break;
@@ -152,6 +166,7 @@ int main(int argc, char *argv[])
 	    SDL_Delay(1000.0f/scene->getFPS() - scene->getDeltaTime());
     }
 
+    audio->~Audio();
     SDL_DestroyRenderer(scene->getRenderer());
     SDL_DestroyWindow(scene->getWindow());
     SDL_Quit();
@@ -297,3 +312,19 @@ int main(int argc, char *argv[])
 // (x, y change until the condition is satisfied)
 // Type 3: Move down, then strafe around
 // (x, y change until the condition is satisfied, then wander around designated coordinates)
+
+// I got caught by the the professor that teaches us the most
+// Seems like he's down to get me
+// Or anyone who does stuff unrelated to his subject
+// Guess I'll have to focus for once
+
+// SDL_Mixer seems fine for the time being, I think I can stick to it
+// A little unsure of where to sit today, as I have so much downtime between classes
+// Progress is slowing down a bit, I guess I should create 
+// a list of what to do to keep myself from getting sidetracked
+// Todo:
+// Projectile sprite rendering
+// Sprite animating
+// Test stage for rhythm mode
+// Breakable block testing
+// Test stage for shooter

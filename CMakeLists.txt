@@ -30,6 +30,7 @@ set(DLLS
 )
 
 add_executable(DeepBlue
+    src/audio.cpp
     src/block.cpp
     src/camera.cpp
     src/collision.cpp

@@ -13,9 +13,11 @@ class Collision
 private:
     float player_prev_x;
     float player_prev_y;
+
+    float player_prev_vel_y;
+    bool player_prev_on_ground;
 public:
     void playerBlockColli(Stage *stage, Player *player, std::vector<Block*> Blocks);
-    void playerPrev(Player *player);
 
     // Rhythm stuff
     void playerRhythmColli(Stage *stage, Player *player, std::vector<Block*> Blocks);

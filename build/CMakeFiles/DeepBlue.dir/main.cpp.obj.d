@@ -493,6 +493,7 @@ CMakeFiles/DeepBlue.dir/main.cpp.obj: \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/player.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/math.h \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/projectile.h \
+ C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/audio.h \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/stage.h \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/file_handler.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/fstream \

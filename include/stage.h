@@ -3,6 +3,7 @@
 
 #include <SDL2/SDL_mixer.h>
 #include <vector>
+#include <string.h>
 
 #include "file_handler.h"
 #include "block.h"
@@ -16,12 +17,15 @@ private:
     
     // Background
     SDL_Texture *bg;
-    
-    // Audio
-    Mix_Chunk *_sample[6];
+
+    // Background textures
+    std::vector<SDL_Texture*> background_layers;
 
     // Block array
     std::vector<Block*> Blocks;
+
+    // Projectile array
+    std::vector<Projectile*> Projectiles;
 
     // Respawn coordinates
     uint16_t resp_x;
@@ -61,7 +65,9 @@ public:
 
     // Getters
     SDL_Texture *getBackground();
+    std::vector<SDL_Texture*> getBackgroundLayers();
     std::vector<Block*> getBlockVec();
+    std::vector<Projectile*> getProjVec();
     uint16_t getRespX();
     uint16_t getRespY();
 
@@ -70,7 +76,6 @@ public:
     void setRespY(uint16_t y);
 
     // Initialize
-    void initAudio();
     void initBackground();
     void initBlocks(const char *path);
     void initPlatAll(const char *path);
@@ -80,9 +85,6 @@ public:
 
     // Unload everything in a stage (blocks, spawn)
     void unloadStage();
-
-    // Will be combined with unloadStage once I get to audio
-    void unloadAudio();
 
     ~Stage();
 };

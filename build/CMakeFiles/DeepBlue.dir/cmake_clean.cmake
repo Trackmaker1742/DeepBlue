@@ -1,6 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/DeepBlue.dir/main.cpp.obj"
   "CMakeFiles/DeepBlue.dir/main.cpp.obj.d"
+  "CMakeFiles/DeepBlue.dir/src/audio.cpp.obj"
+  "CMakeFiles/DeepBlue.dir/src/audio.cpp.obj.d"
   "CMakeFiles/DeepBlue.dir/src/block.cpp.obj"
   "CMakeFiles/DeepBlue.dir/src/block.cpp.obj.d"
   "CMakeFiles/DeepBlue.dir/src/camera.cpp.obj"

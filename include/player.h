@@ -7,6 +7,7 @@
 #include "object2d.h"
 #include "input.h"
 #include "projectile.h"
+#include "audio.h"
 
 // Player class can handle all 3 game mode, with different attribute for each
 // Grid is used as an unit of measurement, 
@@ -15,6 +16,10 @@
 class Player : public Object2d
 {
 private:
+    // Collision handler, will be replacing grid
+    uint8_t width;
+    uint8_t height;
+
     bool on_ground;
     bool right;     // true: facing right
                     // false: facing left
@@ -82,22 +87,47 @@ private:
     // Shooter stuff
     // Will need a different hitbox for both as well
     bool vertical = true;   // To identify each mode during collision calc
+    bool shooter_can_atk;
+    uint8_t shooter_atk_counter;
+    float shooter_atk_delay;  
     // Vertical
-    uint8_t level = 0;      // Increase as more item is collected, max is 4
+    uint8_t level;      // Increase as more item is collected, max is 4
     // Horizontal
-    uint8_t health = 3;     // 3 hp, restart at 0, can be refilled with item
-    uint16_t energy = 0;    // Increase as more shot lands, max 300?
-    bool dark = true;       // 2 states, light and dark
+    uint8_t health;     // 3 hp, restart at 0, can be refilled with item
+    uint16_t energy;    // Increase as more shot lands, max 300?
+    bool dark;       // 2 states, light and dark
 
     // For cooldown handler and the likes
     // I could use dt but that isn't as precise
     // While a fraction of a second is a lot easier to visualize
     float game_fps;
 
+    // Hitbox and sprite stuff
+    int sprite_state;
+    float render_x;
+    float render_y;
+
+    // Variables for ground jump/ascend/descend rendering
+    // Jump start, apex, land work based on a sudden shift in velocity
+    // Ascend, descend work based differences between current and previous y coordinates
+    bool jump_start;
+    bool jump;
+    float jump_counter;
+    bool ascend;
+    bool descend;
+    bool apex;      // Apex of a jump or ascend, to render the transition
+    bool land;
+
 public:
     Player(uint8_t fps, float X = 0, float Y = 0, const char *P = "");
     
+    uint8_t getWidth();
+    uint8_t getHeight();
+
+    float getVelXMax();
+
     void setRight(bool r);
+    bool getRight();
 
     void setOnGround(bool og);
     bool getOnGround();
@@ -118,25 +148,41 @@ public:
 
     bool getVertical();
 
+    void setRenderX(float x);
+    void setRenderY(float y);
+    float getRenderX();
+    float getRenderY();
+
+    void setJumpStart(bool js);
+    void setAscend(bool a);
+    void setDescend(bool d);
+    void setApex(bool a);
+    void setLand(bool l);
+
+    bool getJumpStart();
+    bool getAscend();
+    bool getDescend();
+    bool getApex();
+    bool getLand();
+
     void initPlat(SDL_Renderer *renderer);      // Used to init and reinit all the values related to 
                                                 // fps or scaling (grid size) to dynamically change settings 
-    
     void initRhythm(SDL_Renderer *renderer);
     void initVertShooter(SDL_Renderer *renderer);
     void initHoriShooter(SDL_Renderer *renderer);
 
     // Player platformer movement
-    void playerPlatMvt(Input *input, float dt);
+    void platformerMvt(Input *input, float dt);
 
     // Player rhythm movement
-    void playerRhythmMvt(Input *input, float dt);
+    void rhythmMvt(Input *input, float dt);
 
     // Player shooter movement
     // Same physics
-    void playerShootMvt(Input *input, float dt);
+    void shooterMvt(Input *input, float dt);
     // Different attack style
-    void playerVertAtk(Input *input, Projectile *proj, float dt);
-    void playerHoriAtk(Input *input, Projectile *proj, float dt);
+    void shooterVertAtk(SDL_Renderer *renderer, Input *input, Projectile *proj, float dt);
+    void shooterHoriAtk(SDL_Renderer *renderer, Input *input, Projectile *proj, float dt);
 
     ~Player();
 };

@@ -197,6 +197,8 @@ CMakeFiles/DeepBlue.dir/src/collision.cpp.obj: \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_thread.h \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_atomic.h \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_version.h \
+ C:/Media/Environments/msys64/mingw64/include/string.h \
+ C:/Media/Environments/msys64/mingw64/include/sec_api/string_s.h \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/file_handler.h \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL.h \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_main.h \
@@ -358,4 +360,5 @@ CMakeFiles/DeepBlue.dir/src/collision.cpp.obj: \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/input.h \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/enemy.h \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/projectile.h \
- C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/player.h
+ C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/player.h \
+ C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/audio.h

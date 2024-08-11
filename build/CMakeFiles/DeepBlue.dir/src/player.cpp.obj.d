@@ -345,4 +345,6 @@ CMakeFiles/DeepBlue.dir/src/player.cpp.obj: \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_vector.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_bvector.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/vector.tcc \
- C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/projectile.h
+ C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/projectile.h \
+ C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/audio.h \
+ C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_mixer.h

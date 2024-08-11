@@ -153,6 +153,30 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeepBlue.dir/build.make CMakeFiles/DeepBlue.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+src/audio.obj: src/audio.cpp.obj
+.PHONY : src/audio.obj
+
+# target to build an object file
+src/audio.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeepBlue.dir/build.make CMakeFiles/DeepBlue.dir/src/audio.cpp.obj
+.PHONY : src/audio.cpp.obj
+
+src/audio.i: src/audio.cpp.i
+.PHONY : src/audio.i
+
+# target to preprocess a source file
+src/audio.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeepBlue.dir/build.make CMakeFiles/DeepBlue.dir/src/audio.cpp.i
+.PHONY : src/audio.cpp.i
+
+src/audio.s: src/audio.cpp.s
+.PHONY : src/audio.s
+
+# target to generate assembly for a file
+src/audio.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeepBlue.dir/build.make CMakeFiles/DeepBlue.dir/src/audio.cpp.s
+.PHONY : src/audio.cpp.s
+
 src/block.obj: src/block.cpp.obj
 .PHONY : src/block.obj
 
@@ -453,6 +477,9 @@ help:
 	@echo "... main.obj"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... src/audio.obj"
+	@echo "... src/audio.i"
+	@echo "... src/audio.s"
 	@echo "... src/block.obj"
 	@echo "... src/block.i"
 	@echo "... src/block.s"

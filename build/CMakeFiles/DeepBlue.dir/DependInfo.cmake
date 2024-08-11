@@ -9,6 +9,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "C:/Users/huutu/OneDrive/Desktop/DeepBlue/main.cpp" "CMakeFiles/DeepBlue.dir/main.cpp.obj" "gcc" "CMakeFiles/DeepBlue.dir/main.cpp.obj.d"
+  "C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/audio.cpp" "CMakeFiles/DeepBlue.dir/src/audio.cpp.obj" "gcc" "CMakeFiles/DeepBlue.dir/src/audio.cpp.obj.d"
   "C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/block.cpp" "CMakeFiles/DeepBlue.dir/src/block.cpp.obj" "gcc" "CMakeFiles/DeepBlue.dir/src/block.cpp.obj.d"
   "C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/camera.cpp" "CMakeFiles/DeepBlue.dir/src/camera.cpp.obj" "gcc" "CMakeFiles/DeepBlue.dir/src/camera.cpp.obj.d"
   "C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/collision.cpp" "CMakeFiles/DeepBlue.dir/src/collision.cpp.obj" "gcc" "CMakeFiles/DeepBlue.dir/src/collision.cpp.obj.d"

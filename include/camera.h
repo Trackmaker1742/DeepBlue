@@ -10,6 +10,12 @@ class Camera : public Object2d
 private:
     uint16_t render_x;
     uint16_t render_y;
+
+    // float prev_vel_x;
+
+    // bool max_pan;   // Check to see if camera is at maximum distance from player
+    // uint8_t return_counter;
+    // uint8_t return_delay;
 public:
     // Getters
     uint16_t getRendX();
@@ -18,7 +24,7 @@ public:
     void init(Scene* scene);
 
     // Update platformer camera
-    void updatePlatCam(Player *player);
+    void updatePlatCam(Player *player, float dt);
 
     // Update rhythm camera
     void updateRhyCam(Player *player, float dt);
