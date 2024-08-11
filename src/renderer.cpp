@@ -215,7 +215,14 @@ void Renderer::renderStage(Stage *stage, Player *player)
 
     // Render blocks
     for (Block *b : stage->getBlockVec())
-    { 
+    {
+        // Skip blocks that are outside of the screen
+        if (int(b->getGridX()) + delta_x < -b->getGrid() || 
+        scene->getHeight() - b->getGrid() - (int(b->getGridY()) + delta_y) > scene->getHeight() ||
+        int(b->getGridX()) + delta_x > scene->getWidth() + b->getGrid() ||
+        scene->getHeight() - b->getGrid() - (int(b->getGridY()) + delta_y) < -b->getGrid())
+            continue;
+
         des_rect = {
             int(b->getGridX()) + delta_x, 
             scene->getHeight() - b->getGrid() - (int(b->getGridY()) + delta_y), 
