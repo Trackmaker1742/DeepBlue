@@ -8,11 +8,11 @@ Renderer::Renderer(Scene *sc, Camera *c) :
 { }
 
 // This is about to get messy
-void Renderer::renderPlayer(Player *player, float dt)
+void Renderer::renderPlatformer(Player *player)
 {
     // Assign value to render coordinates
-    if(player->getRight()) player->setRenderX(player->getX() - player->getGrid() * 0.59375);
-    else player->setRenderX(player->getX());
+    if(player->getRight()) player->setRenderX(player->getX() - player->getGrid() * 0.40625);
+    else player->setRenderX(player->getX() - player->getGrid() * 0.1875);
     player->setRenderY(player->getY());
 
     // Values for offsetting the camera from the player when in the edges of the stage
@@ -29,7 +29,7 @@ void Renderer::renderPlayer(Player *player, float dt)
 
         if (player->getVelY() == 0 && !player->getLand())
         {
-            idle_counter += dt * 4;
+            idle_counter += scene->getDeltaTime() * 4;
             if (idle_counter > 11) idle_counter = 0;
             src_rect = {
                 (player->getRight() ? 0 : 13) * 64 + int(idle_counter) * 64, 
@@ -47,11 +47,11 @@ void Renderer::renderPlayer(Player *player, float dt)
         if (player->getVelY() == 0 && !player->getLand())
         {
             // Higher the speed, the faster the sprite switches
-            if (abs(player->getVelX()) < player->getVelXMax() * 0.25) run_counter += dt * 5;
-            else if (abs(player->getVelX()) < player->getGrid() * 0.5) run_counter += dt * 8;
-            else if (abs(player->getVelX()) < player->getVelXMax() * 0.75) run_counter += dt * 11;
-            else if (abs(player->getVelX()) < player->getVelXMax()) run_counter += dt * 14;
-            else if (abs(player->getVelX()) >= player->getVelXMax()) run_counter += dt * 17;
+            if (abs(player->getVelX()) < player->getVelXMax() * 0.25) run_counter += scene->getDeltaTime() * 5;
+            else if (abs(player->getVelX()) < player->getGrid() * 0.5) run_counter += scene->getDeltaTime() * 8;
+            else if (abs(player->getVelX()) < player->getVelXMax() * 0.75) run_counter += scene->getDeltaTime() * 11;
+            else if (abs(player->getVelX()) < player->getVelXMax()) run_counter += scene->getDeltaTime() * 14;
+            else if (abs(player->getVelX()) >= player->getVelXMax()) run_counter += scene->getDeltaTime() * 17;
             if (run_counter > 7) run_counter = 0;
 
             // Dynamically switching between parts of sprite sheet
@@ -69,7 +69,7 @@ void Renderer::renderPlayer(Player *player, float dt)
     // (looped sprites, use looped counter)
     if (player->getAscend())
     {
-        looped_counter += dt * 6;
+        looped_counter += scene->getDeltaTime() * 6;
         if (looped_counter > 2) looped_counter = 0;
         src_rect = {
             (player->getRight() ? 0 : 13) * 64 + int(looped_counter) * 64, 
@@ -80,11 +80,11 @@ void Renderer::renderPlayer(Player *player, float dt)
     }
     if (player->getDescend())
     {
-        looped_counter += dt * 6;
+        looped_counter += scene->getDeltaTime() * 6;
         if (looped_counter > 2) looped_counter = 0;
         src_rect = {
-            (player->getRight() ? 0 : 13) * 64 + int(looped_counter) * 64, 
-            320,
+            5 * 64 + (player->getRight() ? 0 : 13) * 64 + int(looped_counter) * 64, 
+            128,
             64,
             64
         };
@@ -92,8 +92,8 @@ void Renderer::renderPlayer(Player *player, float dt)
     // Wall (can work with looped counter)
     if (player->getOnWall())
     {
-        if (player->getClimbUp()) looped_counter += dt * 4;
-        else if (player->getClimbDown()) looped_counter -= dt * 4;
+        if (player->getClimbUp()) looped_counter += scene->getDeltaTime() * 4;
+        else if (player->getClimbDown()) looped_counter -= scene->getDeltaTime() * 4;
         
         if (looped_counter > 3) looped_counter = 0;
         if (looped_counter < 0) looped_counter = 3;
@@ -110,7 +110,7 @@ void Renderer::renderPlayer(Player *player, float dt)
     // (jump start, peak jump height, landing)
     if (player->getJumpStart())
     {
-        temp_counter += dt * 25;
+        temp_counter += scene->getDeltaTime() * 25;
         if (temp_counter > 2)
         {
             temp_counter = 0;
@@ -128,15 +128,15 @@ void Renderer::renderPlayer(Player *player, float dt)
         // Reset shared counter between ascend and descend
         looped_counter = 0;
 
-        temp_counter += dt * 7;
+        temp_counter += scene->getDeltaTime() * 7;
         if (temp_counter > 1)
         {
             temp_counter = 0;
             player->setApex(false);
         }
         src_rect = {
-            (player->getRight() ? 0 : 13) * 64 + int(looped_counter) * 64, 
-            256,
+            3 * 64 + (player->getRight() ? 0 : 13) * 64 + int(looped_counter) * 64, 
+            128,
             64,
             64
         };
@@ -146,15 +146,42 @@ void Renderer::renderPlayer(Player *player, float dt)
         // Reset shared counter between ascend and descend
         looped_counter = 0;
 
-        temp_counter += dt * 12;
+        temp_counter += scene->getDeltaTime() * 12;
         if (temp_counter > 2)
         {
             temp_counter = 0;
             player->setLand(false);
         }
         src_rect = {
-            (player->getRight() ? 0 : 13) * 64 + int(temp_counter) * 64, 
-            384,
+            5 * 64 + (player->getRight() ? 0 : 13) * 64 + int(temp_counter) * 64, 
+            192,
+            64,
+            64
+        };
+    }
+    if (player->getDashHalt())
+    {
+        temp_counter += scene->getDeltaTime() * 10;
+
+        if (temp_counter > 1)
+        {
+            temp_counter = 0;
+            player->setDashHalt(false);
+        }
+        src_rect = {
+            8 * 64 + (player->getRight() ? 0 : 13) * 64 + int(temp_counter) * 64, 
+            192,
+            64,
+            64
+        };
+    } 
+
+    // No counter needed (dash)
+    if (player->getOnDash())
+    {
+        src_rect = {
+            8 * 64 + (player->getRight() ? 0 : 13) * 64, 
+            128,
             64,
             64
         };
@@ -168,16 +195,57 @@ void Renderer::renderPlayer(Player *player, float dt)
     };
     SDL_RenderCopy(scene->getRenderer(), player->getTexture(), &src_rect, &des_rect);
 
+    // // Render the hitbox
+    // SDL_SetRenderDrawBlendMode(scene->getRenderer(), SDL_BLENDMODE_BLEND);
+    // SDL_SetRenderDrawColor(scene->getRenderer(), 255, 0, 0, 150);
+    // des_rect = {
+    //     cam->getRendX() + p_cam_offset_x, 
+    //     scene->getHeight() - player->getHeight() - cam->getRendY() - p_cam_offset_y, 
+    //     player->getWidth(),
+    //     player->getHeight()
+    // };
+    // SDL_RenderFillRect(scene->getRenderer(), &des_rect);
+}
+
+void Renderer::renderVertShooter(Player *player)
+{
+    idle_counter += scene->getDeltaTime() * 4;
+    if (idle_counter > 11) idle_counter = 0;
+    src_rect = {
+        (player->getRight() ? 0 : 13) * 64 + int(idle_counter) * 64, 
+        0,
+        64,
+        64
+    };
+
+    des_rect = {
+        int(player->getX()), 
+        scene->getHeight() - player->getGrid() - int(player->getY()), 
+        player->getGrid(), 
+        player->getGrid()
+    };
+    SDL_RenderCopy(scene->getRenderer(), player->getTexture(), &src_rect, &des_rect);
+
     // Render the hitbox
     SDL_SetRenderDrawBlendMode(scene->getRenderer(), SDL_BLENDMODE_BLEND);
     SDL_SetRenderDrawColor(scene->getRenderer(), 255, 0, 0, 150);
     des_rect = {
-        cam->getRendX() + p_cam_offset_x, 
-        scene->getHeight() - player->getHeight() - cam->getRendY() - p_cam_offset_y, 
-        player->getWidth(),
-        player->getHeight()
+        int(player->getX()), 
+        scene->getHeight() - player->getGrid() - int(player->getY()), 
+        player->getGrid(), 
+        player->getGrid()
     };
     SDL_RenderFillRect(scene->getRenderer(), &des_rect);
+}
+
+void Renderer::renderHoriShooter(Player *player)
+{
+    
+}
+
+void Renderer::renderRhythm(Player *player)
+{
+    
 }
 
 void Renderer::renderBackground(Stage *stage, Player *player)
@@ -234,6 +302,13 @@ void Renderer::renderStage(Stage *stage, Player *player)
     // Render projectiles
     for (Projectile *p : stage->getProjVec())
     {
+        // Skip projectiles that are outside of the screen
+        if (int(p->getGridX()) + delta_x < -p->getGrid() || 
+        scene->getHeight() - p->getGrid() - (int(p->getGridY()) + delta_y) > scene->getHeight() ||
+        int(p->getGridX()) + delta_x > scene->getWidth() + p->getGrid() ||
+        scene->getHeight() - p->getGrid() - (int(p->getGridY()) + delta_y) < -p->getGrid())
+            continue;
+
         des_rect = {
             int(p->getGridX()) + delta_x, 
             scene->getHeight() - p->getGrid() - (int(p->getGridY()) + delta_y), 

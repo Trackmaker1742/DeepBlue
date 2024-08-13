@@ -18,6 +18,11 @@ bool Player::getOnGround() { return on_ground; }
 void Player::setOnWall(bool ow) { on_wall = ow; }
 bool Player::getOnWall() { return on_wall; }
 
+bool Player::getOnDash() { return on_dash; }
+
+void Player::setDashHalt(bool dh) { dash_halt = dh; }
+bool Player::getDashHalt() { return dash_halt; }
+
 bool Player::getInvul() { return invul; }
 
 uint8_t Player::getLane() { return current_lane; }
@@ -64,7 +69,7 @@ void Player::initPlat(SDL_Renderer *renderer)
     // Velocity, acceleration
     vel_terminal = -getGrid() * 17;
     vel_x_max = getGrid() * 6;
-    setAccelX(getGrid() * 3);
+    setAccelX(getGrid() * 4);
     setAccelY(-getGrid() * 30);
 
     // Dash
@@ -95,8 +100,51 @@ void Player::initPlat(SDL_Renderer *renderer)
     land = false;
     climb_up = false;
     climb_down = false;
+    dash_halt = false;
 
-    initTexture(renderer);
+    initTexture(platformer_path, renderer);
+}
+
+void Player::initVertShooter(SDL_Renderer *renderer)
+{
+    setGrid(128);
+
+    // Invul period after taking damage
+    invul = false;
+    invul_counter = 0;
+    invul_frame_max = game_fps;
+
+    // Attack
+    shooter_can_atk = true;
+    shooter_atk_counter = 0;
+    shooter_atk_delay = game_fps / 4;
+
+    // Player status
+    level = 0;
+
+    initTexture(vert_shooter_path, renderer);
+}
+
+void Player::initHoriShooter(SDL_Renderer *renderer)
+{
+    setGrid(256);
+
+    // Invul period after taking damage
+    invul = false;
+    invul_counter = 0;
+    invul_frame_max = game_fps;
+
+    // Attack
+    shooter_can_atk = true;
+    shooter_atk_counter = 0;
+    shooter_atk_delay = game_fps / 3;
+
+    // Player status
+    health = 3;
+    energy = 0;
+    dark = true;
+
+    initTexture(hori_shooter_path, renderer);
 }
 
 void Player::initRhythm(SDL_Renderer *renderer)
@@ -126,49 +174,7 @@ void Player::initRhythm(SDL_Renderer *renderer)
     rhythm_atk_frame_max = game_fps / 5;
     rhythm_atk_grid = 96;   // 1.5 times the size of a normal grid
 
-    initTexture(renderer);
-}
-
-void Player::initVertShooter(SDL_Renderer *renderer)
-{
-    setGrid(52);
-
-    // Invul period after taking damage
-    invul = false;
-    invul_counter = 0;
-    invul_frame_max = game_fps;
-
-    // Attack
-    shooter_can_atk = true;
-    shooter_atk_counter = 0;
-    shooter_atk_delay = game_fps / 4;
-
-    // Player status
-    level = 0;
-
-    initTexture(renderer);
-}
-
-void Player::initHoriShooter(SDL_Renderer *renderer)
-{
-    setGrid(104);
-
-    // Invul period after taking damage
-    invul = false;
-    invul_counter = 0;
-    invul_frame_max = game_fps;
-
-    // Attack
-    shooter_can_atk = true;
-    shooter_atk_counter = 0;
-    shooter_atk_delay = game_fps / 3;
-
-    // Player status
-    health = 3;
-    energy = 0;
-    dark = true;
-
-    initTexture(renderer);
+    initTexture(rhythm_path, renderer);
 }
 
 // Player platformer movement
@@ -371,6 +377,7 @@ void Player::platformerMvt(Input *input, float dt)
             on_dash = false;
             on_dash_delay = true;
             setVelX((right ? 1 : -1) * vel_x_max);
+            dash_halt = true;
         }
     } 
     if (on_dash_delay)
@@ -571,22 +578,22 @@ void Player::shooterMvt(Input *input, float dt)
     if (input->getPress(0) && 
     !input->getPress(1) && !input->getPress(2) && !input->getPress(3))
     {
-        setY(getY() + getGrid() * 10 * dt);
+        setY(getY() + getGrid() * 5 * dt);
     }
     if (input->getPress(1) &&
     !input->getPress(0) && !input->getPress(2) && !input->getPress(3))
     {
-        setY(getY() - getGrid() * 10 * dt);
+        setY(getY() - getGrid() * 5 * dt);
     }
     if (input->getPress(2) &&
     !input->getPress(1) && !input->getPress(0) && !input->getPress(3))
     {
-        setX(getX() - getGrid() * 10 * dt);
+        setX(getX() - getGrid() * 5 * dt);
     }
     if (input->getPress(3) &&
     !input->getPress(1) && !input->getPress(2) && !input->getPress(0))
     {
-        setX(getX() + getGrid() * 10 * dt);
+        setX(getX() + getGrid() * 5 * dt);
     }
 
     // The other 4 diagonal movement
@@ -594,29 +601,29 @@ void Player::shooterMvt(Input *input, float dt)
     if (input->getPress(0) && 
     !input->getPress(1) && input->getPress(2) && !input->getPress(3))
     {
-        setY(getY() + getGrid() * 7 * dt);
-        setX(getX() - getGrid() * 7 * dt);
+        setY(getY() + getGrid() * 3.5 * dt);
+        setX(getX() - getGrid() * 3.5 * dt);
     }
     // Up right
     if (input->getPress(0) && 
     !input->getPress(1) && !input->getPress(2) && input->getPress(3))
     {
-        setY(getY() + getGrid() * 7 * dt);
-        setX(getX() + getGrid() * 7 * dt);
+        setY(getY() + getGrid() * 3.5 * dt);
+        setX(getX() + getGrid() * 3.5 * dt);
     }
     // Down left
     if (!input->getPress(0) && 
     input->getPress(1) && input->getPress(2) && !input->getPress(3))
     {
-        setY(getY() - getGrid() * 7 * dt);
-        setX(getX() - getGrid() * 7 * dt);
+        setY(getY() - getGrid() * 3.5 * dt);
+        setX(getX() - getGrid() * 3.5 * dt);
     }
     // Down right
     if (!input->getPress(0) && 
     input->getPress(1) && !input->getPress(2) && input->getPress(3))
     {
-        setY(getY() - getGrid() * 7 * dt);
-        setX(getX() + getGrid() * 7 * dt);
+        setY(getY() - getGrid() * 3.5 * dt);
+        setX(getX() + getGrid() * 3.5 * dt);
     }
 }
 // Different attack style

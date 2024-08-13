@@ -54,9 +54,28 @@ int main(int argc, char *argv[])
     stage->initPlatAll("data/stage1.csv");
 
     // Player
-    Player *player = new Player(scene->getFPS(), stage->getRespX(), stage->getRespY(), "res/Player Sprites/sheet.png");
-    player->initPlat(scene->getRenderer());
-    // player->initRhythm(scene->getRenderer());
+    Player *player = new Player(scene->getFPS(), stage->getRespX(), stage->getRespY());
+    switch (scene->getState())
+    {
+        // Platforming init
+        case 6:
+            player->initPlat(scene->getRenderer());
+        break;
+        // Vertical shooter init
+        case 7:
+            player->initVertShooter(scene->getRenderer());
+        break;
+        // Horizontal shooter init
+        case 8:
+            player->initHoriShooter(scene->getRenderer());
+        break;
+        // Rhythm init
+        case 9:
+            player->initRhythm(scene->getRenderer());
+        break;
+        default:
+        break;
+    }
 
     // Collision checker
     Collision *colli = new Collision();
@@ -129,7 +148,7 @@ int main(int argc, char *argv[])
                 cam->updatePlatCam(player, scene->getDeltaTime());
                 // Render stuff
                 renderer->renderStage(stage, player);
-                renderer->renderPlayer(player, scene->getDeltaTime());
+                renderer->renderPlatformer(player);
             break;
 
             // WIP
@@ -137,6 +156,7 @@ int main(int argc, char *argv[])
             case 7:
                 player->shooterMvt(input, scene->getDeltaTime());
                 renderer->renderStage(stage, player);
+                renderer->renderVertShooter(player);
             break;
             // Horizontal shooting stage
             case 8:
@@ -328,3 +348,8 @@ int main(int argc, char *argv[])
 // Test stage for rhythm mode
 // Breakable block testing
 // Test stage for shooter
+
+// Player sprites are basically perfect now, I only have the effects left
+// Will do the effects waaaaaay later, I need to work on shotter mode first
+
+// Effects now

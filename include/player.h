@@ -119,6 +119,13 @@ private:
     bool land;
     bool climb_up;
     bool climb_down;
+    bool dash_halt;
+
+    // Sprite paths
+    const char *platformer_path = "res/Character Sheets/nakuru_sheet.png";
+    const char *vert_shooter_path = "res/Character Sheets/itsuki_sheet.png";
+    const char *hori_shooter_path = "res/Character Sheets/nayuta_sheet.png";
+    const char *rhythm_path = "res/Character Sheets/sky_delta_sheet.png";
 
 public:
     Player(uint8_t fps, float X = 0, float Y = 0, const char *P = "");
@@ -136,6 +143,11 @@ public:
 
     void setOnWall(bool ow);
     bool getOnWall();
+
+    bool getOnDash();
+
+    void setDashHalt(bool dh);
+    bool getDashHalt();
 
     bool getInvul();
 
@@ -168,7 +180,7 @@ public:
     bool getLand();
     bool getClimbUp();
     bool getClimbDown();
-
+    
     void initPlat(SDL_Renderer *renderer);      // Used to init and reinit all the values related to 
                                                 // fps or scaling (grid size) to dynamically change settings 
     void initRhythm(SDL_Renderer *renderer);

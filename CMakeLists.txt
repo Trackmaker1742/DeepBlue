@@ -22,13 +22,6 @@ file(COPY ${DATA} DESTINATION ${CMAKE_BINARY_DIR})
 set(RES ${PROJECT_SOURCE_DIR}/res)
 file(COPY ${RES} DESTINATION ${CMAKE_BINARY_DIR})
 
-# .dll files
-set(DLLS
-    SDL2_image.dll
-    SDL2_mixer.dll
-    SDL2.dll
-)
-
 add_executable(DeepBlue
     src/audio.cpp
     src/block.cpp

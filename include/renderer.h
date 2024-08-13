@@ -36,7 +36,11 @@ private:
 public:
     Renderer(Scene *sc, Camera *c);
 
-    void renderPlayer(Player *player, float dt);
+    void renderPlatformer(Player *player);
+    void renderVertShooter(Player *player);
+    void renderHoriShooter(Player *player);
+    void renderRhythm(Player *player);
+
     void renderBackground(Stage *stage, Player *player);
     void renderStage(Stage *stage, Player *player);
 

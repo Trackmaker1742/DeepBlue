@@ -39,6 +39,17 @@ void Object2d::initTexture(SDL_Renderer *renderer)
     SDL_FreeSurface(surface);
     SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
 }
+void Object2d::initTexture(const char *p, SDL_Renderer *renderer)
+{
+    // Empty path check
+    if (p == "") return;
+
+    // Load sprite into texture
+    surface = IMG_Load(p);
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_FreeSurface(surface);
+    SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
+}
 
 Object2d::~Object2d()
 { 
