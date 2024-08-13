@@ -35,6 +35,7 @@ void Camera::updateRhyCam(Player *player, float dt)
 {
     // Adjust to the x position and maintain it across all 3 lanes
     setX(getX() + player->getRhySpeed() * dt);
+    std::cout << getX() + player->getRhySpeed() * dt << "\n";
 }
 
 Camera::~Camera()

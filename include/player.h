@@ -190,15 +190,15 @@ public:
     // Player platformer movement
     void platformerMvt(Input *input, float dt);
 
-    // Player rhythm movement
-    void rhythmMvt(Input *input, float dt);
-
     // Player shooter movement
     // Same physics
     void shooterMvt(Input *input, float dt);
     // Different attack style
     void shooterVertAtk(SDL_Renderer *renderer, Input *input, Projectile *proj, float dt);
     void shooterHoriAtk(SDL_Renderer *renderer, Input *input, Projectile *proj, float dt);
+
+    // Player rhythm movement
+    void rhythmMvt(Input *input, float dt);
 
     ~Player();
 };

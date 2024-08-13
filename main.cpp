@@ -162,12 +162,14 @@ int main(int argc, char *argv[])
             case 8:
                 player->shooterMvt(input, scene->getDeltaTime());
                 renderer->renderStage(stage, player);
+                renderer->renderHoriShooter(player);
             break;
             // Rhythm stage
             case 9:
                 player->rhythmMvt(input, scene->getDeltaTime());
                 cam->updateRhyCam(player, scene->getDeltaTime());
                 renderer->renderStage(stage, player);
+                renderer->renderRhythm(player);
             break;
             // Cutscenes
             case 10:

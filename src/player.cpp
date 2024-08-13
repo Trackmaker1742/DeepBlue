@@ -127,7 +127,7 @@ void Player::initVertShooter(SDL_Renderer *renderer)
 
 void Player::initHoriShooter(SDL_Renderer *renderer)
 {
-    setGrid(256);
+    setGrid(128);
 
     // Invul period after taking damage
     invul = false;
@@ -149,7 +149,7 @@ void Player::initHoriShooter(SDL_Renderer *renderer)
 
 void Player::initRhythm(SDL_Renderer *renderer)
 {
-    setGrid(256);
+    setGrid(128);
 
     on_ground = false;
 
@@ -167,7 +167,7 @@ void Player::initRhythm(SDL_Renderer *renderer)
     // Attack
     rhythm_bar = 0;
     rhythm_bar_regen_rate = 8;
-    rhythm_speed = getGrid() * 8;
+    rhythm_speed = getGrid();
     rhythm_can_atk = false;
     rhythm_atk = false;
     rhythm_atk_counter = 0;
@@ -410,6 +410,111 @@ void Player::platformerMvt(Input *input, float dt)
     // }
 }
 
+// Player shooter movement
+// Same physics
+void Player::shooterMvt(Input *input, float dt)
+{
+    // The other 4 diagonal movement
+    // Up left
+    if (input->getPress(0) && 
+    !input->getPress(1) && input->getPress(2) && !input->getPress(3))
+    {
+        right = false;
+        setY(getY() + getGrid() * 3.5 * dt);
+        setX(getX() - getGrid() * 3.5 * dt);
+        return;
+    }
+    // Up right
+    if (input->getPress(0) && 
+    !input->getPress(1) && !input->getPress(2) && input->getPress(3))
+    {
+        right = true;
+        setY(getY() + getGrid() * 3.5 * dt);
+        setX(getX() + getGrid() * 3.5 * dt);
+        return;
+    }
+    // Down left
+    if (!input->getPress(0) && 
+    input->getPress(1) && input->getPress(2) && !input->getPress(3))
+    {
+        right = false;
+        setY(getY() - getGrid() * 3.5 * dt);
+        setX(getX() - getGrid() * 3.5 * dt);
+        return;
+    }
+    // Down right
+    if (!input->getPress(0) && 
+    input->getPress(1) && !input->getPress(2) && input->getPress(3))
+    {
+        right = true;
+        setY(getY() - getGrid() * 3.5 * dt);
+        setX(getX() + getGrid() * 3.5 * dt);
+        return;
+    }
+
+    // 4 directional movement
+    if (input->getPress(0) && 
+    !input->getPress(1) && !input->getPress(2) && !input->getPress(3))
+    {
+        setY(getY() + getGrid() * 5 * dt);
+        return;
+    }
+    if (input->getPress(1) &&
+    !input->getPress(0) && !input->getPress(2) && !input->getPress(3))
+    {
+        setY(getY() - getGrid() * 5 * dt);
+        return;
+    }
+    if (input->getPress(2) &&
+    !input->getPress(1) && !input->getPress(0) && !input->getPress(3))
+    {
+        right = false;
+        setX(getX() - getGrid() * 5 * dt);
+        return;
+    }
+    if (input->getPress(3) &&
+    !input->getPress(1) && !input->getPress(2) && !input->getPress(0))
+    {
+        right = true;
+        setX(getX() + getGrid() * 5 * dt);
+        return;
+    }
+}
+// Different attack style
+void Player::shooterVertAtk(SDL_Renderer *renderer, Input *input, Projectile *proj, float dt)
+{
+    // Allows for hold, no need to spam attack to shoot
+    // An interval of half a second for default projectile speed
+    // and a quarter of a second for stage 1 and beyond
+    if (input->getPress(6) && shooter_can_atk)
+    {
+        Projectile *proj = new Projectile(getX() + 24, getY() + getGrid(), "res/Player Sprites/Drool.png");
+        proj->initStraightProj(renderer, true);
+        shooter_can_atk = false;
+    }
+    if (!shooter_can_atk)
+    {
+        shooter_atk_counter++;
+        if (shooter_atk_counter >= shooter_atk_delay) shooter_can_atk = true;
+    }
+}
+void Player::shooterHoriAtk(SDL_Renderer *renderer, Input *input, Projectile *proj, float dt)
+{
+    // Allows for hold, no need to spam attack to shoot
+    // An interval of half one third of a second for projectile
+    if (input->getPress(6) && shooter_can_atk)
+    {
+        // Projectile spawn coordinates tbd, as the sprite isn't done yet
+        // Projectile *proj = new Projectile();
+        // proj->initStraightProj()
+    }
+    if (!shooter_can_atk)
+    {
+        shooter_atk_counter++;
+        if (shooter_atk_counter >= shooter_atk_delay) shooter_can_atk = true;
+    }
+}
+
 // Player rhythm movement
 void Player::rhythmMvt(Input *input, float dt)
 {
@@ -463,11 +568,11 @@ void Player::rhythmMvt(Input *input, float dt)
     // Left and right movement
     if (!on_dash && input->getPress(2))
     {
-        setVelX(getVelX() - getGrid() * 4);
+        setVelX(getVelX() - getGrid() * 2);
     }
     if (!on_dash && input->getPress(3))
     {
-        setVelX(getVelX() + getGrid() * 4);
+        setVelX(getVelX() + getGrid() * 2);
     }
     // Dash
     if (input->getPress(5) && can_dash && !on_dash)
@@ -501,7 +606,8 @@ void Player::rhythmMvt(Input *input, float dt)
         }
     }
     // Horizontal movement calculation
-    setX(getX() + getVelX() * dt);  
+    setX(getX() + rhythm_speed * dt);  
+    std::cout << getX() + rhythm_speed * dt << " ";
 
     // Vertical movement + gravity
     // Jump
@@ -564,100 +670,6 @@ void Player::rhythmMvt(Input *input, float dt)
     {
         invul_counter++;
         if (invul_counter >= invul_frame_max) invul = false;
-    }
-}
-
-// Player shooter movement
-// Same physics
-void Player::shooterMvt(Input *input, float dt)
-{
-    // Gotta handle dual input, huh
-    // Diagonal movement needs to be controlled
-
-    // 4 directional movement
-    if (input->getPress(0) && 
-    !input->getPress(1) && !input->getPress(2) && !input->getPress(3))
-    {
-        setY(getY() + getGrid() * 5 * dt);
-    }
-    if (input->getPress(1) &&
-    !input->getPress(0) && !input->getPress(2) && !input->getPress(3))
-    {
-        setY(getY() - getGrid() * 5 * dt);
-    }
-    if (input->getPress(2) &&
-    !input->getPress(1) && !input->getPress(0) && !input->getPress(3))
-    {
-        setX(getX() - getGrid() * 5 * dt);
-    }
-    if (input->getPress(3) &&
-    !input->getPress(1) && !input->getPress(2) && !input->getPress(0))
-    {
-        setX(getX() + getGrid() * 5 * dt);
-    }
-
-    // The other 4 diagonal movement
-    // Up left
-    if (input->getPress(0) && 
-    !input->getPress(1) && input->getPress(2) && !input->getPress(3))
-    {
-        setY(getY() + getGrid() * 3.5 * dt);
-        setX(getX() - getGrid() * 3.5 * dt);
-    }
-    // Up right
-    if (input->getPress(0) && 
-    !input->getPress(1) && !input->getPress(2) && input->getPress(3))
-    {
-        setY(getY() + getGrid() * 3.5 * dt);
-        setX(getX() + getGrid() * 3.5 * dt);
-    }
-    // Down left
-    if (!input->getPress(0) && 
-    input->getPress(1) && input->getPress(2) && !input->getPress(3))
-    {
-        setY(getY() - getGrid() * 3.5 * dt);
-        setX(getX() - getGrid() * 3.5 * dt);
-    }
-    // Down right
-    if (!input->getPress(0) && 
-    input->getPress(1) && !input->getPress(2) && input->getPress(3))
-    {
-        setY(getY() - getGrid() * 3.5 * dt);
-        setX(getX() + getGrid() * 3.5 * dt);
-    }
-}
-// Different attack style
-void Player::shooterVertAtk(SDL_Renderer *renderer, Input *input, Projectile *proj, float dt)
-{
-    // Allows for hold, no need to spam attack to shoot
-    // An interval of half a second for default projectile speed
-    // and a quarter of a second for stage 1 and beyond
-    if (input->getPress(6) && shooter_can_atk)
-    {
-        Projectile *proj = new Projectile(getX() + 24, getY() + getGrid(), "res/Player Sprites/Drool.png");
-        proj->initStraightProj(renderer, true);
-        shooter_can_atk = false;
-    }
-    if (!shooter_can_atk)
-    {
-        shooter_atk_counter++;
-        if (shooter_atk_counter >= shooter_atk_delay) shooter_can_atk = true;
-    }
-}
-void Player::shooterHoriAtk(SDL_Renderer *renderer, Input *input, Projectile *proj, float dt)
-{
-    // Allows for hold, no need to spam attack to shoot
-    // An interval of half one third of a second for projectile
-    if (input->getPress(6) && shooter_can_atk)
-    {
-        // Projectile spawn coordinates tbd, as the sprite isn't done yet
-        // Projectile *proj = new Projectile();
-        // proj->initStraightProj()
-    }
-    if (!shooter_can_atk)
-    {
-        shooter_atk_counter++;
-        if (shooter_atk_counter >= shooter_atk_delay) shooter_can_atk = true;
     }
 }
 
