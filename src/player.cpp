@@ -361,7 +361,7 @@ void Player::platformerMvt(Input *input, float dt)
     }
 
     // Dash
-    if (input->getPress(5) && can_dash && !on_dash)
+    if (input->getPress(5) && can_dash && !on_dash && !on_wall)
     {
         input->setHold(5, false);
         can_dash = false;

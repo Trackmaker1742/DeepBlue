@@ -353,3 +353,5 @@ int main(int argc, char *argv[])
 // Will do the effects waaaaaay later, I need to work on shotter mode first
 
 // Effects now
+// I don't think I need an extra class, 
+// I can have the effect plays right after the action, in renderer

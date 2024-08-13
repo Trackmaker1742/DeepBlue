@@ -25,6 +25,12 @@
 },
 {
   "directory": "C:/Users/huutu/OneDrive/Desktop/DeepBlue/build",
+  "command": "C:/Media/Environments/msys64/mingw64/bin/c++.exe  @CMakeFiles/DeepBlue.dir/includes_CXX.rsp -g -std=gnu++20 -o CMakeFiles/DeepBlue.dir/src/effect.cpp.obj -c C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/effect.cpp",
+  "file": "C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/effect.cpp",
+  "output": "CMakeFiles/DeepBlue.dir/src/effect.cpp.obj"
+},
+{
+  "directory": "C:/Users/huutu/OneDrive/Desktop/DeepBlue/build",
   "command": "C:/Media/Environments/msys64/mingw64/bin/c++.exe  @CMakeFiles/DeepBlue.dir/includes_CXX.rsp -g -std=gnu++20 -o CMakeFiles/DeepBlue.dir/src/enemy.cpp.obj -c C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/enemy.cpp",
   "file": "C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/enemy.cpp",
   "output": "CMakeFiles/DeepBlue.dir/src/enemy.cpp.obj"

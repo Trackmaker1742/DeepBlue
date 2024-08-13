@@ -13,6 +13,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/block.cpp" "CMakeFiles/DeepBlue.dir/src/block.cpp.obj" "gcc" "CMakeFiles/DeepBlue.dir/src/block.cpp.obj.d"
   "C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/camera.cpp" "CMakeFiles/DeepBlue.dir/src/camera.cpp.obj" "gcc" "CMakeFiles/DeepBlue.dir/src/camera.cpp.obj.d"
   "C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/collision.cpp" "CMakeFiles/DeepBlue.dir/src/collision.cpp.obj" "gcc" "CMakeFiles/DeepBlue.dir/src/collision.cpp.obj.d"
+  "C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/effect.cpp" "CMakeFiles/DeepBlue.dir/src/effect.cpp.obj" "gcc" "CMakeFiles/DeepBlue.dir/src/effect.cpp.obj.d"
   "C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/enemy.cpp" "CMakeFiles/DeepBlue.dir/src/enemy.cpp.obj" "gcc" "CMakeFiles/DeepBlue.dir/src/enemy.cpp.obj.d"
   "C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/file_handler.cpp" "CMakeFiles/DeepBlue.dir/src/file_handler.cpp.obj" "gcc" "CMakeFiles/DeepBlue.dir/src/file_handler.cpp.obj.d"
   "C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/input.cpp" "CMakeFiles/DeepBlue.dir/src/input.cpp.obj" "gcc" "CMakeFiles/DeepBlue.dir/src/input.cpp.obj.d"

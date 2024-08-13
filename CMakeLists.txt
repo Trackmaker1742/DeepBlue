@@ -27,6 +27,7 @@ add_executable(DeepBlue
     src/block.cpp
     src/camera.cpp
     src/collision.cpp
+    src/effect.cpp
     src/enemy.cpp
     src/file_handler.cpp
     src/input.cpp

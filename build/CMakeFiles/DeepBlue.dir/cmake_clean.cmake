@@ -9,6 +9,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/DeepBlue.dir/src/camera.cpp.obj.d"
   "CMakeFiles/DeepBlue.dir/src/collision.cpp.obj"
   "CMakeFiles/DeepBlue.dir/src/collision.cpp.obj.d"
+  "CMakeFiles/DeepBlue.dir/src/effect.cpp.obj"
+  "CMakeFiles/DeepBlue.dir/src/effect.cpp.obj.d"
   "CMakeFiles/DeepBlue.dir/src/enemy.cpp.obj"
   "CMakeFiles/DeepBlue.dir/src/enemy.cpp.obj.d"
   "CMakeFiles/DeepBlue.dir/src/file_handler.cpp.obj"

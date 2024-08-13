@@ -1,6 +1,7 @@
-CMakeFiles/DeepBlue.dir/src/renderer.cpp.obj: \
- C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/renderer.cpp \
- C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/renderer.h \
+CMakeFiles/DeepBlue.dir/src/effect.cpp.obj: \
+ C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/effect.cpp \
+ C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/effect.h \
+ C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/object2d.h \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL.h \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_main.h \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_stdinc.h \
@@ -326,41 +327,4 @@ CMakeFiles/DeepBlue.dir/src/renderer.cpp.obj: \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/basic_ios.tcc \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/ostream.tcc \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/istream \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/istream.tcc \
- C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/object2d.h \
- C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/camera.h \
- C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/player.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/math.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/cmath \
- C:/Media/Environments/msys64/mingw64/include/math.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/specfun.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/limits \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/tr1/gamma.tcc \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/tr1/special_function_util.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/tr1/bessel_function.tcc \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/tr1/beta_function.tcc \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/tr1/ell_integral.tcc \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/tr1/exp_integral.tcc \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/tr1/hypergeometric.tcc \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/tr1/legendre_function.tcc \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/tr1/modified_bessel_func.tcc \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/tr1/poly_hermite.tcc \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/tr1/poly_laguerre.tcc \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/tr1/riemann_zeta.tcc \
- C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/projectile.h \
- C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/audio.h \
- C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_mixer.h \
- C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/stage.h \
- C:/Media/Environments/msys64/mingw64/include/string.h \
- C:/Media/Environments/msys64/mingw64/include/sec_api/string_s.h \
- C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/file_handler.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/fstream \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/codecvt.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/x86_64-w64-mingw32/bits/basic_file.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/x86_64-w64-mingw32/bits/c++io.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/fstream.tcc \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/sstream \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/sstream.tcc \
- C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/block.h \
- C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/enemy.h \
- C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/effect.h
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/istream.tcc

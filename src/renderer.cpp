@@ -110,6 +110,12 @@ void Renderer::renderPlatformer(Player *player)
     // (jump start, peak jump height, landing)
     if (player->getJumpStart())
     {
+        if (!jump_anchor && player->getOnGround())
+        {
+            player_jump_x = player->getX();
+            player_jump_y = player->getY();
+            jump_anchor = true;
+        }
         temp_counter += scene->getDeltaTime() * 25;
         if (temp_counter > 2)
         {
@@ -159,6 +165,23 @@ void Renderer::renderPlatformer(Player *player)
             64
         };
     }
+    if (player->getOnDash())
+    {
+        if (!dash_anchor)
+        {
+            player_dash_x = player->getX();
+            player_dash_y = player->getY();
+            player_temp_right = player->getRight();
+            player_temp_on_ground = player->getOnGround();
+            dash_anchor = true;
+        }
+        src_rect = {
+            8 * 64 + (player->getRight() ? 0 : 13) * 64, 
+            128,
+            64,
+            64
+        };
+    }
     if (player->getDashHalt())
     {
         temp_counter += scene->getDeltaTime() * 10;
@@ -175,18 +198,40 @@ void Renderer::renderPlatformer(Player *player)
             64
         };
     } 
-
-    // No counter needed (dash)
-    if (player->getOnDash())
+    // Dash effect processing
+    if (dash_anchor)
     {
-        src_rect = {
-            8 * 64 + (player->getRight() ? 0 : 13) * 64, 
-            128,
+        dash_effect_counter += scene->getDeltaTime() * 10;
+        if (dash_effect_counter > 3)
+        {
+            dash_effect_counter = 0;
+            dash_anchor = false;
+        }
+        src_rect_d = {
+            (player_temp_on_ground ? 0 : 4) * 64 + (player_temp_right ? 0 : 13) * 64 + int(dash_effect_counter) * 64,
+            256,
+            64,
+            64
+        };
+    }
+    // Jump effect processing
+    if (jump_anchor)
+    {
+        jump_effect_counter += scene->getDeltaTime() * 10;
+        if (jump_effect_counter > 4)
+        {
+            jump_effect_counter = 0;
+            jump_anchor = false;
+        }
+        src_rect_j = {
+            12 * 64,
+            int(jump_effect_counter) * 64,
             64,
             64
         };
     }
 
+    // Render sprites
     des_rect = {
         cam->getRendX() + r_cam_offset_x, 
         scene->getHeight() - player->getGrid() - cam->getRendY() - r_cam_offset_y, 
@@ -194,17 +239,40 @@ void Renderer::renderPlatformer(Player *player)
         player->getGrid()
     };
     SDL_RenderCopy(scene->getRenderer(), player->getTexture(), &src_rect, &des_rect);
+    // Render effects
+    // Dash effect
+    if (dash_anchor)
+    {
+        des_rect_d = {
+            cam->getRendX() + int(player_dash_x - (player_temp_right ? player->getGrid() * 0.75 : (-player->getWidth() + player->getGrid() * 0.25)) - cam->getX()), 
+            scene->getHeight() - player->getGrid() - cam->getRendY() - int(player_dash_y - cam->getY()) + int(player_temp_on_ground ? 0 : player->getGrid() * 0.2), 
+            player->getGrid(), 
+            player->getGrid()
+        };
+        SDL_RenderCopy(scene->getRenderer(), player->getTexture(), &src_rect_d, &des_rect_d);
+    }
+    // Jump effect
+    if (jump_anchor)
+    {
+        des_rect_j = {
+            cam->getRendX() + int(player_jump_x - player->getWidth() * 3/4 - cam->getX()), 
+            scene->getHeight() - player->getGrid() - cam->getRendY() - int(player_jump_y - cam->getY()), 
+            player->getGrid(), 
+            player->getGrid()
+        };
+        SDL_RenderCopy(scene->getRenderer(), player->getTexture(), &src_rect_j, &des_rect_j);
+    }
 
-    // // Render the hitbox
-    // SDL_SetRenderDrawBlendMode(scene->getRenderer(), SDL_BLENDMODE_BLEND);
-    // SDL_SetRenderDrawColor(scene->getRenderer(), 255, 0, 0, 150);
-    // des_rect = {
-    //     cam->getRendX() + p_cam_offset_x, 
-    //     scene->getHeight() - player->getHeight() - cam->getRendY() - p_cam_offset_y, 
-    //     player->getWidth(),
-    //     player->getHeight()
-    // };
-    // SDL_RenderFillRect(scene->getRenderer(), &des_rect);
+    // Render the hitbox
+    SDL_SetRenderDrawBlendMode(scene->getRenderer(), SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(scene->getRenderer(), 255, 0, 0, 150);
+    des_rect = {
+        cam->getRendX() + p_cam_offset_x, 
+        scene->getHeight() - player->getHeight() - cam->getRendY() - p_cam_offset_y, 
+        player->getWidth(),
+        player->getHeight()
+    };
+    SDL_RenderFillRect(scene->getRenderer(), &des_rect);
 }
 
 void Renderer::renderVertShooter(Player *player)
@@ -250,7 +318,7 @@ void Renderer::renderRhythm(Player *player)
 
 void Renderer::renderBackground(Stage *stage, Player *player)
 {
-    // Set anchor for moving bg
+    // Set dash_anchor for moving bg
     if (!init_x) 
     {
         initial_x = stage->getRespX();

@@ -505,6 +505,7 @@ CMakeFiles/DeepBlue.dir/main.cpp.obj: \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/sstream.tcc \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/block.h \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/enemy.h \
+ C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/effect.h \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/file_handler.h \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/object2d.h \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/camera.h \

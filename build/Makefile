@@ -249,6 +249,30 @@ src/collision.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeepBlue.dir/build.make CMakeFiles/DeepBlue.dir/src/collision.cpp.s
 .PHONY : src/collision.cpp.s
 
+src/effect.obj: src/effect.cpp.obj
+.PHONY : src/effect.obj
+
+# target to build an object file
+src/effect.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeepBlue.dir/build.make CMakeFiles/DeepBlue.dir/src/effect.cpp.obj
+.PHONY : src/effect.cpp.obj
+
+src/effect.i: src/effect.cpp.i
+.PHONY : src/effect.i
+
+# target to preprocess a source file
+src/effect.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeepBlue.dir/build.make CMakeFiles/DeepBlue.dir/src/effect.cpp.i
+.PHONY : src/effect.cpp.i
+
+src/effect.s: src/effect.cpp.s
+.PHONY : src/effect.s
+
+# target to generate assembly for a file
+src/effect.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/DeepBlue.dir/build.make CMakeFiles/DeepBlue.dir/src/effect.cpp.s
+.PHONY : src/effect.cpp.s
+
 src/enemy.obj: src/enemy.cpp.obj
 .PHONY : src/enemy.obj
 
@@ -489,6 +513,9 @@ help:
 	@echo "... src/collision.obj"
 	@echo "... src/collision.i"
 	@echo "... src/collision.s"
+	@echo "... src/effect.obj"
+	@echo "... src/effect.i"
+	@echo "... src/effect.s"
 	@echo "... src/enemy.obj"
 	@echo "... src/enemy.i"
 	@echo "... src/enemy.s"

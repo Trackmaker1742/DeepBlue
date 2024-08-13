@@ -129,11 +129,26 @@ CMakeFiles/DeepBlue.dir/src/collision.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/DeepBlue.dir/src/collision.cpp.s"
 	C:/Media/Environments/msys64/mingw64/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/collision.cpp -o CMakeFiles/DeepBlue.dir/src/collision.cpp.s
 
+CMakeFiles/DeepBlue.dir/src/effect.cpp.obj: CMakeFiles/DeepBlue.dir/flags.make
+CMakeFiles/DeepBlue.dir/src/effect.cpp.obj: CMakeFiles/DeepBlue.dir/includes_CXX.rsp
+CMakeFiles/DeepBlue.dir/src/effect.cpp.obj: C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/effect.cpp
+CMakeFiles/DeepBlue.dir/src/effect.cpp.obj: CMakeFiles/DeepBlue.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/huutu/OneDrive/Desktop/DeepBlue/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/DeepBlue.dir/src/effect.cpp.obj"
+	C:/Media/Environments/msys64/mingw64/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/DeepBlue.dir/src/effect.cpp.obj -MF CMakeFiles/DeepBlue.dir/src/effect.cpp.obj.d -o CMakeFiles/DeepBlue.dir/src/effect.cpp.obj -c C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/effect.cpp
+
+CMakeFiles/DeepBlue.dir/src/effect.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/DeepBlue.dir/src/effect.cpp.i"
+	C:/Media/Environments/msys64/mingw64/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/effect.cpp > CMakeFiles/DeepBlue.dir/src/effect.cpp.i
+
+CMakeFiles/DeepBlue.dir/src/effect.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/DeepBlue.dir/src/effect.cpp.s"
+	C:/Media/Environments/msys64/mingw64/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/effect.cpp -o CMakeFiles/DeepBlue.dir/src/effect.cpp.s
+
 CMakeFiles/DeepBlue.dir/src/enemy.cpp.obj: CMakeFiles/DeepBlue.dir/flags.make
 CMakeFiles/DeepBlue.dir/src/enemy.cpp.obj: CMakeFiles/DeepBlue.dir/includes_CXX.rsp
 CMakeFiles/DeepBlue.dir/src/enemy.cpp.obj: C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/enemy.cpp
 CMakeFiles/DeepBlue.dir/src/enemy.cpp.obj: CMakeFiles/DeepBlue.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/huutu/OneDrive/Desktop/DeepBlue/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/DeepBlue.dir/src/enemy.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/huutu/OneDrive/Desktop/DeepBlue/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/DeepBlue.dir/src/enemy.cpp.obj"
 	C:/Media/Environments/msys64/mingw64/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/DeepBlue.dir/src/enemy.cpp.obj -MF CMakeFiles/DeepBlue.dir/src/enemy.cpp.obj.d -o CMakeFiles/DeepBlue.dir/src/enemy.cpp.obj -c C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/enemy.cpp
 
 CMakeFiles/DeepBlue.dir/src/enemy.cpp.i: cmake_force
@@ -148,7 +163,7 @@ CMakeFiles/DeepBlue.dir/src/file_handler.cpp.obj: CMakeFiles/DeepBlue.dir/flags.
 CMakeFiles/DeepBlue.dir/src/file_handler.cpp.obj: CMakeFiles/DeepBlue.dir/includes_CXX.rsp
 CMakeFiles/DeepBlue.dir/src/file_handler.cpp.obj: C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/file_handler.cpp
 CMakeFiles/DeepBlue.dir/src/file_handler.cpp.obj: CMakeFiles/DeepBlue.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/huutu/OneDrive/Desktop/DeepBlue/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/DeepBlue.dir/src/file_handler.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/huutu/OneDrive/Desktop/DeepBlue/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/DeepBlue.dir/src/file_handler.cpp.obj"
 	C:/Media/Environments/msys64/mingw64/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/DeepBlue.dir/src/file_handler.cpp.obj -MF CMakeFiles/DeepBlue.dir/src/file_handler.cpp.obj.d -o CMakeFiles/DeepBlue.dir/src/file_handler.cpp.obj -c C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/file_handler.cpp
 
 CMakeFiles/DeepBlue.dir/src/file_handler.cpp.i: cmake_force
@@ -163,7 +178,7 @@ CMakeFiles/DeepBlue.dir/src/input.cpp.obj: CMakeFiles/DeepBlue.dir/flags.make
 CMakeFiles/DeepBlue.dir/src/input.cpp.obj: CMakeFiles/DeepBlue.dir/includes_CXX.rsp
 CMakeFiles/DeepBlue.dir/src/input.cpp.obj: C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/input.cpp
 CMakeFiles/DeepBlue.dir/src/input.cpp.obj: CMakeFiles/DeepBlue.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/huutu/OneDrive/Desktop/DeepBlue/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/DeepBlue.dir/src/input.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/huutu/OneDrive/Desktop/DeepBlue/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/DeepBlue.dir/src/input.cpp.obj"
 	C:/Media/Environments/msys64/mingw64/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/DeepBlue.dir/src/input.cpp.obj -MF CMakeFiles/DeepBlue.dir/src/input.cpp.obj.d -o CMakeFiles/DeepBlue.dir/src/input.cpp.obj -c C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/input.cpp
 
 CMakeFiles/DeepBlue.dir/src/input.cpp.i: cmake_force
@@ -178,7 +193,7 @@ CMakeFiles/DeepBlue.dir/src/object2d.cpp.obj: CMakeFiles/DeepBlue.dir/flags.make
 CMakeFiles/DeepBlue.dir/src/object2d.cpp.obj: CMakeFiles/DeepBlue.dir/includes_CXX.rsp
 CMakeFiles/DeepBlue.dir/src/object2d.cpp.obj: C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/object2d.cpp
 CMakeFiles/DeepBlue.dir/src/object2d.cpp.obj: CMakeFiles/DeepBlue.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/huutu/OneDrive/Desktop/DeepBlue/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/DeepBlue.dir/src/object2d.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/huutu/OneDrive/Desktop/DeepBlue/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/DeepBlue.dir/src/object2d.cpp.obj"
 	C:/Media/Environments/msys64/mingw64/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/DeepBlue.dir/src/object2d.cpp.obj -MF CMakeFiles/DeepBlue.dir/src/object2d.cpp.obj.d -o CMakeFiles/DeepBlue.dir/src/object2d.cpp.obj -c C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/object2d.cpp
 
 CMakeFiles/DeepBlue.dir/src/object2d.cpp.i: cmake_force
@@ -193,7 +208,7 @@ CMakeFiles/DeepBlue.dir/src/player.cpp.obj: CMakeFiles/DeepBlue.dir/flags.make
 CMakeFiles/DeepBlue.dir/src/player.cpp.obj: CMakeFiles/DeepBlue.dir/includes_CXX.rsp
 CMakeFiles/DeepBlue.dir/src/player.cpp.obj: C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/player.cpp
 CMakeFiles/DeepBlue.dir/src/player.cpp.obj: CMakeFiles/DeepBlue.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/huutu/OneDrive/Desktop/DeepBlue/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/DeepBlue.dir/src/player.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/huutu/OneDrive/Desktop/DeepBlue/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/DeepBlue.dir/src/player.cpp.obj"
 	C:/Media/Environments/msys64/mingw64/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/DeepBlue.dir/src/player.cpp.obj -MF CMakeFiles/DeepBlue.dir/src/player.cpp.obj.d -o CMakeFiles/DeepBlue.dir/src/player.cpp.obj -c C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/player.cpp
 
 CMakeFiles/DeepBlue.dir/src/player.cpp.i: cmake_force
@@ -208,7 +223,7 @@ CMakeFiles/DeepBlue.dir/src/projectile.cpp.obj: CMakeFiles/DeepBlue.dir/flags.ma
 CMakeFiles/DeepBlue.dir/src/projectile.cpp.obj: CMakeFiles/DeepBlue.dir/includes_CXX.rsp
 CMakeFiles/DeepBlue.dir/src/projectile.cpp.obj: C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/projectile.cpp
 CMakeFiles/DeepBlue.dir/src/projectile.cpp.obj: CMakeFiles/DeepBlue.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/huutu/OneDrive/Desktop/DeepBlue/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/DeepBlue.dir/src/projectile.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/huutu/OneDrive/Desktop/DeepBlue/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/DeepBlue.dir/src/projectile.cpp.obj"
 	C:/Media/Environments/msys64/mingw64/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/DeepBlue.dir/src/projectile.cpp.obj -MF CMakeFiles/DeepBlue.dir/src/projectile.cpp.obj.d -o CMakeFiles/DeepBlue.dir/src/projectile.cpp.obj -c C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/projectile.cpp
 
 CMakeFiles/DeepBlue.dir/src/projectile.cpp.i: cmake_force
@@ -223,7 +238,7 @@ CMakeFiles/DeepBlue.dir/src/renderer.cpp.obj: CMakeFiles/DeepBlue.dir/flags.make
 CMakeFiles/DeepBlue.dir/src/renderer.cpp.obj: CMakeFiles/DeepBlue.dir/includes_CXX.rsp
 CMakeFiles/DeepBlue.dir/src/renderer.cpp.obj: C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/renderer.cpp
 CMakeFiles/DeepBlue.dir/src/renderer.cpp.obj: CMakeFiles/DeepBlue.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/huutu/OneDrive/Desktop/DeepBlue/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/DeepBlue.dir/src/renderer.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/huutu/OneDrive/Desktop/DeepBlue/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/DeepBlue.dir/src/renderer.cpp.obj"
 	C:/Media/Environments/msys64/mingw64/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/DeepBlue.dir/src/renderer.cpp.obj -MF CMakeFiles/DeepBlue.dir/src/renderer.cpp.obj.d -o CMakeFiles/DeepBlue.dir/src/renderer.cpp.obj -c C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/renderer.cpp
 
 CMakeFiles/DeepBlue.dir/src/renderer.cpp.i: cmake_force
@@ -238,7 +253,7 @@ CMakeFiles/DeepBlue.dir/src/scene.cpp.obj: CMakeFiles/DeepBlue.dir/flags.make
 CMakeFiles/DeepBlue.dir/src/scene.cpp.obj: CMakeFiles/DeepBlue.dir/includes_CXX.rsp
 CMakeFiles/DeepBlue.dir/src/scene.cpp.obj: C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/scene.cpp
 CMakeFiles/DeepBlue.dir/src/scene.cpp.obj: CMakeFiles/DeepBlue.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/huutu/OneDrive/Desktop/DeepBlue/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/DeepBlue.dir/src/scene.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/huutu/OneDrive/Desktop/DeepBlue/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/DeepBlue.dir/src/scene.cpp.obj"
 	C:/Media/Environments/msys64/mingw64/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/DeepBlue.dir/src/scene.cpp.obj -MF CMakeFiles/DeepBlue.dir/src/scene.cpp.obj.d -o CMakeFiles/DeepBlue.dir/src/scene.cpp.obj -c C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/scene.cpp
 
 CMakeFiles/DeepBlue.dir/src/scene.cpp.i: cmake_force
@@ -253,7 +268,7 @@ CMakeFiles/DeepBlue.dir/src/stage.cpp.obj: CMakeFiles/DeepBlue.dir/flags.make
 CMakeFiles/DeepBlue.dir/src/stage.cpp.obj: CMakeFiles/DeepBlue.dir/includes_CXX.rsp
 CMakeFiles/DeepBlue.dir/src/stage.cpp.obj: C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/stage.cpp
 CMakeFiles/DeepBlue.dir/src/stage.cpp.obj: CMakeFiles/DeepBlue.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/huutu/OneDrive/Desktop/DeepBlue/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/DeepBlue.dir/src/stage.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/huutu/OneDrive/Desktop/DeepBlue/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/DeepBlue.dir/src/stage.cpp.obj"
 	C:/Media/Environments/msys64/mingw64/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/DeepBlue.dir/src/stage.cpp.obj -MF CMakeFiles/DeepBlue.dir/src/stage.cpp.obj.d -o CMakeFiles/DeepBlue.dir/src/stage.cpp.obj -c C:/Users/huutu/OneDrive/Desktop/DeepBlue/src/stage.cpp
 
 CMakeFiles/DeepBlue.dir/src/stage.cpp.i: cmake_force
@@ -268,7 +283,7 @@ CMakeFiles/DeepBlue.dir/main.cpp.obj: CMakeFiles/DeepBlue.dir/flags.make
 CMakeFiles/DeepBlue.dir/main.cpp.obj: CMakeFiles/DeepBlue.dir/includes_CXX.rsp
 CMakeFiles/DeepBlue.dir/main.cpp.obj: C:/Users/huutu/OneDrive/Desktop/DeepBlue/main.cpp
 CMakeFiles/DeepBlue.dir/main.cpp.obj: CMakeFiles/DeepBlue.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/huutu/OneDrive/Desktop/DeepBlue/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/DeepBlue.dir/main.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:/Users/huutu/OneDrive/Desktop/DeepBlue/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/DeepBlue.dir/main.cpp.obj"
 	C:/Media/Environments/msys64/mingw64/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/DeepBlue.dir/main.cpp.obj -MF CMakeFiles/DeepBlue.dir/main.cpp.obj.d -o CMakeFiles/DeepBlue.dir/main.cpp.obj -c C:/Users/huutu/OneDrive/Desktop/DeepBlue/main.cpp
 
 CMakeFiles/DeepBlue.dir/main.cpp.i: cmake_force
@@ -285,6 +300,7 @@ DeepBlue_OBJECTS = \
 "CMakeFiles/DeepBlue.dir/src/block.cpp.obj" \
 "CMakeFiles/DeepBlue.dir/src/camera.cpp.obj" \
 "CMakeFiles/DeepBlue.dir/src/collision.cpp.obj" \
+"CMakeFiles/DeepBlue.dir/src/effect.cpp.obj" \
 "CMakeFiles/DeepBlue.dir/src/enemy.cpp.obj" \
 "CMakeFiles/DeepBlue.dir/src/file_handler.cpp.obj" \
 "CMakeFiles/DeepBlue.dir/src/input.cpp.obj" \
@@ -303,6 +319,7 @@ DeepBlue.exe: CMakeFiles/DeepBlue.dir/src/audio.cpp.obj
 DeepBlue.exe: CMakeFiles/DeepBlue.dir/src/block.cpp.obj
 DeepBlue.exe: CMakeFiles/DeepBlue.dir/src/camera.cpp.obj
 DeepBlue.exe: CMakeFiles/DeepBlue.dir/src/collision.cpp.obj
+DeepBlue.exe: CMakeFiles/DeepBlue.dir/src/effect.cpp.obj
 DeepBlue.exe: CMakeFiles/DeepBlue.dir/src/enemy.cpp.obj
 DeepBlue.exe: CMakeFiles/DeepBlue.dir/src/file_handler.cpp.obj
 DeepBlue.exe: CMakeFiles/DeepBlue.dir/src/input.cpp.obj
@@ -316,7 +333,7 @@ DeepBlue.exe: CMakeFiles/DeepBlue.dir/main.cpp.obj
 DeepBlue.exe: CMakeFiles/DeepBlue.dir/build.make
 DeepBlue.exe: CMakeFiles/DeepBlue.dir/linkLibs.rsp
 DeepBlue.exe: CMakeFiles/DeepBlue.dir/objects1.rsp
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:/Users/huutu/OneDrive/Desktop/DeepBlue/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Linking CXX executable DeepBlue.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:/Users/huutu/OneDrive/Desktop/DeepBlue/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Linking CXX executable DeepBlue.exe"
 	C:/Media/Environments/CMake/bin/cmake.exe -E rm -f CMakeFiles/DeepBlue.dir/objects.a
 	C:/Media/Environments/msys64/mingw64/bin/ar.exe qc CMakeFiles/DeepBlue.dir/objects.a @CMakeFiles/DeepBlue.dir/objects1.rsp
 	C:/Media/Environments/msys64/mingw64/bin/c++.exe -g -Wl,--whole-archive CMakeFiles/DeepBlue.dir/objects.a -Wl,--no-whole-archive -o DeepBlue.exe -Wl,--out-implib,libDeepBlue.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles/DeepBlue.dir/linkLibs.rsp
