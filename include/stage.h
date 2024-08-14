@@ -77,7 +77,9 @@ public:
 
     // Initialize
     void initBackground();
-    void initBlocks(const char *path);
+    void initBackLayer(const char *path);   // Background elements (house, tree, all that)
+    void initBlockLayer(const char *path);  // Block layer (interactable)
+    void initFrontLayer(const char *path);  // Foreground elements (grass, stuff rendered after the player)
     void initPlatAll(const char *path);
 
     void initRhyObs(const char *path);

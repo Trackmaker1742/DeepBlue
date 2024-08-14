@@ -5,6 +5,7 @@
 #include <string>
 #include <cmath>
 #include <Windows.h>
+#include <filesystem>
 
 #include "scene.h"
 #include "input.h"
@@ -22,6 +23,32 @@
 
 int main(int argc, char *argv[])
 {
+    std::string path = "res/Stage 3/background"; // Specify the directory path
+    std::vector<std::string> fileNames;
+
+    try {
+        // Check if the specified path is a directory
+        if (std::filesystem::is_directory(path)) {
+            // Iterate through each entry in the directory
+            for (const auto& entry : std::filesystem::directory_iterator(path)) {
+                // If the entry is a regular file, add its name to the vector
+                if (std::filesystem::is_regular_file(entry.status())) {
+                    fileNames.push_back(entry.path().filename().string());
+                }
+            }
+
+            // Print out all file names
+            std::cout << "Files in directory '" << path << "':\n";
+            for (const auto& fileName : fileNames) {
+                std::cout << fileName << '\n';
+            }
+        } else {
+            std::cerr << "The specified path is not a directory.\n";
+        }
+    } catch (const std::filesystem::filesystem_error& e) {
+        std::cerr << "Filesystem error: " << e.what() << '\n';
+    }
+
     // Play audio
     Audio *audio = new Audio();
     audio->init();
@@ -51,7 +78,7 @@ int main(int argc, char *argv[])
 
     // Stage 
     Stage *stage = new Stage(scene->getRenderer());
-    stage->initPlatAll("data/stage1.csv");
+    stage->initPlatAll("res/Stage 1/block_layer.csv");
 
     // Player
     Player *player = new Player(scene->getFPS(), stage->getRespX(), stage->getRespY());

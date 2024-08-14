@@ -22,7 +22,12 @@ void Stage::initBackground()
     SDL_FreeSurface(surface);
 }
 
-void Stage::initBlocks(const char *path)
+void Stage::initBackLayer(const char *path)
+{
+
+}
+
+void Stage::initBlockLayer(const char *path)
 {
     // Read stage layout straight from csv file
     File_Handler *file = new File_Handler();
@@ -58,6 +63,11 @@ void Stage::initBlocks(const char *path)
             resp_y = b->getGridY();
         }
     }
+}
+
+void Stage::initFrontLayer(const char *path)
+{
+    
 }
 
 void Stage::initRhyObs(const char *path)
@@ -104,7 +114,7 @@ void Stage::initRhyObs(const char *path)
 void Stage::initPlatAll(const char *path)
 {
     initBackground();
-    initBlocks(path);
+    initBlockLayer(path);
 }
 
 void Stage::initRhyAll(const char *path)

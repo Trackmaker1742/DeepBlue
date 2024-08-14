@@ -478,10 +478,39 @@ CMakeFiles/DeepBlue.dir/main.cpp.obj: \
  C:/Media/Environments/msys64/mingw64/include/winsvc.h \
  C:/Media/Environments/msys64/mingw64/include/mcx.h \
  C:/Media/Environments/msys64/mingw64/include/imm.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/filesystem \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/fs_fwd.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/cstdint \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/chrono.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/ratio \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/ctime \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/parse_numbers.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/fs_path.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/locale \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/locale_facets_nonio.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/x86_64-w64-mingw32/bits/time_members.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/x86_64-w64-mingw32/bits/messages_members.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/codecvt.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/locale_facets_nonio.tcc \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/locale_conv.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/iomanip \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/quoted_string.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/sstream \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/sstream.tcc \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/codecvt \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/ext/concurrence.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/shared_ptr.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/shared_ptr_base.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/allocated_ptr.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/unique_ptr.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/ext/aligned_buffer.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/align.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_uninitialized.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/fs_dir.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/fs_ops.h \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/scene.h \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/input.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/vector \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_uninitialized.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_vector.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_bvector.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/vector.tcc \
@@ -497,12 +526,9 @@ CMakeFiles/DeepBlue.dir/main.cpp.obj: \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/stage.h \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/file_handler.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/fstream \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/codecvt.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/x86_64-w64-mingw32/bits/basic_file.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/x86_64-w64-mingw32/bits/c++io.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/fstream.tcc \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/sstream \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/sstream.tcc \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/block.h \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/enemy.h \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/effect.h \
