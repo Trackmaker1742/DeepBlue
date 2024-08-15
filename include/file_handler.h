@@ -7,16 +7,12 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <filesystem>
 
 class File_Handler 
 {
 private:
-    // Stage layout in integer array
-    std::vector<std::vector<uint8_t>> stage_int;
-
     const char *config_path = "data/config.txt";
-    const char *save_path = "data/save.txt";
-
     // Data type string for parsing
     std::vector<std::string> data_type = 
     {
@@ -26,7 +22,6 @@ private:
         "display option",
         "scaling"
     };
-
     // Array for values (same order as data type for easier parsing)
     std::vector<uint16_t> values =
     {
@@ -37,13 +32,13 @@ private:
         0
     };
 
+    const char *save_path = "data/save.txt";
     // Data type in save file
     std::vector<std::string> save_data_type =
     {
         "stage",
         "item"
     };
-
     // Data value in save file
     std::vector<uint8_t> save_values =
     {
@@ -81,6 +76,8 @@ private:
         0
     };
 
+    std::vector<const char*> csv_paths;    
+
 public:
     // Checking if a line has a specific string
     bool compareString(std::string line, std::string str);
@@ -103,11 +100,29 @@ public:
     
     // Function for reading stage layout in CSV form
     // Convert the block array from string to int and store in stage_int
-    void readCSV(const char *path);
+    void readCSV(char stage_number, std::vector<std::vector<uint8_t>> &layer_int);
+
+    // Parse a full stage folder
+    // The idea is to combine all the read and store function to create a sort of template
+    // to make levels more easily
+    // The folder structure will be:
+    // Stage ?
+    // |
+    // |-background
+    //  |-1-4.png
+    // |-blocktile
+    //  |-n.png
+    // |-back_layer.csv
+    // |-block_layer.csv
+    // |-front_layer.csv
+    void readAssetFolders(char stage_number, 
+        std::vector<std::string> &bg_layers, 
+        std::vector<std::string> &blocktiles);
 
     // Getters
     uint16_t getValue(int i);
-    std::vector<std::vector<uint8_t>> getStageInt();
+
+    ~File_Handler();
 };
 
 #endif

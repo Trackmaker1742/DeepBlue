@@ -4,10 +4,9 @@ Stage::Stage(SDL_Renderer *rend) : renderer(rend)
 { }
 
 // Getters
-SDL_Texture *Stage::getBackground() { return bg; }
 std::vector<SDL_Texture*> Stage::getBackgroundLayers() { return background_layers; }
-std::vector<Block*> Stage::getBlockVec() { return Blocks; }
-std::vector<Projectile*> Stage::getProjVec() { return Projectiles; }
+std::vector<Block*> Stage::getBlockVec() { return blocks; }
+std::vector<Projectile*> Stage::getProjVec() { return projectiles; }
 uint16_t Stage::getRespX() { return resp_x; }
 uint16_t Stage::getRespY() { return resp_y; }
 
@@ -15,44 +14,54 @@ uint16_t Stage::getRespY() { return resp_y; }
 void Stage::setRespX(uint16_t x) { resp_x = x; }
 void Stage::setRespY(uint16_t y) { resp_y = y; }
 
+void Stage::initSpritePath(char stage_number)
+{
+    File_Handler *file = new File_Handler();
+    file->readAssetFolders(stage_number, background_paths, block_paths);
+
+    delete file;
+}
+
 void Stage::initBackground()
 {
-    SDL_Surface* surface = IMG_Load("res/Menus/neon.png");
-    bg = SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
+    for (std::string path : background_paths)
+    {
+        SDL_Surface* surface = IMG_Load(path.c_str());
+        background_layers.push_back(SDL_CreateTextureFromSurface(renderer, surface));
+        SDL_FreeSurface(surface);
+    }
+    background_paths.clear();
 }
 
-void Stage::initBackLayer(const char *path)
-{
-
-}
-
-void Stage::initBlockLayer(const char *path)
+void Stage::initBlockLayer(char stage_number)
 {
     // Read stage layout straight from csv file
     File_Handler *file = new File_Handler();
 
-    file->readCSV(path);
+    file->readCSV(stage_number, block_int);
 
-    for (int i = 0; i < file->getStageInt().size(); i++)
+    for (int i = 0; i < block_int.size(); i++)
     {
-        for (int j = 0; j < file->getStageInt()[i].size(); j++)
+        for (int j = 0; j < block_int[i].size(); j++)
         {
             // Add blocks, skip 0 (empty space)
             // Numeric data for block (coming soon)
 
-            int temp = file->getStageInt()[file->getStageInt().size() - 1 - i][j];
+            int temp = block_int[block_int.size() - 1 - i][j];
 
             // std::cout << temp << " " << block_path[temp - 1] << "\n";
 
             if (temp != 0) 
-                Blocks.push_back(new Block(j, i, block_path[temp], temp));
+                blocks.push_back(new Block(j, i, block_paths[temp - 1].c_str(), temp));
         }
     }
 
+    // Clear int array, delete file object
+    block_int.clear();
     delete file;
 
-    for (Block *b : Blocks)
+    // Texture and spawn handler
+    for (Block *b : blocks)
     {
         b->initTexture(renderer);
 
@@ -65,40 +74,49 @@ void Stage::initBlockLayer(const char *path)
     }
 }
 
-void Stage::initFrontLayer(const char *path)
+void Stage::initFrontLayer(char stage_number)
 {
     
 }
 
-void Stage::initRhyObs(const char *path)
+void Stage::initRhyObs(char stage_number)
 {
     // Read stage layout straight from csv file
     File_Handler *file = new File_Handler();
 
-    file->readCSV(path);
+    // Empty all arrays before initializing
+    block_int.clear();
+    blocks.clear();
 
+    // Read and store in integer array
+    file->readCSV(stage_number, block_int);
+
+    // Convert integer array into block array
     for (int i = 0; i < 3; i++)
     {
-        for (int j = 0; j < file->getStageInt()[i].size(); j++)
+        for (int j = 0; j < block_int[i].size(); j++)
         {
             // Add blocks, skip 0 (empty space)
             // Numeric data for block (coming soon)
 
-            int temp = file->getStageInt()[file->getStageInt().size() - 1 - i][j];
+            int temp = block_int[block_int.size() - 1 - i][j];
 
             // std::cout << temp << " " << block_path[temp - 1] << "\n";
 
             if (temp != 0) 
             {
-                if (temp == 2) Blocks.push_back(new Block(j, i + 1 + 1, temp, 3 - i, obstacle_path[1]));
-                Blocks.push_back(new Block(j, i + 1, temp, 3 - i, obstacle_path[temp]));
+                if (temp == 2) blocks.push_back(new Block(j, i + 1 + 1, temp, 3 - i, obstacle_path[1].c_str()));
+                blocks.push_back(new Block(j, i + 1, temp, 3 - i, obstacle_path[temp].c_str()));
             }   
         }
     }
 
+    // Clear int array, delete file object
+    block_int.clear();
     delete file;
 
-    for (Block *b : Blocks)
+    // Texture and spawn handler
+    for (Block *b : blocks)
     {
         b->initTexture(renderer);
 
@@ -111,22 +129,29 @@ void Stage::initRhyObs(const char *path)
     }
 }
 
-void Stage::initPlatAll(const char *path)
+void Stage::initPlatAll(char stage_number)
 {
+    initSpritePath(stage_number);
     initBackground();
-    initBlockLayer(path);
+    // Curently stuck at block layer
+    initBlockLayer(stage_number);
 }
 
-void Stage::initRhyAll(const char *path)
+void Stage::initRhyAll(char stage_number)
 {
     initBackground();
-    initRhyObs(path);
+    initRhyObs(stage_number);
 }
 
 void Stage::unloadStage()
 {
     // Clear all blocks from memory
-    Blocks.clear();
+    blocks.clear();
+    background_paths.clear();
+    background_layers.clear();
+    block_int.clear();
+    block_paths.clear();
+    obstacle_path.clear();
     // Set spawn back to 0
     resp_x = 0;
     resp_y = 0;
@@ -134,7 +159,10 @@ void Stage::unloadStage()
 
 Stage::~Stage()
 {
-    Blocks.clear();
-    block_path.clear();
+    blocks.clear();
+    background_paths.clear();
+    background_layers.clear();
+    block_int.clear();
+    block_paths.clear();
     obstacle_path.clear();
 }

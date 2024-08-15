@@ -146,16 +146,14 @@ void File_Handler::readSave()
     save.close();
 }
 
-void File_Handler::readCSV(const char *path)
+void File_Handler::readCSV(char stage_number, std::vector<std::vector<uint8_t>> &layer_int)
 {
+    std::string path = "res/Stages/Stage ";
+    path += stage_number;
+    path += "/block_layer.csv";
+
     // Open stage layout csv
     std::ifstream layout(path);
-
-    // Error checking
-    if (!layout.is_open())
-    {
-        std::cout << "Unable to open csv file" << "\n";
-    }
 
     // Parsing relevant data
     std::string temp_row_str;
@@ -180,7 +178,7 @@ void File_Handler::readCSV(const char *path)
                 value_str = "";
             }
         }
-        stage_int.push_back(temp_row_int);
+        layer_int.push_back(temp_row_int);
     }
 
     // Debug
@@ -201,5 +199,42 @@ void File_Handler::readCSV(const char *path)
     layout.close();
 }
 
+void File_Handler::readAssetFolders(char stage_number, 
+    std::vector<std::string> &bg_layers, 
+    std::vector<std::string> &blocktiles)
+{
+    std::string path = "res/Stages/Stage ";
+    path += stage_number;
+    std::string file_name = "";
+    std::string temp = "";
+    
+    // Iterate through background folder
+    temp = path + "/background/";
+    for (const auto& entry : std::filesystem::directory_iterator(temp)) 
+    {
+        // If the entry is a regular file, add its name to the vector
+        if (std::filesystem::is_regular_file(entry.status())) {
+            file_name = temp + entry.path().filename().string();
+            bg_layers.push_back(file_name);
+        }
+    }
+
+    temp = "";
+
+    // Iterate through blocktile folder
+    temp = path + "/blocktile/";
+    for (const auto& entry : std::filesystem::directory_iterator(temp)) {
+        // If the entry is a regular file, add its name to the vector
+        if (std::filesystem::is_regular_file(entry.status())) {
+            file_name = temp + entry.path().filename().string();
+            blocktiles.push_back(file_name);
+        }
+    }
+}
+
 uint16_t File_Handler::getValue(int i) { return values[i]; }
-std::vector<std::vector<uint8_t>> File_Handler::getStageInt() { return stage_int; }
+
+File_Handler::~File_Handler()
+{
+    csv_paths.clear();
+}
