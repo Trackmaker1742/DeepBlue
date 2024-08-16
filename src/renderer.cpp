@@ -412,7 +412,7 @@ void Renderer::renderBackground(Stage *stage, Player *player)
     SDL_RenderCopy(scene->getRenderer(), stage->getBackgroundLayers()[2], NULL, &des_rect);
     
     // Layer 4
-    des1 = - int((player->getX() - initial_x)) / 6;
+    des1 = - int((player->getX() - initial_x)) / 6 + player->getX() / 10;
     des2 = scene->getWidth() + des1;
     while (des1 < -scene->getWidth()) des1 += 2 * scene->getWidth();
     while (des2 < -scene->getWidth()) des2 += 2 * scene->getWidth();
