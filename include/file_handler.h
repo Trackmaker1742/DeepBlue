@@ -117,7 +117,8 @@ public:
     // |-front_layer.csv
     void readAssetFolders(char stage_number, 
         std::vector<std::string> &bg_layers, 
-        std::vector<std::string> &blocktiles);
+        std::vector<std::string> &blocktiles,
+        bool &bg_move);
 
     // Getters
     uint16_t getValue(int i);

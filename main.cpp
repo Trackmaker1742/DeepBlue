@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
 
     // Stage 
     Stage *stage = new Stage(scene->getRenderer());
-    stage->initPlatAll('1');
+    stage->initPlatAll('2');
 
     // Player
     Player *player = new Player(scene->getFPS(), stage->getRespX(), stage->getRespY());

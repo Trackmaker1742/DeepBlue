@@ -201,7 +201,8 @@ void File_Handler::readCSV(char stage_number, std::vector<std::vector<uint8_t>> 
 
 void File_Handler::readAssetFolders(char stage_number, 
     std::vector<std::string> &bg_layers, 
-    std::vector<std::string> &blocktiles)
+    std::vector<std::string> &blocktiles,
+    bool &bg_move)
 {
     std::string path = "res/Stages/Stage ";
     path += stage_number;
@@ -214,6 +215,11 @@ void File_Handler::readAssetFolders(char stage_number,
     {
         // If the entry is a regular file, add its name to the vector
         if (std::filesystem::is_regular_file(entry.status())) {
+            if (entry.path().filename().string() == "move")
+            {
+                bg_move = true;
+                continue;
+            }
             file_name = temp + entry.path().filename().string();
             bg_layers.push_back(file_name);
         }

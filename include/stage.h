@@ -37,28 +37,15 @@ private:
 
     // Background paths
     std::vector<std::string> background_paths;
+    bool background_move = false;
 
     // Block sprite path (able to detect the block type in csv)
     std::vector<std::string> block_paths;
-        // "res/BlockSprite/Spawn.png",
-        // "res/BlockSprite/Checkpoint.png",
-        // "res/BlockSprite/Goal.png",
-        // "res/BlockSprite/Danger.png",
-        // "res/BlockSprite/Item.png",
-        // "res/BlockSprite/Normal.png",
-        // "res/BlockSprite/Slope (Left).png",
-        // "res/BlockSprite/Slope (Right).png",
-        // "res/BlockSprite/Wall.png",
-        // "res/BlockSprite/Normal.png"
 
     // Rhythm obstacles sprites
     // High geyser sprite will only contain the bottom half,
     // with the top half using the same sprite as low geyser
     std::vector<std::string> obstacle_path;
-        // "res/BlockSprite/Spawn.png",
-        // "res/BlockSprite/Normal.png",
-        // "res/BlockSprite/Danger.png",
-        // "res/BlockSprite/Wall.png",
             
 public:
     Stage(SDL_Renderer *rend);
@@ -69,6 +56,7 @@ public:
     std::vector<Projectile*> getProjVec();
     uint16_t getRespX();
     uint16_t getRespY();
+    bool getBgMove();
 
     // Setters
     void setRespX(uint16_t x);

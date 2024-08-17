@@ -378,8 +378,8 @@ void Renderer::renderBackground(Stage *stage, Player *player)
     // Render background
     // 2 background image will be rendered at the same time
     // Divide des1 to slow down the bg speed
-    int des1 = - int((player->getX() - initial_x)); // Starts at 0
-    int des2 = scene->getWidth() + des1;            // Starts at end of screen
+    int des1 = - int((player->getX() - initial_x)) / 8;    // Starts at 0
+    int des2 = scene->getWidth() + des1;                    // Starts at end of screen
     // Once one bg is no longer in view, 
     // it will loop back or forward to keep covering the screen
     while (des1 < -scene->getWidth()) des1 += 2 * scene->getWidth();
@@ -392,7 +392,9 @@ void Renderer::renderBackground(Stage *stage, Player *player)
     SDL_RenderCopy(scene->getRenderer(), stage->getBackgroundLayers()[0], NULL, &des_rect);
 
     // Layer 2
-    des1 = - int((player->getX() - initial_x)) / 2;
+    if (layer2_i < scene->getWidth() && stage->getBgMove()) layer2_i += player->getGrid() * scene->getDeltaTime() / 18;
+    else layer2_i = 0;
+    des1 = - int((player->getX() - initial_x)) / 7 - layer2_i;
     des2 = scene->getWidth() + des1;
     while (des1 < -scene->getWidth()) des1 += 2 * scene->getWidth();
     while (des2 < -scene->getWidth()) des2 += 2 * scene->getWidth();
@@ -402,7 +404,9 @@ void Renderer::renderBackground(Stage *stage, Player *player)
     SDL_RenderCopy(scene->getRenderer(), stage->getBackgroundLayers()[1], NULL, &des_rect);
 
     // Layer 3
-    des1 = - int((player->getX() - initial_x)) / 4;
+    if (layer3_i < scene->getWidth() && stage->getBgMove()) layer3_i += player->getGrid() * scene->getDeltaTime() / 14;
+    else layer3_i = 0;
+    des1 = - int((player->getX() - initial_x)) / 6 - layer3_i;
     des2 = scene->getWidth() + des1;
     while (des1 < -scene->getWidth()) des1 += 2 * scene->getWidth();
     while (des2 < -scene->getWidth()) des2 += 2 * scene->getWidth();
@@ -412,7 +416,9 @@ void Renderer::renderBackground(Stage *stage, Player *player)
     SDL_RenderCopy(scene->getRenderer(), stage->getBackgroundLayers()[2], NULL, &des_rect);
     
     // Layer 4
-    des1 = - int((player->getX() - initial_x)) / 6 + player->getX() / 10;
+    if (layer4_i < scene->getWidth() && stage->getBgMove()) layer4_i += player->getGrid() * scene->getDeltaTime() / 10;
+    else layer4_i = 0;
+    des1 = - int((player->getX() - initial_x)) / 5 - layer4_i;
     des2 = scene->getWidth() + des1;
     while (des1 < -scene->getWidth()) des1 += 2 * scene->getWidth();
     while (des2 < -scene->getWidth()) des2 += 2 * scene->getWidth();

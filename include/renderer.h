@@ -54,6 +54,13 @@ private:
     bool jump_anchor = false;
     float jump_effect_counter = 0;
 
+    // Layer 1 doesn't need to pan slowly
+    // Other layers need to have a counter to move the bg
+    // even when the player isn't moving
+    float layer2_i = 0;
+    float layer3_i = 0;
+    float layer4_i = 0;
+
 public:
     Renderer(Scene *sc, Camera *c);
 

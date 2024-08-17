@@ -9,6 +9,7 @@ std::vector<Block*> Stage::getBlockVec() { return blocks; }
 std::vector<Projectile*> Stage::getProjVec() { return projectiles; }
 uint16_t Stage::getRespX() { return resp_x; }
 uint16_t Stage::getRespY() { return resp_y; }
+bool Stage::getBgMove() { return background_move; }
 
 // Setters
 void Stage::setRespX(uint16_t x) { resp_x = x; }
@@ -17,7 +18,15 @@ void Stage::setRespY(uint16_t y) { resp_y = y; }
 void Stage::initSpritePath(char stage_number)
 {
     File_Handler *file = new File_Handler();
-    file->readAssetFolders(stage_number, background_paths, block_paths);
+    file->readAssetFolders(stage_number, 
+        background_paths, 
+        block_paths,
+        background_move);
+
+    // for (std::string path : block_paths)
+    // {
+    //     std::cout << path << "\n";
+    // }
 
     delete file;
 }

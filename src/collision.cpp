@@ -2,6 +2,12 @@
 
 void Collision::playerBlockColli(Stage* stage, Player* player, std::vector<Block*> Blocks)
 {
+    spring_up_vel_y = player->getGrid() * 15;
+    spring_down_vel_y = -player->getGrid() * 15;
+    spring_left_vel_x = -player->getGrid() * 20;
+    spring_right_vel_x = player->getGrid() * 20;
+    spring_hori_vel_y = player->getGrid() * 13;
+
     // Boundary (bottom and left)
     if (player->getX() < 0 || player->getY() < 0)
     {
@@ -56,8 +62,31 @@ void Collision::playerBlockColli(Stage* stage, Player* player, std::vector<Block
         player_prev_x + player->getWidth() > b->getGridX() && 
         player->getX() + player->getWidth() > b->getGridX())
         {
-            if (player->getY() > b->getGridY() && player->getY() <= b->getGridY() + b->getGrid())
+            if (player->getY() > b->getGridY() && 
+            player->getY() <= b->getGridY() + b->getGrid())
             {
+                // Spring (up)
+                if (b->getType() == 10)
+                {
+                    player->setVelY(spring_up_vel_y);
+                    break;
+                }
+                // Spring (left) side collision
+                if (b->getType() == 12)
+                {
+                    player->setVelX(spring_left_vel_x);
+                    player->setVelY(spring_hori_vel_y);
+                    break;
+                }
+                // Spring (right) side collision
+                if (b->getType() == 13)
+                {
+                    player->setVelX(spring_right_vel_x);
+                    player->setVelY(spring_hori_vel_y);
+                    break;
+                }
+
+                // Normal blocks
                 player->setY(b->getGridY() + b->getGrid());
                 player->setOnGround(true);
                 continue;
@@ -72,14 +101,16 @@ void Collision::playerBlockColli(Stage* stage, Player* player, std::vector<Block
             if (b->getType() == 7)
             {
                 if (player->getX() + player->getWidth() <= b->getGridX() + b->getGrid() && 
-                player->getY() <= player->getX() + player->getWidth() - b->getGridX() + b->getGridY() + 1)
+                player->getY() <= player->getX() + player->getWidth() - b->getGridX() + b->getGridY() + 1 &&
+                player->getY() >= b->getGridY())
                 {
                     player->setY(player->getX() + player->getWidth() - b->getGridX() + b->getGridY() + 1);
                     player->setOnGround(true);
                     break;
                 }
                 else if (player->getX() + player->getWidth() >= b->getGridX() + b->getGrid() && 
-                player->getY() <= b->getGridY() + b->getGrid())
+                player->getY() <= b->getGridY() + b->getGrid() &&
+                player->getY() >= b->getGridY() + b->getGrid() / 2)
                 {
                     player->setY(b->getGridY() + b->getGrid());
                     player->setOnGround(true);
@@ -90,14 +121,16 @@ void Collision::playerBlockColli(Stage* stage, Player* player, std::vector<Block
             if (b->getType() == 8)
             {
                 if (player->getX() >= b->getGridX() && 
-                player->getY() <= b->getGrid() - player->getX() + b->getGridX() + b->getGridY() + 1)
+                player->getY() <= b->getGrid() - player->getX() + b->getGridX() + b->getGridY() + 1 &&
+                player->getY() >= b->getGridY())
                 {
                     player->setY(b->getGrid() - player->getX() + b->getGridX() + b->getGridY() + 1);
                     player->setOnGround(true);
                     break;
                 }
                 else if (player->getX() <= b->getGridX() && 
-                player->getY() <= b->getGridY() + b->getGrid())
+                player->getY() <= b->getGridY() + b->getGrid() &&
+                player->getY() >= b->getGridY() + b->getGrid() / 2)
                 {
                     player->setY(b->getGridY() + b->getGrid());
                     player->setOnGround(true);
@@ -130,13 +163,43 @@ void Collision::playerBlockColli(Stage* stage, Player* player, std::vector<Block
                     player->setVelX(-player->getVelX() * 0.3);
                     continue;
                 }
+                // Left slope
+                else if (b->getType() == 7)
+                {
+                    if (player_prev_x > b->getGridX() + b->getGrid())
+                    {
+                        player->setX(b->getGridX() + b->getGrid() + 1);
+                        player->setVelX(-player->getVelX() * 0.3);
+                        continue;
+                    }
+                }
                 // Wall grab block collision
-                if (b->getType() == 9)
+                else if (b->getType() == 9)
                 {
                     player->setOnWall(true);
                     player->setRight(false);
                     player->setX(b->getGridX() + b->getGrid());
                     continue;
+                }
+                // Spring (up) side collision
+                else if (b->getType() == 10)
+                {
+                    player->setY(player->getY() + player->getGrid() / 20);
+                    player->setVelY(spring_up_vel_y);
+                    break;
+                }
+                // Spring (down)
+                else if (b->getType() == 11)
+                {
+                    player->setVelY(spring_down_vel_y);
+                    break;
+                }
+                // Spring (up-left) side collision
+                else if (b->getType() == 12)
+                {
+                    player->setVelX(spring_left_vel_x);
+                    player->setVelY(spring_hori_vel_y);
+                    break;
                 }
             }
             // Right
@@ -149,14 +212,44 @@ void Collision::playerBlockColli(Stage* stage, Player* player, std::vector<Block
                     player->setX(b->getGridX() - player->getWidth());
                     player->setVelX(-player->getVelX() * 0.3);
                     continue;
+                }            
+                // Right slope
+                else if (b->getType() == 8)
+                {
+                    if (player_prev_x + player->getWidth() < b->getGridX())
+                    {
+                        player->setX(b->getGridX() - player->getWidth() - 1);
+                        player->setVelX(-player->getVelX() * 0.3);
+                        continue;
+                    }
                 }
                 // Wall grab block collision
-                if (b->getType() == 9)
+                else if (b->getType() == 9)
                 {
                     player->setOnWall(true);
                     player->setRight(true);
                     player->setX(b->getGridX() - player->getWidth());
                     continue;
+                }
+                // Spring (up) side collision
+                else if (b->getType() == 10)
+                {
+                    player->setY(player->getY() + player->getGrid() / 20);
+                    player->setVelY(spring_up_vel_y);
+                    break;
+                }
+                // Spring (down)
+                else if (b->getType() == 11)
+                {
+                    player->setVelY(spring_down_vel_y);
+                    break;
+                }
+                // Spring (up-right) side collision
+                else if (b->getType() == 13)
+                {
+                    player->setVelX(spring_right_vel_x);
+                    player->setVelY(spring_hori_vel_y);
+                    break;
                 }
             }
         }
@@ -170,6 +263,26 @@ void Collision::playerBlockColli(Stage* stage, Player* player, std::vector<Block
             if (player->getY() < b->getGridY() && 
             player->getY() + player->getHeight() > b->getGridY())
             {
+                // Spring (down)
+                if (b->getType() == 11)
+                {
+                    player->setVelY(spring_down_vel_y);
+                    break;
+                }
+                // Spring (up-left) side collision
+                else if (b->getType() == 12)
+                {
+                    player->setVelX(spring_left_vel_x);
+                    player->setVelY(spring_hori_vel_y);
+                    break;
+                }
+                // Spring (up-right) side collision
+                else if (b->getType() == 13)
+                {
+                    player->setVelX(spring_right_vel_x);
+                    player->setVelY(spring_hori_vel_y);
+                    break;
+                }
                 player->setY(b->getGridY() - player->getHeight());
                 player->setVelY(-player->getVelY() * 0.1);
                 continue;

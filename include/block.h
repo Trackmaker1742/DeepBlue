@@ -24,7 +24,13 @@ private:
                     // 7: Slope left
                     // 8: Slope right
                     // 9: Wall (both sides)
-                    // 10: Moving block
+                    // 10: Spring (up)
+                    // 11: Spring (down)
+                    // 12: Spring (left)
+                    // 13: Spring (right)
+                    // 14: Auto moving block (start)
+                    // 15: Auto moving block (end)
+                    // 16: Manual moving block
 
                     // The plan is to have block with 1 type and multiple sprites to be separated into ranges, 
                     // so that the stage can parse it correctly
