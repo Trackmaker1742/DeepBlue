@@ -152,6 +152,19 @@ void Stage::initRhyAll(char stage_number)
     initRhyObs(stage_number);
 }
 
+void Stage::update()
+{
+    for (Block *b : blocks)
+    {
+        if (b->getType() == 14 &&
+        b->getType() == 15 &&
+        b->getType() == 16)
+        {
+            
+        } 
+    }
+}
+
 void Stage::unloadStage()
 {
     // Clear all blocks from memory

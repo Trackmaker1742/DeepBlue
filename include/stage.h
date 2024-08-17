@@ -74,6 +74,9 @@ public:
     void initRhyObs(char stage_number);
     void initRhyAll(char stage_number);
 
+    // Update for moving blocks
+    void update();
+
     // Unload everything in a stage (blocks, spawn)
     void unloadStage();
 

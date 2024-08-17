@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
     Scene *scene = new Scene(input);
     scene->init(test->getValue(0), test->getValue(1), test->getValue(2), test->getValue(3));
     scene->initAllMenu();
-    scene->setState(6);
+    scene->setState(8);
 
     // Camera
     // Only applies to platforming sections as of rn

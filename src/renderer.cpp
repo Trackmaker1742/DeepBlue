@@ -309,7 +309,7 @@ void Renderer::renderVertShooter(Player *player)
 void Renderer::renderHoriShooter(Player *player)
 {
     idle_counter += scene->getDeltaTime() * 4;
-    if (idle_counter > 11) idle_counter = 0;
+    if (idle_counter > 5) idle_counter = 0;
     src_rect = {
         int(idle_counter) * 64, 
         (player->getRight() ? 0 : 1) * 64,

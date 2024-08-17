@@ -124,7 +124,7 @@ private:
     // Sprite paths
     const char *platformer_path = "res/Character Sheets/nakuru_sheet.png";
     const char *vert_shooter_path = "res/Character Sheets/itsuki_sheet.png";
-    const char *hori_shooter_path = "res/Character Sheets/nayuta_sheet.png";
+    const char *hori_shooter_path = "res/Character Sheets/la_priere_sheet.png";
     const char *rhythm_path = "res/Character Sheets/sky_delta_sheet.png";
 
 public:
