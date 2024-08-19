@@ -308,13 +308,13 @@ void Renderer::renderVertShooter(Player *player)
 
 void Renderer::renderHoriShooter(Player *player)
 {
-    idle_counter += scene->getDeltaTime() * 4;
+    idle_counter += scene->getDeltaTime() * 5;
     if (idle_counter > 5) idle_counter = 0;
     src_rect = {
-        int(idle_counter) * 64, 
-        (player->getRight() ? 0 : 1) * 64,
-        64,
-        64
+        int(idle_counter) * 96, 
+        0,
+        96,
+        96
     };
 
     des_rect = {
@@ -325,16 +325,16 @@ void Renderer::renderHoriShooter(Player *player)
     };
     SDL_RenderCopy(scene->getRenderer(), player->getTexture(), &src_rect, &des_rect);
 
-    // Render the hitbox
-    SDL_SetRenderDrawBlendMode(scene->getRenderer(), SDL_BLENDMODE_BLEND);
-    SDL_SetRenderDrawColor(scene->getRenderer(), 255, 0, 0, 150);
-    des_rect = {
-        int(player->getX()), 
-        scene->getHeight() - player->getGrid() - int(player->getY()), 
-        player->getGrid(), 
-        player->getGrid()
-    };
-    SDL_RenderFillRect(scene->getRenderer(), &des_rect);
+    // // Render the hitbox
+    // SDL_SetRenderDrawBlendMode(scene->getRenderer(), SDL_BLENDMODE_BLEND);
+    // SDL_SetRenderDrawColor(scene->getRenderer(), 255, 0, 0, 150);
+    // des_rect = {
+    //     int(player->getX()), 
+    //     scene->getHeight() - player->getGrid() - int(player->getY()), 
+    //     player->getGrid(), 
+    //     player->getGrid()
+    // };
+    // SDL_RenderFillRect(scene->getRenderer(), &des_rect);
 }
 
 void Renderer::renderRhythm(Player *player)

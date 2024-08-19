@@ -27,10 +27,14 @@ private:
     // Max velocity, both x and y
     float vel_terminal;
     float vel_x_max;
+    float vel_y_max;    // Shooter mode only 
 
     // No jitter decel
     float temp_speed_left;
     float temp_speed_right;
+    // For shooter mode only
+    float temp_speed_up;
+    float temp_speed_down;
 
     // Dash related variables
     bool can_dash;

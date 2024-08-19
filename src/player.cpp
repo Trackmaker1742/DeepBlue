@@ -107,8 +107,13 @@ void Player::initPlat(SDL_Renderer *renderer)
 
 void Player::initVertShooter(SDL_Renderer *renderer)
 {
-    setGrid(128);
+    setGrid(96);
 
+    // Max velocity
+    setAccelX(getGrid() * 4);
+    vel_x_max = getGrid() * 4;
+    vel_y_max = vel_x_max;
+ 
     // Invul period after taking damage
     invul = false;
     invul_counter = 0;
@@ -127,7 +132,12 @@ void Player::initVertShooter(SDL_Renderer *renderer)
 
 void Player::initHoriShooter(SDL_Renderer *renderer)
 {
-    setGrid(128);
+    setGrid(96 * 2);
+    
+    // Max velocity
+    setAccelX(getGrid() * 4);
+    vel_x_max = getGrid() * 4;
+    vel_y_max = vel_x_max;
 
     // Invul period after taking damage
     invul = false;
@@ -194,7 +204,7 @@ void Player::platformerMvt(Input *input, float dt)
         right = false;
         setVelX(getVelX() - getAccelX() * dt * 0.5f);
     }
-    // Right (First half accel)
+    // Right
     if (!on_wall && !on_dash && !on_wall_jump &&
     input->getPress(3) && getVelX() < vel_x_max)
     {
@@ -414,72 +424,141 @@ void Player::platformerMvt(Input *input, float dt)
 // Same physics
 void Player::shooterMvt(Input *input, float dt)
 {
-    // The other 4 diagonal movement
-    // Up left
-    if (input->getPress(0) && 
-    !input->getPress(1) && input->getPress(2) && !input->getPress(3))
+    // Accel (First half)
+    // Down
+    if (input->getPress(1) && getVelY() > -vel_y_max)
     {
-        right = false;
-        setY(getY() + getGrid() * 3.5 * dt);
-        setX(getX() - getGrid() * 3.5 * dt);
-        return;
+        setVelY(getVelY() - getAccelX() * dt * 0.5f);
     }
-    // Up right
-    if (input->getPress(0) && 
-    !input->getPress(1) && !input->getPress(2) && input->getPress(3))
+    // Up
+    if (input->getPress(0) && getVelY() < vel_y_max)
     {
-        right = true;
-        setY(getY() + getGrid() * 3.5 * dt);
-        setX(getX() + getGrid() * 3.5 * dt);
-        return;
+        setVelY(getVelY() + getAccelX() * dt * 0.5f);
     }
-    // Down left
-    if (!input->getPress(0) && 
-    input->getPress(1) && input->getPress(2) && !input->getPress(3))
+    // Left
+    if (input->getPress(2) && getVelX() > -vel_x_max)
     {
-        right = false;
-        setY(getY() - getGrid() * 3.5 * dt);
-        setX(getX() - getGrid() * 3.5 * dt);
-        return;
+        setVelX(getVelX() - getAccelX() * dt * 0.5f);
     }
-    // Down right
-    if (!input->getPress(0) && 
-    input->getPress(1) && !input->getPress(2) && input->getPress(3))
+    // Right
+    if (input->getPress(3) && getVelX() < vel_x_max)
     {
-        right = true;
-        setY(getY() - getGrid() * 3.5 * dt);
-        setX(getX() + getGrid() * 3.5 * dt);
-        return;
+        setVelX(getVelX() + getAccelX() * dt * 0.5f);
+    }
+    // Decel (First half)
+    // Vertical
+    if (getVelY() &&                                    // Speed != 0
+        input->getPress(0) && input->getPress(1) ||     // Dual input
+        !input->getPress(0) && !input->getPress(1) ||   // No input
+        input->getPress(0) && getVelY() < 0 ||          // Go up when speed < 0
+        input->getPress(1) && getVelY() > 0)            // Go down when speed > 0
+    {
+        // Decel works by applying 2.5 times the speed of the opposite direction
+        // Down
+        if (getVelY() < 0)
+        {
+            temp_speed_up = getVelY() + getAccelX() * dt * 0.5f * 2.5;
+            setVelY(temp_speed_up < 0 ? temp_speed_up : 0);
+        }
+        // Up
+        else if (getVelY() > 0)
+        {
+            temp_speed_down = getVelY() - getAccelX() * dt * 0.5f * 2.5;
+            setVelY(temp_speed_down > 0 ? temp_speed_down : 0);
+        }
+    }
+    // Horizontal
+    if (getVelX() &&                                    // Speed != 0
+        input->getPress(2) && input->getPress(3) ||     // Dual input
+        !input->getPress(2) && !input->getPress(3) ||   // No input
+        input->getPress(2) && getVelX() > 0 ||          // Go left when speed > 0
+        input->getPress(3) && getVelX() < 0)            // Go right when speed < 0
+    {
+        // Decel works by applying 2.5 times the speed of the opposite direction
+        // Left
+        if (getVelX() < 0)
+        {
+            temp_speed_right = getVelX() + getAccelX() * dt * 0.5f * 2.5;
+            setVelX(temp_speed_right < 0 ? temp_speed_right : 0);
+        }
+        // Right
+        else if (getVelX() > 0)
+        {
+            temp_speed_left = getVelX() - getAccelX() * dt * 0.5f * 2.5;
+            setVelX(temp_speed_left > 0 ? temp_speed_left : 0);
+        }
     }
 
-    // 4 directional movement
-    if (input->getPress(0) && 
-    !input->getPress(1) && !input->getPress(2) && !input->getPress(3))
+    // Movement calculation
+    setX(getX() + getVelX() * dt);
+    setY(getY() + getVelY() * dt);
+    
+    // Accel (Second half)
+    // Up
+    if (input->getPress(0) && getVelY() < vel_y_max)
     {
-        setY(getY() + getGrid() * 5 * dt);
-        return;
+        setVelY(getVelY() + getAccelX() * dt * 0.5f);
     }
-    if (input->getPress(1) &&
-    !input->getPress(0) && !input->getPress(2) && !input->getPress(3))
+    // Down
+    if (input->getPress(1) && getVelY() > -vel_y_max)
     {
-        setY(getY() - getGrid() * 5 * dt);
-        return;
+        setVelY(getVelY() - getAccelX() * dt * 0.5f);
     }
-    if (input->getPress(2) &&
-    !input->getPress(1) && !input->getPress(0) && !input->getPress(3))
+    // Left
+    if (input->getPress(2) && getVelX() > -vel_x_max)
     {
-        right = false;
-        setX(getX() - getGrid() * 5 * dt);
-        return;
+        setVelX(getVelX() - getAccelX() * dt * 0.5f);
     }
-    if (input->getPress(3) &&
-    !input->getPress(1) && !input->getPress(2) && !input->getPress(0))
+    // Right
+    if (input->getPress(3) && getVelX() < vel_x_max)
     {
-        right = true;
-        setX(getX() + getGrid() * 5 * dt);
-        return;
+        setVelX(getVelX() + getAccelX() * dt * 0.5f);
+    }
+    // Decel (Second half)
+    // Vertical
+    if (getVelY() &&                                    // Speed != 0
+        input->getPress(0) && input->getPress(1) ||     // Dual input
+        !input->getPress(0) && !input->getPress(1) ||   // No input
+        input->getPress(0) && getVelY() < 0 ||          // Go up when speed < 0
+        input->getPress(1) && getVelY() > 0)            // Go down when speed > 0
+    {
+        // Decel works by applying 2.5 times the speed of the opposite direction
+        // Down
+        if (getVelY() < 0)
+        {
+            temp_speed_up = getVelY() + getAccelX() * dt * 0.5f * 2.5;
+            setVelY(temp_speed_up < 0 ? temp_speed_up : 0);
+        }
+        // Up
+        else if (getVelY() > 0)
+        {
+            temp_speed_down = getVelY() - getAccelX() * dt * 0.5f * 2.5;
+            setVelY(temp_speed_down > 0 ? temp_speed_down : 0);
+        }
+    }
+    // Horizontal
+    if (getVelX() &&                                    // Speed != 0
+        input->getPress(2) && input->getPress(3) ||     // Dual input
+        !input->getPress(2) && !input->getPress(3) ||   // No input
+        input->getPress(2) && getVelX() > 0 ||          // Go left when speed > 0
+        input->getPress(3) && getVelX() < 0)            // Go right when speed < 0
+    {
+        // Decel works by applying 2.5 times the speed of the opposite direction
+        // Left
+        if (getVelX() < 0)
+        {
+            temp_speed_right = getVelX() + getAccelX() * dt * 0.5f * 2.5;
+            setVelX(temp_speed_right < 0 ? temp_speed_right : 0);
+        }
+        // Right
+        else if (getVelX() > 0)
+        {
+            temp_speed_left = getVelX() - getAccelX() * dt * 0.5f * 2.5;
+            setVelX(temp_speed_left > 0 ? temp_speed_left : 0);
+        }
     }
 }
+
 // Different attack style
 void Player::shooterVertAtk(SDL_Renderer *renderer, Input *input, Projectile *proj, float dt)
 {

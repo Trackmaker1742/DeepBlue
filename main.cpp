@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
     Scene *scene = new Scene(input);
     scene->init(test->getValue(0), test->getValue(1), test->getValue(2), test->getValue(3));
     scene->initAllMenu();
-    scene->setState(8);
+    scene->setState(6);
 
     // Camera
     // Only applies to platforming sections as of rn
@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
 
     // Stage 
     Stage *stage = new Stage(scene->getRenderer());
-    stage->initPlatAll('2');
+    stage->initPlatAll('1');
 
     // Player
     Player *player = new Player(scene->getFPS(), stage->getRespX(), stage->getRespY());
