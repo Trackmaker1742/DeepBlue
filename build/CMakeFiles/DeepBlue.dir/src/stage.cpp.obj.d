@@ -98,9 +98,8 @@ CMakeFiles/DeepBlue.dir/src/stage.cpp.obj: \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/numbers \
  C:/Media/Environments/msys64/mingw64/include/string.h \
  C:/Media/Environments/msys64/mingw64/include/sec_api/string_s.h \
- C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/file_handler.h \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/iostream \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/ostream \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/sstream \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/istream \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/ios \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/iosfwd \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stringfwd.h \
@@ -179,9 +178,22 @@ CMakeFiles/DeepBlue.dir/src/stage.cpp.obj: \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/x86_64-w64-mingw32/bits/ctype_inline.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/locale_facets.tcc \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/basic_ios.tcc \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/ostream \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/ostream.tcc \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/istream \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/istream.tcc \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/sstream.tcc \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/algorithm \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_algo.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/algorithmfwd.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_heap.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/uniform_int_dist.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/stl_tempbuf.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/ranges_algo.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/ranges_algobase.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/pstl/glue_algorithm_defs.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/pstl/execution_defs.h \
+ C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/file_handler.h \
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/iostream \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL.h \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_main.h \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_assert.h \
@@ -332,8 +344,6 @@ CMakeFiles/DeepBlue.dir/src/stage.cpp.obj: \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/x86_64-w64-mingw32/bits/basic_file.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/x86_64-w64-mingw32/bits/c++io.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/fstream.tcc \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/sstream \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/sstream.tcc \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/filesystem \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/fs_fwd.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/cstdint \
@@ -362,13 +372,6 @@ CMakeFiles/DeepBlue.dir/src/stage.cpp.obj: \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/fs_dir.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/bits/fs_ops.h \
  C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/block.h \
- C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/object2d.h \
- C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_image.h \
- C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL.h \
- C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/scene.h \
- C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/input.h \
- C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/enemy.h \
- C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/projectile.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/math.h \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/cmath \
  C:/Media/Environments/msys64/mingw64/include/math.h \
@@ -384,4 +387,11 @@ CMakeFiles/DeepBlue.dir/src/stage.cpp.obj: \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/tr1/modified_bessel_func.tcc \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/tr1/poly_hermite.tcc \
  C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/tr1/poly_laguerre.tcc \
- C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/tr1/riemann_zeta.tcc
+ C:/Media/Environments/msys64/mingw64/include/c++/14.1.0/tr1/riemann_zeta.tcc \
+ C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/object2d.h \
+ C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL_image.h \
+ C:/Users/huutu/OneDrive/Desktop/DeepBlue/libraries/include/SDL2/SDL.h \
+ C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/scene.h \
+ C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/input.h \
+ C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/enemy.h \
+ C:/Users/huutu/OneDrive/Desktop/DeepBlue/include/projectile.h

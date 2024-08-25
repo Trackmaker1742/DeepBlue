@@ -54,6 +54,9 @@ private:
     // Jump / double jump related variables
     int jump_count;
 
+    // On block variable, to deal with standing on block collision
+    bool on_moving_block;
+
     // Invul state, used for rhythm and shooter
     // 1 second is the max invul time
     bool invul;
@@ -150,6 +153,9 @@ public:
 
     bool getOnDash();
 
+    void setOnMovingBlock(bool omb);
+    bool getOnMovingBlock();
+
     void setDashHalt(bool dh);
     bool getDashHalt();
 
@@ -192,6 +198,9 @@ public:
     void initHoriShooter(SDL_Renderer *renderer);
 
     // Player platformer movement
+    void resetMoves();
+    void stopDash();
+    void platformerMvtAccel(Input *input, float dt);
     void platformerMvt(Input *input, float dt);
 
     // Player shooter movement

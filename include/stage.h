@@ -4,6 +4,8 @@
 #include <SDL2/SDL_mixer.h>
 #include <vector>
 #include <string.h>
+#include <sstream>
+#include <algorithm>
 
 #include "file_handler.h"
 #include "block.h"
@@ -18,13 +20,20 @@ private:
     // Background textures
     std::vector<SDL_Texture*> background_layers;
     
-    // Back and normal block layout in integer array
-    std::vector<std::vector<uint8_t>> block_int;
+    // Moving block and normal block has to be in the same array
+    // to assign x and y coords
+    std::vector<std::vector<std::string>> block_str;
     // Foreground element layout in integer array
-    std::vector<std::vector<uint8_t>> front_int;
+    std::vector<std::vector<uint8_t>> front_str;
 
     // Back and normal block array
     std::vector<Block*> blocks;
+    // Moving block arrays (for easier parsing)
+    // Things to note with moving block, it's annoying to have the block
+    // move left and down due to negative number string
+    // So when making moving block, it's recommended to start 
+    // from bottom left of the movement pattern
+    std::vector<Block*> moving_blocks;    // Initial position of moving blocks
     // Front layer array
     std::vector<Block*> front_blocks;
 
@@ -53,6 +62,7 @@ public:
     // Getters
     std::vector<SDL_Texture*> getBackgroundLayers();
     std::vector<Block*> getBlockVec();
+    std::vector<Block*> getMovingBlockVec();
     std::vector<Projectile*> getProjVec();
     uint16_t getRespX();
     uint16_t getRespY();
@@ -75,7 +85,7 @@ public:
     void initRhyAll(char stage_number);
 
     // Update for moving blocks
-    void update();
+    void update(float dt);
 
     // Unload everything in a stage (blocks, spawn)
     void unloadStage();

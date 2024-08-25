@@ -3,6 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include <vector>
+#include <math.h>
 
 #include "object2d.h"
 
@@ -21,16 +22,18 @@ private:
                     // 5: Item block (24 items planned, probably will be more if possible)
 
                     // 6: Square block
-                    // 7: Slope left
-                    // 8: Slope right
+                    // 7: Slope left    // Can't move properly
+                    // 8: Slope right   // Can't move properly
                     // 9: Wall (both sides)
-                    // 10: Spring (up)
-                    // 11: Spring (down)
-                    // 12: Spring (left)
-                    // 13: Spring (right)
-                    // 14: Auto moving block (start)
-                    // 15: Auto moving block (end)
-                    // 16: Manual moving block
+                    // 10: Bridge (player can jump through it from 
+                    //              the bottom, bottom left, right side)
+                    
+                    // 11: Spring (up)
+                    // 12: Spring (down)
+                    // 13: Spring (left)
+                    // 14: Spring (right)
+
+                    // New moving block formatting style
 
                     // The plan is to have block with 1 type and multiple sprites to be separated into ranges, 
                     // so that the stage can parse it correctly
@@ -47,18 +50,47 @@ private:
                     // 3: High geyser
                     // 4: Break-able object
 
+    // Travel distance of each block 
+    float dist_x;   // Temp dist value for accel and decel
+    float dist_y;
+    float dist_x_max = 0;   // Max travel distance of each block
+    float dist_y_max = 0;
+    
+    // Checkers
+    bool manual;                // Manual or auto
+    bool can_activate = false;  // To activate manual moving blocks and start their movement
+    bool reverse = false;       // To move block back to starting point, completing the move
+    bool stood_on = false;
+    bool climbed_on = false;
+
     uint8_t lane;   // For rhythm game
-
-
-    bool move = false;  // For manual moving blocks
 public:
     // Platformer mode blocks
-    Block(float X = 0, float Y = 0, const char* P = "", uint8_t t = 0);
+    Block(float X = 0, float Y = 0, const char *P = "", uint8_t t = 0);
     // Rhythm mode blocks
-    Block(float X = 0, float Y = 0, uint8_t t = 0, uint8_t l = 0, const char* P = ""); 
+    Block(float X = 0, float Y = 0, uint8_t t = 0, uint8_t l = 0, const char *P = ""); 
 
+    // Initializer for moving blocks
+    void initMove(bool manual);
+
+    // Move function for moving blocks
+    void move(float dt);
+
+    // Setters
+    void setCanActivate(bool ca);
+    void setReverse(bool r);
+    void setStoodOn(bool so);
+    void setClimbedOn(bool co);
+    void setTravelDistX(uint16_t tdx);
+    void setTravelDistY(uint16_t tdy);
+
+    // Getters
     uint8_t getType();
     uint8_t getLane();
+    bool getCanActivate();
+    bool getReverse();
+    bool getStoodOn();
+    bool getClimbedOn();
 };
 
 #endif 

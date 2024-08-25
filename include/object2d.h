@@ -43,6 +43,7 @@ public:
     void setVelY(float vy);
     void setAccelX(float ax);
     void setAccelY(float ay);
+    void setGridX(uint16_t);
 
     // Getters
     float getX();

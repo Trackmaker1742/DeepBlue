@@ -2,11 +2,11 @@
 # The order of the settings are not important
 
 # Window size (width, height)
-width | 1280
-height | 800
+width | 1920
+height | 1080
 
 # Frame rate (FPS)
-FPS | 90
+FPS | 120
 
 # Scaling (min: 10, max: 100 (native, default))
 Scaling | 100

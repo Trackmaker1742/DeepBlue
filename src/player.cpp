@@ -20,6 +20,9 @@ bool Player::getOnWall() { return on_wall; }
 
 bool Player::getOnDash() { return on_dash; }
 
+void Player::setOnMovingBlock(bool omb) { on_moving_block = omb; }
+bool Player::getOnMovingBlock() { return on_moving_block; }
+
 void Player::setDashHalt(bool dh) { dash_halt = dh; }
 bool Player::getDashHalt() { return dash_halt; }
 
@@ -64,6 +67,7 @@ void Player::initPlat(SDL_Renderer *renderer)
     height = getGrid() * 0.625;
 
     on_ground = false;
+    // Rendering stuff
     right = true;
 
     // Velocity, acceleration
@@ -90,7 +94,8 @@ void Player::initPlat(SDL_Renderer *renderer)
     // Jump / double jump
     jump_count = 2;
 
-    // Rendering stuff
+    on_moving_block = false;
+
     jump_start = false;
     jump = false;
     jump_counter = 0;
@@ -187,6 +192,61 @@ void Player::initRhythm(SDL_Renderer *renderer)
     initTexture(rhythm_path, renderer);
 }
 
+void Player::stopDash()
+{
+    on_dash = false;
+    on_dash_delay = false;
+    dash_counter = 0;
+}
+
+void Player::resetMoves()
+{
+    can_dash = true;
+    jump_count = 2;
+}
+
+void Player::platformerMvtAccel(Input *input, float dt)
+{
+    if (!on_wall && !on_dash && !on_wall_jump)
+    {
+        // Accel
+        // Left
+        if (input->getPress(2) && getVelX() > -vel_x_max)
+        {
+            right = false;
+            setVelX(getVelX() - getAccelX() * dt * 0.5f);
+        }
+
+        if (input->getPress(3) && getVelX() < vel_x_max)
+        {
+            right = true;
+            setVelX(getVelX() + getAccelX() * dt * 0.5f);
+        }
+
+        // Decel
+        if (getVelX() &&                                    // Speed != 0
+            input->getPress(2) && input->getPress(3) ||     // Dual input
+            !input->getPress(2) && !input->getPress(3) ||   // No input
+            input->getPress(2) && getVelX() > 0 ||          // Go left when speed > 0
+            input->getPress(3) && getVelX() < 0)            // Go right when speed < 0
+        {
+            // Decel works by applying 2.5 times the speed of the opposite direction
+            // Left
+            if (getVelX() < 0)
+            {
+                temp_speed_right = getVelX() + getAccelX() * dt * 0.5f * 2.5;
+                setVelX(temp_speed_right < 0 ? temp_speed_right : 0);
+            }
+            // Right
+            else if (getVelX() > 0)
+            {
+                temp_speed_left = getVelX() - getAccelX() * dt * 0.5f * 2.5;
+                setVelX(temp_speed_left > 0 ? temp_speed_left : 0);
+            }
+        }
+    }
+}
+
 // Player platformer movement
 void Player::platformerMvt(Input *input, float dt)
 {
@@ -196,101 +256,35 @@ void Player::platformerMvt(Input *input, float dt)
     // Speed check are performed before setVel,
     // making it impossible to break the speed limit, same goes for decel
 
-    // Accel (First half)
-    // Left
-    if (!on_wall && !on_dash && !on_wall_jump && 
-    input->getPress(2) && getVelX() > -vel_x_max)
-    {
-        right = false;
-        setVelX(getVelX() - getAccelX() * dt * 0.5f);
-    }
-    // Right
-    if (!on_wall && !on_dash && !on_wall_jump &&
-    input->getPress(3) && getVelX() < vel_x_max)
-    {
-        right = true;
-        setVelX(getVelX() + getAccelX() * dt * 0.5f);
-    }
-    // Decel (First half)
-    if (!on_wall && !on_dash && !on_wall_jump &&        // Not on wall, not currently dashing
-        getVelX() &&                                    // Speed != 0
-        input->getPress(2) && input->getPress(3) ||     // Dual input
-        !input->getPress(2) && !input->getPress(3) ||   // No input
-        input->getPress(2) && getVelX() > 0 ||          // Go left when speed > 0
-        input->getPress(3) && getVelX() < 0)            // Go right when speed < 0
-    {
-        // Decel works by applying 2.5 times the speed of the opposite direction
-        // Left
-        if (getVelX() < 0)
-        {
-            temp_speed_right = getVelX() + getAccelX() * dt * 0.5f * 2.5;
-            setVelX(temp_speed_right < 0 ? temp_speed_right : 0);
-        }
-        // Right
-        else if (getVelX() > 0)
-        {
-            temp_speed_left = getVelX() - getAccelX() * dt * 0.5f * 2.5;
-            setVelX(temp_speed_left > 0 ? temp_speed_left : 0);
-        }
-    }
+    // 1st half
+    platformerMvtAccel(input, dt);    
 
     // Horizontal movement calculation
     setX(getX() + getVelX() * dt);  
     
-    // Accel (Second half)
-    // Left
-    if (!on_wall && !on_dash && !on_wall_jump &&
-    input->getPress(2) && getVelX() > -vel_x_max)
-    {
-        right = false;
-        setVelX(getVelX() - getAccelX() * dt * 0.5f);
-    }
-    // Right
-    if (!on_wall && !on_dash && !on_wall_jump &&
-    input->getPress(3) && getVelX() < vel_x_max)
-    {
-        right = true;
-        setVelX(getVelX() + getAccelX() * dt * 0.5f);
-    }
-    // Decel (Second half)
-    if (!on_wall && !on_dash && !on_wall_jump &&        // Not on wall
-        getVelX() &&                                    // Speed != 0
-        input->getPress(2) && input->getPress(3) ||     // Dual input
-        !input->getPress(2) && !input->getPress(3) ||   // No input
-        input->getPress(2) && getVelX() > 0 ||          // Go left when speed > 0
-        input->getPress(3) && getVelX() < 0)            // Go right when speed < 0
-    {
-        // Decel works by applying 2.5 times the speed of the opposite direction
-        // Left
-        if (getVelX() < 0)
-        {
-            temp_speed_right = getVelX() + getAccelX() * dt * 0.5f * 2.5;
-            setVelX(temp_speed_right < 0 ? temp_speed_right : 0);
-        }
-        // Right
-        else if (getVelX() > 0)
-        {
-            temp_speed_left = getVelX() - getAccelX() * dt * 0.5f * 2.5;
-            setVelX(temp_speed_left > 0 ? temp_speed_left : 0);
-        }
-    }
+    // 2nd half
+    platformerMvtAccel(input, dt);
 
     // Speed cap
     if (getVelX() < -vel_x_max && !on_wall_jump) setVelX(-vel_x_max);
     if (getVelX() > vel_x_max && !on_wall_jump) setVelX(vel_x_max);
     
-    // Reset stuff while on the ground
-    if (on_ground) 
+    // Reset stuff while on the ground and wall
+    if (on_ground || on_wall) 
     {
-        can_dash = true;
-        jump_count = 2;
+        resetMoves();
     }
 
     // Wall climb input handler
+    if (!climb_up && !climb_down) {
+        // climb_stamina = 100
+    }
+
     climb_up = false;
     climb_down = false;
     if (on_wall)
     {
+        // climb_stamina --;
         if (input->getPress(0) && !input->getPress(1))
         {
             // Vertical movement calculation
@@ -303,8 +297,6 @@ void Player::platformerMvt(Input *input, float dt)
             setY(getY() - wall_climb_speed * dt);
             climb_down = true;
         }
-        can_dash = true;
-        jump_count = 2;
     }
 
     // Jump / double jump / wall jump
@@ -322,6 +314,7 @@ void Player::platformerMvt(Input *input, float dt)
             {
                 case 2:
                     setVelY(getGrid() * 12);
+                    on_moving_block = false;
                     on_ground = false;
                 break;
                 case 1:
@@ -334,8 +327,7 @@ void Player::platformerMvt(Input *input, float dt)
         }
         else 
         {
-            if (right) right = false;
-            else right = true;
+            right = !right;
             setX(getX() + (right ? 1 : -1) * 50);
             setVelX((right ? 1 : -1) * getGrid() * 5);
             setVelY(getGrid() * 10);
@@ -351,13 +343,13 @@ void Player::platformerMvt(Input *input, float dt)
         wall_jump_counter = 0;
         on_wall_jump = false;
     }
+
+    // Movement test
+    // Aerial velocity control
     if (getVelY() < vel_terminal)
     {
         setVelY(vel_terminal);
     }
-
-    // Movement test
-    // Aerial velocity control
     if (on_ground || on_dash || on_wall)
     {
         setVelY(0); 
@@ -453,17 +445,17 @@ void Player::shooterMvt(Input *input, float dt)
         input->getPress(0) && getVelY() < 0 ||          // Go up when speed < 0
         input->getPress(1) && getVelY() > 0)            // Go down when speed > 0
     {
-        // Decel works by applying 2.5 times the speed of the opposite direction
+        // Decel works by applying 3 times the speed of the opposite direction
         // Down
         if (getVelY() < 0)
         {
-            temp_speed_up = getVelY() + getAccelX() * dt * 0.5f * 2.5;
+            temp_speed_up = getVelY() + getAccelX() * dt * 0.5f * 3;
             setVelY(temp_speed_up < 0 ? temp_speed_up : 0);
         }
         // Up
         else if (getVelY() > 0)
         {
-            temp_speed_down = getVelY() - getAccelX() * dt * 0.5f * 2.5;
+            temp_speed_down = getVelY() - getAccelX() * dt * 0.5f * 3;
             setVelY(temp_speed_down > 0 ? temp_speed_down : 0);
         }
     }
@@ -474,17 +466,17 @@ void Player::shooterMvt(Input *input, float dt)
         input->getPress(2) && getVelX() > 0 ||          // Go left when speed > 0
         input->getPress(3) && getVelX() < 0)            // Go right when speed < 0
     {
-        // Decel works by applying 2.5 times the speed of the opposite direction
+        // Decel works by applying 3 times the speed of the opposite direction
         // Left
         if (getVelX() < 0)
         {
-            temp_speed_right = getVelX() + getAccelX() * dt * 0.5f * 2.5;
+            temp_speed_right = getVelX() + getAccelX() * dt * 0.5f * 3;
             setVelX(temp_speed_right < 0 ? temp_speed_right : 0);
         }
         // Right
         else if (getVelX() > 0)
         {
-            temp_speed_left = getVelX() - getAccelX() * dt * 0.5f * 2.5;
+            temp_speed_left = getVelX() - getAccelX() * dt * 0.5f * 3;
             setVelX(temp_speed_left > 0 ? temp_speed_left : 0);
         }
     }
@@ -522,17 +514,17 @@ void Player::shooterMvt(Input *input, float dt)
         input->getPress(0) && getVelY() < 0 ||          // Go up when speed < 0
         input->getPress(1) && getVelY() > 0)            // Go down when speed > 0
     {
-        // Decel works by applying 2.5 times the speed of the opposite direction
+        // Decel works by applying 3 times the speed of the opposite direction
         // Down
         if (getVelY() < 0)
         {
-            temp_speed_up = getVelY() + getAccelX() * dt * 0.5f * 2.5;
+            temp_speed_up = getVelY() + getAccelX() * dt * 0.5f * 3;
             setVelY(temp_speed_up < 0 ? temp_speed_up : 0);
         }
         // Up
         else if (getVelY() > 0)
         {
-            temp_speed_down = getVelY() - getAccelX() * dt * 0.5f * 2.5;
+            temp_speed_down = getVelY() - getAccelX() * dt * 0.5f * 3;
             setVelY(temp_speed_down > 0 ? temp_speed_down : 0);
         }
     }
@@ -543,17 +535,17 @@ void Player::shooterMvt(Input *input, float dt)
         input->getPress(2) && getVelX() > 0 ||          // Go left when speed > 0
         input->getPress(3) && getVelX() < 0)            // Go right when speed < 0
     {
-        // Decel works by applying 2.5 times the speed of the opposite direction
+        // Decel works by applying 3 times the speed of the opposite direction
         // Left
         if (getVelX() < 0)
         {
-            temp_speed_right = getVelX() + getAccelX() * dt * 0.5f * 2.5;
+            temp_speed_right = getVelX() + getAccelX() * dt * 0.5f * 3;
             setVelX(temp_speed_right < 0 ? temp_speed_right : 0);
         }
         // Right
         else if (getVelX() > 0)
         {
-            temp_speed_left = getVelX() - getAccelX() * dt * 0.5f * 2.5;
+            temp_speed_left = getVelX() - getAccelX() * dt * 0.5f * 3;
             setVelX(temp_speed_left > 0 ? temp_speed_left : 0);
         }
     }

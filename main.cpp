@@ -4,7 +4,7 @@
 #include <SDL2/SDL_mixer.h>
 #include <string>
 #include <cmath>
-#include <Windows.h>
+#include <windows.h>
 #include <filesystem>
 
 #include "scene.h"
@@ -41,6 +41,10 @@ int main(int argc, char *argv[])
     scene->init(test->getValue(0), test->getValue(1), test->getValue(2), test->getValue(3));
     scene->initAllMenu();
     scene->setState(6);
+    
+    // Stage
+    Stage *stage = new Stage(scene->getRenderer());
+    stage->initPlatAll('2');
 
     // Camera
     // Only applies to platforming sections as of rn
@@ -49,10 +53,6 @@ int main(int argc, char *argv[])
 
     // Renderer
     Renderer *renderer = new Renderer(scene, cam);
-
-    // Stage 
-    Stage *stage = new Stage(scene->getRenderer());
-    stage->initPlatAll('1');
 
     // Player
     Player *player = new Player(scene->getFPS(), stage->getRespX(), stage->getRespY());
@@ -140,11 +140,13 @@ int main(int argc, char *argv[])
                     Audio::playSoundFX(2, 0);
                 }
 
-                // Platforming only, will try switch case to work out the states later
+                // Platforming stages
                 // Player movement
                 player->platformerMvt(input, scene->getDeltaTime());
+                // Block update
+                stage->update(scene->getDeltaTime());
                 // Collision handler
-                colli->playerBlockColli(stage, player, stage->getBlockVec());
+                colli->playerBlockColli(stage, player, scene->getDeltaTime());
                 // Camera update
                 cam->updatePlatCam(player, scene->getDeltaTime());
                 // Render stuff
@@ -358,3 +360,18 @@ int main(int argc, char *argv[])
 // Effects now
 // I don't think I need an extra class, 
 // I can have the effect plays right after the action, in renderer
+
+// Long time no see
+// Note to self:
+// Bridge block, based on getVelY, no collision on left, right and bottom of block
+// Potential idea for moving block indexing
+// Rather than a destination block, I can give the block I want to move 
+// a certain amount of moves to each direction
+// For example: 1070806 would move the block by 7 on the x axis, 8 by the y axis, then back
+// First digit is for diffrentiating manual and automatic blocks
+// Another revision: csv can handle special characters, so I think something like
+// 06|13|12|01 should be ok
+
+// Pretty much done with platforming codes now
+// Can't have moving slope cuz it's a huge pain
+// Just need to adjust the slope collision to make it look more natural (later)

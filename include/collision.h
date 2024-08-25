@@ -23,10 +23,20 @@ private:
     float spring_right_vel_x;
     float spring_hori_vel_y;
 public:
-    void playerBlockColli(Stage *stage, Player *player, std::vector<Block*> Blocks);
+    // Non physical blocks (from 1 to 5, 0 is empty void)
+    // Allowing vector input because danger blocks can move
+    void specialBlockColli(Stage *stage, std::vector<Block*> Blocks, Player *player);
+    // Normal colllsion for normal blocks (from 6 to 9)
+    void blockTopColli(std::vector<Block*> Blocks, Player *player, float dt);
+    void blockBotSideColli(std::vector<Block*> Blocks, Player *player, float dt);
+    // Spring colli handled separately to keep the code compact (from 10 to 13)
+    void springBlockColli(std::vector<Block*> Blocks, Player *player);
+
+    // Platformer collision
+    void playerBlockColli(Stage *stage, Player *player, float dt);
 
     // Rhythm stuff
-    void playerRhythmColli(Stage *stage, Player *player, std::vector<Block*> Blocks);
+    void playerRhythmColli(Stage *stage, Player *player);
 
     // Shooter stuff
     void playerEnemyColli(Enemy *enemy, Player *player);

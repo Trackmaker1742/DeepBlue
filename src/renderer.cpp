@@ -441,15 +441,33 @@ void Renderer::renderStage(Stage *stage, Player *player)
     for (Block *b : stage->getBlockVec())
     {
         // Skip blocks that are outside of the screen
-        if (int(b->getGridX()) + delta_x < -b->getGrid() || 
-        scene->getHeight() - b->getGrid() - (int(b->getGridY()) + delta_y) > scene->getHeight() ||
-        int(b->getGridX()) + delta_x > scene->getWidth() + b->getGrid() ||
-        scene->getHeight() - b->getGrid() - (int(b->getGridY()) + delta_y) < -b->getGrid())
+        if (int(b->getX()) + delta_x < -b->getGrid() || 
+        scene->getHeight() - b->getGrid() - (int(b->getY()) + delta_y) > scene->getHeight() ||
+        int(b->getX()) + delta_x > scene->getWidth() + b->getGrid() ||
+        scene->getHeight() - b->getGrid() - (int(b->getY()) + delta_y) < -b->getGrid())
             continue;
 
         des_rect = {
-            int(b->getGridX()) + delta_x, 
-            scene->getHeight() - b->getGrid() - (int(b->getGridY()) + delta_y), 
+            int(b->getX()) + delta_x, 
+            scene->getHeight() - b->getGrid() - (int(b->getY()) + delta_y), 
+            b->getGrid(), 
+            b->getGrid()
+        };
+        SDL_RenderCopy(scene->getRenderer(), b->getTexture(), NULL, &des_rect);
+    }
+    // Render moving blocks
+    for (Block *b : stage->getMovingBlockVec())
+    {
+        // Skip blocks that are outside of the screen
+        if (int(b->getX()) + delta_x < -b->getGrid() || 
+        scene->getHeight() - b->getGrid() - (int(b->getY()) + delta_y) > scene->getHeight() ||
+        int(b->getX()) + delta_x > scene->getWidth() + b->getGrid() ||
+        scene->getHeight() - b->getGrid() - (int(b->getY()) + delta_y) < -b->getGrid())
+            continue;
+
+        des_rect = {
+            int(b->getX()) + delta_x, 
+            scene->getHeight() - b->getGrid() - (int(b->getY()) + delta_y), 
             b->getGrid(), 
             b->getGrid()
         };

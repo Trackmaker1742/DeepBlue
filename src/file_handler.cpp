@@ -146,7 +146,8 @@ void File_Handler::readSave()
     save.close();
 }
 
-void File_Handler::readCSV(char stage_number, std::vector<std::vector<uint8_t>> &layer_int)
+void File_Handler::readCSV(char stage_number, 
+    std::vector<std::vector<std::string>> &blocks_str)
 {
     std::string path = "res/Stages/Stage ";
     path += stage_number;
@@ -159,26 +160,15 @@ void File_Handler::readCSV(char stage_number, std::vector<std::vector<uint8_t>> 
     std::string temp_row_str;
     while(std::getline(layout, temp_row_str))
     {
-        // Take value and append to a string
-        std::string value_str = "";
-        std::vector<uint8_t> temp_row_int;
-        for (int i = 0; i < temp_row_str.length(); i++)
+        std::stringstream row_stream(temp_row_str);
+        std::string value_str;
+        std::vector<std::string> temp_row_array;
+        // Process each value separated by ','
+        while (std::getline(row_stream, value_str, ',')) 
         {
-            if (temp_row_str[i] != ',')
-            {
-                // std::cout << temp_row_str[i] << " ";
-                value_str.push_back(temp_row_str[i]);
-            }
-            else
-            {
-                // Save int to stage layout array
-                // std::cout << std::stoi(value_str) << " ";
-                
-                temp_row_int.push_back(std::stoi(value_str));
-                value_str = "";
-            }
+            temp_row_array.push_back(value_str);
         }
-        layer_int.push_back(temp_row_int);
+        blocks_str.push_back(temp_row_array);
     }
 
     // Debug

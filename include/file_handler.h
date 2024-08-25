@@ -99,8 +99,9 @@ public:
     void readSave();
     
     // Function for reading stage layout in CSV form
-    // Convert the block array from string to int and store in stage_int
-    void readCSV(char stage_number, std::vector<std::vector<uint8_t>> &layer_int);
+    // and store in string, because moving block needs extra processing
+    void readCSV(char stage_number, 
+        std::vector<std::vector<std::string>> &blocks_str);
 
     // Parse a full stage folder
     // The idea is to combine all the read and store function to create a sort of template
