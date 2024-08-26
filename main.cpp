@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
 {
     int game_mode;
     char stage_number;
-    std::cout << "Pick game mode (6: platformer; 7, 8: shooter; 9: rhythm)\n";
+    std::cout << "Pick game mode (enter 6 or the game will crash)\n";
     std::cin >> game_mode;
     if (game_mode == 6)
     {
