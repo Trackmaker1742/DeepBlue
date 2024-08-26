@@ -11,7 +11,7 @@ void Scene::init(uint16_t w, uint16_t h, uint8_t f, uint8_t dopt)
     fps = f;
     display_option = dopt;
     // Switch case for display option (later)
-    window = SDL_CreateWindow("Deep Blue", 0, 0, width, height, SDL_WINDOW_BORDERLESS & SDL_WINDOW_POPUP_MENU);
+    window = SDL_CreateWindow("Deep Blue", 0, 0, width, height, SDL_WINDOW_BORDERLESS);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 }
 

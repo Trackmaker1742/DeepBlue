@@ -109,7 +109,7 @@ int main(int argc, char *argv[])
     uint64_t prev_frame = SDL_GetTicks64();
 
     bool quit = false;
-
+    SDL_RaiseWindow(scene->getWindow());
     while (!input->input() && quit != true)
     {
         // Calculating delta time
