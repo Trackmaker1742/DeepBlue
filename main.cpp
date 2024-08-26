@@ -40,11 +40,11 @@ int main(int argc, char *argv[])
     Scene *scene = new Scene(input);
     scene->init(test->getValue(0), test->getValue(1), test->getValue(2), test->getValue(3));
     scene->initAllMenu();
-    scene->setState(6);
+    scene->setState(8);
     
     // Stage
     Stage *stage = new Stage(scene->getRenderer());
-    stage->initPlatAll('1');
+    stage->initHoriShooterAll('1');
 
     // Camera
     // Only applies to platforming sections as of rn
@@ -374,4 +374,7 @@ int main(int argc, char *argv[])
 
 // Pretty much done with platforming codes now
 // Can't have moving slope cuz it's a huge pain
-// Just need to adjust the slope collision to make it look more natural (later)
+// Just need to adjust the slope collision to make it look more natural (done)
+
+// On to other modes now
+// Horizontal shooter first, because I already have the sprites

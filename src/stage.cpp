@@ -200,8 +200,21 @@ void Stage::initPlatAll(char stage_number)
 {
     initSpritePath(stage_number);
     initBackground();
-    // Curently stuck at block layer
     initBlockLayer(stage_number);
+}
+
+void Stage::initVertShooterAll(char stage_number)
+{
+    initSpritePath(stage_number);
+    initBackground();
+    // Init enemy array or something, idk
+}
+
+void Stage::initHoriShooterAll(char stage_number)
+{
+    initSpritePath(stage_number);
+    initBackground();
+    // Init enemy array or something, idk
 }
 
 // void Stage::initRhyAll(char stage_number)

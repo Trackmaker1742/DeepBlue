@@ -81,6 +81,9 @@ public:
     void initFrontLayer(char stage_number);  // Foreground elements (grass, stuff rendered after the player)
     void initPlatAll(char stage_number);
 
+    void initVertShooterAll(char stage_number);
+    void initHoriShooterAll(char stage_number);
+
     void initRhyObs(char stage_number);
     void initRhyAll(char stage_number);
 
