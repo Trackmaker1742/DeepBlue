@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
     
     // Stage
     Stage *stage = new Stage(scene->getRenderer());
-    stage->initPlatAll('2');
+    stage->initPlatAll('1');
 
     // Camera
     // Only applies to platforming sections as of rn

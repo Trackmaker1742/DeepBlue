@@ -263,16 +263,16 @@ void Renderer::renderPlatformer(Player *player)
         SDL_RenderCopy(scene->getRenderer(), player->getTexture(), &src_rect_j, &des_rect_j);
     }
 
-    // // Render the hitbox
-    // SDL_SetRenderDrawBlendMode(scene->getRenderer(), SDL_BLENDMODE_BLEND);
-    // SDL_SetRenderDrawColor(scene->getRenderer(), 255, 0, 0, 150);
-    // des_rect = {
-    //     cam->getRendX() + p_cam_offset_x, 
-    //     scene->getHeight() - player->getHeight() - cam->getRendY() - p_cam_offset_y, 
-    //     player->getWidth(),
-    //     player->getHeight()
-    // };
-    // SDL_RenderFillRect(scene->getRenderer(), &des_rect);
+    // Render the hitbox
+    SDL_SetRenderDrawBlendMode(scene->getRenderer(), SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(scene->getRenderer(), 255, 0, 0, 150);
+    des_rect = {
+        cam->getRendX() + p_cam_offset_x, 
+        scene->getHeight() - player->getHeight() - cam->getRendY() - p_cam_offset_y, 
+        player->getWidth(),
+        player->getHeight()
+    };
+    SDL_RenderFillRect(scene->getRenderer(), &des_rect);
 }
 
 void Renderer::renderVertShooter(Player *player)
