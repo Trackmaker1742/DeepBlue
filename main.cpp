@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
 {
     int game_mode;
     char stage_number;
-    std::cout << "Pick game mode (enter 6 or the game will crash)\n";
+    std::cout << "Pick game mode (enter 6 or the game will crash):\n";
     std::cin >> game_mode;
     if (game_mode == 6)
     {
@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
     Renderer *renderer = new Renderer(scene, cam);
 
     // Player
-    Player *player = new Player(scene->getFPS(), stage->getRespX(), stage->getRespY());
+    Player *player = new Player(scene->getFPS());
     
     // Change game state (manual for now)
     scene->setState(game_mode);
@@ -73,16 +73,25 @@ int main(int argc, char *argv[])
         case 6:
             stage->initPlatAll(stage_number);
             player->initPlat(scene->getRenderer());
+            // Set spawn
+            player->setX(stage->getRespX());
+            player->setY(stage->getRespY());
             break;
         // Vertical shooter init
         case 7:
             stage->initVertShooterAll('3');
             player->initVertShooter(scene->getRenderer());
+            // Set spawn
+            player->setX(scene->getWidth() / 2);
+            player->setY(scene->getHeight() / 2);
             break;
         // Horizontal shooter init
         case 8:
             stage->initHoriShooterAll('5');
             player->initHoriShooter(scene->getRenderer());
+            // Set spawn
+            player->setX(scene->getWidth() / 2);
+            player->setY(scene->getHeight() / 2);
             break;
         // Rhythm init
         case 9:
