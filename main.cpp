@@ -23,6 +23,16 @@
 
 int main(int argc, char *argv[])
 {
+    int game_mode;
+    char stage_number;
+    std::cout << "Pick game mode (6: platformer; 7, 8: shooter; 9: rhythm)\n";
+    std::cin >> game_mode;
+    if (game_mode == 6)
+    {
+        std::cout << "Choose stage (1 or 2):\n";
+        std::cin >> stage_number;
+    }
+
     // Play audio
     Audio *audio = new Audio();
     audio->init();
@@ -55,25 +65,28 @@ int main(int argc, char *argv[])
     // Player
     Player *player = new Player(scene->getFPS(), stage->getRespX(), stage->getRespY());
     
-    scene->setState(6);
+    // Change game state (manual for now)
+    scene->setState(game_mode);
     switch (scene->getState())
     {
         // Platforming init
         case 6:
+            stage->initPlatAll(stage_number);
             player->initPlat(scene->getRenderer());
-            stage->initPlatAll('2');
             break;
         // Vertical shooter init
         case 7:
+            stage->initVertShooterAll('3');
             player->initVertShooter(scene->getRenderer());
             break;
         // Horizontal shooter init
         case 8:
-            player->initHoriShooter(scene->getRenderer());
             stage->initHoriShooterAll('5');
+            player->initHoriShooter(scene->getRenderer());
             break;
         // Rhythm init
         case 9:
+            // Stage init rhythm all
             player->initRhythm(scene->getRenderer());
             break;
         default:
@@ -129,7 +142,7 @@ int main(int argc, char *argv[])
             break;
             // Platforming stage
             case 6:
-                // Audio test
+                // Audio test (works)
                 // input 7 is u key
                 if (input->getPress(7))
                 {
