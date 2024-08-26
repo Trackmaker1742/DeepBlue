@@ -17,7 +17,9 @@ private:
     uint16_t width = 800;
     uint16_t height = 600;
     uint8_t fps = 60;
-    uint8_t display_option = 0; 
+    uint8_t display_option = 0;
+
+    SDL_Surface *icon = IMG_Load("res/icon.png");
 
     // Delta time calculation
     float delta_time;
