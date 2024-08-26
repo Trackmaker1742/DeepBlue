@@ -23,7 +23,7 @@
 
 int main(int argc, char *argv[])
 {
-    int game_mode;
+    int game_mode = 8;
     char stage_number;
     std::cout << "Pick game mode (enter 6 or the game will crash):\n";
     std::cin >> game_mode;
@@ -181,13 +181,13 @@ int main(int argc, char *argv[])
             // WIP
             // Vertical shooting stage
             case 7:
-                player->shooterMvt(input, scene->getDeltaTime());
+                player->shooterMvt(input, scene->getDeltaTime(), scene->getWidth(), scene->getHeight());
                 renderer->renderStage(stage, player);
                 renderer->renderVertShooter(player);
             break;
             // Horizontal shooting stage
             case 8:
-                player->shooterMvt(input, scene->getDeltaTime());
+                player->shooterMvt(input, scene->getDeltaTime(), scene->getWidth(), scene->getHeight());
                 renderer->renderStage(stage, player);
                 renderer->renderHoriShooter(player);
             break;
@@ -402,3 +402,5 @@ int main(int argc, char *argv[])
 
 // On to other modes now
 // Horizontal shooter first, because I already have the sprites
+// Individual hitboxes are now done
+// Should be ready for projectile and enemy collisions

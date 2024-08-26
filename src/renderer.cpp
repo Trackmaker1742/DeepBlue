@@ -311,30 +311,63 @@ void Renderer::renderHoriShooter(Player *player)
     idle_counter += scene->getDeltaTime() * 5;
     if (idle_counter > 5) idle_counter = 0;
     src_rect = {
-        int(idle_counter) * 96, 
+        int(idle_counter) * 96,
         0,
         96,
         96
     };
 
     des_rect = {
-        int(player->getX()), 
-        scene->getHeight() - player->getGrid() - int(player->getY()), 
+        int(player->getX() - player->getGrid() / 6), 
+        scene->getHeight() - player->getGrid() - int(player->getY() - player->getGrid() / 6), 
         player->getGrid(), 
         player->getGrid()
     };
     SDL_RenderCopy(scene->getRenderer(), player->getTexture(), &src_rect, &des_rect);
 
-    // // Render the hitbox
-    // SDL_SetRenderDrawBlendMode(scene->getRenderer(), SDL_BLENDMODE_BLEND);
-    // SDL_SetRenderDrawColor(scene->getRenderer(), 255, 0, 0, 150);
-    // des_rect = {
-    //     int(player->getX()), 
-    //     scene->getHeight() - player->getGrid() - int(player->getY()), 
-    //     player->getGrid(), 
-    //     player->getGrid()
-    // };
-    // SDL_RenderFillRect(scene->getRenderer(), &des_rect);
+    // Render big hitbox
+    SDL_SetRenderDrawBlendMode(scene->getRenderer(), SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(scene->getRenderer(), 255, 255, 255, 150);
+    des_rect = {
+        int(player->getX()), 
+        scene->getHeight() - int(player->getSmallboxHeight()) - int(player->getY()), 
+        16, 
+        16
+    };
+    SDL_RenderFillRect(scene->getRenderer(), &des_rect);
+    
+    // Render small hitbox 1
+    SDL_SetRenderDrawBlendMode(scene->getRenderer(), SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(scene->getRenderer(), 255, 0, 0, 150);
+    des_rect = {
+        int(player->getSmallboxX(0)), 
+        scene->getHeight() - int(player->getSmallboxHeight()) - int(player->getSmallboxY(0)),
+        int(player->getSmallboxWidth()), 
+        int(player->getSmallboxHeight())
+    };
+    SDL_RenderFillRect(scene->getRenderer(), &des_rect);
+    
+    // Render small hitbox 2
+    SDL_SetRenderDrawBlendMode(scene->getRenderer(), SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(scene->getRenderer(), 255, 255, 0, 150);
+    des_rect = {
+        int(player->getSmallboxX(1)), 
+        scene->getHeight() - int(player->getSmallboxHeight()) - int(player->getSmallboxY(1)),
+        int(player->getSmallboxWidth()), 
+        int(player->getSmallboxHeight())
+    };
+    SDL_RenderFillRect(scene->getRenderer(), &des_rect);
+    
+    // Render small hitbox 3
+    SDL_SetRenderDrawBlendMode(scene->getRenderer(), SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(scene->getRenderer(), 0, 0, 255, 150);
+    des_rect = {
+        int(player->getSmallboxX(2)), 
+        scene->getHeight() - int(player->getSmallboxHeight()) - int(player->getSmallboxY(2)),
+        int(player->getSmallboxWidth()), 
+        int(player->getSmallboxHeight())
+    };
+    SDL_RenderFillRect(scene->getRenderer(), &des_rect);
 }
 
 void Renderer::renderRhythm(Player *player)
@@ -372,13 +405,13 @@ void Renderer::renderBackground(Stage *stage, Player *player)
 {
     if (!init_x) 
     {
-        initial_x = stage->getRespX();
+        initial_x = 0;
         init_x = true;
     }
     // Render background
     // 2 background image will be rendered at the same time
     // Divide des1 to slow down the bg speed
-    int des1 = - int((player->getX() - initial_x)) / 8;    // Starts at 0
+    int des1 = - int((player->getX() - initial_x)) / 8;     // Starts at 0
     int des2 = scene->getWidth() + des1;                    // Starts at end of screen
     // Once one bg is no longer in view, 
     // it will loop back or forward to keep covering the screen

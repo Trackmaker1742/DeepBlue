@@ -4,8 +4,8 @@ Player::Player(uint8_t fps, float X, float Y, const char *P) :
     Object2d(X, Y, P), game_fps(fps)
 { }
     
-uint8_t Player::getWidth() { return width; }
-uint8_t Player::getHeight() { return height; }
+uint16_t Player::getWidth() { return width; }
+uint16_t Player::getHeight() { return height; }
 
 float Player::getVelXMax() { return vel_x_max; }
 
@@ -57,6 +57,13 @@ bool Player::getApex() { return apex; }
 bool Player::getLand() { return land; }
 bool Player::getClimbUp() { return climb_up; }
 bool Player::getClimbDown() { return climb_down; }
+
+// void Player::setSmallboxX(int i, float x) { smallbox_x[i] = x; }
+// void Player::setSmallboxY(int i, float y) { smallbox_y[i] = y; }
+float Player::getSmallboxX(int i) { return smallbox_x[i]; }
+float Player::getSmallboxY(int i) { return smallbox_y[i]; }
+float Player::getSmallboxWidth() { return smallbox_width; }
+float Player::getSmallboxHeight() { return smallbox_height; }
 
 void Player::initPlat(SDL_Renderer *renderer)
 {
@@ -113,6 +120,8 @@ void Player::initPlat(SDL_Renderer *renderer)
 void Player::initVertShooter(SDL_Renderer *renderer)
 {
     setGrid(96);
+    width = getGrid();
+    height = getGrid();
 
     // Max velocity
     setAccelX(getGrid() * 4);
@@ -138,6 +147,10 @@ void Player::initVertShooter(SDL_Renderer *renderer)
 void Player::initHoriShooter(SDL_Renderer *renderer)
 {
     setGrid(96 * 2);
+    width = getGrid() * 2/3;
+    height = getGrid() * 2/3;
+    smallbox_width = getGrid() * 13/48;
+    smallbox_height = getGrid() * 19/48;
     
     // Max velocity
     setAccelX(getGrid() * 4);
@@ -413,19 +426,17 @@ void Player::platformerMvt(Input *input, float dt)
 }
 
 // Player shooter movement
-// Same physics
-void Player::shooterMvt(Input *input, float dt)
+void Player::shooterMvtAccel(Input *input, float dt)
 {
-    // Accel (First half)
-    // Down
-    if (input->getPress(1) && getVelY() > -vel_y_max)
-    {
-        setVelY(getVelY() - getAccelX() * dt * 0.5f);
-    }
     // Up
     if (input->getPress(0) && getVelY() < vel_y_max)
     {
         setVelY(getVelY() + getAccelX() * dt * 0.5f);
+    }
+    // Down
+    if (input->getPress(1) && getVelY() > -vel_y_max)
+    {
+        setVelY(getVelY() - getAccelX() * dt * 0.5f);
     }
     // Left
     if (input->getPress(2) && getVelX() > -vel_x_max)
@@ -480,75 +491,34 @@ void Player::shooterMvt(Input *input, float dt)
             setVelX(temp_speed_left > 0 ? temp_speed_left : 0);
         }
     }
+}
+
+// Same physics
+void Player::shooterMvt(Input *input, float dt, uint16_t game_width, uint16_t game_height)
+{
+    // Accel (First half)
+    shooterMvtAccel(input, dt);
 
     // Movement calculation
     setX(getX() + getVelX() * dt);
     setY(getY() + getVelY() * dt);
     
     // Accel (Second half)
-    // Up
-    if (input->getPress(0) && getVelY() < vel_y_max)
-    {
-        setVelY(getVelY() + getAccelX() * dt * 0.5f);
-    }
-    // Down
-    if (input->getPress(1) && getVelY() > -vel_y_max)
-    {
-        setVelY(getVelY() - getAccelX() * dt * 0.5f);
-    }
-    // Left
-    if (input->getPress(2) && getVelX() > -vel_x_max)
-    {
-        setVelX(getVelX() - getAccelX() * dt * 0.5f);
-    }
-    // Right
-    if (input->getPress(3) && getVelX() < vel_x_max)
-    {
-        setVelX(getVelX() + getAccelX() * dt * 0.5f);
-    }
-    // Decel (Second half)
-    // Vertical
-    if (getVelY() &&                                    // Speed != 0
-        input->getPress(0) && input->getPress(1) ||     // Dual input
-        !input->getPress(0) && !input->getPress(1) ||   // No input
-        input->getPress(0) && getVelY() < 0 ||          // Go up when speed < 0
-        input->getPress(1) && getVelY() > 0)            // Go down when speed > 0
-    {
-        // Decel works by applying 3 times the speed of the opposite direction
-        // Down
-        if (getVelY() < 0)
-        {
-            temp_speed_up = getVelY() + getAccelX() * dt * 0.5f * 3;
-            setVelY(temp_speed_up < 0 ? temp_speed_up : 0);
-        }
-        // Up
-        else if (getVelY() > 0)
-        {
-            temp_speed_down = getVelY() - getAccelX() * dt * 0.5f * 3;
-            setVelY(temp_speed_down > 0 ? temp_speed_down : 0);
-        }
-    }
-    // Horizontal
-    if (getVelX() &&                                    // Speed != 0
-        input->getPress(2) && input->getPress(3) ||     // Dual input
-        !input->getPress(2) && !input->getPress(3) ||   // No input
-        input->getPress(2) && getVelX() > 0 ||          // Go left when speed > 0
-        input->getPress(3) && getVelX() < 0)            // Go right when speed < 0
-    {
-        // Decel works by applying 3 times the speed of the opposite direction
-        // Left
-        if (getVelX() < 0)
-        {
-            temp_speed_right = getVelX() + getAccelX() * dt * 0.5f * 3;
-            setVelX(temp_speed_right < 0 ? temp_speed_right : 0);
-        }
-        // Right
-        else if (getVelX() > 0)
-        {
-            temp_speed_left = getVelX() - getAccelX() * dt * 0.5f * 3;
-            setVelX(temp_speed_left > 0 ? temp_speed_left : 0);
-        }
-    }
+    shooterMvtAccel(input, dt);
+
+    // Prevent player from going out of bound
+    if (getX() < 0) setX(0);
+    if (getY() < 0) setY(0);
+    if (getX() + getWidth() > game_width) setX(game_width - getWidth());
+    if (getY() + getHeight() > game_height) setY(game_height - getHeight());
+
+    // Assign hitbox coordinates for collision checks
+    smallbox_x[0] = getX() + getGrid() / 48;
+    smallbox_y[0] = getY() + getGrid() * 13/48;
+    smallbox_x[1] = getX() + getGrid() * 5/32;
+    smallbox_y[1] = getY() + getGrid() * 5/96;
+    smallbox_x[2] = getX() + getGrid() * 3/8;
+    smallbox_y[2] = getY() + getGrid() * 13/48;
 }
 
 // Different attack style

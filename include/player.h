@@ -17,8 +17,8 @@ class Player : public Object2d
 {
 private:
     // Collision handler, will be replacing grid
-    uint8_t width;
-    uint8_t height;
+    uint16_t width;
+    uint16_t height;
 
     bool on_ground;
     bool right;     // true: facing right
@@ -100,6 +100,10 @@ private:
     // Vertical
     uint8_t level;      // Increase as more item is collected, max is 4
     // Horizontal
+    float smallbox_x[3];  // Array of x coordinates (for 3 different hitboxes)
+    float smallbox_y[3];  // Array of y coordinates (for 3 different hitboxes)
+    uint8_t smallbox_width;     // Width of each small hitbox
+    uint8_t smallbox_height;    // Height of each small hitbox
     uint8_t health;     // 3 hp, restart at 0, can be refilled with item
     uint16_t energy;    // Increase as more shot lands, max 300?
     bool dark;       // 2 states, light and dark
@@ -137,8 +141,8 @@ private:
 public:
     Player(uint8_t fps, float X = 0, float Y = 0, const char *P = "");
     
-    uint8_t getWidth();
-    uint8_t getHeight();
+    uint16_t getWidth();
+    uint16_t getHeight();
 
     float getVelXMax();
 
@@ -190,6 +194,13 @@ public:
     bool getLand();
     bool getClimbUp();
     bool getClimbDown();
+
+    // void setSmallboxX(int i, float x);
+    // void setSmallboxY(int i, float y);
+    float getSmallboxX(int i);
+    float getSmallboxY(int i);
+    float getSmallboxWidth();
+    float getSmallboxHeight();
     
     void initPlat(SDL_Renderer *renderer);      // Used to init and reinit all the values related to 
                                                 // fps or scaling (grid size) to dynamically change settings 
@@ -204,8 +215,9 @@ public:
     void platformerMvt(Input *input, float dt);
 
     // Player shooter movement
+    void shooterMvtAccel(Input *input, float dt);
     // Same physics
-    void shooterMvt(Input *input, float dt);
+    void shooterMvt(Input *input, float dt, uint16_t game_width, uint16_t game_height);
     // Different attack style
     void shooterVertAtk(SDL_Renderer *renderer, Input *input, Projectile *proj, float dt);
     void shooterHoriAtk(SDL_Renderer *renderer, Input *input, Projectile *proj, float dt);
