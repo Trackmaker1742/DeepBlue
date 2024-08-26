@@ -40,11 +40,9 @@ int main(int argc, char *argv[])
     Scene *scene = new Scene(input);
     scene->init(test->getValue(0), test->getValue(1), test->getValue(2), test->getValue(3));
     scene->initAllMenu();
-    scene->setState(8);
     
     // Stage
     Stage *stage = new Stage(scene->getRenderer());
-    stage->initHoriShooterAll('1');
 
     // Camera
     // Only applies to platforming sections as of rn
@@ -56,26 +54,30 @@ int main(int argc, char *argv[])
 
     // Player
     Player *player = new Player(scene->getFPS(), stage->getRespX(), stage->getRespY());
+    
+    scene->setState(6);
     switch (scene->getState())
     {
         // Platforming init
         case 6:
             player->initPlat(scene->getRenderer());
-        break;
+            stage->initPlatAll('2');
+            break;
         // Vertical shooter init
         case 7:
             player->initVertShooter(scene->getRenderer());
-        break;
+            break;
         // Horizontal shooter init
         case 8:
             player->initHoriShooter(scene->getRenderer());
-        break;
+            stage->initHoriShooterAll('5');
+            break;
         // Rhythm init
         case 9:
             player->initRhythm(scene->getRenderer());
-        break;
+            break;
         default:
-        break;
+            break;
     }
 
     // Collision checker
