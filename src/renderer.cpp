@@ -330,9 +330,9 @@ void Renderer::renderHoriShooter(Player *player)
     SDL_SetRenderDrawColor(scene->getRenderer(), 255, 255, 255, 150);
     des_rect = {
         int(player->getX()), 
-        scene->getHeight() - int(player->getSmallboxHeight()) - int(player->getY()), 
-        16, 
-        16
+        scene->getHeight() - int(player->getHeight()) - int(player->getY()), 
+        player->getWidth(), 
+        player->getHeight()
     };
     SDL_RenderFillRect(scene->getRenderer(), &des_rect);
     

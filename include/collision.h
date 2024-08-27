@@ -38,9 +38,14 @@ public:
     // Rhythm stuff
     void playerRhythmColli(Stage *stage, Player *player);
 
-    // Shooter stuff
-    void playerEnemyColli(Enemy *enemy, Player *player);
-    void projectilePlayerColli(Projectile *proj, Player *player);
+    // Horizontal shooter stuff
+    void horiPlayerEnemyColli(Player *player, Enemy *enemy);
+    void horiPlayerProjColli(Player *player, Projectile *proj);
+
+    // Vertical shooter stuff
+    void vertPlayerEnemyColli(Player *player, Enemy *enemy);
+    void vertPlayerProjColli(Player *player, Projectile *proj);
+
     void projectileEnemyColli(Projectile *proj, Enemy *enemy);
 
     ~Collision();

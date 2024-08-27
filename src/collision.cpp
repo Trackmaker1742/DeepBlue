@@ -423,8 +423,38 @@ void Collision::playerRhythmColli(Stage *stage, Player *player)
     }
 }
 
-// Shooter stuff
-void Collision::playerEnemyColli(Enemy *enemy, Player *player)
+// Horizontal shooter stuff
+void Collision::horiPlayerEnemyColli(Player *player, Enemy *enemy)
+{
+    // Loop through all 3 smallboxes
+    for (int i = 0; i < 3; i++)
+    {
+        if (player->getSmallboxX(i) < enemy->getX() + enemy->getGrid() &&
+        player->getSmallboxX(i) + player->getSmallboxWidth() > enemy->getX() &&
+        player->getSmallboxY(i) < enemy->getY() + enemy->getGrid() &&
+        player->getSmallboxY(i) + player->getSmallboxHeight() > enemy->getY())
+        {
+            player->setHealth(player->getHealth() - 1);
+        }
+    }
+}
+void Collision::horiPlayerProjColli(Player *player, Projectile *proj)
+{
+    // Loop through all 3 smallboxes
+    for (int i = 0; i < 3; i++)
+    {
+        if (player->getSmallboxX(i) < proj->getX() + proj->getGrid() &&
+        player->getSmallboxX(i) + player->getSmallboxWidth() > proj->getX() &&
+        player->getSmallboxY(i) < proj->getY() + proj->getGrid() &&
+        player->getSmallboxY(i) + player->getSmallboxHeight() > proj->getY())
+        {
+            player->setHealth(player->getHealth() - 1);
+        }
+    }
+}
+
+// Vertical shooter stuff
+void Collision::vertPlayerEnemyColli(Player *player, Enemy *enemy)
 {
     // Every object is a square now with how I use grid collision lol
     if (player->getX() < enemy->getX() + enemy->getGrid() &&
@@ -433,9 +463,11 @@ void Collision::playerEnemyColli(Enemy *enemy, Player *player)
     player->getY() + player->getGrid() > enemy->getY())
     {
         // Do something when player collide with enemy
+        player->setHealth(player->getHealth() - 1);
+        
     }
 }
-void Collision::projectilePlayerColli(Projectile *proj, Player *player)
+void Collision::vertPlayerProjColli(Player *player, Projectile *proj)
 {
     if (player->getX() < proj->getX() + proj->getGrid() &&
     player->getX() + player->getX() > proj->getX() &&
@@ -443,6 +475,7 @@ void Collision::projectilePlayerColli(Projectile *proj, Player *player)
     player->getY() + player->getGrid() > proj->getY())
     {
         // Do something when player collide with proj
+        player->setHealth(player->getHealth() - 1);
     }
 }
 void Collision::projectileEnemyColli(Projectile *proj, Enemy *enemy)

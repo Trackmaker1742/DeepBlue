@@ -9,28 +9,25 @@ uint16_t Player::getHeight() { return height; }
 
 float Player::getVelXMax() { return vel_x_max; }
 
-void Player::setRight(bool r) { right = r; }    
-bool Player::getRight() { return right; }
-
+void Player::setRight(bool r) { right = r; }
 void Player::setOnGround(bool og) { on_ground = og; }
-bool Player::getOnGround() { return on_ground; }
-
 void Player::setOnWall(bool ow) { on_wall = ow; }
-bool Player::getOnWall() { return on_wall; }
+void Player::setOnMovingBlock(bool omb) { on_moving_block = omb; }
+void Player::setDashHalt(bool dh) { dash_halt = dh; }
 
+bool Player::getRight() { return right; }
+bool Player::getOnGround() { return on_ground; }
+bool Player::getOnWall() { return on_wall; }
+bool Player::getOnMovingBlock() { return on_moving_block; }
+bool Player::getDashHalt() { return dash_halt; }
 bool Player::getOnDash() { return on_dash; }
 
-void Player::setOnMovingBlock(bool omb) { on_moving_block = omb; }
-bool Player::getOnMovingBlock() { return on_moving_block; }
-
-void Player::setDashHalt(bool dh) { dash_halt = dh; }
-bool Player::getDashHalt() { return dash_halt; }
-
+void Player::setInvul(bool i) { invul = i; }
 bool Player::getInvul() { return invul; }
 
-uint8_t Player::getLane() { return current_lane; }
 void Player::setRhyBar(float bar) { rhythm_bar = bar; } 
 float Player::getRhyBar() { return rhythm_bar; }
+uint8_t Player::getLane() { return current_lane; }
 bool Player::getRhyAtk() { return rhythm_atk; }
 float Player::getRhySpeed() { return rhythm_speed; }
 float Player::getRhyAtkX() { return rhythm_atk_x; }
@@ -58,6 +55,8 @@ bool Player::getLand() { return land; }
 bool Player::getClimbUp() { return climb_up; }
 bool Player::getClimbDown() { return climb_down; }
 
+void Player::setHealth(uint8_t h) { health = h; }
+uint8_t Player::getHealth() { return health; }
 // void Player::setSmallboxX(int i, float x) { smallbox_x[i] = x; }
 // void Player::setSmallboxY(int i, float y) { smallbox_y[i] = y; }
 float Player::getSmallboxX(int i) { return smallbox_x[i]; }

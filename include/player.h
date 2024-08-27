@@ -147,33 +147,33 @@ public:
     float getVelXMax();
 
     void setRight(bool r);
-    bool getRight();
-
     void setOnGround(bool og);
-    bool getOnGround();
-
     void setOnWall(bool ow);
-    bool getOnWall();
+    void setOnMovingBlock(bool omb);
+    void setDashHalt(bool dh);
 
+    bool getRight();
+    bool getOnGround();
+    bool getOnWall();
+    bool getOnMovingBlock();
+    bool getDashHalt();
     bool getOnDash();
 
-    void setOnMovingBlock(bool omb);
-    bool getOnMovingBlock();
-
-    void setDashHalt(bool dh);
-    bool getDashHalt();
-
+    // Anything with health and invul state
+    void setInvul(bool i);
     bool getInvul();
 
-    uint8_t getLane();
+    // Rhythm related variables
     void setRhyBar(float bar);
     float getRhyBar();
+    uint8_t getLane();
     bool getRhyAtk();
     float getRhySpeed();
     float getRhyAtkX();
     float getRhyAtkY();
     uint16_t getRhyAtkGrid();
 
+    // Shooter related variables
     bool getVertical();
 
     void setRenderX(float x);
@@ -195,6 +195,8 @@ public:
     bool getClimbUp();
     bool getClimbDown();
 
+    void setHealth(uint8_t h);
+    uint8_t getHealth();
     // void setSmallboxX(int i, float x);
     // void setSmallboxY(int i, float y);
     float getSmallboxX(int i);
