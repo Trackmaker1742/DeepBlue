@@ -188,6 +188,7 @@ int main(int argc, char *argv[])
             // Horizontal shooting stage
             case 8:
                 player->shooterMvt(input, scene->getDeltaTime(), scene->getWidth(), scene->getHeight());
+                player->shooterHoriAtk(scene, input, scene->getDeltaTime());
                 renderer->renderStage(stage, player);
                 renderer->renderHoriShooter(player);
             break;

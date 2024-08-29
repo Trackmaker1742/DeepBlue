@@ -232,5 +232,5 @@ uint16_t File_Handler::getValue(int i) { return values[i]; }
 
 File_Handler::~File_Handler()
 {
-    csv_paths.clear();
+    // csv_paths.clear();
 }

@@ -211,5 +211,5 @@ void Scene::updatePauseMenu()
 
 Scene::~Scene()
 { 
-    bg_array.clear();
+    // bg_array.clear();
 }

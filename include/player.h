@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <math.h>
+#include <memory>
 
 #include "object2d.h"
 #include "input.h"
@@ -96,7 +97,8 @@ private:
     bool vertical = true;   // To identify each mode during collision calc
     bool shooter_can_atk;
     uint8_t shooter_atk_counter;
-    float shooter_atk_delay;  
+    float shooter_atk_delay;
+    std::vector<std::unique_ptr<Projectile>> projectiles;
     // Vertical
     uint8_t level;      // Increase as more item is collected, max is 4
     // Horizontal
@@ -203,6 +205,8 @@ public:
     float getSmallboxY(int i);
     float getSmallboxWidth();
     float getSmallboxHeight();
+
+    std::vector<std::unique_ptr<Projectile>> &getProjectiles();
     
     void initPlat(SDL_Renderer *renderer);      // Used to init and reinit all the values related to 
                                                 // fps or scaling (grid size) to dynamically change settings 
@@ -221,8 +225,8 @@ public:
     // Same physics
     void shooterMvt(Input *input, float dt, uint16_t game_width, uint16_t game_height);
     // Different attack style
-    void shooterVertAtk(SDL_Renderer *renderer, Input *input, Projectile *proj, float dt);
-    void shooterHoriAtk(SDL_Renderer *renderer, Input *input, Projectile *proj, float dt);
+    void shooterVertAtk(Scene *scene, Input *input, float dt);
+    void shooterHoriAtk(Scene *scene, Input *input, float dt);
 
     // Player rhythm movement
     void rhythmMvt(Input *input, float dt);

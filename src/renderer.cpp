@@ -507,18 +507,18 @@ void Renderer::renderStage(Stage *stage, Player *player)
         SDL_RenderCopy(scene->getRenderer(), b->getTexture(), NULL, &des_rect);
     }
     // Render projectiles
-    for (Projectile *p : stage->getProjVec())
+    for (auto &p : player->getProjectiles())
     {
         // Skip projectiles that are outside of the screen
-        if (int(p->getGridX()) + delta_x < -p->getGrid() || 
-        scene->getHeight() - p->getGrid() - (int(p->getGridY()) + delta_y) > scene->getHeight() ||
-        int(p->getGridX()) + delta_x > scene->getWidth() + p->getGrid() ||
-        scene->getHeight() - p->getGrid() - (int(p->getGridY()) + delta_y) < -p->getGrid())
+        if (int(p->getX()) + delta_x < -p->getGrid() || 
+        scene->getHeight() - p->getGrid() - (int(p->getY()) + delta_y) > scene->getHeight() ||
+        int(p->getX()) + delta_x > scene->getWidth() + p->getGrid() ||
+        scene->getHeight() - p->getGrid() - (int(p->getY()) + delta_y) < -p->getGrid())
             continue;
 
         des_rect = {
-            int(p->getGridX()) + delta_x, 
-            scene->getHeight() - p->getGrid() - (int(p->getGridY()) + delta_y), 
+            int(p->getX()) + delta_x, 
+            scene->getHeight() - p->getGrid() - (int(p->getY()) + delta_y), 
             p->getGrid(), 
             p->getGrid()
         };

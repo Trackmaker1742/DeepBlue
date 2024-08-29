@@ -1,4 +1,6 @@
 cmake_minimum_required(VERSION 3.30)
+set(CMAKE_CXX_COMPILER "C:/Media/Environments/msys64/mingw64/bin/g++.exe")
+set(CMAKE_C_COMPILER "C:/Media/Environments/msys64/mingw64/bin/gcc.exe")
 project(DeepBlue)
 
 # Cpp 20

@@ -18,7 +18,7 @@ void Audio::init()
     {
         bgm.push_back(Mix_LoadMUS(file));
     }
-    bgm_files.clear();
+    // bgm_files.clear();
 
     // Load sound_fx waveforms
     std::vector<const char*> sound_fx_files =
@@ -30,7 +30,7 @@ void Audio::init()
     {
         sound_fx.push_back(Mix_LoadWAV(file));
     }
-    sound_fx_files.clear();
+    // sound_fx_files.clear();
 }
 
 void Audio::playBgm(int track_number, int loops)

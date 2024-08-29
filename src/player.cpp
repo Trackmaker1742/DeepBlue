@@ -64,6 +64,8 @@ float Player::getSmallboxY(int i) { return smallbox_y[i]; }
 float Player::getSmallboxWidth() { return smallbox_width; }
 float Player::getSmallboxHeight() { return smallbox_height; }
 
+std::vector<std::unique_ptr<Projectile>> &Player::getProjectiles() { return projectiles; }
+
 void Player::initPlat(SDL_Renderer *renderer)
 {
     setGrid(128);
@@ -164,7 +166,7 @@ void Player::initHoriShooter(SDL_Renderer *renderer)
     // Attack
     shooter_can_atk = true;
     shooter_atk_counter = 0;
-    shooter_atk_delay = game_fps / 3;
+    shooter_atk_delay = game_fps / 5;
 
     // Player status
     health = 3;
@@ -521,7 +523,7 @@ void Player::shooterMvt(Input *input, float dt, uint16_t game_width, uint16_t ga
 }
 
 // Different attack style
-void Player::shooterVertAtk(SDL_Renderer *renderer, Input *input, Projectile *proj, float dt)
+void Player::shooterVertAtk(Scene *scene, Input *input, float dt)
 {
     // Allows for hold, no need to spam attack to shoot
     // An interval of half a second for default projectile speed
@@ -529,7 +531,7 @@ void Player::shooterVertAtk(SDL_Renderer *renderer, Input *input, Projectile *pr
     if (input->getPress(6) && shooter_can_atk)
     {
         Projectile *proj = new Projectile(getX() + 24, getY() + getGrid(), "res/Player Sprites/Drool.png");
-        proj->initStraightProj(renderer, true);
+        proj->initStraightProj(scene->getRenderer(), true);
         shooter_can_atk = false;
     }
     if (!shooter_can_atk)
@@ -538,21 +540,43 @@ void Player::shooterVertAtk(SDL_Renderer *renderer, Input *input, Projectile *pr
         if (shooter_atk_counter >= shooter_atk_delay) shooter_can_atk = true;
     }
 }
-void Player::shooterHoriAtk(SDL_Renderer *renderer, Input *input, Projectile *proj, float dt)
+
+void Player::shooterHoriAtk(Scene *scene, Input *input, float dt)
 {
     // Allows for hold, no need to spam attack to shoot
     // An interval of half one third of a second for projectile
-    if (input->getPress(6) && shooter_can_atk)
+    if (shooter_can_atk)
     {
-        // Projectile spawn coordinates tbd, as the sprite isn't done yet
-        // Projectile *proj = new Projectile();
-        // proj->initStraightProj()
+        if (input->getPress(6))
+        {
+            // Projectile spawn coordinates tbd, as the sprite isn't done yet
+            projectiles.push_back(std::make_unique<Projectile>(getX() + getWidth() + getGrid() / 4, getY(), "res/Character Sheets/Drool.png"));
+            projectiles.back()->initStraightProj(scene->getRenderer(), false);
+            shooter_can_atk = false;
+        }
     }
-    if (!shooter_can_atk)
+    else
     {
         shooter_atk_counter++;
-        if (shooter_atk_counter >= shooter_atk_delay) shooter_can_atk = true;
+        if (shooter_atk_counter >= shooter_atk_delay) 
+        {
+            shooter_can_atk = true;
+            shooter_atk_counter = 0;
+        }
     }
+
+    for (auto &p : projectiles)
+    {
+        p->projectileMovement(dt);
+    }
+
+    if (projectiles.size() > 0)
+    if (projectiles[0]->getX() > scene->getWidth() - 100) 
+    {
+        projectiles.erase(projectiles.begin()); // erase returns the next iterator
+    }  
+
+    std::cout << projectiles.size() << "\n";
 }
 
 // Player rhythm movement

@@ -40,18 +40,18 @@ void Stage::initBackground()
         background_layers.push_back(SDL_CreateTextureFromSurface(renderer, surface));
         SDL_FreeSurface(surface);
     }
-    background_paths.clear();
+    // background_paths.clear();
 }
 
 void Stage::initBlockLayer(char stage_number)
 {
     // Clear block arrays
-    block_str.clear();
-    front_str.clear();
+    // block_str.clear();
+    // front_str.clear();
 
-    blocks.clear();
-    moving_blocks.clear();
-    front_blocks.clear();
+    // blocks.clear();
+    // moving_blocks.clear();
+    // front_blocks.clear();
 
     // Read stage layout straight from csv file
     File_Handler *file = new File_Handler();
@@ -237,11 +237,11 @@ void Stage::update(float dt)
 void Stage::unloadStage()
 {
     // Clear all blocks from memory
-    blocks.clear();
-    background_paths.clear();
-    background_layers.clear();
-    block_paths.clear();
-    obstacle_path.clear();
+    // blocks.clear();
+    // background_paths.clear();
+    // background_layers.clear();
+    // block_paths.clear();
+    // obstacle_path.clear();
     // Set spawn back to 0
     resp_x = 0;
     resp_y = 0;
@@ -249,9 +249,9 @@ void Stage::unloadStage()
 
 Stage::~Stage()
 {
-    blocks.clear();
-    background_paths.clear();
-    background_layers.clear();
-    block_paths.clear();
-    obstacle_path.clear();
+    // blocks.clear();
+    // background_paths.clear();
+    // background_layers.clear();
+    // block_paths.clear();
+    // obstacle_path.clear();
 }
