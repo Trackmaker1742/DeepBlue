@@ -530,8 +530,8 @@ void Player::shooterVertAtk(Scene *scene, Input *input, float dt)
     // and a quarter of a second for stage 1 and beyond
     if (input->getPress(6) && shooter_can_atk)
     {
-        Projectile *proj = new Projectile(getX() + 24, getY() + getGrid(), "res/Player Sprites/Drool.png");
-        proj->initStraightProj(scene->getRenderer(), true);
+        projectiles.push_back(new Projectile(getX() + getWidth() + getGrid() / 4, getY(), "res/Character Sheets/Drool.png"));
+        projectiles.back()->initStraightProj(scene->getRenderer(), false);
         shooter_can_atk = false;
     }
     if (!shooter_can_atk)
@@ -565,30 +565,16 @@ void Player::shooterHoriAtk(Scene *scene, Input *input, float dt)
         }
     }
 
-    // for (int i = 0; i < projectiles.size(); i++)
-    // {
-    //     projectiles[i]->projectileMovement(dt);
-        
-    //     if (projectiles[i]->getX() > scene->getWidth() - 100) 
-    //     {
-    //         delete projectiles[i];
-    //         projectiles[i] = nullptr;
-    //         projectiles.erase(projectiles.begin() + i);
-    //     } 
-    // }
-
-    for (auto it = projectiles.begin(); it != projectiles.end(); ) 
+    for (int i = 0; i < projectiles.size(); i++)
     {
-        (*it)->projectileMovement(dt);
-        if ((*it)->getX() > scene->getWidth() - 100) 
+        projectiles[i]->projectileMovement(dt);
+        
+        if (projectiles[i]->getX() > scene->getWidth()) 
         {
-            delete *it;              // Delete the object
-            it = projectiles.erase(it);     // Remove the element from the vector and update the iterator
+            delete projectiles[i];
+            projectiles[i] = nullptr;
+            projectiles.erase(projectiles.begin() + i);
         } 
-        else 
-        {
-            ++it;                    // Move to the next element if no deletion
-        }
     }
 
     projectiles.shrink_to_fit();

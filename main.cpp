@@ -26,13 +26,13 @@ int main(int argc, char *argv[])
 {
     int game_mode = 8;
     char stage_number = '1';
-    std::cout << "Pick game mode (enter 6 or the game will crash):\n";
-    std::cin >> game_mode;
-    if (game_mode == 6)
-    {
-        std::cout << "Choose stage (1 or 2):\n";
-        std::cin >> stage_number;
-    }
+    // std::cout << "Pick game mode (enter 6 or the game will crash):\n";
+    // std::cin >> game_mode;
+    // if (game_mode == 6)
+    // {
+    //     std::cout << "Choose stage (1 or 2):\n";
+    //     std::cin >> stage_number;
+    // }
 
     // Play audio
     Audio *audio = new Audio();
