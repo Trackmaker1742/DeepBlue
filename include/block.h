@@ -34,6 +34,11 @@ private:
                     // 14: Spring (right)
 
                     // New moving block formatting style
+                    // Give each block a certain amount of moves to each direction
+                    // For example: 06|13|10|1 would be to move a normal block (type 6)
+                    // 13 grid in the x axis, 10 grid in the y axis
+                    // 1 will be a manual moving block (require player to stand on to start moving)
+                    // Since it's a boolean, 0 means it is automatically moving block
 
                     // The plan is to have block with 1 type and multiple sprites to be separated into ranges, 
                     // so that the stage can parse it correctly
