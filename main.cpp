@@ -6,6 +6,7 @@
 #include <cmath>
 #include <windows.h>
 #include <filesystem>
+#include <memory>
 
 #include "scene.h"
 #include "input.h"
@@ -23,15 +24,23 @@
 
 int main(int argc, char *argv[])
 {
+    // std::vector<std::unique_ptr<Projectile>> auds;
+    // auds.push_back(std::make_unique<Projectile>(1, 1, "res/Character Sheets/Drool.png"));
+    // auds.push_back(std::make_unique<Projectile>(1, 1, "res/Character Sheets/Drool.png"));
+    // auds.push_back(std::make_unique<Projectile>(1, 1, "res/Character Sheets/Drool.png"));
+    
+    // auds.erase(auds.begin());
+    // // auds.clear(); // Clear the vector to avoid dangling pointers
+
     int game_mode = 8;
-    char stage_number;
-    std::cout << "Pick game mode (enter 6 or the game will crash):\n";
-    std::cin >> game_mode;
-    if (game_mode == 6)
-    {
-        std::cout << "Choose stage (1 or 2):\n";
-        std::cin >> stage_number;
-    }
+    char stage_number = '1';
+    // std::cout << "Pick game mode (enter 6 or the game will crash):\n";
+    // std::cin >> game_mode;
+    // if (game_mode == 6)
+    // {
+    //     std::cout << "Choose stage (1 or 2):\n";
+    //     std::cin >> stage_number;
+    // }
 
     // Play audio
     Audio *audio = new Audio();

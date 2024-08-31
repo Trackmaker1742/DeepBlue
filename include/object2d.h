@@ -28,6 +28,7 @@ private:
     // Grid size
     uint16_t grid = 64;
     
+protected:
     // Sprite handler
     const char* path;
     SDL_Surface* surface;
@@ -43,7 +44,6 @@ public:
     void setVelY(float vy);
     void setAccelX(float ax);
     void setAccelY(float ay);
-    void setGridX(uint16_t);
 
     // Getters
     float getX();

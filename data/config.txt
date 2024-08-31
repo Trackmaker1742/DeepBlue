@@ -2,8 +2,8 @@
 # The order of the settings are not important
 
 # Window size (width, height)
-width | 1920
-height | 1080
+width | 1280
+height | 720
 
 # Frame rate (FPS)
 FPS | 120

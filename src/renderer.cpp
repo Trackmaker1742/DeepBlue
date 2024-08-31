@@ -507,7 +507,7 @@ void Renderer::renderStage(Stage *stage, Player *player)
         SDL_RenderCopy(scene->getRenderer(), b->getTexture(), NULL, &des_rect);
     }
     // Render projectiles
-    for (auto &p : player->getProjectiles())
+    for (auto p : player->getProjectiles())
     {
         // Skip projectiles that are outside of the screen
         if (int(p->getX()) + delta_x < -p->getGrid() || 

@@ -98,7 +98,7 @@ private:
     bool shooter_can_atk;
     uint8_t shooter_atk_counter;
     float shooter_atk_delay;
-    std::vector<std::unique_ptr<Projectile>> projectiles;
+    std::vector<Projectile*> projectiles;
     // Vertical
     uint8_t level;      // Increase as more item is collected, max is 4
     // Horizontal
@@ -206,7 +206,7 @@ public:
     float getSmallboxWidth();
     float getSmallboxHeight();
 
-    std::vector<std::unique_ptr<Projectile>> &getProjectiles();
+    std::vector<Projectile*> getProjectiles();
     
     void initPlat(SDL_Renderer *renderer);      // Used to init and reinit all the values related to 
                                                 // fps or scaling (grid size) to dynamically change settings 

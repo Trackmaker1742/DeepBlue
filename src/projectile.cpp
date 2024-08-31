@@ -13,12 +13,12 @@ void Projectile::initStraightProj(SDL_Renderer *renderer, bool v)
     // This patchwork solution should suffice
     if (vertical)
     {   
-        setVelY(getGrid() * (from_enemy ? -2 : 5));
+        setVelY(getGrid() * (from_enemy ? -4 : 20));
         setVelX(0);
     }
     else
     {   
-        setVelX(getGrid() * (from_enemy ? -2 : 5));
+        setVelX(getGrid() * (from_enemy ? -4 : 20));
         setVelY(0);
     }
 
@@ -73,4 +73,6 @@ void Projectile::projectileMovement(float dt)
 }
 
 Projectile::~Projectile()
-{ }
+{ 
+    // std::cout << "destroyed\n";
+}

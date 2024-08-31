@@ -34,24 +34,35 @@ void Stage::initSpritePath(char stage_number)
 
 void Stage::initBackground()
 {
+    int i = 0;
     for (std::string path : background_paths)
     {
         SDL_Surface* surface = IMG_Load(path.c_str());
         background_layers.push_back(SDL_CreateTextureFromSurface(renderer, surface));
         SDL_FreeSurface(surface);
+        path.erase(path.begin() + i);
+        i++;
     }
-    // background_paths.clear();
+    background_paths.clear();
 }
 
 void Stage::initBlockLayer(char stage_number)
 {
     // Clear block arrays
-    // block_str.clear();
-    // front_str.clear();
+    block_str.clear();
+    front_str.clear();
 
-    // blocks.clear();
-    // moving_blocks.clear();
-    // front_blocks.clear();
+    // Pointer vectors, need to be deleted
+    // blocks.push_back(new Block(1, 1, "", 4));
+    // for (int i = 0; i < blocks.size(); i++)
+    // {
+    //     std::cout << "delete blocks" << "\n";
+    //     delete blocks[i];
+    //     blocks.erase(blocks.begin() + i);
+    // }
+    blocks.clear();
+    moving_blocks.clear();
+    front_blocks.clear();
 
     // Read stage layout straight from csv file
     File_Handler *file = new File_Handler();
@@ -236,12 +247,19 @@ void Stage::update(float dt)
 
 void Stage::unloadStage()
 {
-    // Clear all blocks from memory
-    // blocks.clear();
-    // background_paths.clear();
-    // background_layers.clear();
-    // block_paths.clear();
-    // obstacle_path.clear();
+    background_paths.clear();
+    block_paths.clear();
+    obstacle_path.clear();
+
+    // Pointer vectors, need to be deleted
+    for (int i = 0; i < blocks.size(); i++)
+    {
+        delete blocks[i];
+        blocks.erase(blocks.begin() + i);
+    }
+    blocks.clear();
+    background_layers.clear();
+    
     // Set spawn back to 0
     resp_x = 0;
     resp_y = 0;

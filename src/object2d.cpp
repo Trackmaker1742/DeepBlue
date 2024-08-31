@@ -56,6 +56,16 @@ void Object2d::initTexture(const char *p, SDL_Renderer *renderer)
 }
 
 Object2d::~Object2d()
-{ 
-    delete path;
+{
+    // delete path;
+    // if (surface) 
+    // {
+    //     SDL_FreeSurface(surface); // Clean up SDL surface
+    //     surface = nullptr;
+    // }
+    if (texture)
+    {
+        SDL_DestroyTexture(texture); // Clean up SDL texture
+        texture = nullptr;
+    }
 }

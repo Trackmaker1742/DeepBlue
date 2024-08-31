@@ -64,7 +64,7 @@ float Player::getSmallboxY(int i) { return smallbox_y[i]; }
 float Player::getSmallboxWidth() { return smallbox_width; }
 float Player::getSmallboxHeight() { return smallbox_height; }
 
-std::vector<std::unique_ptr<Projectile>> &Player::getProjectiles() { return projectiles; }
+std::vector<Projectile*> Player::getProjectiles() { return projectiles; }
 
 void Player::initPlat(SDL_Renderer *renderer)
 {
@@ -137,7 +137,7 @@ void Player::initVertShooter(SDL_Renderer *renderer)
     // Attack
     shooter_can_atk = true;
     shooter_atk_counter = 0;
-    shooter_atk_delay = game_fps / 4;
+    shooter_atk_delay = game_fps / 5;
 
     // Player status
     level = 0;
@@ -166,7 +166,7 @@ void Player::initHoriShooter(SDL_Renderer *renderer)
     // Attack
     shooter_can_atk = true;
     shooter_atk_counter = 0;
-    shooter_atk_delay = game_fps / 5;
+    shooter_atk_delay = game_fps / 15;
 
     // Player status
     health = 3;
@@ -550,7 +550,7 @@ void Player::shooterHoriAtk(Scene *scene, Input *input, float dt)
         if (input->getPress(6))
         {
             // Projectile spawn coordinates tbd, as the sprite isn't done yet
-            projectiles.push_back(std::make_unique<Projectile>(getX() + getWidth() + getGrid() / 4, getY(), "res/Character Sheets/Drool.png"));
+            projectiles.push_back(new Projectile(getX() + getWidth() + getGrid() / 4, getY(), "res/Character Sheets/Drool.png"));
             projectiles.back()->initStraightProj(scene->getRenderer(), false);
             shooter_can_atk = false;
         }
@@ -565,18 +565,35 @@ void Player::shooterHoriAtk(Scene *scene, Input *input, float dt)
         }
     }
 
-    for (auto &p : projectiles)
+    // for (int i = 0; i < projectiles.size(); i++)
+    // {
+    //     projectiles[i]->projectileMovement(dt);
+        
+    //     if (projectiles[i]->getX() > scene->getWidth() - 100) 
+    //     {
+    //         delete projectiles[i];
+    //         projectiles[i] = nullptr;
+    //         projectiles.erase(projectiles.begin() + i);
+    //     } 
+    // }
+
+    for (auto it = projectiles.begin(); it != projectiles.end(); ) 
     {
-        p->projectileMovement(dt);
+        (*it)->projectileMovement(dt);
+        if ((*it)->getX() > scene->getWidth() - 100) 
+        {
+            delete *it;              // Delete the object
+            it = projectiles.erase(it);     // Remove the element from the vector and update the iterator
+        } 
+        else 
+        {
+            ++it;                    // Move to the next element if no deletion
+        }
     }
 
-    if (projectiles.size() > 0)
-    if (projectiles[0]->getX() > scene->getWidth() - 100) 
-    {
-        projectiles.erase(projectiles.begin()); // erase returns the next iterator
-    }  
+    projectiles.shrink_to_fit();
 
-    std::cout << projectiles.size() << "\n";
+    // std::cout << projectiles.size() << "\n";
 }
 
 // Player rhythm movement
