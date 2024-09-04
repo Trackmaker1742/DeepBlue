@@ -96,6 +96,8 @@ public:
     bool getReverse();
     bool getStoodOn();
     bool getClimbedOn();
+
+    ~Block();
 };
 
 #endif 

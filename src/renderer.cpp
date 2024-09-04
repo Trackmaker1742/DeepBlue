@@ -8,7 +8,7 @@ Renderer::Renderer(Scene *sc, Camera *c) :
 { }
 
 // This is about to get messy
-void Renderer::renderPlatformer(Player *player)
+void Renderer::renderPlayerPlat(Player *player)
 {
     // Assign value to render coordinates
     if(player->getRight()) player->setRenderX(player->getX() - player->getGrid() * 0.40625);
@@ -275,7 +275,7 @@ void Renderer::renderPlatformer(Player *player)
     // SDL_RenderFillRect(scene->getRenderer(), &des_rect);
 }
 
-void Renderer::renderVertShooter(Player *player)
+void Renderer::renderPlayerVertShooter(Player *player)
 {
     idle_counter += scene->getDeltaTime() * 4;
     if (idle_counter > 11) idle_counter = 0;
@@ -306,7 +306,7 @@ void Renderer::renderVertShooter(Player *player)
     SDL_RenderFillRect(scene->getRenderer(), &des_rect);
 }
 
-void Renderer::renderHoriShooter(Player *player)
+void Renderer::renderPlayerHoriShooter(Player *player)
 {
     idle_counter += scene->getDeltaTime() * 5;
     if (idle_counter > 5) idle_counter = 0;
@@ -370,7 +370,7 @@ void Renderer::renderHoriShooter(Player *player)
     SDL_RenderFillRect(scene->getRenderer(), &des_rect);
 }
 
-void Renderer::renderRhythm(Player *player)
+void Renderer::renderPlayerRhythm(Player *player)
 {
     idle_counter += scene->getDeltaTime() * 4;
     if (idle_counter > 2) idle_counter = 0;
@@ -461,16 +461,8 @@ void Renderer::renderBackground(Stage *stage, Player *player)
     SDL_RenderCopy(scene->getRenderer(), stage->getBackgroundLayers()[3], NULL, &des_rect);
 }
 
-void Renderer::renderStage(Stage *stage, Player *player)
+void Renderer::renderBlocks(Stage *stage, Player *player)
 {
-    // Render background
-    renderBackground(stage, player);
-
-    // Camera stuff for other renders
-    int16_t delta_x = cam->getRendX() - cam->getX();
-    int16_t delta_y = cam->getRendY() - cam->getY();
-
-    // Render blocks
     for (Block *b : stage->getBlockVec())
     {
         // Skip blocks that are outside of the screen
@@ -488,7 +480,9 @@ void Renderer::renderStage(Stage *stage, Player *player)
         };
         SDL_RenderCopy(scene->getRenderer(), b->getTexture(), NULL, &des_rect);
     }
-    // Render moving blocks
+}
+void Renderer::renderMovingBlocks(Stage *stage, Player *player)
+{
     for (Block *b : stage->getMovingBlockVec())
     {
         // Skip blocks that are outside of the screen
@@ -506,7 +500,9 @@ void Renderer::renderStage(Stage *stage, Player *player)
         };
         SDL_RenderCopy(scene->getRenderer(), b->getTexture(), NULL, &des_rect);
     }
-    // Render projectiles
+}
+void Renderer::renderProjectiles(Stage *stage, Player *player)
+{
     for (auto p : player->getProjectiles())
     {
         // Skip projectiles that are outside of the screen
@@ -524,6 +520,55 @@ void Renderer::renderStage(Stage *stage, Player *player)
         };
         SDL_RenderCopy(scene->getRenderer(), p->getTexture(), NULL, &des_rect);
     }
+}
+
+void Renderer::renderStagePlat(Stage *stage, Player *player)
+{
+    // Render background
+    renderBackground(stage, player);
+
+    // Camera stuff for other renders
+    delta_x = cam->getRendX() - cam->getX();
+    delta_y = cam->getRendY() - cam->getY();
+
+    // Render blocks
+    renderBlocks(stage, player);
+    // Render moving blocks
+    renderMovingBlocks(stage, player);
+    // Render player
+    renderPlayerPlat(player);
+}
+void Renderer::renderStageShooter(Stage *stage, Player *player)
+{
+    // Render background
+    renderBackground(stage, player);
+
+    // Camera stuff for other renders
+    delta_x = cam->getRendX() - cam->getX();
+    delta_y = cam->getRendY() - cam->getY();
+
+    // Render blocks
+    renderBlocks(stage, player);
+    // Render moving blocks
+    renderMovingBlocks(stage, player);
+    // Render projectiles
+    renderProjectiles(stage, player);
+}
+void Renderer::renderStageRhythm(Stage *stage, Player *player)
+{
+    // Render background
+    renderBackground(stage, player);
+
+    // Camera stuff for other renders
+    delta_x = cam->getRendX() - cam->getX();
+    delta_y = cam->getRendY() - cam->getY();
+
+    // Render blocks
+    renderBlocks(stage, player);
+    // Render moving blocks
+    renderMovingBlocks(stage, player);
+    // Render player
+    renderPlayerRhythm(player);
 }
 
 // Menu render has to be run here to keep consistency
@@ -562,4 +607,9 @@ void Renderer::renderPauseMenu()
     // Render background
     des_rect = {0, 0, scene->getWidth(), scene->getHeight()};
     SDL_RenderCopy(scene->getRenderer(), scene->getBackground(4), NULL, &des_rect);
+}
+
+Renderer::~Renderer()
+{
+    std::cout << "Renderer terminated!\n";
 }

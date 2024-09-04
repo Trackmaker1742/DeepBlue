@@ -84,3 +84,8 @@ bool Block::getCanActivate() { return can_activate; }
 bool Block::getReverse() { return reverse; }
 bool Block::getStoodOn() { return stood_on; }
 bool Block::getClimbedOn() { return climbed_on; }
+
+Block::~Block()
+{
+    std::cout << "Block terminated!\n";
+}

@@ -2,43 +2,44 @@
 #define INPUT_H
 
 #include <SDL2/SDL.h>
+#include <unordered_map>
+#include <functional>
 #include <vector>
 #include <iostream>
+
+enum class Action 
+{
+    MOVE_UP,
+    MOVE_DOWN,
+    MOVE_LEFT,
+    MOVE_RIGHT,
+    ACTION1,
+    ACTION2,
+    ACTION_MAX  // Total number of actions
+};
 
 class Input 
 {
 private:
-    // Controller Detection
-    SDL_GameController *controller;
-    // Input
-    std::vector<bool> button;   // 0: up
-                                // 1: down
-                                // 2: left
-                                // 3: right
-                                // 4: jump
-                                // 5: dash
-                                // 6: attack
-                                // 7: nothing for now
-                                // 8: grid
-                                // 9: dev
-                                // 10: pause
-                                // 11: arrow up
-                                // 12: arrow down
-                                // 13: arrow left
-                                // 14: arrow right
+    std::unordered_map<SDL_Keycode, Action> key_to_action;
+    std::unordered_map<SDL_GameControllerButton, Action> controller_button_to_action;
 
-    std::vector<bool> hold;     // Used to handle presses, 
-                                // stop hold input from activating in press only scenario (jump, dash,...)
-    
+    std::vector<bool> button;
+    std::vector<bool> hold;
+
+    void handleKeyboardEvent(const SDL_KeyboardEvent &keyEvent);
+    // void handleControllerButtonEvent(const SDL_ControllerButtonEvent &buttonEvent);
+
 public:
     void init();
-    bool input();
+    bool handleInput();
 
-    // Setters
-    void setHold(uint8_t i, bool state);
+    void setHold(Action action, bool hol);
+    bool getPress(Action action);
 
-    // Getters
-    bool getPress(uint8_t i);
+    void remapKey(SDL_Keycode key, Action action);
+    void remapControllerButton(SDL_GameControllerButton button, Action action);
+    void waitForKeyRemap(Action action_to_remap);
 };
 
 #endif

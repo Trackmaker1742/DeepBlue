@@ -55,4 +55,6 @@ Audio::~Audio()
         Mix_FreeChunk(sfx);
     }
     Mix_CloseAudio();
+
+    std::cout << "Audio terminated!\n";
 }

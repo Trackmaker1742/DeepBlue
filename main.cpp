@@ -47,10 +47,14 @@ int main(int argc, char *argv[])
     Input *input = new Input();
     input->init();
 
+    // input->waitForKeyRemap(Action::ACTION1);
+
     // Initialize game scene
     Scene *scene = new Scene(input);
     scene->init(test->getValue(0), test->getValue(1), test->getValue(2), test->getValue(3));
     scene->initAllMenu();
+
+    delete test;
     
     // Stage
     Stage *stage = new Stage(scene->getRenderer());
@@ -111,7 +115,7 @@ int main(int argc, char *argv[])
 
     bool quit = false;
     SDL_RaiseWindow(scene->getWindow());
-    while (!input->input() && quit != true)
+    while (!input->handleInput() && quit != true)
     {
         // Calculating delta time
         uint64_t current_frame = SDL_GetTicks64();
@@ -124,46 +128,46 @@ int main(int argc, char *argv[])
             case 0:
                 quit = true;
             break;
-            // Main menu
-            case 1:
-                // Template for all menu stuff
-                scene->updateMainMenu();
-                renderer->renderMainMenu();
-            break;
-            // Stage select menu
-            case 2:
-                scene->updateStageSelect();
-                renderer->renderStageSelect();
-            break;
-            // Gallery
-            case 3:
-                scene->updateGallery();
-                renderer->renderGallery();
-            break;
-            // Settings
-            case 4:
-                scene->updateSettings();
-                renderer->renderSettings();
-            break;
-            // Pause menu
-            case 5:
-                scene->updatePauseMenu();
-                renderer->renderPauseMenu();
-            break;
+            // // Main menu
+            // case 1:
+            //     // Template for all menu stuff
+            //     scene->updateMainMenu();
+            //     renderer->renderMainMenu();
+            // break;
+            // // Stage select menu
+            // case 2:
+            //     scene->updateStageSelect();
+            //     renderer->renderStageSelect();
+            // break;
+            // // Gallery
+            // case 3:
+            //     scene->updateGallery();
+            //     renderer->renderGallery();
+            // break;
+            // // Settings
+            // case 4:
+            //     scene->updateSettings();
+            //     renderer->renderSettings();
+            // break;
+            // // Pause menu
+            // case 5:
+            //     scene->updatePauseMenu();
+            //     renderer->renderPauseMenu();
+            // break;
             // Platforming stage
             case 6:
                 // Audio test (works)
                 // input 7 is u key
-                if (input->getPress(7))
-                {
-                    input->setHold(7, false);
-                    Audio::playSoundFX(1, 0);
-                }
-                if (input->getPress(8))
-                {
-                    input->setHold(8, false);
-                    Audio::playSoundFX(2, 0);
-                }
+                // if (input->getPress(7))
+                // {
+                //     input->setHold(7, false);
+                //     Audio::playSoundFX(1, 0);
+                // }
+                // if (input->getPress(8))
+                // {
+                //     input->setHold(8, false);
+                //     Audio::playSoundFX(2, 0);
+                // }
 
                 // Platforming stages
                 // Player movement
@@ -175,30 +179,28 @@ int main(int argc, char *argv[])
                 // Camera update
                 cam->updatePlatCam(player, scene->getDeltaTime());
                 // Render stuff
-                renderer->renderStage(stage, player);
-                renderer->renderPlatformer(player);
+                renderer->renderStagePlat(stage, player);
             break;
 
             // WIP
             // Vertical shooting stage
             case 7:
                 player->shooterMvt(input, scene->getDeltaTime(), scene->getWidth(), scene->getHeight());
-                renderer->renderStage(stage, player);
-                renderer->renderVertShooter(player);
+                renderer->renderStageShooter(stage, player);
+                renderer->renderPlayerVertShooter(player);
             break;
             // Horizontal shooting stage
             case 8:
                 player->shooterMvt(input, scene->getDeltaTime(), scene->getWidth(), scene->getHeight());
                 player->shooterHoriAtk(scene, input, scene->getDeltaTime());
-                renderer->renderStage(stage, player);
-                renderer->renderHoriShooter(player);
+                renderer->renderStageShooter(stage, player);
+                renderer->renderPlayerHoriShooter(player);
             break;
             // Rhythm stage
             case 9:
                 player->rhythmMvt(input, scene->getDeltaTime());
                 cam->updateRhyCam(player, scene->getDeltaTime());
-                renderer->renderStage(stage, player);
-                renderer->renderRhythm(player);
+                renderer->renderStageRhythm(stage, player);
             break;
             // Cutscenes
             case 10:
@@ -217,7 +219,14 @@ int main(int argc, char *argv[])
 	    SDL_Delay(1000.0f/scene->getFPS() - scene->getDeltaTime());
     }
 
-    audio->~Audio();
+    delete audio;
+    delete input;
+    delete scene;
+    delete stage;
+    delete cam;
+    delete renderer;
+    delete player;
+
     SDL_DestroyRenderer(scene->getRenderer());
     SDL_DestroyWindow(scene->getWindow());
     SDL_Quit();

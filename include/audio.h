@@ -3,6 +3,7 @@
 
 #include <SDL2/SDL_mixer.h>
 #include <vector>
+#include <iostream>
 
 class Audio
 {

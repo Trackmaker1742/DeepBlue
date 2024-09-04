@@ -272,4 +272,5 @@ Stage::~Stage()
     // background_layers.clear();
     // block_paths.clear();
     // obstacle_path.clear();
+    std::cout << "Stage terminated!\n";
 }

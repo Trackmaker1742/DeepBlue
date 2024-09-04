@@ -88,7 +88,6 @@ public:
     void updatePauseMenu();
 
     ~Scene();
-
 };
 
 #endif

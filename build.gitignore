@@ -7,4 +7,5 @@ build/
 # libraries/
 # src/
 # CMakeLists.txt
+# CMakePresets.json
 # main.cpp

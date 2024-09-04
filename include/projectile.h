@@ -8,8 +8,6 @@
 class Projectile : public Object2d
 {
 private:
-    // Projectile grid size should be around 16x16?
-    uint8_t grid_size = 16;
     uint8_t damage_value = 1;
 
     // For player

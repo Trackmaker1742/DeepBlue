@@ -39,4 +39,6 @@ void Camera::updateRhyCam(Player *player, float dt)
 }
 
 Camera::~Camera()
-{ }
+{ 
+    std::cout << "Camera terminated!\n";
+}

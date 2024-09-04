@@ -1,243 +1,118 @@
 #include "input.h"
 
-void Input::init()
+void Input::init() 
 {
-    // Initialize buttons and hold states
-    for (int i = 0; i < 15; i++)
-    {
-        button.push_back(false);
-        hold.push_back(true);
-    }
+    button.resize(static_cast<int>(Action::ACTION_MAX), false);
+    hold.resize(static_cast<int>(Action::ACTION_MAX), true);
 
-    // Check for controller support
-    if (SDL_NumJoysticks() < 1)
-        std::cout << "No controller connected!\n";
-    else
-    {
-        controller = SDL_GameControllerOpen(0);
-        // Open controller devices
-        if (controller == NULL)
-            std::cout << "Failed to open controller: %s\n", SDL_GetError();
-        else
-            std::cout << "Controller connected!\n";
-    }
+    // Default keybind
+    remapKey(SDLK_w, Action::MOVE_UP);
+    remapKey(SDLK_s, Action::MOVE_DOWN);
+    remapKey(SDLK_a, Action::MOVE_LEFT);
+    remapKey(SDLK_d, Action::MOVE_RIGHT);
+    remapKey(SDLK_j, Action::ACTION1);
+    remapKey(SDLK_k, Action::ACTION2);
+
+    // Default controller bind
+    remapControllerButton(SDL_CONTROLLER_BUTTON_DPAD_UP, Action::MOVE_UP);
+    remapControllerButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN, Action::MOVE_DOWN);
+    remapControllerButton(SDL_CONTROLLER_BUTTON_DPAD_LEFT, Action::MOVE_LEFT);
+    remapControllerButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT, Action::MOVE_RIGHT);
+    remapControllerButton(SDL_CONTROLLER_BUTTON_A, Action::ACTION1);
+    remapControllerButton(SDL_CONTROLLER_BUTTON_B, Action::ACTION2);
 }
-
-bool Input::input()
+bool Input::handleInput() 
 {
     SDL_Event event;
-    while (SDL_PollEvent(&event))
-    {
-        switch (event.type)
-        {
-        case SDL_QUIT:
-            return true;
-            break;
-        case SDL_KEYDOWN:
-            switch (event.key.keysym.sym)
-            {
-            case SDLK_ESCAPE:
+    while (SDL_PollEvent(&event)) {
+        switch (event.type) {
+            case SDL_QUIT:
                 return true;
+            case SDL_KEYDOWN:
+                handleKeyboardEvent(event.key);
                 break;
-            case SDLK_w:
-                button[0] = true;
+            case SDL_KEYUP:
+                handleKeyboardEvent(event.key);
                 break;
-            case SDLK_s:
-                button[1] = true;
-                break;
-            case SDLK_a:
-                button[2] = true;
-                break;
-            case SDLK_d:
-                button[3] = true;
-                break;
-            case SDLK_k:
-                button[4] = true;
-                break;
-            case SDLK_l:
-                button[5] = true;
-                break;
-            case SDLK_j:
-                button[6] = true;
-                break;
-            case SDLK_u:
-                button[7] = true;
-                break;
-            case SDLK_g:
-                button[8] = true;
-                break;
-            case SDLK_h:
-                button[9] = true;
-                break;
-            case SDLK_p:
-                button[10] = true;
-                break;
-            case SDLK_UP:
-                button[11] = true;
-                break;
-            case SDLK_DOWN:
-                button[12] = true;
-                break;
-            case SDLK_LEFT:
-                button[13] = true;
-                break;
-            case SDLK_RIGHT:
-                button[14] = true;
-                break;
-            }
-            break;
-        case SDL_KEYUP:
-            switch (event.key.keysym.sym)
-            {
-            case SDLK_w:
-                button[0] = false;
-                hold[0] = true;
-                break;
-            case SDLK_s:
-                button[1] = false;
-                hold[1] = true;
-                break;
-            case SDLK_a:
-                button[2] = false;
-                hold[2] = true;
-                break;
-            case SDLK_d:
-                button[3] = false;
-                hold[3] = true;
-                break;
-            case SDLK_k:
-                button[4] = false;
-                hold[4] = true;
-                break;
-            case SDLK_l:
-                button[5] = false;
-                hold[5] = true;
-                break;
-            case SDLK_j:
-                button[6] = false;
-                hold[6] = true;
-                break;
-            case SDLK_u:
-                button[7] = false;
-                hold[7] = true;
-                break;
-            case SDLK_g:
-                button[8] = false;
-                hold[8] = true;
-                break;
-            case SDLK_h:
-                button[9] = false;
-                hold[9] = true;
-                break;
-            case SDLK_p:
-                button[10] = false;
-                hold[10] = true;
-                break;
-            case SDLK_UP:
-                button[11] = false;
-                hold[11] = true;
-                break;
-            case SDLK_DOWN:
-                button[12] = false;
-                hold[12] = true;
-                break;
-            case SDLK_LEFT:
-                button[13] = false;
-                hold[13] = true;
-                break;
-            case SDLK_RIGHT:
-                button[14] = false;
-                hold[14] = true;
-                break;
-            }
-            break;
-        case SDL_CONTROLLERBUTTONDOWN:
-            switch (event.cbutton.button)
-            {
-            case SDL_CONTROLLER_BUTTON_DPAD_UP:
-                button[0] = true;
-                break;
-            case SDL_CONTROLLER_BUTTON_DPAD_DOWN:
-                button[1] = true;
-                break;
-            case SDL_CONTROLLER_BUTTON_DPAD_LEFT:
-                button[2] = true;
-                break;
-            case SDL_CONTROLLER_BUTTON_DPAD_RIGHT:
-                button[3] = true;
-                break;
-            case SDL_CONTROLLER_BUTTON_A:
-                button[4] = true;
-                break;
-            case SDL_CONTROLLER_BUTTON_RIGHTSHOULDER:
-                button[5] = true;
-                break;
-            case SDL_CONTROLLER_BUTTON_X:
-                button[6] = true;
-                break;
-            case SDL_CONTROLLER_BUTTON_Y:
-                button[7] = true;
-                break;
-            case SDL_CONTROLLER_BUTTON_B:
-                button[8] = true;
-                break;
-            }
-            break;
-        case SDL_CONTROLLERBUTTONUP:
-            switch (event.cbutton.button)
-            {
-            case SDL_CONTROLLER_BUTTON_DPAD_UP:
-                button[0] = false;
-                hold[0] = true;
-                break;
-            case SDL_CONTROLLER_BUTTON_DPAD_DOWN:
-                button[1] = false;
-                hold[1] = true;
-                break;
-            case SDL_CONTROLLER_BUTTON_DPAD_LEFT:
-                button[2] = false;
-                hold[2] = true;
-                break;
-            case SDL_CONTROLLER_BUTTON_DPAD_RIGHT:
-                button[3] = false;
-                hold[3] = true;
-                break;
-            case SDL_CONTROLLER_BUTTON_A:
-                button[4] = false;
-                hold[4] = true;
-                break;
-            case SDL_CONTROLLER_BUTTON_RIGHTSHOULDER:
-                button[5] = false;
-                hold[5] = true;
-                break;
-            case SDL_CONTROLLER_BUTTON_X:
-                button[6] = false;
-                hold[6] = true;
-                break;
-            case SDL_CONTROLLER_BUTTON_Y:
-                button[7] = false;
-                hold[7] = true;
-                break;
-            case SDL_CONTROLLER_BUTTON_B:
-                button[8] = false;
-                hold[8] = true;
-                break;
-            }
-            break;
+            // case SDL_CONTROLLERBUTTONDOWN:
+            //     handleControllerButtonEvent(event.cbutton);
+            //     break;
+            // case SDL_CONTROLLERBUTTONUP:
+            //     handleControllerButtonEvent(event.cbutton);
+            //     break;
         }
     }
-
-    return false;  
+    return false;
 }
 
-// Setters
-void Input::setHold(uint8_t i, bool state)
+void Input::setHold(Action action, bool hol)
 {
-    hold[i] = state;
+    hold[static_cast<int>(action)] = false;
+}
+bool Input::getPress(Action action)
+{
+    return button[static_cast<int>(action)] && hold[static_cast<int>(action)];
 }
 
-// Getters
-bool Input::getPress(uint8_t i)
+void Input::handleKeyboardEvent(const SDL_KeyboardEvent &keyEvent) 
 {
-    return button[i] && hold[i];
+    auto it = key_to_action.find(keyEvent.keysym.sym);
+    if (it != key_to_action.end()) 
+    {
+        Action action = it->second;
+        bool key_pressed = (keyEvent.type == SDL_KEYDOWN);
+        button[static_cast<int>(action)] = key_pressed;
+        if (!key_pressed) hold[static_cast<int>(action)] = true;
+    }
+}
+// void Input::handleControllerButtonEvent(const SDL_ControllerButtonEvent &buttonEvent) {
+//     auto it = controller_button_to_action.find(buttonEvent.button);
+//     if (it != controller_button_to_action.end()) 
+//     {
+//         Action action = it->second;
+//         bool button_pressed = (buttonEvent.type == SDL_CONTROLLERBUTTONDOWN);
+//         button[static_cast<int>(action)] = button_pressed;
+//     }
+// }
+
+void Input::remapKey(SDL_Keycode key, Action action) 
+{
+    key_to_action[key] = action;
+}
+void Input::remapControllerButton(SDL_GameControllerButton button, Action action) 
+{
+    controller_button_to_action[button] = action;
+}
+void Input::waitForKeyRemap(Action action_to_remap) 
+{
+    std::cout << "Press the new key for action: " << "\n";
+    SDL_Event event;
+
+    // Wait for user to press a key
+    bool key_remapped = false;
+    while (!key_remapped) 
+    {
+        while (SDL_PollEvent(&event)) 
+        {
+            if (event.type == SDL_KEYDOWN) 
+            {
+                std::cout << "Mapped\n";
+                SDL_Keycode new_key = event.key.keysym.sym;
+
+                // Check if the new key is already mapped to another action
+                auto it = key_to_action.find(new_key);
+                if (it != key_to_action.end()) 
+                {
+                    // Remove the previous mapping for this key
+                    key_to_action.erase(it);
+                }
+
+                // Remap the new key to the specified action
+                remapKey(new_key, action_to_remap);
+                std::cout << "Action " << static_cast<int>(action_to_remap) << " remapped to key: " << new_key << std::endl;
+                key_remapped = true;
+            }
+        }
+        // SDL_Delay(100); // Small delay to avoid high CPU usage
+    }
 }

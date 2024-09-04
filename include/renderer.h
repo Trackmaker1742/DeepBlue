@@ -16,6 +16,8 @@ class Renderer
 private:
     // Player *player;
     Camera *cam;
+    int16_t delta_x;
+    int16_t delta_y;
     // Stage *stage;
 
     Scene *scene;
@@ -64,19 +66,27 @@ private:
 public:
     Renderer(Scene *sc, Camera *c);
 
-    void renderPlatformer(Player *player);
-    void renderVertShooter(Player *player);
-    void renderHoriShooter(Player *player);
-    void renderRhythm(Player *player);
+    void renderPlayerPlat(Player *player);
+    void renderPlayerVertShooter(Player *player);
+    void renderPlayerHoriShooter(Player *player);
+    void renderPlayerRhythm(Player *player);
 
     void renderBackground(Stage *stage, Player *player);
-    void renderStage(Stage *stage, Player *player);
+    void renderBlocks(Stage *stage, Player *player);
+    void renderMovingBlocks(Stage *stage, Player *player);
+    void renderProjectiles(Stage *stage, Player *player);
+
+    void renderStagePlat(Stage *stage, Player *player);
+    void renderStageShooter(Stage *stage, Player *player);
+    void renderStageRhythm(Stage *stage, Player *player);
 
     void renderMainMenu();
     void renderStageSelect();
     void renderGallery();
     void renderSettings();
     void renderPauseMenu();
+
+    ~Renderer();
 };
 
 #endif 

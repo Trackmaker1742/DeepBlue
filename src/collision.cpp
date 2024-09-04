@@ -158,7 +158,7 @@ void Collision::blockBotSideColli(std::vector<Block*> Blocks, Player *player, fl
                 // Left slope
                 else if (b->getType() == 7)
                 {
-                    if (player->getY() + player->getHeight() * 0.5 < b->getY())
+                    if (player->getY() + player->getHeight() * 0.2 < b->getY())
                     {
                         player->setX(b->getX() - player->getWidth() - 1);
                         player->setVelX(-player->getVelX() * 0.3);
@@ -216,7 +216,7 @@ void Collision::blockBotSideColli(std::vector<Block*> Blocks, Player *player, fl
                 // Right slope
                 else if (b->getType() == 8)
                 {
-                    if (player->getY() + player->getHeight() * 0.5 < b->getY())
+                    if (player->getY() + player->getHeight() * 0.2 < b->getY())
                     {
                         player->setX(b->getX() + b->getGrid() + 1);
                         player->setVelX(-player->getVelX() * 0.3);
@@ -490,4 +490,6 @@ void Collision::projectileEnemyColli(Projectile *proj, Enemy *enemy)
 }
 
 Collision::~Collision()
-{ }
+{ 
+    std::cout << "Collision terminated!\n";
+}

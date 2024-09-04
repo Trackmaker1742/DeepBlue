@@ -225,13 +225,13 @@ void Player::platformerMvtAccel(Input *input, float dt)
     {
         // Accel
         // Left
-        if (input->getPress(2) && getVelX() > -vel_x_max)
+        if (input->getPress(Action::MOVE_LEFT) && getVelX() > -vel_x_max)
         {
             right = false;
             setVelX(getVelX() - getAccelX() * dt * 0.5f);
         }
 
-        if (input->getPress(3) && getVelX() < vel_x_max)
+        if (input->getPress(Action::MOVE_RIGHT) && getVelX() < vel_x_max)
         {
             right = true;
             setVelX(getVelX() + getAccelX() * dt * 0.5f);
@@ -239,10 +239,10 @@ void Player::platformerMvtAccel(Input *input, float dt)
 
         // Decel
         if (getVelX() &&                                    // Speed != 0
-            input->getPress(2) && input->getPress(3) ||     // Dual input
-            !input->getPress(2) && !input->getPress(3) ||   // No input
-            input->getPress(2) && getVelX() > 0 ||          // Go left when speed > 0
-            input->getPress(3) && getVelX() < 0)            // Go right when speed < 0
+            input->getPress(Action::MOVE_LEFT) && input->getPress(Action::MOVE_RIGHT) ||     // Dual input
+            !input->getPress(Action::MOVE_LEFT) && !input->getPress(Action::MOVE_RIGHT) ||   // No input
+            input->getPress(Action::MOVE_LEFT) && getVelX() > 0 ||          // Go left when speed > 0
+            input->getPress(Action::MOVE_RIGHT) && getVelX() < 0)            // Go right when speed < 0
         {
             // Decel works by applying 2.5 times the speed of the opposite direction
             // Left
@@ -299,13 +299,13 @@ void Player::platformerMvt(Input *input, float dt)
     if (on_wall)
     {
         // climb_stamina --;
-        if (input->getPress(0) && !input->getPress(1))
+        if (input->getPress(Action::MOVE_UP) && !input->getPress(Action::MOVE_DOWN))
         {
             // Vertical movement calculation
             setY(getY() + wall_climb_speed * dt);
             climb_up = true;
         }
-        if (input->getPress(1) && !input->getPress(0))
+        if (input->getPress(Action::MOVE_DOWN) && !input->getPress(Action::MOVE_UP))
         {
             // Vertical movement calculation
             setY(getY() - wall_climb_speed * dt);
@@ -314,9 +314,9 @@ void Player::platformerMvt(Input *input, float dt)
     }
 
     // Jump / double jump / wall jump
-    if (input->getPress(4) && jump_count > 0)
+    if (input->getPress(Action::ACTION1) && jump_count > 0)
     {
-        input->setHold(4, false);
+        input->setHold(Action::ACTION1, false);
         jump_start = true;
         jump = true;
     }
@@ -377,9 +377,9 @@ void Player::platformerMvt(Input *input, float dt)
     }
 
     // Dash
-    if (input->getPress(5) && can_dash && !on_dash && !on_wall)
+    if (input->getPress(Action::ACTION2) && can_dash && !on_dash && !on_wall)
     {
-        input->setHold(5, false);
+        input->setHold(Action::ACTION2, false);
         can_dash = false;
         on_dash = true;
     }
@@ -430,32 +430,32 @@ void Player::platformerMvt(Input *input, float dt)
 void Player::shooterMvtAccel(Input *input, float dt)
 {
     // Up
-    if (input->getPress(0) && getVelY() < vel_y_max)
+    if (input->getPress(Action::MOVE_UP) && getVelY() < vel_y_max)
     {
         setVelY(getVelY() + getAccelX() * dt * 0.5f);
     }
     // Down
-    if (input->getPress(1) && getVelY() > -vel_y_max)
+    if (input->getPress(Action::MOVE_DOWN) && getVelY() > -vel_y_max)
     {
         setVelY(getVelY() - getAccelX() * dt * 0.5f);
     }
     // Left
-    if (input->getPress(2) && getVelX() > -vel_x_max)
+    if (input->getPress(Action::MOVE_LEFT) && getVelX() > -vel_x_max)
     {
         setVelX(getVelX() - getAccelX() * dt * 0.5f);
     }
     // Right
-    if (input->getPress(3) && getVelX() < vel_x_max)
+    if (input->getPress(Action::MOVE_RIGHT) && getVelX() < vel_x_max)
     {
         setVelX(getVelX() + getAccelX() * dt * 0.5f);
     }
     // Decel (First half)
     // Vertical
     if (getVelY() &&                                    // Speed != 0
-        input->getPress(0) && input->getPress(1) ||     // Dual input
-        !input->getPress(0) && !input->getPress(1) ||   // No input
-        input->getPress(0) && getVelY() < 0 ||          // Go up when speed < 0
-        input->getPress(1) && getVelY() > 0)            // Go down when speed > 0
+        input->getPress(Action::MOVE_UP) && input->getPress(Action::MOVE_DOWN) ||     // Dual input
+        !input->getPress(Action::MOVE_UP) && !input->getPress(Action::MOVE_DOWN) ||   // No input
+        input->getPress(Action::MOVE_UP) && getVelY() < 0 ||          // Go up when speed < 0
+        input->getPress(Action::MOVE_DOWN) && getVelY() > 0)            // Go down when speed > 0
     {
         // Decel works by applying 3 times the speed of the opposite direction
         // Down
@@ -473,10 +473,10 @@ void Player::shooterMvtAccel(Input *input, float dt)
     }
     // Horizontal
     if (getVelX() &&                                    // Speed != 0
-        input->getPress(2) && input->getPress(3) ||     // Dual input
-        !input->getPress(2) && !input->getPress(3) ||   // No input
-        input->getPress(2) && getVelX() > 0 ||          // Go left when speed > 0
-        input->getPress(3) && getVelX() < 0)            // Go right when speed < 0
+        input->getPress(Action::MOVE_LEFT) && input->getPress(Action::MOVE_RIGHT) ||     // Dual input
+        !input->getPress(Action::MOVE_LEFT) && !input->getPress(Action::MOVE_RIGHT) ||   // No input
+        input->getPress(Action::MOVE_LEFT) && getVelX() > 0 ||          // Go left when speed > 0
+        input->getPress(Action::MOVE_RIGHT) && getVelX() < 0)            // Go right when speed < 0
     {
         // Decel works by applying 3 times the speed of the opposite direction
         // Left
@@ -528,7 +528,7 @@ void Player::shooterVertAtk(Scene *scene, Input *input, float dt)
     // Allows for hold, no need to spam attack to shoot
     // An interval of half a second for default projectile speed
     // and a quarter of a second for stage 1 and beyond
-    if (input->getPress(6) && shooter_can_atk)
+    if (input->getPress(Action::ACTION1) && shooter_can_atk)
     {
         projectiles.push_back(new Projectile(getX() + getWidth() + getGrid() / 4, getY(), "res/Character Sheets/Drool.png"));
         projectiles.back()->initStraightProj(scene->getRenderer(), false);
@@ -547,10 +547,10 @@ void Player::shooterHoriAtk(Scene *scene, Input *input, float dt)
     // An interval of half one third of a second for projectile
     if (shooter_can_atk)
     {
-        if (input->getPress(6))
+        if (input->getPress(Action::ACTION1))
         {
             // Projectile spawn coordinates tbd, as the sprite isn't done yet
-            projectiles.push_back(new Projectile(getX() + getWidth() + getGrid() / 4, getY(), "res/Character Sheets/Drool.png"));
+            projectiles.push_back(new Projectile(getX() + getWidth(), getY(), "res/Character Sheets/Drool.png"));
             projectiles.back()->initStraightProj(scene->getRenderer(), false);
             shooter_can_atk = false;
         }
@@ -616,16 +616,16 @@ void Player::rhythmMvt(Input *input, float dt)
     // Dodge to avoid high geyser
     
     // Lane switching
-    if (input->getPress(0) && current_lane < 3)
+    if (input->getPress(Action::MOVE_UP) && current_lane < 3)
     {
-        input->setHold(0, false);
+        input->setHold(Action::MOVE_UP, false);
         setX(getX() + getGrid());
         setY(getY() + getGrid() * 3);
         current_lane++;
     }
-    if (input->getPress(1) && current_lane > 1)
+    if (input->getPress(Action::MOVE_DOWN) && current_lane > 1)
     {
-        input->setHold(1, false);
+        input->setHold(Action::MOVE_DOWN, false);
         setX(getX() - getGrid());
         setY(getY() - getGrid() * 3);
         current_lane--;
@@ -633,18 +633,18 @@ void Player::rhythmMvt(Input *input, float dt)
 
     // Horizontal movement
     // Left and right movement
-    if (!on_dash && input->getPress(2))
+    if (!on_dash && input->getPress(Action::MOVE_LEFT))
     {
         setVelX(getVelX() - getGrid() * 2);
     }
-    if (!on_dash && input->getPress(3))
+    if (!on_dash && input->getPress(Action::MOVE_RIGHT))
     {
         setVelX(getVelX() + getGrid() * 2);
     }
     // Dash
-    if (input->getPress(5) && can_dash && !on_dash)
+    if (input->getPress(Action::ACTION2) && can_dash && !on_dash)
     {
-        input->setHold(5, false);
+        input->setHold(Action::ACTION2, false);
         can_dash = false;
         on_dash = true;
     }
@@ -678,9 +678,9 @@ void Player::rhythmMvt(Input *input, float dt)
 
     // Vertical movement + gravity
     // Jump
-    if (input->getPress(4))
+    if (input->getPress(Action::ACTION1))
     {
-        input->setHold(4, false);
+        input->setHold(Action::ACTION1, false);
         setVelY(getGrid() * 12);
         on_ground = false;
     }
@@ -706,9 +706,9 @@ void Player::rhythmMvt(Input *input, float dt)
     }
 
     // Attack
-    if (input->getPress(6) && rhythm_can_atk)
+    if (input->getPress(Action::ACTION1) && rhythm_can_atk)
     {
-        input->setHold(6, false);
+        input->setHold(Action::ACTION1, false);
         rhythm_atk = true;
         rhythm_can_atk = false;
     }
@@ -741,4 +741,6 @@ void Player::rhythmMvt(Input *input, float dt)
 }
 
 Player::~Player()
-{ }
+{ 
+    std::cout << "Player terminated!\n";
+}

@@ -5,6 +5,7 @@ Projectile::Projectile(float X, float Y, const char *p, bool size, bool fe) : Ob
 
 void Projectile::initStraightProj(SDL_Renderer *renderer, bool v)
 {
+    setGrid(32);
     // Set direction of bullet (to separate 2 game mode)
     vertical = v;
     // Set speed for each mode
@@ -13,12 +14,12 @@ void Projectile::initStraightProj(SDL_Renderer *renderer, bool v)
     // This patchwork solution should suffice
     if (vertical)
     {   
-        setVelY(getGrid() * (from_enemy ? -4 : 20));
+        setVelY(getGrid() * (from_enemy ? -10 : 30));
         setVelX(0);
     }
     else
     {   
-        setVelX(getGrid() * (from_enemy ? -4 : 20));
+        setVelX(getGrid() * (from_enemy ? -10 : 30));
         setVelY(0);
     }
 
@@ -28,16 +29,17 @@ void Projectile::initStraightProj(SDL_Renderer *renderer, bool v)
 
 void Projectile::initAimingProj(SDL_Renderer *renderer, float start_x, float start_y, float end_x, float end_y)
 {
+    setGrid(32);
     // Set center based on projectile size
     if (!size_amp)
     {
-        center_start_x = start_x + 8;
-        center_start_y = start_y + 8;
+        center_start_x = start_x + 4;
+        center_start_y = start_y + 4;
     }
     else 
     {
-        center_start_x = start_x + 16;
-        center_start_y = start_y + 16;
+        center_start_x = start_x + 8;
+        center_start_y = start_y + 8;
     }
 
     // Target player center
