@@ -1,11 +1,2 @@
-# Ignore directories
 .vscode/
 build/
-
-# Ignore all the codes (for the release version)
-# include/
-# libraries/
-# src/
-# CMakeLists.txt
-# CMakePresets.json
-# main.cpp
