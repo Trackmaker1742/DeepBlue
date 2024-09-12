@@ -1,6 +1,6 @@
 # Ignore directories
-/.vscode
-/build
+.vscode/
+build/
 
 # Ignore all the codes (for the release version)
 # include/
