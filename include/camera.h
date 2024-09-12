@@ -16,6 +16,17 @@ private:
     // bool max_pan;   // Check to see if camera is at maximum distance from player
     // uint8_t return_counter;
     // uint8_t return_delay;
+
+    bool can_move_vert = true;
+    bool can_move_hori = true;
+
+    bool player_prev_right;
+    bool dir_temp;
+    float dir_counter;
+    uint16_t dir_counter_max = 75 * 2;
+    bool dir_switch = true;
+    bool cam_move = false;
+
 public:
     // Getters
     uint16_t getRendX();

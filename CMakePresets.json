@@ -1,17 +1,24 @@
 {
     "version": 3,
     "cmakeMinimumRequired": {
-      "major": 3,
-      "minor": 19,
-      "patch": 0
+        "major": 3,
+        "minor": 19,
+        "patch": 0
     },
     "configurePresets": [
-      {
-        "name": "default",
-        "hidden": false,
-        "generator": "Unix Makefiles",
-        "binaryDir": "${sourceDir}/build"
-      }
+        {
+            "name": "default",
+            "hidden": false,
+            "generator": "Unix Makefiles",
+            "binaryDir": "${sourceDir}/build"
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "enter",
+            "description": "",
+            "displayName": "",
+            "configurePreset": "default"
+        }
     ]
-  }
-  
+}

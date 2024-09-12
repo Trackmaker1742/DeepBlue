@@ -171,7 +171,9 @@ void Player::initHoriShooter(SDL_Renderer *renderer)
     // Player status
     health = 3;
     energy = 0;
-    dark = true;
+    light = true;
+    hold_light = false;
+    hold_dark = false;
 
     initTexture(hori_shooter_path, renderer);
 }
@@ -547,10 +549,42 @@ void Player::shooterHoriAtk(Scene *scene, Input *input, float dt)
     // An interval of half one third of a second for projectile
     if (shooter_can_atk)
     {
-        if (input->getPress(Action::ACTION1))
+        if (input->getPress(Action::ACTION1) || input->getPress(Action::ACTION2))
         {
-            // Projectile spawn coordinates tbd, as the sprite isn't done yet
-            projectiles.push_back(new Projectile(getX() + getWidth(), getY(), "res/Character Sheets/Drool.png"));
+            if (!input->getPress(Action::ACTION1)) hold_light = false;
+            if (!input->getPress(Action::ACTION2)) hold_dark = false;
+            if (input->getPress(Action::ACTION1) && 
+                !input->getPress(Action::ACTION2)) hold_light = true;
+            else if (!input->getPress(Action::ACTION1) && 
+                input->getPress(Action::ACTION2)) hold_dark = true;
+            // To make light dark switchig more seamless and allows for holding either modes
+            if (hold_dark)
+            {
+                if (input->getPress(Action::ACTION1))
+                {
+                    projectiles.push_back(new Projectile(getX() + getWidth(), getY(), true, "res/Character Sheets/light.png"));
+                    light = true;
+                }
+                else
+                {
+                    projectiles.push_back(new Projectile(getX() + getWidth(), getY(), false, "res/Character Sheets/dark.png"));
+                    light = false;
+                }
+            }
+            if (hold_light)
+            {
+                if (input->getPress(Action::ACTION2))
+                {
+                    projectiles.push_back(new Projectile(getX() + getWidth(), getY(), false, "res/Character Sheets/dark.png"));
+                    light = false;
+                }
+                else
+                {
+                    projectiles.push_back(new Projectile(getX() + getWidth(), getY(), true, "res/Character Sheets/light.png"));
+                    light = true;
+                }
+            }
+                
             projectiles.back()->initStraightProj(scene->getRenderer(), false);
             shooter_can_atk = false;
         }

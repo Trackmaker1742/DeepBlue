@@ -6,7 +6,7 @@ width | 1280
 height | 720
 
 # Frame rate (FPS)
-FPS | 120
+FPS | 165
 
 # Scaling (min: 10, max: 100 (native, default))
 Scaling | 100

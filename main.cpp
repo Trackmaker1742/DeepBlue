@@ -47,8 +47,6 @@ int main(int argc, char *argv[])
     Input *input = new Input();
     input->init();
 
-    // input->waitForKeyRemap(Action::ACTION1);
-
     // Initialize game scene
     Scene *scene = new Scene(input);
     scene->init(test->getValue(0), test->getValue(1), test->getValue(2), test->getValue(3));
@@ -168,6 +166,11 @@ int main(int argc, char *argv[])
                 //     input->setHold(8, false);
                 //     Audio::playSoundFX(2, 0);
                 // }
+                if (input->getPress(Action::MOVE_UP))
+                {
+                    input->setHold(Action::MOVE_UP, false);
+                    input->waitForKeyRemap(Action::ACTION1);
+                }
 
                 // Platforming stages
                 // Player movement

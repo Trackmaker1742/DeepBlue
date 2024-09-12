@@ -9,6 +9,7 @@ class Projectile : public Object2d
 {
 private:
     uint8_t damage_value = 1;
+    bool light;  // Dark and light bullet
 
     // For player
     bool vertical = true;
@@ -36,6 +37,9 @@ private:
 
 public:
     Projectile(float X, float Y, const char *p, bool fe = 0, bool size = 0);
+    Projectile(float X, float Y, bool l, const char *p, bool fe = 0, bool size = 0);
+
+    bool getLight();
 
     // Init, reinit bullet properties
     void initStraightProj(SDL_Renderer *renderer, bool v);

@@ -1,7 +1,14 @@
 #include "projectile.h"
 
-Projectile::Projectile(float X, float Y, const char *p, bool size, bool fe) : Object2d(X, Y, p), from_enemy(fe), size_amp(size)
+Projectile::Projectile(float X, float Y, const char *p, bool size, bool fe) : 
+    Object2d(X, Y, p), from_enemy(fe), size_amp(size)
 { }
+
+Projectile::Projectile(float X, float Y, bool l, const char *p, bool size, bool fe) : 
+    Object2d(X, Y, p), light(l), from_enemy(fe), size_amp(size)
+{ }
+
+bool Projectile::getLight() { return light; }
 
 void Projectile::initStraightProj(SDL_Renderer *renderer, bool v)
 {

@@ -108,7 +108,9 @@ private:
     uint8_t smallbox_height;    // Height of each small hitbox
     uint8_t health;     // 3 hp, restart at 0, can be refilled with item
     uint16_t energy;    // Increase as more shot lands, max 300?
-    bool dark;       // 2 states, light and dark
+    bool light;         // 2 states, light and dark
+    bool hold_light;
+    bool hold_dark;
 
     // For cooldown handler and the likes
     // I could use dt but that isn't as precise

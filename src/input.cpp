@@ -85,7 +85,7 @@ void Input::remapControllerButton(SDL_GameControllerButton button, Action action
 }
 void Input::waitForKeyRemap(Action action_to_remap) 
 {
-    std::cout << "Press the new key for action: " << "\n";
+    std::cout << "Press the new key for action: " << static_cast<int>(action_to_remap) << "\n";
     SDL_Event event;
 
     // Wait for user to press a key
@@ -96,23 +96,30 @@ void Input::waitForKeyRemap(Action action_to_remap)
         {
             if (event.type == SDL_KEYDOWN) 
             {
-                std::cout << "Mapped\n";
                 SDL_Keycode new_key = event.key.keysym.sym;
 
+                // Check if the action was previously mapped to a different key
+                auto action_it = std::find_if(key_to_action.begin(), key_to_action.end(),
+                    [action_to_remap](const auto& pair) { return pair.second == action_to_remap; });
+                if (action_it != key_to_action.end()) 
+                {
+                    // Remove the previous key mapping for this action
+                    key_to_action.erase(action_it);
+                }
+
                 // Check if the new key is already mapped to another action
-                auto it = key_to_action.find(new_key);
-                if (it != key_to_action.end()) 
+                auto key_it = key_to_action.find(new_key);
+                if (key_it != key_to_action.end()) 
                 {
                     // Remove the previous mapping for this key
-                    key_to_action.erase(it);
+                    key_to_action.erase(key_it);
                 }
 
                 // Remap the new key to the specified action
                 remapKey(new_key, action_to_remap);
-                std::cout << "Action " << static_cast<int>(action_to_remap) << " remapped to key: " << new_key << std::endl;
                 key_remapped = true;
             }
         }
-        // SDL_Delay(100); // Small delay to avoid high CPU usage
+        SDL_Delay(100); // Small delay to avoid high CPU usage
     }
 }

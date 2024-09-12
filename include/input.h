@@ -6,6 +6,7 @@
 #include <functional>
 #include <vector>
 #include <iostream>
+#include <algorithm>
 
 enum class Action 
 {
