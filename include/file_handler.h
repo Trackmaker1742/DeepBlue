@@ -43,38 +43,25 @@ private:
     std::vector<uint8_t> save_values =
     {
         1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
+        0,0,0,0,0,
+        0,0,0,0,0,
+        0,0,0,0,0,
+        0,0,0,0,0,
+        0,0,0,0,0,
+        0,0,0,0,0,
         0
     };
+    
+    // Data type in param file
+    int current_bg_index = 0;
+    std::vector<std::string> bg_param_data_type =
+    {
+        "index",
+        "autoscroll-speed",
+        "speed"
+    };
+    // Data value in save file
+    std::vector<std::vector<uint8_t>> bg_param_values;
 
     std::vector<const char*> csv_paths;    
 
@@ -83,13 +70,16 @@ public:
     bool compareString(std::string line, std::string str);
 
     // Remove a certain character in a string
-    void removeChar(std::string& str, char ch);
+    void removeChar(std::string &str, char ch);
 
     // Grab value from a data row
-    void grabConfigValue(std::string& row);
+    void grabConfigValue(std::string &row);
 
     // Grab save value from a row
-    void grabSaveValue(std::string& row);
+    void grabSaveValue(std::string &row);
+
+    // Grab param value from a row
+    void grabBgParamValue(std::string &row);
 
     // Basically no diff between the 2, but I'm too lazy to fix it
     // So it'll stay, for now
@@ -106,20 +96,20 @@ public:
     // Parse a full stage folder
     // The idea is to combine all the read and store function to create a sort of template
     // to make levels more easily
+    // Blocktile will be in a separate folder
     // The folder structure will be:
     // Stage ?
     // |
     // |-background
     //  |-1-4.png
-    // |-blocktile
-    //  |-n.png
     // |-back_layer.csv
     // |-block_layer.csv
     // |-front_layer.csv
     void readAssetFolders(char stage_number, 
-        std::vector<std::string> &bg_layers, 
-        std::vector<std::string> &blocktiles,
-        bool &bg_move);
+        std::vector<std::string> &bg_layers,
+        std::vector<std::string> &block_names,
+        std::vector<std::string> &block_paths,
+        std::vector<std::vector<uint8_t>> &bg_param);
 
     // Getters
     uint16_t getValue(int i);

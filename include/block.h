@@ -21,17 +21,21 @@ private:
                     // 4: Danger block
                     // 5: Item block (24 items planned, probably will be more if possible)
 
-                    // 6: Square block
-                    // 7: Slope left    // Can't move properly
-                    // 8: Slope right   // Can't move properly
-                    // 9: Wall (both sides)
-                    // 10: Bridge (player can jump through it from 
+                    // 6: Square block (9 sprites)
+                    
+                    // 7: Slope up left     // Can't move properly
+                    // 8: Slope up right    // Can't move properly
+                    // 9: Slope down left   // Should be able to move
+                    // 10: Slope down right // Should be able to move
+                    
+                    // 11: Wall (both sides) (3 sprites)
+                    // 12: Bridge (player can jump through it from 
                     //              the bottom, bottom left, right side)
                     
-                    // 11: Spring (up)
-                    // 12: Spring (down)
-                    // 13: Spring (left)
-                    // 14: Spring (right)
+                    // 13: Spring (up)
+                    // 14: Spring (down)
+                    // 15: Spring (left)
+                    // 16: Spring (right)
 
                     // New moving block formatting style
                     // Give each block a certain amount of moves to each direction
@@ -62,6 +66,7 @@ private:
     float dist_y_max = 0;
     
     // Checkers
+    bool on_screen = true;             // To skip collision check when not on screen
     bool manual;                // Manual or auto
     bool can_activate = false;  // To activate manual moving blocks and start their movement
     bool reverse = false;       // To move block back to starting point, completing the move
@@ -82,6 +87,7 @@ public:
     void move(float dt);
 
     // Setters
+    void setOnScreen(bool os);
     void setCanActivate(bool ca);
     void setReverse(bool r);
     void setStoodOn(bool so);
@@ -90,6 +96,7 @@ public:
     void setTravelDistY(uint16_t tdy);
 
     // Getters
+    bool getOnScreen();
     uint8_t getType();
     uint8_t getLane();
     bool getCanActivate();

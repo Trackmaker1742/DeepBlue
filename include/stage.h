@@ -17,14 +17,15 @@ class Stage
 private:
     SDL_Renderer *renderer; // Not belonging to Stage
 
-    // Background textures
-    std::vector<SDL_Texture*> background_layers;
+    // Stage directory
+    std::string stage_dir = "";
     
-    // Moving block and normal block has to be in the same array
-    // to assign x and y coords
-    std::vector<std::vector<std::string>> block_str;
-    // Foreground element layout in integer array
-    std::vector<std::vector<uint8_t>> front_str;
+    // Block textures (for stage edit mode)
+    std::vector<SDL_Texture*> block_textures;
+    // Block names (for identifying correct block type + corresponding sprite)
+    std::vector<std::string> block_names;
+    // Block sprite path (able to detect the block type in csv)
+    std::vector<std::string> block_paths;
 
     // Back and normal block array
     std::vector<Block*> blocks;
@@ -37,6 +38,15 @@ private:
     // Front layer array
     std::vector<Block*> front_blocks;
 
+    // Background textures
+    std::vector<SDL_Texture*> background_layers;
+    
+    // Moving block and normal block has to be in the same array
+    // to assign x and y coords
+    std::vector<std::vector<std::string>> block_str;
+    // Foreground element layout in integer array
+    std::vector<std::vector<uint8_t>> front_str;
+
     // Projectile array
     std::vector<Projectile*> projectiles;
 
@@ -46,27 +56,31 @@ private:
 
     // Background paths
     std::vector<std::string> background_paths;
-    bool background_move = false;
-
-    // Block sprite path (able to detect the block type in csv)
-    std::vector<std::string> block_paths;
+    std::vector<std::vector<uint8_t>> background_parameter;
+    uint8_t background_count_max = 0;
 
     // Rhythm obstacles sprites
     // High geyser sprite will only contain the bottom half,
     // with the top half using the same sprite as low geyser
     std::vector<std::string> obstacle_path;
-            
+
 public:
+    Stage();
     Stage(SDL_Renderer *rend);
 
     // Getters
+    std::string getStageDir();
     std::vector<SDL_Texture*> getBackgroundLayers();
+    std::vector<SDL_Texture*> getBlockTextures();
     std::vector<Block*> getBlockVec();
     std::vector<Block*> getMovingBlockVec();
     std::vector<Projectile*> getProjVec();
     uint16_t getRespX();
     uint16_t getRespY();
-    bool getBgMove();
+    uint8_t getBgParam(int i, int j);
+    uint8_t getBgCountMax();
+
+    std::string getPrefix(const std::string &str);
 
     // Setters
     void setRespX(uint16_t x);
@@ -75,6 +89,7 @@ public:
     // Initialize
     void initSpritePath(char stage_number);
     void initBackground();
+    void initBlockEditTexture();
     // Background blocks and normal blocks can be in the same csv
     // So splitting them might not be needed
     void initBlockLayer(char stage_number);  // Block layer (interactable)
@@ -89,6 +104,10 @@ public:
 
     // Update for moving blocks
     void update(float dt);
+
+    // Adding block
+    void addBlock(int x, int y, int index);
+    void deleteBlock(int index);
 
     // Unload everything in a stage (blocks, spawn)
     void unloadStage();

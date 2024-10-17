@@ -1,3 +1,6 @@
+#define WINVER 0x0605
+#define _WIN32_WINNT 0x0605
+
 #include "scene.h"
 
 Scene::Scene(Input *in) : input(in)
@@ -11,7 +14,8 @@ void Scene::init(uint16_t w, uint16_t h, uint8_t f, uint8_t dopt)
     fps = f;
     display_option = dopt;
     // Switch case for display option (later)
-    window = SDL_CreateWindow("Deep Blue", 0, 0, width, height, SDL_WINDOW_BORDERLESS);
+    SetProcessDPIAware();   // Used to avoid Windows DPI scaling
+    window = SDL_CreateWindow("Deep Blue", 0, 0, width, height, SDL_WINDOW_ALLOW_HIGHDPI);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     SDL_SetWindowIcon(window, icon);
 }

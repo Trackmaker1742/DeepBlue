@@ -25,7 +25,7 @@ void File_Handler::removeChar(std::string& str, char ch)
     str = temp;
 }
 
-void File_Handler::grabConfigValue(std::string& row)
+void File_Handler::grabConfigValue(std::string &row)
 {
     // Remove all spaces
     removeChar(row, ' ');
@@ -49,7 +49,7 @@ void File_Handler::grabConfigValue(std::string& row)
     }
 }
 
-void File_Handler::grabSaveValue(std::string& row)
+void File_Handler::grabSaveValue(std::string &row)
 {
     // Remove all spaces
     removeChar(row, ' ');
@@ -91,16 +91,46 @@ void File_Handler::grabSaveValue(std::string& row)
     }
 }
 
+void File_Handler::grabBgParamValue(std::string &row)
+{
+    // Remove all spaces
+    removeChar(row, ' ');
+
+    // Check type of data
+    for (int i = 0; i < bg_param_data_type.size(); i++)
+    {
+        // Skip to next loop if the data type don't match
+        if (!compareString(row, bg_param_data_type[i])) continue;
+        else 
+        {
+            // Take value and append to a string
+            std::string value_str = "";
+            for (int j = bg_param_data_type[i].length() + 1; j < row.length(); j++)
+            {
+                value_str.push_back(row[j]);
+            }
+            // If encounter an index 
+            // Save index value to assign the correct value to each background img
+            if (compareString(row, bg_param_data_type[0])) 
+            {
+                current_bg_index = std::stoi(value_str) - 1;
+                bg_param_values.push_back({0,0});
+                // std::cout << current_bg_index << "\n";
+            }
+            // Assign auto-scroll speed value (0 means bg doesn't scroll automatically)
+            if (compareString(row, bg_param_data_type[1])) 
+                bg_param_values[current_bg_index][0] = std::stoi(value_str);
+            // Assign speed value
+            if (compareString(row, bg_param_data_type[2])) 
+                bg_param_values[current_bg_index][1] = std::stoi(value_str);
+        }
+    }
+}
+
 void File_Handler::readConfig()
 {
     // Open config
     std::ifstream config(config_path);
-
-    // Error checking
-    if (!config.is_open())
-    {
-        std::cout << "Unable to open config" << "\n";
-    }
     
     // Parsing relevant data
     std::string temp_row;
@@ -124,12 +154,6 @@ void File_Handler::readSave()
 {
     // Open save file
     std::ifstream save(save_path);
-    
-    // Error checking
-    if (!save.is_open())
-    {
-        std::cout << "Unable to open save file" << "\n";
-    }
     
     // Parsing relevant data
     std::string temp_row;
@@ -191,39 +215,85 @@ void File_Handler::readCSV(char stage_number,
 
 void File_Handler::readAssetFolders(char stage_number, 
     std::vector<std::string> &bg_layers, 
-    std::vector<std::string> &blocktiles,
-    bool &bg_move)
+    std::vector<std::string> &block_names,
+    std::vector<std::string> &block_paths,
+    std::vector<std::vector<uint8_t>> &bg_param)
 {
     std::string path = "res/Stages/Stage ";
     path += stage_number;
-    std::string file_name = "";
+    std::string file_path = "";
     std::string temp = "";
     
     // Iterate through background folder
+    // Parallax fix zone
     temp = path + "/background/";
     for (const auto& entry : std::filesystem::directory_iterator(temp)) 
     {
         // If the entry is a regular file, add its name to the vector
         if (std::filesystem::is_regular_file(entry.status())) {
-            if (entry.path().filename().string() == "move")
+            // Do stuff when encountering the param file, skip to the next file
+            if (entry.path().filename().string() == "param.txt")
             {
-                bg_move = true;
-                continue;
+                // Open param file
+                file_path = temp + entry.path().filename().string();
+                std::ifstream param(file_path);
+
+                // Parsing relevant data
+                std::string temp_line;
+                while (std::getline(param, temp_line))
+                {
+                    // Skip empty or comment row
+                    if (temp_line.empty() || temp_line[0] == '#') continue;
+
+                    // Grab value from the row
+                    grabBgParamValue(temp_line);
+                }
+
+                // Close file 
+                param.close();
             }
-            file_name = temp + entry.path().filename().string();
-            bg_layers.push_back(file_name);
+            for (std::vector<uint8_t> values : bg_param_values)
+            {
+                bg_param.push_back(values);
+            }
+            bg_param_values.clear();
+            // Adding background files to the list
+            file_path = temp + entry.path().filename().string();
+            bg_layers.push_back(file_path);
         }
     }
 
     temp = "";
 
     // Iterate through blocktile folder
-    temp = path + "/blocktile/";
+    temp = "res/Blocktile/";
     for (const auto& entry : std::filesystem::directory_iterator(temp)) {
         // If the entry is a regular file, add its name to the vector
         if (std::filesystem::is_regular_file(entry.status())) {
-            file_name = temp + entry.path().filename().string();
-            blocktiles.push_back(file_name);
+            file_path = entry.path().filename().string();
+            // Trimming the .png portion of the string
+            // Saving block name into array for stage design and indexing
+            block_names.push_back(file_path.substr(0, file_path.length() - 4));
+            // Adding directory to the file
+            file_path = temp + file_path;
+            // Saving entire block path into an array
+            block_paths.push_back(file_path); 
+        }
+    }
+
+    // Iterate through blocktile folder
+    temp = temp + "Level " + stage_number + '/';
+    for (const auto& entry : std::filesystem::directory_iterator(temp)) {
+        // If the entry is a regular file, add its name to the vector
+        if (std::filesystem::is_regular_file(entry.status())) {
+            file_path = entry.path().filename().string();
+            // Trimming the .png portion of the string
+            // Saving block name into array for stage design and indexing
+            block_names.push_back(file_path.substr(0, file_path.length() - 4));
+            // Adding directory to the file
+            file_path = temp + file_path;
+            // Saving entire block path into an array
+            block_paths.push_back(file_path);
         }
     }
 }

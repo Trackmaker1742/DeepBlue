@@ -21,6 +21,12 @@ private:
     uint16_t width;
     uint16_t height;
 
+    float center_x;
+    float center_y;
+
+    // Debug mode
+    bool editor;
+
     bool on_ground;
     bool right;     // true: facing right
                     // false: facing left
@@ -148,6 +154,12 @@ public:
     uint16_t getWidth();
     uint16_t getHeight();
 
+    float getCenterX();
+    float getCenterY();
+
+    void setEditor(bool e);
+    bool getEditor();
+
     float getVelXMax();
 
     void setRight(bool r);
@@ -232,6 +244,9 @@ public:
 
     // Player rhythm movement
     void rhythmMvt(Input *input, float dt);
+
+    // For stage edit mode
+    void editorMvt(Input *input, float dt);
 
     ~Player();
 };

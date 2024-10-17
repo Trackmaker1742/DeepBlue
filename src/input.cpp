@@ -13,6 +13,14 @@ void Input::init()
     remapKey(SDLK_j, Action::ACTION1);
     remapKey(SDLK_k, Action::ACTION2);
 
+    // Extra functions
+    remapKey(SDLK_UP, Action::EXTRA_UP);
+    remapKey(SDLK_DOWN, Action::EXTRA_DOWN);
+    remapKey(SDLK_LEFT, Action::EXTRA_LEFT);
+    remapKey(SDLK_RIGHT, Action::EXTRA_RIGHT);
+    remapKey(SDLK_u, Action::EXTRA1);
+    remapKey(SDLK_i, Action::EXTRA2);
+
     // Default controller bind
     remapControllerButton(SDL_CONTROLLER_BUTTON_DPAD_UP, Action::MOVE_UP);
     remapControllerButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN, Action::MOVE_DOWN);

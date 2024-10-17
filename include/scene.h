@@ -3,6 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <windows.h>
 
 #include "input.h"
 
@@ -77,6 +78,7 @@ public:
 
     // Init Menu
     void initMenu(const char *path);
+    void initStageEditMenu();
 
     void initAllMenu();
 

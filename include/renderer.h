@@ -9,7 +9,7 @@
 #include "camera.h"
 #include "player.h"
 #include "stage.h"
-#include "effect.h"
+#include "editor.h"
 
 class Renderer 
 {
@@ -28,6 +28,7 @@ private:
     // Rect for sprite handling
     SDL_Rect src_rect;
     SDL_Rect des_rect;
+    SDL_FRect des_rect_f;
 
     // Rect for effects handling
     SDL_Rect src_rect_d;
@@ -59,9 +60,16 @@ private:
     // Layer 1 doesn't need to pan slowly
     // Other layers need to have a counter to move the bg
     // even when the player isn't moving
-    float layer2_i = 0;
-    float layer3_i = 0;
-    float layer4_i = 0;
+    bool layer_auto_i_init = false;
+    std::vector<float> layer_auto_i;
+
+    // Stage edit menu
+    uint16_t current_row;
+    uint16_t current_column;
+    uint8_t item_per_row = 6;
+    uint16_t row_offset;
+    uint16_t first_row = 0;
+    uint16_t last_row = 11; // Start from 0 row
 
 public:
     Renderer(Scene *sc, Camera *c);
@@ -76,9 +84,12 @@ public:
     void renderMovingBlocks(Stage *stage, Player *player);
     void renderProjectiles(Stage *stage, Player *player);
 
-    void renderStagePlat(Stage *stage, Player *player);
+    void renderStagePlat(Stage *stage, Player *player, Editor *edit);
     void renderStageShooter(Stage *stage, Player *player);
     void renderStageRhythm(Stage *stage, Player *player);
+    
+    void renderGridLines(Stage *stage, Player *player);
+    void renderEditorMenu(Stage *stage, Editor *edit);
 
     void renderMainMenu();
     void renderStageSelect();

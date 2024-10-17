@@ -11,6 +11,9 @@ private:
     uint16_t render_x;
     uint16_t render_y;
 
+    uint16_t scr_width;
+    uint16_t scr_height;
+
     // float prev_vel_x;
 
     // bool max_pan;   // Check to see if camera is at maximum distance from player

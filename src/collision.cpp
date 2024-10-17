@@ -2,8 +2,11 @@
 
 void Collision::specialBlockColli(Stage *stage, std::vector<Block*> Blocks, Player *player)
 {   
-    for (Block* b : Blocks)
+    for (Block *b : Blocks)
     {
+        // Skip blocks outside the screen
+        if (!b->getOnScreen()) continue;
+        
         if (b->getType() > 5) continue;
         // If player hitbox overlaps with block hitbox
         if (player->getX() + player->getWidth() > b->getX() &&
@@ -39,13 +42,16 @@ void Collision::specialBlockColli(Stage *stage, std::vector<Block*> Blocks, Play
 void Collision::blockTopColli(std::vector<Block*> Blocks, Player *player, float dt)
 {
     // Top of blocks
-    for (Block* b : Blocks)
+    for (Block *b : Blocks)
     {
+        // Skip blocks outside the screen
+        if (!b->getOnScreen()) continue;
+
         // Skip over other wall block ground collision
         // For chunks of moving wall blocks
-        if (b->getType() == 9 && player->getOnWall()) continue;
+        if (b->getType() == 11 && player->getOnWall()) continue;
         // Skip non-physics blocks, destination blocks
-        if (b->getType() < 6 || b->getType() > 10) continue;
+        if (b->getType() < 6 || b->getType() > 12) continue;
         if (player_prev_x < b->getX() + b->getGrid() && 
         player->getX() < b->getX() + b->getGrid() && 
         player_prev_x + player->getWidth() > b->getX() && 
@@ -79,18 +85,18 @@ void Collision::blockTopColli(std::vector<Block*> Blocks, Player *player, float 
                     player->setY(b->getY() + b->getGrid());
                 }
             }
-            // Left slope
+            // Up left slope
             else if (b->getType() == 7)
             {
-                if (player->getX() + player->getWidth() * 0.7 <= b->getX() + b->getGrid() && 
-                player->getY() <= player->getX() + player->getWidth() * 0.7 - b->getX() + b->getY() + 1 &&
+                if (player->getX() + player->getWidth() <= b->getX() + b->getGrid() && 
+                player->getY() <= b->getY() + (player->getX() + player->getWidth() - b->getX()) + 1 &&
                 player->getY() >= b->getY())
                 {
-                    player->setY(player->getX() + player->getWidth() * 0.7 - b->getX() + b->getY() + 1);
+                    player->setY(b->getY() + (player->getX() + player->getWidth() - b->getX()) + 1);
                     player->setOnGround(true);
                     break;
                 }
-                else if (player->getX() + player->getWidth() * 0.7 >= b->getX() + b->getGrid() && 
+                else if (player->getX() + player->getWidth() >= b->getX() + b->getGrid() && 
                 player->getY() <= b->getY() + b->getGrid() &&
                 player->getY() >= b->getY() + b->getGrid() / 2)
                 {
@@ -99,18 +105,18 @@ void Collision::blockTopColli(std::vector<Block*> Blocks, Player *player, float 
                     continue;
                 }
             }
-            // Right slope
+            // Up right slope
             else if (b->getType() == 8)
             {
-                if (player->getX() + player->getWidth() * 0.3 >= b->getX() && 
-                player->getY() <= b->getGrid() - player->getX() - player->getWidth() * 0.3 + b->getX() + b->getY() + 1 &&
+                if (player->getX() >= b->getX() && 
+                player->getY() <= b->getY() + (b->getGrid() - player->getX() + b->getX()) + 1 &&
                 player->getY() >= b->getY())
                 {
-                    player->setY(b->getGrid() - player->getX() - player->getWidth() * 0.3 + b->getX() + b->getY() + 1);
+                    player->setY(b->getY() + (b->getGrid() - player->getX() + b->getX()) + 1);
                     player->setOnGround(true);
                     break;
                 }
-                else if (player->getX() + player->getWidth() * 0.3 <= b->getX() && 
+                else if (player->getX() <= b->getX() && 
                 player->getY() <= b->getY() + b->getGrid() &&
                 player->getY() >= b->getY() + b->getGrid() / 2)
                 {
@@ -133,10 +139,13 @@ void Collision::blockTopColli(std::vector<Block*> Blocks, Player *player, float 
 void Collision::blockBotSideColli(std::vector<Block*> Blocks, Player *player, float dt)
 {
     // Right, Left, Bottom of block
-    for (Block* b : Blocks)
+    for (Block *b : Blocks)
     {
-        // Skipping bridge block (10)
-        if (b->getType() < 6 || b->getType() > 9) continue;
+        // Skip blocks outside the screen
+        if (!b->getOnScreen()) continue;
+        
+        // Skipping bridge block (12)
+        if (b->getType() < 6 || b->getType() > 11) continue;
         // Left and Right collision
         if (player_prev_y < b->getY() + b->getGrid() && 
         player->getY() < b->getY() + b->getGrid() && 
@@ -155,7 +164,7 @@ void Collision::blockBotSideColli(std::vector<Block*> Blocks, Player *player, fl
                     player->setVelX(-player->getVelX() * 0.3);
                     continue;
                 }
-                // Left slope
+                // Up left slope
                 else if (b->getType() == 7)
                 {
                     if (player->getY() + player->getHeight() * 0.2 < b->getY())
@@ -165,8 +174,8 @@ void Collision::blockBotSideColli(std::vector<Block*> Blocks, Player *player, fl
                         continue;
                     }
                 }
-                // Right slope
-                else if (b->getType() == 8)
+                // Up & down right slope
+                else if (b->getType() == 8 || b->getType() == 10)
                 {
                     if (player_prev_x + player->getWidth() < b->getX())
                     {
@@ -176,7 +185,7 @@ void Collision::blockBotSideColli(std::vector<Block*> Blocks, Player *player, fl
                     }
                 }
                 // Wall grab block collision
-                else if (b->getType() == 9)
+                else if (b->getType() == 11)
                 {
                     player->setOnWall(true);
                     player->setRight(true);
@@ -203,8 +212,8 @@ void Collision::blockBotSideColli(std::vector<Block*> Blocks, Player *player, fl
                     player->setVelX(-player->getVelX() * 0.3);
                     continue;
                 }
-                // Left slope
-                else if (b->getType() == 7)
+                // Up & down left slope
+                else if (b->getType() == 7 || b->getType() == 9)
                 {
                     if (player_prev_x > b->getX() + b->getGrid())
                     {
@@ -213,7 +222,7 @@ void Collision::blockBotSideColli(std::vector<Block*> Blocks, Player *player, fl
                         continue;
                     }
                 }
-                // Right slope
+                // Up right slope
                 else if (b->getType() == 8)
                 {
                     if (player->getY() + player->getHeight() * 0.2 < b->getY())
@@ -224,7 +233,7 @@ void Collision::blockBotSideColli(std::vector<Block*> Blocks, Player *player, fl
                     }
                 }
                 // Wall grab block collision
-                else if (b->getType() == 9)
+                else if (b->getType() == 11)
                 {
                     player->setOnWall(true);
                     player->setRight(false);
@@ -248,12 +257,52 @@ void Collision::blockBotSideColli(std::vector<Block*> Blocks, Player *player, fl
         player_prev_x + player->getWidth() > b->getX() && 
         player->getX() + player->getWidth() > b->getX())
         {
-            if (player->getY() + player->getHeight() * 0.8 < b->getY() && 
+            // Down left slope
+            if (b->getType() == 9)
+            {
+                if (player->getX() + player->getWidth() <= b->getX() + b->getGrid() && 
+                player->getY() >= b->getY() - (player->getX() + player->getWidth() - b->getX()) - 1 &&
+                player->getY() + player->getHeight() <= b->getY() + b->getGrid())
+                {
+                    player->setY(b->getY() - (player->getX() + player->getWidth() - b->getX()) - 1);
+                    player->setVelY(0);
+                    break;
+                }
+                else if (player->getX() + player->getWidth() >= b->getX() + b->getGrid() && 
+                player->getY() + player->getHeight() >= b->getY() &&
+                player->getY() + player->getHeight() <= b->getY() + b->getGrid() / 2)
+                {
+                    player->setY(b->getY() - player->getHeight());
+                    player->setVelY(0);
+                    break;
+                }
+            }
+            // Down right slope
+            else if (b->getType() == 10)
+            {
+                if (player->getX() >= b->getX() && 
+                player->getY() >= b->getY() - (b->getGrid() - player->getX() + b->getX()) - 1 &&
+                player->getY() + player->getHeight() <= b->getY() + b->getGrid())
+                {
+                    player->setY(b->getY() - (b->getGrid() - player->getX() + b->getX()) - 1);
+                    player->setVelY(0);
+                    break;
+                }
+                else if (player->getX() <= b->getX() && 
+                player->getY() + player->getHeight() >= b->getY() &&
+                player->getY() + player->getHeight() <= b->getY() + b->getGrid() / 2)
+                {
+                    player->setY(b->getY() - player->getHeight());
+                    player->setVelY(0);
+                    break;
+                }
+            }
+            else if (player->getY() + player->getHeight() * 0.8 < b->getY() && 
             player->getY() + player->getHeight() > b->getY())
             {
                 player->setY(b->getY() - player->getHeight());
-                player->setVelY(-player->getVelY() * 0.1);
-                continue;
+                player->setVelY(0);
+                break;
             }
         }
     }
@@ -263,7 +312,10 @@ void Collision::springBlockColli(std::vector<Block*> blocks, Player *player)
 {
     for (Block *b : blocks)
     {
-        if (b->getType() < 11) continue;
+        // Skip blocks outside the screen
+        if (!b->getOnScreen()) continue;
+        
+        if (b->getType() < 13) continue;
         if (player->getX() + player->getWidth() > b->getX() &&
         player->getX() < b->getX() + b->getGrid() &&
         player->getY() + player->getHeight() > b->getY() &&
@@ -274,17 +326,17 @@ void Collision::springBlockColli(std::vector<Block*> blocks, Player *player)
             player->setY(player->getY() + player->getGrid() / 20);
             switch (b->getType())
             {
-                case 11:
+                case 13:
                     player->setVelY(spring_up_vel_y);
                     break;
-                case 12:
+                case 14:
                     player->setVelY(spring_down_vel_y);
                     break;
-                case 13:
+                case 15:
                     player->setVelX(spring_left_vel_x);
                     player->setVelY(spring_hori_vel_y);
                     break;
-                case 14:
+                case 16:
                     player->setVelX(spring_right_vel_x);
                     player->setVelY(spring_hori_vel_y);
                     break;

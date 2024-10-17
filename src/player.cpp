@@ -7,6 +7,12 @@ Player::Player(uint8_t fps, float X, float Y, const char *P) :
 uint16_t Player::getWidth() { return width; }
 uint16_t Player::getHeight() { return height; }
 
+float Player::getCenterX() { return center_x; }
+float Player::getCenterY() { return center_y; }
+
+void Player::setEditor(bool e) { editor = e; }
+bool Player::getEditor() { return editor; }
+
 float Player::getVelXMax() { return vel_x_max; }
 
 void Player::setRight(bool r) { right = r; }
@@ -68,11 +74,16 @@ std::vector<Projectile*> Player::getProjectiles() { return projectiles; }
 
 void Player::initPlat(SDL_Renderer *renderer)
 {
-    setGrid(128);
+    setGrid(64 * 2);
+
+    editor = false;
 
     // Hitbox
     width = getGrid() * 0.40625;
     height = getGrid() * 0.625;
+
+    center_x = getX() + getWidth() / 2;
+    center_y = getY() + getHeight() / 2;
 
     on_ground = false;
     // Rendering stuff
@@ -124,6 +135,11 @@ void Player::initVertShooter(SDL_Renderer *renderer)
     width = getGrid();
     height = getGrid();
 
+    center_x = getX() + getWidth() / 2;
+    center_y = getY() + getHeight() / 2;
+
+    editor = false;
+
     // Max velocity
     setAccelX(getGrid() * 4);
     vel_x_max = getGrid() * 4;
@@ -150,8 +166,14 @@ void Player::initHoriShooter(SDL_Renderer *renderer)
     setGrid(96 * 2);
     width = getGrid() * 2/3;
     height = getGrid() * 2/3;
+
+    center_x = getX() + getWidth() / 2;
+    center_y = getY() + getHeight() / 2;
+
     smallbox_width = getGrid() * 13/48;
     smallbox_height = getGrid() * 19/48;
+
+    editor = false;
     
     // Max velocity
     setAccelX(getGrid() * 4);
@@ -181,6 +203,11 @@ void Player::initHoriShooter(SDL_Renderer *renderer)
 void Player::initRhythm(SDL_Renderer *renderer)
 {
     setGrid(128);
+
+    center_x = getX() + getWidth() / 2;
+    center_y = getY() + getHeight() / 2;
+    
+    editor = false;
 
     on_ground = false;
 
@@ -266,6 +293,12 @@ void Player::platformerMvtAccel(Input *input, float dt)
 // Player platformer movement
 void Player::platformerMvt(Input *input, float dt)
 {
+    // Enter editor mode
+    if (input->getPress(Action::EXTRA1)) 
+    {
+        input->setHold(Action::EXTRA1, false);
+        editor = true;
+    }
     // Accel & decel are performed before and after setX()
     // to avoid difference in distance travelled in different frame rate
 
@@ -408,24 +441,6 @@ void Player::platformerMvt(Input *input, float dt)
             dash_counter = 0;
         }
     }
-
-    // // Dev mode
-    // if (input->getPress(11))
-    // {
-    //     setY(getY() + 10);
-    // }
-    // if (input->getPress(12))
-    // {
-    //     setY(getY() - 3);
-    // }
-    // if (input->getPress(13))
-    // {
-    //     setX(getX() - 3);
-    // }
-    // if (input->getPress(14))
-    // {
-    //     setX(getX() + 3);
-    // }
 }
 
 // Player shooter movement
@@ -453,11 +468,11 @@ void Player::shooterMvtAccel(Input *input, float dt)
     }
     // Decel (First half)
     // Vertical
-    if (getVelY() &&                                    // Speed != 0
-        input->getPress(Action::MOVE_UP) && input->getPress(Action::MOVE_DOWN) ||     // Dual input
-        !input->getPress(Action::MOVE_UP) && !input->getPress(Action::MOVE_DOWN) ||   // No input
-        input->getPress(Action::MOVE_UP) && getVelY() < 0 ||          // Go up when speed < 0
-        input->getPress(Action::MOVE_DOWN) && getVelY() > 0)            // Go down when speed > 0
+    if (getVelY() &&                                                                    // Speed != 0
+        input->getPress(Action::MOVE_UP) && input->getPress(Action::MOVE_DOWN) ||       // Dual input
+        !input->getPress(Action::MOVE_UP) && !input->getPress(Action::MOVE_DOWN) ||     // No input
+        input->getPress(Action::MOVE_UP) && getVelY() < 0 ||                            // Go up when speed < 0
+        input->getPress(Action::MOVE_DOWN) && getVelY() > 0)                            // Go down when speed > 0
     {
         // Decel works by applying 3 times the speed of the opposite direction
         // Down
@@ -474,11 +489,11 @@ void Player::shooterMvtAccel(Input *input, float dt)
         }
     }
     // Horizontal
-    if (getVelX() &&                                    // Speed != 0
-        input->getPress(Action::MOVE_LEFT) && input->getPress(Action::MOVE_RIGHT) ||     // Dual input
-        !input->getPress(Action::MOVE_LEFT) && !input->getPress(Action::MOVE_RIGHT) ||   // No input
-        input->getPress(Action::MOVE_LEFT) && getVelX() > 0 ||          // Go left when speed > 0
-        input->getPress(Action::MOVE_RIGHT) && getVelX() < 0)            // Go right when speed < 0
+    if (getVelX() &&                                                                    // Speed != 0
+        input->getPress(Action::MOVE_LEFT) && input->getPress(Action::MOVE_RIGHT) ||    // Dual input
+        !input->getPress(Action::MOVE_LEFT) && !input->getPress(Action::MOVE_RIGHT) ||  // No input
+        input->getPress(Action::MOVE_LEFT) && getVelX() > 0 ||                          // Go left when speed > 0
+        input->getPress(Action::MOVE_RIGHT) && getVelX() < 0)                           // Go right when speed < 0
     {
         // Decel works by applying 3 times the speed of the opposite direction
         // Left
@@ -771,6 +786,36 @@ void Player::rhythmMvt(Input *input, float dt)
     {
         invul_counter++;
         if (invul_counter >= invul_frame_max) invul = false;
+    }
+}
+
+void Player::editorMvt(Input *input, float dt)
+{
+    center_x = getX() + getWidth() / 2;
+    center_y = getY() + getHeight() / 2;
+
+    uint16_t speed = getGrid() * 6;
+
+    // Movement
+    // if (input->getPress(Action::ACTION2))
+    // {
+    //     speed *= 2;   
+    // }
+    if (input->getPress(Action::MOVE_UP))
+    {
+        setY(getY() + speed * dt);   
+    }
+    if (input->getPress(Action::MOVE_DOWN))
+    {
+        setY(getY() - speed * dt);   
+    }
+    if (input->getPress(Action::MOVE_LEFT))
+    {
+        setX(getX() - speed * dt);   
+    }
+    if (input->getPress(Action::MOVE_RIGHT))
+    {
+        setX(getX() + speed * dt);   
     }
 }
 

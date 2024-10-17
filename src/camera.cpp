@@ -6,8 +6,11 @@ uint16_t Camera::getRendY() { return render_y; }
 
 void Camera::init(Scene* scene)
 {
-    render_x = scene->getWidth()/2 - getGrid() / 4;
-    render_y = scene->getHeight()/2 - getGrid();
+    scr_width = scene->getWidth();
+    scr_height = scene->getHeight();
+
+    render_x = scr_width / 2 - getGrid() / 2;
+    render_y = scr_height - (getGrid() * (int(scr_height/2) / getGrid()) + getGrid());
 
     setX(render_x);
     setY(render_y);
@@ -24,48 +27,53 @@ void Camera::init(Scene* scene)
 // Update camera
 void Camera::updatePlatCam(Player *player, float dt)
 {
+    if (player->getEditor() == true)
+        render_x = scr_width / 3 - getGrid() / 2;
+    else 
+        render_x = scr_width / 2 - getGrid() / 2;
     // Stop camera from going into the left, bottom edges of the screen
-    if (player->getX() > render_x - player->getGrid()) 
+    if (player->getX() > render_x) 
     {
-        if (player_prev_right != player->getRight())
-        {
-            dir_switch = true;
-        }
-        if (dir_switch)
-        {
-            if (!dir_counter) dir_temp = player_prev_right;
-            setX(player->getX() + (dir_temp ? 1 : -1) * player->getGrid());
-            dir_counter++;
-            if (dir_counter >= dir_counter_max)
-            {
-                dir_counter = 0;
-                dir_switch = false;
-                cam_move = true;
-            }
-        }
-        if (cam_move)
-        {
-            if (player->getRight())
-            {
-                if (getX() - player->getX() < player->getGrid())
-                {
-                    setX(getX() + (player->getVelX() / 7 + player->getGrid()) * 7 * dt);
-                }
-                else cam_move = false;
-            }
-            else
-            {
-                if (player->getX() - getX() < player->getGrid())
-                {
-                    setX(getX() + (player->getVelX() / 7 - player->getGrid()) * 7 * dt);
-                }
-                else cam_move = false;
-            }
-        }
-        else if (!dir_switch)
-        {
-            setX(player->getX() + (player->getRight() ? 1 : -1) * player->getGrid());
-        }
+    //     if (player_prev_right != player->getRight())
+    //     {
+    //         dir_switch = true;
+    //     }
+    //     if (dir_switch)
+    //     {
+    //         if (!dir_counter) dir_temp = player_prev_right;
+    //         setX(player->getX() + (dir_temp ? 1 : -1) * player->getGrid());
+    //         dir_counter++;
+    //         if (dir_counter >= dir_counter_max)
+    //         {
+    //             dir_counter = 0;
+    //             dir_switch = false;
+    //             cam_move = true;
+    //         }
+    //     }
+    //     if (cam_move)
+    //     {
+    //         if (player->getRight())
+    //         {
+    //             if (getX() - player->getX() < player->getGrid())
+    //             {
+    //                 setX(getX() + (player->getVelX() / 7 + player->getGrid()) * 7 * dt);
+    //             }
+    //             else cam_move = false;
+    //         }
+    //         else
+    //         {
+    //             if (player->getX() - getX() < player->getGrid())
+    //             {
+    //                 setX(getX() + (player->getVelX() / 7 - player->getGrid()) * 7 * dt);
+    //             }
+    //             else cam_move = false;
+    //         }
+    //     }
+    //     else if (!dir_switch)
+    //     {
+    //         setX(player->getX() + (player->getRight() ? 1 : -1) * player->getGrid());
+    //     }
+        setX(player->getX());
     }
     else setX(render_x);
     
@@ -74,6 +82,9 @@ void Camera::updatePlatCam(Player *player, float dt)
         if (can_move_vert) setY(player->getY()); 
     }
     else setY(render_y);
+
+    // Track the camera's coordinates and deal with it directly to avoid
+    // jittering when entering stage corners
 
     player_prev_right = player->getRight();
 }

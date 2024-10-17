@@ -10,12 +10,22 @@
 
 enum class Action 
 {
+    // Base player inputs
     MOVE_UP,
     MOVE_DOWN,
     MOVE_LEFT,
     MOVE_RIGHT,
     ACTION1,
     ACTION2,
+
+    // Extra inputs for debug mode
+    EXTRA_UP,
+    EXTRA_DOWN,
+    EXTRA_LEFT,
+    EXTRA_RIGHT,
+    EXTRA1,
+    EXTRA2,
+
     ACTION_MAX  // Total number of actions
 };
 

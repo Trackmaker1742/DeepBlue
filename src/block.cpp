@@ -70,6 +70,7 @@ void Block::move(float dt)
 }
 
 // Setters
+void Block::setOnScreen(bool os) { on_screen = os; }
 void Block::setCanActivate(bool ca) { can_activate = ca; }
 void Block::setReverse(bool r) { reverse = r; }
 void Block::setStoodOn(bool so) { stood_on = so; }
@@ -78,6 +79,7 @@ void Block::setTravelDistX(uint16_t tdx) { dist_x_max = tdx; };
 void Block::setTravelDistY(uint16_t tdy) { dist_y_max = tdy; };
 
 // Getters
+bool Block::getOnScreen() { return on_screen; }
 uint8_t Block::getType() { return type; }
 uint8_t Block::getLane() { return lane; }
 bool Block::getCanActivate() { return can_activate; }
@@ -87,5 +89,5 @@ bool Block::getClimbedOn() { return climbed_on; }
 
 Block::~Block()
 {
-    std::cout << "Block terminated!\n";
+    // std::cout << "Block terminated!\n";
 }

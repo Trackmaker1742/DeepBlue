@@ -7,6 +7,8 @@
 #include <windows.h>
 #include <filesystem>
 #include <memory>
+#include <thread>
+#include <atomic>
 
 #include "scene.h"
 #include "input.h"
@@ -21,6 +23,11 @@
 #include "stage.h"
 #include "projectile.h"
 #include "enemy.h"
+#include "editor.h"
+
+// Multithreading
+std::atomic<bool> running(true);
+std::thread save_edit_thread;
 
 int main(int argc, char *argv[])
 {
@@ -108,11 +115,15 @@ int main(int argc, char *argv[])
     // Collision checker
     Collision *colli = new Collision();
 
+    // Editor mode
+    Editor *edit = new Editor();
+
     // Initialize variable to save the time of the previous frame
     uint64_t prev_frame = SDL_GetTicks64();
 
     bool quit = false;
     SDL_RaiseWindow(scene->getWindow());
+
     while (!input->handleInput() && quit != true)
     {
         // Calculating delta time
@@ -152,7 +163,7 @@ int main(int argc, char *argv[])
             //     scene->updatePauseMenu();
             //     renderer->renderPauseMenu();
             // break;
-            // Platforming stage
+            // Platforming stage + level mod (won't be in final version)
             case 6:
                 // Audio test (works)
                 // input 7 is u key
@@ -166,23 +177,47 @@ int main(int argc, char *argv[])
                 //     input->setHold(8, false);
                 //     Audio::playSoundFX(2, 0);
                 // }
-                if (input->getPress(Action::MOVE_UP))
-                {
-                    input->setHold(Action::MOVE_UP, false);
-                    input->waitForKeyRemap(Action::ACTION1);
-                }
+                // Input mapping (works)
+                // if (input->getPress(Action::MOVE_UP))
+                // {
+                //     input->setHold(Action::MOVE_UP, false);
+                //     input->waitForKeyRemap(Action::ACTION1);
+                // }
 
                 // Platforming stages
-                // Player movement
-                player->platformerMvt(input, scene->getDeltaTime());
-                // Block update
-                stage->update(scene->getDeltaTime());
-                // Collision handler
-                colli->playerBlockColli(stage, player, scene->getDeltaTime());
+                if (!player->getEditor())
+                {
+                    // Player movement
+                    player->platformerMvt(input, scene->getDeltaTime());
+                    // Block update
+                    stage->update(scene->getDeltaTime());
+                    // Collision handler
+                    colli->playerBlockColli(stage, player, scene->getDeltaTime());
+                }
+                else
+                {
+                    player->editorMvt(input, scene->getDeltaTime());
+                    edit->menuAction(input, player, stage);
+                    if (edit->getChanged() && edit->getSaved())
+                    {
+                        std::cout << "thread started\n";
+                        running = true;
+                        edit->setChanged(false);
+                        try 
+                        {
+                            save_edit_thread = std::thread(Editor::saveChanges, edit);
+                        }
+                        catch(const std::bad_alloc &e)
+                        {
+                            std::cerr << "Memory allocation failed: " << e.what() << std::endl;
+                            return 1; // Exit the program with an error code
+                        }
+                    }
+                }
                 // Camera update
                 cam->updatePlatCam(player, scene->getDeltaTime());
                 // Render stuff
-                renderer->renderStagePlat(stage, player);
+                renderer->renderStagePlat(stage, player, edit);
             break;
 
             // WIP
@@ -209,7 +244,10 @@ int main(int argc, char *argv[])
             case 10:
 
             break;
+            // Level creation mode
+            case 11:
 
+            break;
             default:
             break;
         }
@@ -221,6 +259,9 @@ int main(int argc, char *argv[])
         // Framerate handler (cap to FPS)
 	    SDL_Delay(1000.0f/scene->getFPS() - scene->getDeltaTime());
     }
+
+    running = false;
+    if (save_edit_thread.joinable()) save_edit_thread.join();
 
     delete audio;
     delete input;
@@ -238,6 +279,7 @@ int main(int argc, char *argv[])
 }
 
 // Currently unused, dunno about the future
+// Will be used in level editor mode
 // Zoom (working perfectly)
 // if (input->getPress(11) || input->getPress(12))
 // {
@@ -418,3 +460,8 @@ int main(int argc, char *argv[])
 // Horizontal shooter first, because I already have the sprites
 // Individual hitboxes are now done
 // Should be ready for projectile and enemy collisions
+
+// 9/10: improving the parallax bg system
+// The new idea is to have a text file that contains the parameters of each image
+// instead of just the move or not_move file like now
+// This should allow for more modularity and better scrolling for each stage
