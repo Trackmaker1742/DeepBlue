@@ -33,11 +33,11 @@ int main(int argc, char *argv[])
     char stage_number = '1';
     // std::cout << "Pick game mode (enter 6 or the game will crash):\n";
     // std::cin >> game_mode;
-    // if (game_mode == 6)
-    // {
-    //     std::cout << "Choose stage (1 or 2):\n";
-    //     std::cin >> stage_number;
-    // }
+    if (game_mode == 6)
+    {
+        std::cout << "Choose stage (1 or 2):\n";
+        std::cin >> stage_number;
+    }
 
     // Play audio
     Audio *audio = new Audio();
@@ -207,23 +207,8 @@ int main(int argc, char *argv[])
                     {
                         running = true;
                         edit->setChanged(false);
-                        // save_edit_thread = std::thread(Editor::saveChanges, edit);
-                        try 
-                        {
-                            save_edit_thread = std::thread(Editor::saveChanges, edit);
-                            save_edit_thread.detach();
-                        }
-                        catch(const std::bad_alloc &e)
-                        {
-                            std::cerr << "Memory allocation failed: " << e.what() << std::endl;
-                            return 1; // Exit the program with an error code
-                        }
-                    }
-                    if (edit->getSaved() && !edit->getSaving() && edit->getChanged())
-                    {
-                        running = false;
-                        if (save_edit_thread.joinable()) save_edit_thread.join();
-                        edit->setSaved(false);
+                        save_edit_thread = std::thread(Editor::saveChanges, edit);
+                        save_edit_thread.detach();
                     }
                 }
                 // Camera update

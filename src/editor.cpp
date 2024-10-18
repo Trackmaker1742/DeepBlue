@@ -16,7 +16,7 @@ void Editor::menuAction(Input *input, Player *player, Stage *stage)
 {
     grid = player->getGrid() / 2;
     // Return to normal mode
-    if (input->getPress(Action::EXTRA1) && !changed)
+    if (input->getPress(Action::EXTRA1) && !changed && !saving)
     {
         input->setHold(Action::EXTRA1, false);
         player->setEditor(false);
@@ -66,12 +66,12 @@ void Editor::menuAction(Input *input, Player *player, Stage *stage)
         changed = true;
         saved = false;
     }
-    if (input->getPress(Action::EXTRA2) && !saved && changed)
+    if (input->getPress(Action::EXTRA2) && !saved && changed && !saving)
     {
         input->setHold(Action::EXTRA2, false);
         saving = true;
     }
-    if (changed && saved)
+    if (changed && saving)
     {
         temp_blocks = stage->getBlockVec();
         stage_dir = stage->getStageDir();

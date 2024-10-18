@@ -16,7 +16,7 @@ private:
     // If true, player can't exit edit mode until either changes are saved or discarded
     bool changed = false;
     bool saving = false;
-    bool saved = false;
+    bool saved = true;
 
     uint16_t grid = 0;
 
