@@ -15,9 +15,10 @@ class Editor
 private:
     // If true, player can't exit edit mode until either changes are saved or discarded
     bool changed = false;
+    bool saving = false;
     bool saved = false;
 
-    uint16_t grid;
+    uint16_t grid = 0;
 
     uint16_t se_menu_counter = 0;
 
@@ -31,16 +32,18 @@ private:
     std::string stage_dir;
 
     bool is_block = false;
-    uint16_t is_block_index;
+    uint16_t is_block_index = 0;
 
 public:
     Editor();
 
     void setChanged(bool c);
+    void setSaved(bool s);
 
     uint16_t getGrid();
     uint16_t getSEMCount();
     bool getChanged();
+    bool getSaving();
     bool getSaved();
 
     void menuAction(Input *input, Player *player, Stage *stage);

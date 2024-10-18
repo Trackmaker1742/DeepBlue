@@ -25,21 +25,19 @@
 #include "enemy.h"
 #include "editor.h"
 
-// Multithreading
-std::atomic<bool> running(true);
-std::thread save_edit_thread;
+// Go work on the web project plzzzzzzzzz, I can't just do nothing for so long, the group is waiting
 
 int main(int argc, char *argv[])
 {
-    int game_mode = 8;
+    int game_mode = 6;
     char stage_number = '1';
-    std::cout << "Pick game mode (enter 6 or the game will crash):\n";
-    std::cin >> game_mode;
-    if (game_mode == 6)
-    {
-        std::cout << "Choose stage (1 or 2):\n";
-        std::cin >> stage_number;
-    }
+    // std::cout << "Pick game mode (enter 6 or the game will crash):\n";
+    // std::cin >> game_mode;
+    // if (game_mode == 6)
+    // {
+    //     std::cout << "Choose stage (1 or 2):\n";
+    //     std::cin >> stage_number;
+    // }
 
     // Play audio
     Audio *audio = new Audio();
@@ -74,10 +72,13 @@ int main(int argc, char *argv[])
 
     // Player
     Player *player = new Player(scene->getFPS());
+
+    std::cout << "pre-state-ing\n";
     
     // Change game state (manual for now)
     scene->setState(game_mode);
-    switch (scene->getState())
+    std::cout << int(scene->getState()) << "\n";
+    switch (int(scene->getState()))
     {
         // Platforming init
         case 6:
@@ -117,6 +118,10 @@ int main(int argc, char *argv[])
 
     // Editor mode
     Editor *edit = new Editor();
+
+    // Multithreading
+    std::atomic<bool> running(true);
+    std::thread save_edit_thread;
 
     // Initialize variable to save the time of the previous frame
     uint64_t prev_frame = SDL_GetTicks64();
@@ -198,20 +203,27 @@ int main(int argc, char *argv[])
                 {
                     player->editorMvt(input, scene->getDeltaTime());
                     edit->menuAction(input, player, stage);
-                    if (edit->getChanged() && edit->getSaved())
+                    if (edit->getChanged() && edit->getSaving())
                     {
-                        std::cout << "thread started\n";
                         running = true;
                         edit->setChanged(false);
+                        // save_edit_thread = std::thread(Editor::saveChanges, edit);
                         try 
                         {
                             save_edit_thread = std::thread(Editor::saveChanges, edit);
+                            save_edit_thread.detach();
                         }
                         catch(const std::bad_alloc &e)
                         {
                             std::cerr << "Memory allocation failed: " << e.what() << std::endl;
                             return 1; // Exit the program with an error code
                         }
+                    }
+                    if (edit->getSaved() && !edit->getSaving() && edit->getChanged())
+                    {
+                        running = false;
+                        if (save_edit_thread.joinable()) save_edit_thread.join();
+                        edit->setSaved(false);
                     }
                 }
                 // Camera update

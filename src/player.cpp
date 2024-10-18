@@ -127,6 +127,7 @@ void Player::initPlat(SDL_Renderer *renderer)
     dash_halt = false;
 
     initTexture(platformer_path, renderer);
+    std::cout << "Player Initialized\n";
 }
 
 void Player::initVertShooter(SDL_Renderer *renderer)

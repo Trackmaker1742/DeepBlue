@@ -4,10 +4,12 @@ Editor::Editor()
 { }
 
 void Editor::setChanged(bool c) { changed = c; };
+void Editor::setSaved(bool s) { saved = s; }
 
 uint16_t Editor::getGrid() { return grid; }
 uint16_t Editor::getSEMCount() { return se_menu_counter; }
 bool Editor::getChanged() { return changed; }
+bool Editor::getSaving() { return saving; }
 bool Editor::getSaved() { return saved; }
 
 void Editor::menuAction(Input *input, Player *player, Stage *stage)
@@ -67,7 +69,7 @@ void Editor::menuAction(Input *input, Player *player, Stage *stage)
     if (input->getPress(Action::EXTRA2) && !saved && changed)
     {
         input->setHold(Action::EXTRA2, false);
-        saved = true;
+        saving = true;
     }
     if (changed && saved)
     {
@@ -90,17 +92,16 @@ void Editor::saveChanges()
         if (x_max < b->getGridX()) x_max = b->getGridX();
         if (y_max < b->getGridY()) y_max = b->getGridY();
     }
-    std::cout << x_max << " " << y_max << "\n";
     // Create and write into file
     std::ofstream b_layer;
     // Open and clear file
     b_layer.open(stage_dir, std::ios::out | std::ios::trunc);
     // Iterate and write into file
-    for (int i = y_max; i >= 0; --i)
+    for (int i = y_max; i >= 0; i--)
     {
         for (int j = 0; j < x_max; j++)
         {
-            for (int k = 0; k < temp_blocks.size(); k++)
+            for (int k = temp_blocks.size() - 1; k >= 0; k--)
             {
                 if (temp_blocks[k]->getGridX() == j && 
                     temp_blocks[k]->getGridY() == i)
@@ -113,21 +114,29 @@ void Editor::saveChanges()
             }
             if (is_block)
             {
-                // std::cout << "is_block\n";
                 // Adding prefix for block with type name of less than 2 digits
                 if (temp_blocks[is_block_index]->getType() < 10) b_layer << "0";
                 // Write block type
                 b_layer << int(temp_blocks[is_block_index]->getType()) << ",";
-                // Delete block from temp array to help save computation
-                // delete temp_blocks[is_block_index];
-                // temp_blocks[is_block_index] = nullptr;
-                // temp_blocks.erase(temp_blocks.begin() + is_block_index);
             }
             else b_layer << "0,";
         }
         b_layer << "\n";
     }
     b_layer.close();
+
+    saving = false;
+    saved = true;
+
+    // // Delete each block in the array
+    // for (Block* block : temp_blocks)
+    // {
+    //     delete block;  // Deallocate each block
+    // }
+    
+    // temp_blocks.clear();  // Clear the vector after deleting all blocks
+
+    std::cout << "New Layout Saved!\n";
 }
 
 bool Editor::playerBlockOverlap(Player *player, Stage *stage)

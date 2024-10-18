@@ -44,6 +44,8 @@ void Stage::initSpritePath(char stage_number)
     // }
 
     delete file;
+
+    std::cout << "Sprite Paths Initialized!\n";
 }
 void Stage::initBackground()
 {
@@ -57,6 +59,8 @@ void Stage::initBackground()
         i++;
     }
     background_paths.clear();
+
+    std::cout << "Background Initialized!\n";
 }
 void Stage::initBlockEditTexture()
 {
@@ -66,6 +70,8 @@ void Stage::initBlockEditTexture()
         block_textures.push_back(SDL_CreateTextureFromSurface(renderer, surface));
         SDL_FreeSurface(surface);
     }
+
+    std::cout << "Editor Textures Initialized!\n";
 }
 
 // For analyzing block names
@@ -84,13 +90,6 @@ void Stage::initBlockLayer(char stage_number)
     front_str.clear();
 
     // Pointer vectors, need to be deleted
-    // blocks.push_back(new Block(1, 1, "", 4));
-    // for (int i = 0; i < blocks.size(); i++)
-    // {
-    //     std::cout << "delete blocks" << "\n";
-    //     delete blocks[i];
-    //     blocks.erase(blocks.begin() + i);
-    // }
     blocks.clear();
     moving_blocks.clear();
     front_blocks.clear();
@@ -206,6 +205,8 @@ void Stage::initBlockLayer(char stage_number)
 
     // Delete file object
     delete file;
+
+    std::cout << "Block Layer Initialized!\n";
 }
 
 void Stage::initFrontLayer(char stage_number)
@@ -275,6 +276,7 @@ void Stage::initPlatAll(char stage_number)
     initBackground();
     initBlockEditTexture();
     initBlockLayer(stage_number);
+    std::cout << "Stage Initialized!\n";
 }
 
 void Stage::initVertShooterAll(char stage_number)
