@@ -72,12 +72,9 @@ int main(int argc, char *argv[])
 
     // Player
     Player *player = new Player(scene->getFPS());
-
-    std::cout << "pre-state-ing\n";
     
     // Change game state (manual for now)
     scene->setState(game_mode);
-    std::cout << int(scene->getState()) << "\n";
     switch (int(scene->getState()))
     {
         // Platforming init
@@ -128,6 +125,8 @@ int main(int argc, char *argv[])
 
     bool quit = false;
     SDL_RaiseWindow(scene->getWindow());
+
+    std::cout << "\n";
 
     while (!input->handleInput() && quit != true)
     {
@@ -259,6 +258,8 @@ int main(int argc, char *argv[])
 
     running = false;
     if (save_edit_thread.joinable()) save_edit_thread.join();
+
+    std::cout << "\n";
 
     delete audio;
     delete input;
