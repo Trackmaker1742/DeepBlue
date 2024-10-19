@@ -325,49 +325,49 @@ void Renderer::renderPlayerHoriShooter(Player *player)
     };
     SDL_RenderCopy(scene->getRenderer(), player->getTexture(), &src_rect, &des_rect);
 
-    // Render big hitbox
-    SDL_SetRenderDrawBlendMode(scene->getRenderer(), SDL_BLENDMODE_BLEND);
-    SDL_SetRenderDrawColor(scene->getRenderer(), 255, 255, 255, 150);
-    des_rect = {
-        int(player->getX()), 
-        scene->getHeight() - int(player->getHeight()) - int(player->getY()), 
-        player->getWidth(), 
-        player->getHeight()
-    };
-    SDL_RenderFillRect(scene->getRenderer(), &des_rect);
+    // // Render big hitbox
+    // SDL_SetRenderDrawBlendMode(scene->getRenderer(), SDL_BLENDMODE_BLEND);
+    // SDL_SetRenderDrawColor(scene->getRenderer(), 255, 255, 255, 150);
+    // des_rect = {
+    //     int(player->getX()), 
+    //     scene->getHeight() - int(player->getHeight()) - int(player->getY()), 
+    //     player->getWidth(), 
+    //     player->getHeight()
+    // };
+    // SDL_RenderFillRect(scene->getRenderer(), &des_rect);
     
-    // Render small hitbox 1
-    SDL_SetRenderDrawBlendMode(scene->getRenderer(), SDL_BLENDMODE_BLEND);
-    SDL_SetRenderDrawColor(scene->getRenderer(), 255, 0, 0, 150);
-    des_rect = {
-        int(player->getSmallboxX(0)), 
-        scene->getHeight() - int(player->getSmallboxHeight()) - int(player->getSmallboxY(0)),
-        int(player->getSmallboxWidth()), 
-        int(player->getSmallboxHeight())
-    };
-    SDL_RenderFillRect(scene->getRenderer(), &des_rect);
+    // // Render small hitbox 1
+    // SDL_SetRenderDrawBlendMode(scene->getRenderer(), SDL_BLENDMODE_BLEND);
+    // SDL_SetRenderDrawColor(scene->getRenderer(), 255, 0, 0, 150);
+    // des_rect = {
+    //     int(player->getSmallboxX(0)), 
+    //     scene->getHeight() - int(player->getSmallboxHeight()) - int(player->getSmallboxY(0)),
+    //     int(player->getSmallboxWidth()), 
+    //     int(player->getSmallboxHeight())
+    // };
+    // SDL_RenderFillRect(scene->getRenderer(), &des_rect);
     
-    // Render small hitbox 2
-    SDL_SetRenderDrawBlendMode(scene->getRenderer(), SDL_BLENDMODE_BLEND);
-    SDL_SetRenderDrawColor(scene->getRenderer(), 255, 255, 0, 150);
-    des_rect = {
-        int(player->getSmallboxX(1)), 
-        scene->getHeight() - int(player->getSmallboxHeight()) - int(player->getSmallboxY(1)),
-        int(player->getSmallboxWidth()), 
-        int(player->getSmallboxHeight())
-    };
-    SDL_RenderFillRect(scene->getRenderer(), &des_rect);
+    // // Render small hitbox 2
+    // SDL_SetRenderDrawBlendMode(scene->getRenderer(), SDL_BLENDMODE_BLEND);
+    // SDL_SetRenderDrawColor(scene->getRenderer(), 255, 255, 0, 150);
+    // des_rect = {
+    //     int(player->getSmallboxX(1)), 
+    //     scene->getHeight() - int(player->getSmallboxHeight()) - int(player->getSmallboxY(1)),
+    //     int(player->getSmallboxWidth()), 
+    //     int(player->getSmallboxHeight())
+    // };
+    // SDL_RenderFillRect(scene->getRenderer(), &des_rect);
     
-    // Render small hitbox 3
-    SDL_SetRenderDrawBlendMode(scene->getRenderer(), SDL_BLENDMODE_BLEND);
-    SDL_SetRenderDrawColor(scene->getRenderer(), 0, 0, 255, 150);
-    des_rect = {
-        int(player->getSmallboxX(2)), 
-        scene->getHeight() - int(player->getSmallboxHeight()) - int(player->getSmallboxY(2)),
-        int(player->getSmallboxWidth()), 
-        int(player->getSmallboxHeight())
-    };
-    SDL_RenderFillRect(scene->getRenderer(), &des_rect);
+    // // Render small hitbox 3
+    // SDL_SetRenderDrawBlendMode(scene->getRenderer(), SDL_BLENDMODE_BLEND);
+    // SDL_SetRenderDrawColor(scene->getRenderer(), 0, 0, 255, 150);
+    // des_rect = {
+    //     int(player->getSmallboxX(2)), 
+    //     scene->getHeight() - int(player->getSmallboxHeight()) - int(player->getSmallboxY(2)),
+    //     int(player->getSmallboxWidth()), 
+    //     int(player->getSmallboxHeight())
+    // };
+    // SDL_RenderFillRect(scene->getRenderer(), &des_rect);
 }
 
 void Renderer::renderPlayerRhythm(Player *player)

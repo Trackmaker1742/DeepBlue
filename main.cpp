@@ -202,13 +202,13 @@ int main(int argc, char *argv[])
                 {
                     player->editorMvt(input, scene->getDeltaTime());
                     edit->menuAction(input, player, stage);
-                    // if (edit->getChanged() && edit->getSaving())
-                    // {
-                    //     running = true;
-                    //     edit->setChanged(false);
-                    //     save_edit_thread = std::thread(Editor::saveChanges, edit, stage->getBlockVec());
-                    //     save_edit_thread.detach();
-                    // }
+                    if (edit->getChanged() && edit->getSaving())
+                    {
+                        running = true;
+                        edit->setChanged(false);
+                        save_edit_thread = std::thread(Editor::saveChanges, edit, stage->getBlockVec(), stage->getMovingBlockVec());
+                        save_edit_thread.detach();
+                    }
                 }
                 // Camera update
                 cam->updatePlatCam(player, scene->getDeltaTime());
