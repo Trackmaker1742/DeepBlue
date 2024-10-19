@@ -28,11 +28,12 @@ private:
     uint16_t y_max = 0;
     
     // Temp block array for faster iteration
-    std::vector<Block*> temp_blocks;
     std::string stage_dir;
 
     bool is_block = false;
-    uint16_t is_block_index = 0;
+    uint16_t block_index = 0;
+    bool is_moving_block = false;
+    uint16_t moving_block_index = 0;
 
 public:
     Editor();
@@ -47,7 +48,7 @@ public:
     bool getSaved();
 
     void menuAction(Input *input, Player *player, Stage *stage);
-    void saveChanges();
+    void saveChanges(std::vector<Block*> blocks, std::vector<Block*> m_blocks);
     bool playerBlockOverlap(Player *player, Stage *stage);
     void updateBlockArray(Input *input, std::vector<Block> &block_array);
 

@@ -107,6 +107,8 @@ public:
     bool getReverse();
     bool getStoodOn();
     bool getClimbedOn();
+    int16_t getTravelDistX();
+    int16_t getTravelDistY();
 
     ~Block();
 };

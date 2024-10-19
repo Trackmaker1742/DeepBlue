@@ -87,5 +87,5 @@ bool Block::getClimbedOn() { return climbed_on; }
 
 Block::~Block()
 {
-    // std::cout << "Block terminated!\n";
+    std::cout << "Block terminated!\n";
 }

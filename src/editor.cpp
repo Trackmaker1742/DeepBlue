@@ -73,21 +73,26 @@ void Editor::menuAction(Input *input, Player *player, Stage *stage)
     }
     if (changed && saving)
     {
-        temp_blocks = stage->getBlockVec();
         stage_dir = stage->getStageDir();
         stage_dir += "block_layer.csv";
     }
     // Note to self, work on the rendering, moving block creation, 
     // just general stuff that would make level creation not a pain for anyone that's not me
 }
-void Editor::saveChanges()
+void Editor::saveChanges(std::vector<Block*> blocks, std::vector<Block*> m_blocks)
 {
     // Save function
-    for (Block *b : temp_blocks)
+    for (Block *b : blocks)
     {
         // Initializing the max value of x and y for writing into file
         if (x_max == 0) x_max = b->getGridX();
         if (y_max == 0) y_max = b->getGridY();
+        // Assign max value
+        if (x_max < b->getGridX()) x_max = b->getGridX();
+        if (y_max < b->getGridY()) y_max = b->getGridY();
+    }
+    for (Block *b : m_blocks)
+    {
         // Assign max value
         if (x_max < b->getGridX()) x_max = b->getGridX();
         if (y_max < b->getGridY()) y_max = b->getGridY();
@@ -101,13 +106,14 @@ void Editor::saveChanges()
     {
         for (int j = 0; j < x_max; j++)
         {
-            for (int k = temp_blocks.size() - 1; k >= 0; k--)
+            // Normal blocks
+            for (int k = 0; k < blocks.size(); k++)
             {
-                if (temp_blocks[k]->getGridX() == j && 
-                    temp_blocks[k]->getGridY() == i)
+                if (blocks[k]->getGridX() == j && 
+                    blocks[k]->getGridY() == i)
                 {
                     is_block = true;
-                    is_block_index = k;  
+                    block_index = k;  
                     break; 
                 }
                 else is_block = false;
@@ -115,11 +121,40 @@ void Editor::saveChanges()
             if (is_block)
             {
                 // Adding prefix for block with type name of less than 2 digits
-                if (temp_blocks[is_block_index]->getType() < 10) b_layer << "0";
+                if (blocks[block_index]->getType() < 10) b_layer << "0";
                 // Write block type
-                b_layer << int(temp_blocks[is_block_index]->getType()) << ",";
+                b_layer << int(blocks[block_index]->getType()) << ",";
             }
-            else b_layer << "0,";
+            // Moving blocks
+            else
+            {
+                for (int k = 0; k < m_blocks.size(); k++)
+                {
+                    if (m_blocks[k]->getGridX() == j && 
+                        m_blocks[k]->getGridY() == i)
+                    {
+                        is_moving_block = true;
+                        moving_block_index = k;  
+                        break; 
+                    }
+                    else is_moving_block = false;
+                }
+            }
+            // if (is_moving_block)
+            // {
+            //     // Adding prefix for block with type name of less than 2 digits
+            //     if (m_blocks[moving_block_index]->getType() < 10) b_layer << "0";
+            //     // Write block type
+            //     b_layer << int(m_blocks[moving_block_index]->getType()) << "|"
+            //     // Write distance x
+            //     << m_blocks[moving_block_index]->get
+            //     // Write distance y
+
+            //     // Write type (manual or auto)
+
+            // }
+            
+            b_layer << "0,";
         }
         b_layer << "\n";
     }
@@ -127,14 +162,6 @@ void Editor::saveChanges()
 
     saving = false;
     saved = true;
-
-    // // Delete each block in the array
-    // for (Block* block : temp_blocks)
-    // {
-    //     delete block;  // Deallocate each block
-    // }
-    
-    // temp_blocks.clear();  // Clear the vector after deleting all blocks
 
     std::cout << "New Layout Saved!\n";
 }
