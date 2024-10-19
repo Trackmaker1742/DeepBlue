@@ -42,6 +42,7 @@ void Collision::specialBlockColli(Stage *stage, std::vector<Block*> Blocks, Play
 void Collision::blockTopColli(std::vector<Block*> Blocks, Player *player, float dt)
 {
     // Top of blocks
+    int i = 0;
     for (Block *b : Blocks)
     {
         // Skip blocks outside the screen
@@ -74,15 +75,9 @@ void Collision::blockTopColli(std::vector<Block*> Blocks, Player *player, float 
                         b->setStoodOn(true);
                         player->setOnMovingBlock(true);
                     }
-
                     player->setY(b->getY() + b->getGrid());
                     player->setOnGround(true);
                     continue;
-                }
-                if (player->getOnMovingBlock() == true && 
-                b->getStoodOn() == true)
-                {
-                    player->setY(b->getY() + b->getGrid());
                 }
             }
             // Up left slope
@@ -133,6 +128,13 @@ void Collision::blockTopColli(std::vector<Block*> Blocks, Player *player, float 
         {
             b->setStoodOn(false);
         }
+        if (player->getOnMovingBlock() == true && 
+        b->getStoodOn() == true)
+        {
+            player->setY(b->getY() + b->getGrid());
+            player->setVelY(0);
+        }
+        i++;
     }
 }
 

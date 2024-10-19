@@ -13,28 +13,39 @@ void Block::initMove(bool m)
     manual = m;
     setAccelX(getGrid() * 2);
     setAccelY(getGrid() * 2);
+    dist_x = 0;
+    dist_y = 0;
+}
+
+void Block::halfAccel(float dt)
+{
+    // If block has to travel in the x-axis
+    if (dist_x_max)
+    {
+        // If distance travelled is below 2 grid, accel
+        if (abs(dist_x) < getGrid() * 2) 
+            setVelX(getVelX() + dir_x * getAccelX() * dt * 0.5f);
+        // If distance left is below 2 grid, decel
+        else if (abs(dist_x) > abs(dist_x_max) - getGrid() * 2)
+            setVelX(getVelX() - dir_x * getAccelX() * dt * 0.5f);
+    }
+    // If block has to travel in the y-axis
+    if (dist_y_max)
+    {
+        if (abs(dist_y) < getGrid() * 2)
+            setVelY(getVelY() + dir_y * getAccelY() * dt * 0.5f);
+        else if (abs(dist_y) > abs(dist_y_max) - getGrid() * 2)
+            setVelY(getVelY() - dir_y * getAccelY() * dt * 0.5f);
+    }
 }
 
 void Block::move(float dt)
 {
-    short direction = reverse ? -1 : 1;
+    dir_x = (reverse ? -1 : 1) * (dist_x_max > 0 ? 1 : -1);
+    dir_y = (reverse ? -1 : 1) * (dist_y_max > 0 ? 1 : -1);
 
     // First half accel
-    if (dist_x_max)
-    {
-        if (dist_x < getGrid() * 2) 
-            setVelX(getVelX() + getAccelX() * direction * dt * 0.5f);
-        else if (dist_x > dist_x_max - getGrid() * 2)
-            setVelX(getVelX() - getAccelX() * direction * dt * 0.5f);
-    }
-
-    if (dist_y_max)
-    {
-        if (dist_y < getGrid() * 2) 
-            setVelY(getVelY() + getAccelY() * direction * dt * 0.5f);
-        else if (dist_y > dist_y_max - getGrid() * 2)
-            setVelY(getVelY() - getAccelY() * direction * dt * 0.5f);
-    }
+    halfAccel(dt);
 
     // Movement
     setX(getX() + getVelX() * dt);
@@ -43,23 +54,10 @@ void Block::move(float dt)
     dist_y += abs(getVelY()) * dt;
 
     // Second half accel
-    if (dist_x_max)
-    {
-        if (dist_x < getGrid() * 2) 
-            setVelX(getVelX() + getAccelX() * direction * dt * 0.5f);
-        else if (dist_x > dist_x_max - getGrid() * 2)
-            setVelX(getVelX() - getAccelX() * direction * dt * 0.5f);
-    }
+    halfAccel(dt);
 
-    if (dist_y_max)
-    {
-        if (dist_y < getGrid() * 2) 
-            setVelY(getVelY() + getAccelY() * direction * dt * 0.5f);
-        else if (dist_y > dist_y_max - getGrid() * 2)
-            setVelY(getVelY() - getAccelY() * direction * dt * 0.5f);
-    }
-
-    if (dist_x >= dist_x_max && dist_y >= dist_y_max)
+    // Reset speed, distance and reverse the travel direction
+    if (abs(dist_x) >= abs(dist_x_max) && abs(dist_y) >= abs(dist_y_max))
     {
         setVelX(0);
         setVelY(0);
@@ -75,8 +73,8 @@ void Block::setCanActivate(bool ca) { can_activate = ca; }
 void Block::setReverse(bool r) { reverse = r; }
 void Block::setStoodOn(bool so) { stood_on = so; }
 void Block::setClimbedOn(bool co) { climbed_on = co; }
-void Block::setTravelDistX(uint16_t tdx) { dist_x_max = tdx; };
-void Block::setTravelDistY(uint16_t tdy) { dist_y_max = tdy; };
+void Block::setTravelDistX(int16_t tdx) { dist_x_max = tdx; };
+void Block::setTravelDistY(int16_t tdy) { dist_y_max = tdy; };
 
 // Getters
 bool Block::getOnScreen() { return on_screen; }

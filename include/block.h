@@ -62,11 +62,14 @@ private:
     // Travel distance of each block 
     float dist_x;   // Temp dist value for accel and decel
     float dist_y;
-    float dist_x_max = 0;   // Max travel distance of each block
-    float dist_y_max = 0;
-    
+    int16_t dist_x_max = 0;   // Max travel distance of each block
+    int16_t dist_y_max = 0;
+
+    short dir_x;
+    short dir_y;
+
     // Checkers
-    bool on_screen = true;             // To skip collision check when not on screen
+    bool on_screen = true;      // To skip collision check when not on screen
     bool manual;                // Manual or auto
     bool can_activate = false;  // To activate manual moving blocks and start their movement
     bool reverse = false;       // To move block back to starting point, completing the move
@@ -83,6 +86,7 @@ public:
     // Initializer for moving blocks
     void initMove(bool manual);
 
+    void halfAccel(float dt);
     // Move function for moving blocks
     void move(float dt);
 
@@ -92,8 +96,8 @@ public:
     void setReverse(bool r);
     void setStoodOn(bool so);
     void setClimbedOn(bool co);
-    void setTravelDistX(uint16_t tdx);
-    void setTravelDistY(uint16_t tdy);
+    void setTravelDistX(int16_t tdx);
+    void setTravelDistY(int16_t tdy);
 
     // Getters
     bool getOnScreen();
