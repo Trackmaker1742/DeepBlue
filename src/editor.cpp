@@ -94,8 +94,8 @@ void Editor::saveChanges(std::vector<Block*> blocks, std::vector<Block*> m_block
     for (Block *b : m_blocks)
     {
         // Assign max value
-        if (x_max < b->getGridX()) x_max = b->getGridX();
-        if (y_max < b->getGridY()) y_max = b->getGridY();
+        if (x_max < b->getInitGridX()) x_max = b->getInitGridX();
+        if (y_max < b->getInitGridY()) y_max = b->getInitGridY();
     }
     // Create and write into file
     std::ofstream b_layer;
@@ -130,8 +130,8 @@ void Editor::saveChanges(std::vector<Block*> blocks, std::vector<Block*> m_block
             {
                 for (int k = 0; k < m_blocks.size(); k++)
                 {
-                    if (m_blocks[k]->getGridX() == j && 
-                        m_blocks[k]->getGridY() == i)
+                    if (m_blocks[k]->getInitGridX() == j && 
+                        m_blocks[k]->getInitGridY() == i)
                     {
                         is_moving_block = true;
                         moving_block_index = k;  
@@ -147,9 +147,9 @@ void Editor::saveChanges(std::vector<Block*> blocks, std::vector<Block*> m_block
                 // Write block type
                 b_layer << int(m_blocks[moving_block_index]->getType()) << "|"
                 // Write distance x
-                << m_blocks[moving_block_index]->getTravelDistX() << "|"
+                << int(m_blocks[moving_block_index]->getTravelDistGridX()) << "|"
                 // Write distance y
-                << m_blocks[moving_block_index]->getTravelDistY() << "|"
+                << int(m_blocks[moving_block_index]->getTravelDistGridY()) << "|"
                 // Write type (manual or auto)
                 << m_blocks[moving_block_index]->getManual() << ",";
             }

@@ -13,6 +13,10 @@ void Block::initMove(bool m)
     manual = m;
     setAccelX(getGrid() * 2);
     setAccelY(getGrid() * 2);
+
+    init_grid_x = getGridX();
+    init_grid_y = getGridY();
+
     dist_x = 0;
     dist_y = 0;
 }
@@ -77,6 +81,8 @@ void Block::setTravelDistX(int16_t tdx) { dist_x_max = tdx; };
 void Block::setTravelDistY(int16_t tdy) { dist_y_max = tdy; };
 
 // Getters
+uint16_t Block::getInitGridX() { return init_grid_x; }
+uint16_t Block::getInitGridY() { return init_grid_y; }
 bool Block::getOnScreen() { return on_screen; }
 bool Block::getManual() { return manual; }
 uint8_t Block::getType() { return type; }
@@ -85,8 +91,8 @@ bool Block::getCanActivate() { return can_activate; }
 bool Block::getReverse() { return reverse; }
 bool Block::getStoodOn() { return stood_on; }
 bool Block::getClimbedOn() { return climbed_on; }
-int16_t Block::getTravelDistX() { return dist_x_max; }
-int16_t Block::getTravelDistY() { return dist_y_max; }
+int16_t Block::getTravelDistGridX() { return dist_x_max / getGrid(); }
+int16_t Block::getTravelDistGridY() { return dist_y_max / getGrid(); }
 
 Block::~Block()
 {

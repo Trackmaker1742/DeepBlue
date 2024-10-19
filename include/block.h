@@ -59,6 +59,10 @@ private:
                     // 3: High geyser
                     // 4: Break-able object
 
+    // Initial position of moving block
+    uint16_t init_grid_x;
+    uint16_t init_grid_y;
+
     // Travel distance of each block 
     float dist_x;   // Temp dist value for accel and decel
     float dist_y;
@@ -100,6 +104,8 @@ public:
     void setTravelDistY(int16_t tdy);
 
     // Getters
+    uint16_t getInitGridX();
+    uint16_t getInitGridY();
     bool getOnScreen();
     bool getManual();
     uint8_t getType();
@@ -108,8 +114,8 @@ public:
     bool getReverse();
     bool getStoodOn();
     bool getClimbedOn();
-    int16_t getTravelDistX();
-    int16_t getTravelDistY();
+    int16_t getTravelDistGridX();
+    int16_t getTravelDistGridY();
 
     ~Block();
 };
