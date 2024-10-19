@@ -101,6 +101,7 @@ public:
 
     // Getters
     bool getOnScreen();
+    bool getManual();
     uint8_t getType();
     uint8_t getLane();
     bool getCanActivate();

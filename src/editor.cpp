@@ -140,21 +140,20 @@ void Editor::saveChanges(std::vector<Block*> blocks, std::vector<Block*> m_block
                     else is_moving_block = false;
                 }
             }
-            // if (is_moving_block)
-            // {
-            //     // Adding prefix for block with type name of less than 2 digits
-            //     if (m_blocks[moving_block_index]->getType() < 10) b_layer << "0";
-            //     // Write block type
-            //     b_layer << int(m_blocks[moving_block_index]->getType()) << "|"
-            //     // Write distance x
-            //     << m_blocks[moving_block_index]->get
-            //     // Write distance y
-
-            //     // Write type (manual or auto)
-
-            // }
-            
-            b_layer << "0,";
+            if (is_moving_block)
+            {
+                // Adding prefix for block with type name of less than 2 digits
+                if (m_blocks[moving_block_index]->getType() < 10) b_layer << "0";
+                // Write block type
+                b_layer << int(m_blocks[moving_block_index]->getType()) << "|"
+                // Write distance x
+                << m_blocks[moving_block_index]->getTravelDistX() << "|"
+                // Write distance y
+                << m_blocks[moving_block_index]->getTravelDistY() << "|"
+                // Write type (manual or auto)
+                << m_blocks[moving_block_index]->getManual() << ",";
+            }
+            else if (!is_block && !is_moving_block) b_layer << "0,";
         }
         b_layer << "\n";
     }

@@ -78,12 +78,15 @@ void Block::setTravelDistY(int16_t tdy) { dist_y_max = tdy; };
 
 // Getters
 bool Block::getOnScreen() { return on_screen; }
+bool Block::getManual() { return manual; }
 uint8_t Block::getType() { return type; }
 uint8_t Block::getLane() { return lane; }
 bool Block::getCanActivate() { return can_activate; }
 bool Block::getReverse() { return reverse; }
 bool Block::getStoodOn() { return stood_on; }
 bool Block::getClimbedOn() { return climbed_on; }
+int16_t Block::getTravelDistX() { return dist_x_max; }
+int16_t Block::getTravelDistY() { return dist_y_max; }
 
 Block::~Block()
 {
