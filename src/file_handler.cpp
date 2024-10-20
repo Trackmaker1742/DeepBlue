@@ -282,7 +282,7 @@ void File_Handler::readAssetFolders(char stage_number,
     }
 
     // Iterate through blocktile folder
-    temp = temp + "Level " + stage_number + '/';
+    temp = temp + "Stage " + stage_number + '/';
     for (const auto& entry : std::filesystem::directory_iterator(temp)) {
         // If the entry is a regular file, add its name to the vector
         if (std::filesystem::is_regular_file(entry.status())) {
