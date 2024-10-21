@@ -17,6 +17,7 @@ enum class Action
     MOVE_RIGHT,
     ACTION1,
     ACTION2,
+    ACTION3,
 
     // Extra inputs for debug mode
     EXTRA_UP,
@@ -25,6 +26,8 @@ enum class Action
     EXTRA_RIGHT,
     EXTRA1,
     EXTRA2,
+    EXTRA3,
+    EXTRA4,
 
     ACTION_MAX  // Total number of actions
 };

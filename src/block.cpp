@@ -71,6 +71,20 @@ void Block::move(float dt)
     }
 }
 
+void Block::reset()
+{
+    setVelX(0);
+    setVelY(0);
+
+    dist_x = 0;
+    dist_y = 0;
+
+    reverse = false;
+
+    setX(init_grid_x * getGrid());
+    setY(init_grid_y * getGrid());
+}
+
 // Setters
 void Block::setOnScreen(bool os) { on_screen = os; }
 void Block::setCanActivate(bool ca) { can_activate = ca; }

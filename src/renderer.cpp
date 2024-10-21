@@ -531,7 +531,7 @@ void Renderer::renderStagePlat(Stage *stage, Player *player, Editor *edit)
     if (player->getEditor()) 
     {
         // Render grid array
-        renderGridLines(stage, player);
+        renderGridLines(stage, player, edit);
         renderEditorMenu(stage, edit);
     }
     // Render player
@@ -570,7 +570,7 @@ void Renderer::renderStageRhythm(Stage *stage, Player *player)
     renderPlayerRhythm(player);
 }
 
-void Renderer::renderGridLines(Stage *stage, Player *player)
+void Renderer::renderGridLines(Stage *stage, Player *player, Editor *edit)
 {
     // Render grid lines for level creation purposes
     SDL_SetRenderDrawColor(scene->getRenderer(), 255, 0, 0, 255);
@@ -613,7 +613,15 @@ void Renderer::renderGridLines(Stage *stage, Player *player)
     uint16_t highlight_x = player->getCenterX() / (player->getGrid() / 2);
     uint16_t highlight_y = player->getCenterY() / (player->getGrid() / 2);
     SDL_SetRenderDrawBlendMode(scene->getRenderer(), SDL_BLENDMODE_BLEND);
-    SDL_SetRenderDrawColor(scene->getRenderer(), 255, 0, 0, 144);
+    if (!edit->getAddMBlock())
+        SDL_SetRenderDrawColor(scene->getRenderer(), 255, 0, 0, 144);
+    else 
+    {
+        if (edit->getInitMBlock())
+            SDL_SetRenderDrawColor(scene->getRenderer(), 0, 255, 0, 144);
+        else 
+            SDL_SetRenderDrawColor(scene->getRenderer(), 0, 0, 255, 144);
+    } 
     des_rect = {
         highlight_x * (player->getGrid() / 2) + delta_x, 
         scene->getHeight() - player->getGrid() / 2 - (highlight_y * (player->getGrid() / 2) + delta_y), 

@@ -106,8 +106,8 @@ public:
     void update(float dt);
 
     // Adding block
-    void addBlock(int x, int y, int index);
-    void deleteBlock(int index);
+    void addBlock(int x, int y, int index, bool move = false);
+    void deleteBlock(int index, bool move = false);
 
     // Unload everything in a stage (blocks, spawn)
     void unloadStage();

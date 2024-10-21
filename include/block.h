@@ -93,6 +93,8 @@ public:
     void halfAccel(float dt);
     // Move function for moving blocks
     void move(float dt);
+    // Reset position for moving blocks
+    void reset();
 
     // Setters
     void setOnScreen(bool os);

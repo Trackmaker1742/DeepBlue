@@ -134,7 +134,13 @@ void Stage::initBlockLayer(char stage_number)
                             break;
                         }
                     }
-                    blocks.push_back(new Block(j, i, block_paths[temp_asset_index].c_str(), std::stoi(getPrefix(cur_block))));
+                    blocks.push_back(new Block
+                    (
+                        j, 
+                        i, 
+                        block_paths[temp_asset_index].c_str(), 
+                        std::stoi(getPrefix(cur_block))
+                    ));
                 }
                 // Adding moving blocks to block array
                 else
@@ -159,7 +165,13 @@ void Stage::initBlockLayer(char stage_number)
                                         break;
                                     }
                                 }
-                                moving_blocks.push_back(new Block(j, i, block_paths[temp_asset_index].c_str(), std::stoi(getPrefix(value_str))));
+                                moving_blocks.push_back(new Block
+                                (
+                                    j, 
+                                    i, 
+                                    block_paths[temp_asset_index].c_str(), 
+                                    std::stoi(getPrefix(value_str))
+                                ));
                                 counter++;
                                 break;
                             // Travel dist x
@@ -346,22 +358,46 @@ void Stage::update(float dt)
 //     }
 // }
 
-void Stage::addBlock(int x, int y, int index)
+void Stage::addBlock(int x, int y, int index, bool move)
 {
-    blocks.push_back(new Block(
-        x, 
-        y, 
-        block_paths[index].c_str(), 
-        std::stoi(getPrefix(block_names[index]))));
-    blocks.back()->initTexture(renderer);
-    std::cout << "block added\n";
+    if (!move)
+    {
+        blocks.push_back(new Block(
+            x, 
+            y, 
+            block_paths[index].c_str(), 
+            std::stoi(getPrefix(block_names[index]))));
+        blocks.back()->initTexture(renderer);
+        std::cout << "block added\n";
+    }
+    else
+    {
+        moving_blocks.push_back(new Block(
+            x, 
+            y, 
+            block_paths[index].c_str(), 
+            std::stoi(getPrefix(block_names[index]))));
+        moving_blocks.back()->initTexture(renderer);
+        moving_blocks.back()->initMove(false);
+        std::cout << "moving block added\n";
+    }
 }
-void Stage::deleteBlock(int index)
+void Stage::deleteBlock(int index, bool move)
 {
-    delete blocks[index];
-    blocks[index] = nullptr;
-    blocks.erase(blocks.begin() + index);
-    std::cout << "block deleted\n";
+    if (!move)
+    {
+        delete blocks[index];
+        blocks[index] = nullptr;
+        blocks.erase(blocks.begin() + index);
+        std::cout << "block deleted\n";
+    }
+    else
+    {
+        delete moving_blocks[index];
+        moving_blocks[index] = nullptr;
+        moving_blocks.erase(moving_blocks.begin() + index);
+        std::cout << "moving block deleted\n";
+    }
 }
 
 void Stage::unloadStage()

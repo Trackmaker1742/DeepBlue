@@ -17,6 +17,10 @@ private:
     bool changed = false;
     bool saving = false;
     bool saved = true;
+    bool reset = true;
+
+    bool add_moving_block = false;
+    bool initial_m_block = true;
 
     uint16_t grid = 0;
 
@@ -46,10 +50,12 @@ public:
     bool getChanged();
     bool getSaving();
     bool getSaved();
+    bool getAddMBlock();
+    bool getInitMBlock();
 
     void menuAction(Input *input, Player *player, Stage *stage);
     void saveChanges(std::vector<Block*> blocks, std::vector<Block*> m_blocks);
-    bool playerBlockOverlap(Player *player, Stage *stage);
+    bool playerBlockOverlap(Player *player, std::vector<Block*> blocks);
     void updateBlockArray(Input *input, std::vector<Block> &block_array);
 
     ~Editor();

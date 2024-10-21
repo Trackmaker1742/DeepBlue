@@ -88,7 +88,7 @@ public:
     void renderStageShooter(Stage *stage, Player *player);
     void renderStageRhythm(Stage *stage, Player *player);
     
-    void renderGridLines(Stage *stage, Player *player);
+    void renderGridLines(Stage *stage, Player *player, Editor *edit);
     void renderEditorMenu(Stage *stage, Editor *edit);
 
     void renderMainMenu();
