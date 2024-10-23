@@ -213,7 +213,7 @@ void File_Handler::readCSV(char stage_number,
     layout.close();
 }
 
-void File_Handler::readAssetFolders(char stage_number, 
+void File_Handler::readStageAssetFolders(char stage_number, 
     std::vector<std::string> &bg_layers, 
     std::vector<std::string> &block_names,
     std::vector<std::string> &block_paths,

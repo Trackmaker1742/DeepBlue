@@ -30,7 +30,7 @@ void Stage::initSpritePath(char stage_number)
     stage_dir += '/';
 
     File_Handler *file = new File_Handler();
-    file->readAssetFolders(stage_number, 
+    file->readStageAssetFolders(stage_number, 
         background_paths,
         block_names,
         block_paths,

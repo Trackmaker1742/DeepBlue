@@ -25,11 +25,13 @@
 #include "enemy.h"
 #include "editor.h"
 
-// Go work on the web project plzzzzzzzzz, I can't just do nothing for so long, the group is waiting
+// Multithreading
+std::atomic<bool> running(true);
+std::thread save_edit_thread;
 
 int main(int argc, char *argv[])
 {
-    int game_mode = 6;
+    int game_mode = 8;
     char stage_number = '1';
     std::cout << "Pick game mode (enter 6 or the game will crash):\n";
     std::cin >> game_mode;
@@ -75,7 +77,7 @@ int main(int argc, char *argv[])
     
     // Change game state (manual for now)
     scene->setState(game_mode);
-    switch (int(scene->getState()))
+    switch (scene->getState())
     {
         // Platforming init
         case 6:
@@ -116,17 +118,11 @@ int main(int argc, char *argv[])
     // Editor mode
     Editor *edit = new Editor();
 
-    // Multithreading
-    std::atomic<bool> running(true);
-    std::thread save_edit_thread;
-
     // Initialize variable to save the time of the previous frame
     uint64_t prev_frame = SDL_GetTicks64();
 
     bool quit = false;
     SDL_RaiseWindow(scene->getWindow());
-
-    std::cout << "-----------------------------\n";
 
     while (!input->handleInput() && quit != true)
     {
@@ -258,8 +254,6 @@ int main(int argc, char *argv[])
 
     running = false;
     if (save_edit_thread.joinable()) save_edit_thread.join();
-
-    std::cout << "-----------------------------\n";
 
     delete audio;
     delete input;

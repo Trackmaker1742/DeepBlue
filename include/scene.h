@@ -31,7 +31,7 @@ private:
     SDL_Renderer *renderer;
 
     // Game state
-    uint8_t game_state = 6; // 0: Quit game
+    uint8_t game_state = 1; // 0: Quit game
                             // 1: Main menu (new game, continue, stage select, gallery, settings, quit game)
                             // 2: Stage select menu (read from save file to see if stage is played at least once)
                             // 3: Gallery (item collection status, unlockables?)

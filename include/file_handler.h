@@ -105,7 +105,7 @@ public:
     // |-back_layer.csv
     // |-block_layer.csv
     // |-front_layer.csv
-    void readAssetFolders(char stage_number, 
+    void readStageAssetFolders(char stage_number, 
         std::vector<std::string> &bg_layers,
         std::vector<std::string> &block_names,
         std::vector<std::string> &block_paths,

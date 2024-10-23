@@ -81,6 +81,7 @@ private:
     bool climbed_on = false;
 
     uint8_t lane;   // For rhythm game
+
 public:
     // Platformer mode blocks
     Block(float X = 0, float Y = 0, const char *P = "", uint8_t t = 0);
@@ -118,6 +119,7 @@ public:
     bool getClimbedOn();
     int16_t getTravelDistGridX();
     int16_t getTravelDistGridY();
+
 
     ~Block();
 };
