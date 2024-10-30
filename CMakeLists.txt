@@ -21,7 +21,6 @@ file(COPY ${DATA} DESTINATION ${CMAKE_BINARY_DIR})
 # Resources
 set(RES ${PROJECT_SOURCE_DIR}/res)
 file(COPY ${RES} DESTINATION ${CMAKE_BINARY_DIR})
-
 add_executable(DeepBlue
     src/audio.cpp
     src/block.cpp
