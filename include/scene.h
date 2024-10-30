@@ -63,6 +63,7 @@ public:
     // Getters
     SDL_Texture *getBgTexture(MenuIndex m_index, int index);
     uint8_t getState();
+    uint8_t getPrevState();
     uint8_t getCounter();
     uint8_t getStageNum();
 

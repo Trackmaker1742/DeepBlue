@@ -6,6 +6,7 @@ Scene::Scene(SDL_Renderer *rend) : renderer(rend)
 // Getters
 SDL_Texture *Scene::getBgTexture(MenuIndex m_index, int index) { return bg_texture_matrix[int(m_index)][index]; }
 uint8_t Scene::getState() { return game_state; }
+uint8_t Scene::getPrevState() { return prev_state; }
 uint8_t Scene::getCounter() { return menu_counter; }
 uint8_t Scene::getStageNum() { return stage_number; }
 

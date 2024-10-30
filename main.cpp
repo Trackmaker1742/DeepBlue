@@ -117,7 +117,27 @@ int main(int argc, char *argv[])
             break;
             // Pause menu
             case 5:
-                renderer->renderStagePlat(stage, player, edit); // Performance intensive but it looks cool
+                // Render current game state for cooler looking pause menu
+                // Performance intensive but it looks cool
+                switch (scene->getPrevState())
+                {
+                    case 6:
+                        renderer->renderStagePlat(stage, player, edit); 
+                    break;
+                    case 7:
+                        renderer->renderStageShooter(stage, player);
+                        renderer->renderPlayerVertShooter(player);
+                    break;
+                    case 8:
+                        renderer->renderStageShooter(stage, player);
+                        renderer->renderPlayerHoriShooter(player);
+                    break;
+                    case 9:
+                        renderer->renderStageRhythm(stage, player);
+                    break;
+                    default:
+                    break;
+                }
                 scene->updatePause(input, stage, player);
                 renderer->renderPauseMenu(scene);
             break;
