@@ -195,6 +195,9 @@ int main(int argc, char *argv[])
             // WIP
             // Vertical shooting stage
             case 7:
+                // Pause menu
+                scene->pauseHandler(input);
+
                 player->shooterMvt(input, config->getDeltaTime(), config->getWidth(), config->getHeight());
                 renderer->renderStageShooter(stage, player);
                 renderer->renderPlayerVertShooter(player);
@@ -211,6 +214,9 @@ int main(int argc, char *argv[])
             break;
             // Rhythm stage
             case 9:
+                // Pause menu
+                scene->pauseHandler(input);
+
                 player->rhythmMvt(input, config->getDeltaTime());
                 cam->updateRhyCam(player, config->getDeltaTime());
                 renderer->renderStageRhythm(stage, player);

@@ -294,16 +294,16 @@ void Renderer::renderPlayerVertShooter(Player *player)
     };
     SDL_RenderCopy(config->getRenderer(), player->getTexture(), &src_rect, &des_rect);
 
-    // Render the hitbox
-    SDL_SetRenderDrawBlendMode(config->getRenderer(), SDL_BLENDMODE_BLEND);
-    SDL_SetRenderDrawColor(config->getRenderer(), 255, 0, 0, 150);
-    des_rect = {
-        int(player->getX()), 
-        config->getHeight() - player->getGrid() - int(player->getY()), 
-        player->getGrid(), 
-        player->getGrid()
-    };
-    SDL_RenderFillRect(config->getRenderer(), &des_rect);
+    // // Render the hitbox
+    // SDL_SetRenderDrawBlendMode(config->getRenderer(), SDL_BLENDMODE_BLEND);
+    // SDL_SetRenderDrawColor(config->getRenderer(), 255, 0, 0, 150);
+    // des_rect = {
+    //     int(player->getX()), 
+    //     config->getHeight() - player->getGrid() - int(player->getY()), 
+    //     player->getGrid(), 
+    //     player->getGrid()
+    // };
+    // SDL_RenderFillRect(config->getRenderer(), &des_rect);
 }
 
 void Renderer::renderPlayerHoriShooter(Player *player)
@@ -325,49 +325,49 @@ void Renderer::renderPlayerHoriShooter(Player *player)
     };
     SDL_RenderCopy(config->getRenderer(), player->getTexture(), &src_rect, &des_rect);
 
-    // Render big hitbox
-    SDL_SetRenderDrawBlendMode(config->getRenderer(), SDL_BLENDMODE_BLEND);
-    SDL_SetRenderDrawColor(config->getRenderer(), 255, 255, 255, 150);
-    des_rect = {
-        int(player->getX()), 
-        config->getHeight() - int(player->getHeight()) - int(player->getY()), 
-        player->getWidth(), 
-        player->getHeight()
-    };
-    SDL_RenderFillRect(config->getRenderer(), &des_rect);
+    // // Render big hitbox
+    // SDL_SetRenderDrawBlendMode(config->getRenderer(), SDL_BLENDMODE_BLEND);
+    // SDL_SetRenderDrawColor(config->getRenderer(), 255, 255, 255, 150);
+    // des_rect = {
+    //     int(player->getX()), 
+    //     config->getHeight() - int(player->getHeight()) - int(player->getY()), 
+    //     player->getWidth(), 
+    //     player->getHeight()
+    // };
+    // SDL_RenderFillRect(config->getRenderer(), &des_rect);
     
-    // Render small hitbox 1
-    SDL_SetRenderDrawBlendMode(config->getRenderer(), SDL_BLENDMODE_BLEND);
-    SDL_SetRenderDrawColor(config->getRenderer(), 255, 0, 0, 150);
-    des_rect = {
-        int(player->getSmallboxX(0)), 
-        config->getHeight() - int(player->getSmallboxHeight()) - int(player->getSmallboxY(0)),
-        int(player->getSmallboxWidth()), 
-        int(player->getSmallboxHeight())
-    };
-    SDL_RenderFillRect(config->getRenderer(), &des_rect);
+    // // Render small hitbox 1
+    // SDL_SetRenderDrawBlendMode(config->getRenderer(), SDL_BLENDMODE_BLEND);
+    // SDL_SetRenderDrawColor(config->getRenderer(), 255, 0, 0, 150);
+    // des_rect = {
+    //     int(player->getSmallboxX(0)), 
+    //     config->getHeight() - int(player->getSmallboxHeight()) - int(player->getSmallboxY(0)),
+    //     int(player->getSmallboxWidth()), 
+    //     int(player->getSmallboxHeight())
+    // };
+    // SDL_RenderFillRect(config->getRenderer(), &des_rect);
     
-    // Render small hitbox 2
-    SDL_SetRenderDrawBlendMode(config->getRenderer(), SDL_BLENDMODE_BLEND);
-    SDL_SetRenderDrawColor(config->getRenderer(), 255, 255, 0, 150);
-    des_rect = {
-        int(player->getSmallboxX(1)), 
-        config->getHeight() - int(player->getSmallboxHeight()) - int(player->getSmallboxY(1)),
-        int(player->getSmallboxWidth()), 
-        int(player->getSmallboxHeight())
-    };
-    SDL_RenderFillRect(config->getRenderer(), &des_rect);
+    // // Render small hitbox 2
+    // SDL_SetRenderDrawBlendMode(config->getRenderer(), SDL_BLENDMODE_BLEND);
+    // SDL_SetRenderDrawColor(config->getRenderer(), 255, 255, 0, 150);
+    // des_rect = {
+    //     int(player->getSmallboxX(1)), 
+    //     config->getHeight() - int(player->getSmallboxHeight()) - int(player->getSmallboxY(1)),
+    //     int(player->getSmallboxWidth()), 
+    //     int(player->getSmallboxHeight())
+    // };
+    // SDL_RenderFillRect(config->getRenderer(), &des_rect);
     
-    // Render small hitbox 3
-    SDL_SetRenderDrawBlendMode(config->getRenderer(), SDL_BLENDMODE_BLEND);
-    SDL_SetRenderDrawColor(config->getRenderer(), 0, 0, 255, 150);
-    des_rect = {
-        int(player->getSmallboxX(2)), 
-        config->getHeight() - int(player->getSmallboxHeight()) - int(player->getSmallboxY(2)),
-        int(player->getSmallboxWidth()), 
-        int(player->getSmallboxHeight())
-    };
-    SDL_RenderFillRect(config->getRenderer(), &des_rect);
+    // // Render small hitbox 3
+    // SDL_SetRenderDrawBlendMode(config->getRenderer(), SDL_BLENDMODE_BLEND);
+    // SDL_SetRenderDrawColor(config->getRenderer(), 0, 0, 255, 150);
+    // des_rect = {
+    //     int(player->getSmallboxX(2)), 
+    //     config->getHeight() - int(player->getSmallboxHeight()) - int(player->getSmallboxY(2)),
+    //     int(player->getSmallboxWidth()), 
+    //     int(player->getSmallboxHeight())
+    // };
+    // SDL_RenderFillRect(config->getRenderer(), &des_rect);
 }
 
 void Renderer::renderPlayerRhythm(Player *player)
