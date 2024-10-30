@@ -239,14 +239,16 @@ public:
     // Same physics
     void shooterMvt(Input *input, float dt, uint16_t game_width, uint16_t game_height);
     // Different attack style
-    void shooterVertAtk(Scene *scene, Input *input, float dt);
-    void shooterHoriAtk(Scene *scene, Input *input, float dt);
+    void shooterVertAtk(Config *config, Input *input, float dt);
+    void shooterHoriAtk(Config *config, Input *input, float dt);
 
     // Player rhythm movement
     void rhythmMvt(Input *input, float dt);
 
     // For stage edit mode
     void editorMvt(Input *input, float dt);
+
+    void unload();
 
     ~Player();
 };

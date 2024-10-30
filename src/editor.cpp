@@ -23,6 +23,7 @@ void Editor::menuAction(Input *input, Player *player, Stage *stage)
         {
             b->reset();
         }
+        initial_m_block = true;
         reset = false;
     }
     // Return to normal mode
@@ -79,17 +80,20 @@ void Editor::menuAction(Input *input, Player *player, Stage *stage)
         {
             if (initial_m_block)
             {
-                stage->addBlock
-                (
-                    int(player->getCenterX() / grid),
-                    int(player->getCenterY() / grid),
-                    se_menu_counter,
-                    true
-                );
+                initial_m_block_x = player->getCenterX() / grid;
+                initial_m_block_y = player->getCenterY() / grid;
+                initial_m_block_se_menu_counter = se_menu_counter;
                 initial_m_block = false;
             }
             else
             {
+                stage->addBlock
+                (
+                    initial_m_block_x,
+                    initial_m_block_y,
+                    initial_m_block_se_menu_counter,
+                    true
+                );
                 stage->getMovingBlockVec().back()->setTravelDistX
                 (
                     int(player->getCenterX() / grid) * stage->getMovingBlockVec().back()->getGrid()
@@ -130,7 +134,6 @@ void Editor::menuAction(Input *input, Player *player, Stage *stage)
     {
         input->setHold(Action::EXTRA2, false);
         if (initial_m_block) saving = true;
-        else std::cout << "Please place destination for current moving block!\n";
     }
     // Switch to adding moving block
     if (input->getPress(Action::EXTRA3))
@@ -171,7 +174,7 @@ void Editor::saveChanges(std::vector<Block*> blocks, std::vector<Block*> m_block
     // Iterate and write into file
     for (int i = y_max; i >= 0; i--)
     {
-        for (int j = 0; j < x_max; j++)
+        for (int j = 0; j <= x_max; j++)
         {
             // Normal blocks
             for (int k = 0; k < blocks.size(); k++)
@@ -190,7 +193,17 @@ void Editor::saveChanges(std::vector<Block*> blocks, std::vector<Block*> m_block
                 // Adding prefix for block with type name of less than 2 digits
                 if (blocks[block_index]->getType() < 10) b_layer << "0";
                 // Write block type
-                b_layer << int(blocks[block_index]->getType()) << ",";
+                b_layer << int(blocks[block_index]->getType());
+                // Write sprite index for block with a different sprite than the default one
+                if (blocks[block_index]->getHasSpriteIndex()) 
+                {
+                    b_layer << '-';
+                    // Adding prefix
+                    if (blocks[block_index]->getSpriteIndex() < 10) b_layer << "0";
+                    b_layer << int(blocks[block_index]->getSpriteIndex());
+                }
+                b_layer << ",";
+                continue;   // Very important, if this isn't here, extra moving blocks will be added, leading to malloc error
             }
             // Moving blocks
             else
@@ -212,13 +225,23 @@ void Editor::saveChanges(std::vector<Block*> blocks, std::vector<Block*> m_block
                 // Adding prefix for block with type name of less than 2 digits
                 if (m_blocks[moving_block_index]->getType() < 10) b_layer << "0";
                 // Write block type
-                b_layer << int(m_blocks[moving_block_index]->getType()) << "|"
+                b_layer << int(m_blocks[moving_block_index]->getType());
+                // Write sprite index for block with a different sprite than the default one
+                if (m_blocks[moving_block_index]->getHasSpriteIndex()) 
+                {
+                    b_layer << '-';
+                    // Adding prefix
+                    if (m_blocks[moving_block_index]->getSpriteIndex() < 10) b_layer << "0";
+                    b_layer << int(m_blocks[moving_block_index]->getSpriteIndex());
+                }
+                b_layer << "|"
                 // Write distance x
                 << int(m_blocks[moving_block_index]->getTravelDistGridX()) << "|"
                 // Write distance y
                 << int(m_blocks[moving_block_index]->getTravelDistGridY()) << "|"
                 // Write type (manual or auto)
                 << m_blocks[moving_block_index]->getManual() << ",";
+                continue;
             }
             else if (!is_block && !is_moving_block) b_layer << "0,";
         }

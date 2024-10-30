@@ -4,10 +4,10 @@
 uint16_t Camera::getRendX() { return render_x; }
 uint16_t Camera::getRendY() { return render_y; }
 
-void Camera::init(Scene* scene)
+void Camera::init(Config* config)
 {
-    scr_width = scene->getWidth();
-    scr_height = scene->getHeight();
+    scr_width = config->getWidth();
+    scr_height = config->getHeight();
 
     render_x = scr_width / 2 - getGrid() / 2;
     render_y = scr_height - (getGrid() * (int(scr_height/2) / getGrid()) + getGrid());
@@ -18,7 +18,7 @@ void Camera::init(Scene* scene)
     // // Set time delay until camera returns to player position
     // max_pan = false;
     // return_counter = 0;
-    // return_delay = scene->getFPS() * 3;
+    // return_delay = config->getFPS() * 3;
 
     // if (getX() < render_x) setX(render_x);
     // if (getY() < render_y) setY(render_y);

@@ -29,6 +29,9 @@ enum class Action
     EXTRA3,
     EXTRA4,
 
+    // Pause menu
+    PAUSE,
+
     ACTION_MAX  // Total number of actions
 };
 

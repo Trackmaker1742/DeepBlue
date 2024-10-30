@@ -32,11 +32,9 @@ void Object2d::initTexture(SDL_Renderer *renderer)
 {
     // Empty path check
     if (path == "") return;
-
+    
     // Load sprite into texture
-    surface = IMG_Load(path);
-    texture = SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
+    texture = IMG_LoadTexture(renderer, path);
     SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
 }
 
@@ -49,20 +47,13 @@ void Object2d::initTexture(const char *p, SDL_Renderer *renderer)
         std::cout << "no_sheet" << "\n";
     }
     // Load sprite into texture
-    surface = IMG_Load(p);
-    texture = SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
+    texture = IMG_LoadTexture(renderer, p);
     SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
 }
 
 Object2d::~Object2d()
 {
     // delete path;
-    // if (surface) 
-    // {
-    //     SDL_FreeSurface(surface); // Clean up SDL surface
-    //     surface = nullptr;
-    // }
     if (texture)
     {
         SDL_DestroyTexture(texture); // Clean up SDL texture

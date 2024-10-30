@@ -22,6 +22,10 @@ private:
     bool add_moving_block = false;
     bool initial_m_block = true;
 
+    int initial_m_block_x;
+    int initial_m_block_y;
+    uint16_t initial_m_block_se_menu_counter;
+
     uint16_t grid = 0;
 
     uint16_t se_menu_counter = 0;

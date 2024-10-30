@@ -10,7 +10,7 @@
 #include <thread>
 #include <atomic>
 
-#include "scene.h"
+#include "config.h"
 #include "input.h"
 #include "renderer.h"
 #include "file_handler.h"
@@ -24,6 +24,7 @@
 #include "projectile.h"
 #include "enemy.h"
 #include "editor.h"
+#include "scene.h"
 
 // Multithreading
 std::atomic<bool> running(true);
@@ -31,86 +32,43 @@ std::thread save_edit_thread;
 
 int main(int argc, char *argv[])
 {
-    int game_mode = 8;
-    char stage_number = '1';
-    std::cout << "Pick game mode (enter 6 or the game will crash):\n";
-    std::cin >> game_mode;
-    if (game_mode == 6)
-    {
-        std::cout << "Choose stage (1 or 2):\n";
-        std::cin >> stage_number;
-    }
-
     // Play audio
     Audio *audio = new Audio();
     audio->init();
     
     // File testing
-    File_Handler *test = new File_Handler();
-    test->readConfig();
-    test->readSave();
+    File_Handler *file = new File_Handler();
+    file->readConfig();
+    file->readSave();
 
     // Initialize input
     Input *input = new Input();
     input->init();
 
-    // Initialize game scene
-    Scene *scene = new Scene(input);
-    scene->init(test->getValue(0), test->getValue(1), test->getValue(2), test->getValue(3));
-    scene->initAllMenu();
-
-    delete test;
+    // Initialize game config
+    Config *config = new Config(input);
+    config->init(file->getValue(0), 
+        file->getValue(1), 
+        file->getValue(2), 
+        file->getValue(3));
     
+    // Menu
+    Scene *scene = new Scene(config->getRenderer());
+    scene->initMenuTextures(file);
+
     // Stage
-    Stage *stage = new Stage(scene->getRenderer());
+    Stage *stage = new Stage(config->getRenderer());
 
     // Camera
     // Only applies to platforming sections as of rn
     Camera *cam = new Camera();
-    cam->init(scene);
+    cam->init(config);
 
     // Renderer
-    Renderer *renderer = new Renderer(scene, cam);
+    Renderer *renderer = new Renderer(config, cam);
 
     // Player
-    Player *player = new Player(scene->getFPS());
-    
-    // Change game state (manual for now)
-    scene->setState(game_mode);
-    switch (scene->getState())
-    {
-        // Platforming init
-        case 6:
-            stage->initPlatAll(stage_number);
-            player->initPlat(scene->getRenderer());
-            // Set spawn
-            player->setX(stage->getRespX());
-            player->setY(stage->getRespY());
-            break;
-        // Vertical shooter init
-        case 7:
-            stage->initVertShooterAll('3');
-            player->initVertShooter(scene->getRenderer());
-            // Set spawn
-            player->setX(scene->getWidth() / 2);
-            player->setY(scene->getHeight() / 2);
-            break;
-        // Horizontal shooter init
-        case 8:
-            stage->initHoriShooterAll('5');
-            player->initHoriShooter(scene->getRenderer());
-            // Set spawn
-            player->setX(scene->getWidth() / 2);
-            player->setY(scene->getHeight() / 2);
-            break;
-        // Rhythm init
-        case 9:
-            // Stage init rhythm all
-            player->initRhythm(scene->getRenderer());
-            break;
-        default:
-            break;
-    }
+    Player *player = new Player(config->getFPS());
 
     // Collision checker
     Collision *colli = new Collision();
@@ -122,13 +80,13 @@ int main(int argc, char *argv[])
     uint64_t prev_frame = SDL_GetTicks64();
 
     bool quit = false;
-    SDL_RaiseWindow(scene->getWindow());
+    SDL_RaiseWindow(config->getWindow());
 
     while (!input->handleInput() && quit != true)
     {
         // Calculating delta time
         uint64_t current_frame = SDL_GetTicks64();
-        scene->setDeltaTime((current_frame - prev_frame) / 1000.0f);
+        config->setDeltaTime((current_frame - prev_frame) / 1000.0f);
 
         // Display the coresponding game state result
         switch (scene->getState())
@@ -137,32 +95,32 @@ int main(int argc, char *argv[])
             case 0:
                 quit = true;
             break;
-            // // Main menu
-            // case 1:
-            //     // Template for all menu stuff
-            //     scene->updateMainMenu();
-            //     renderer->renderMainMenu();
-            // break;
-            // // Stage select menu
-            // case 2:
-            //     scene->updateStageSelect();
-            //     renderer->renderStageSelect();
-            // break;
+            // Main menu
+            case 1:
+                scene->updateMain(input);
+                renderer->renderMainMenu(scene);
+            break;
+            // Stage select menu
+            case 2:
+                scene->updateStageSelect(input, config, file, stage, player);
+                renderer->renderStageSelect(scene);
+            break;
             // // Gallery
             // case 3:
-            //     scene->updateGallery();
+            //     config->updateGallery();
             //     renderer->renderGallery();
             // break;
-            // // Settings
-            // case 4:
-            //     scene->updateSettings();
-            //     renderer->renderSettings();
-            // break;
-            // // Pause menu
-            // case 5:
-            //     scene->updatePauseMenu();
-            //     renderer->renderPauseMenu();
-            // break;
+            // Settings
+            case 4:
+                scene->updateSettings(input);
+                renderer->renderSettings(scene);
+            break;
+            // Pause menu
+            case 5:
+                renderer->renderStagePlat(stage, player, edit); // Performance intensive but it looks cool
+                scene->updatePause(input, stage, player);
+                renderer->renderPauseMenu(scene);
+            break;
             // Platforming stage + level mod (won't be in final version)
             case 6:
                 // Audio test (works)
@@ -187,16 +145,18 @@ int main(int argc, char *argv[])
                 // Platforming stages
                 if (!player->getEditor())
                 {
+                    // Pause menu
+                    scene->pauseHandler(input);
                     // Player movement
-                    player->platformerMvt(input, scene->getDeltaTime());
+                    player->platformerMvt(input, config->getDeltaTime());
                     // Block update
-                    stage->update(scene->getDeltaTime());
+                    stage->update(config->getDeltaTime());
                     // Collision handler
-                    colli->playerBlockColli(stage, player, scene->getDeltaTime());
+                    colli->playerBlockColli(stage, player, config->getDeltaTime());
                 }
                 else
                 {
-                    player->editorMvt(input, scene->getDeltaTime());
+                    player->editorMvt(input, config->getDeltaTime());
                     edit->menuAction(input, player, stage);
                     if (edit->getChanged() && edit->getSaving())
                     {
@@ -207,7 +167,7 @@ int main(int argc, char *argv[])
                     }
                 }
                 // Camera update
-                cam->updatePlatCam(player, scene->getDeltaTime());
+                cam->updatePlatCam(player, config->getDeltaTime());
                 // Render stuff
                 renderer->renderStagePlat(stage, player, edit);
             break;
@@ -215,41 +175,38 @@ int main(int argc, char *argv[])
             // WIP
             // Vertical shooting stage
             case 7:
-                player->shooterMvt(input, scene->getDeltaTime(), scene->getWidth(), scene->getHeight());
+                player->shooterMvt(input, config->getDeltaTime(), config->getWidth(), config->getHeight());
                 renderer->renderStageShooter(stage, player);
                 renderer->renderPlayerVertShooter(player);
             break;
             // Horizontal shooting stage
             case 8:
-                player->shooterMvt(input, scene->getDeltaTime(), scene->getWidth(), scene->getHeight());
-                player->shooterHoriAtk(scene, input, scene->getDeltaTime());
+                // Pause menu
+                scene->pauseHandler(input);
+
+                player->shooterMvt(input, config->getDeltaTime(), config->getWidth(), config->getHeight());
+                player->shooterHoriAtk(config, input, config->getDeltaTime());
                 renderer->renderStageShooter(stage, player);
                 renderer->renderPlayerHoriShooter(player);
             break;
             // Rhythm stage
             case 9:
-                player->rhythmMvt(input, scene->getDeltaTime());
-                cam->updateRhyCam(player, scene->getDeltaTime());
+                player->rhythmMvt(input, config->getDeltaTime());
+                cam->updateRhyCam(player, config->getDeltaTime());
                 renderer->renderStageRhythm(stage, player);
             break;
-            // Cutscenes
             case 10:
-
-            break;
-            // Level creation mode
-            case 11:
-
             break;
             default:
             break;
         }
         
         // Present renderer
-        SDL_RenderPresent(scene->getRenderer());
+        SDL_RenderPresent(config->getRenderer());
         // Get prev frame time (for delta_time)
         prev_frame = current_frame;
         // Framerate handler (cap to FPS)
-	    SDL_Delay(1000.0f/scene->getFPS() - scene->getDeltaTime());
+	    SDL_Delay(1000.0f/config->getFPS() - config->getDeltaTime());
     }
 
     running = false;
@@ -257,14 +214,14 @@ int main(int argc, char *argv[])
 
     delete audio;
     delete input;
-    delete scene;
+    delete config;
     delete stage;
     delete cam;
     delete renderer;
     delete player;
 
-    SDL_DestroyRenderer(scene->getRenderer());
-    SDL_DestroyWindow(scene->getWindow());
+    SDL_DestroyRenderer(config->getRenderer());
+    SDL_DestroyWindow(config->getWindow());
     SDL_Quit();
 
     return EXIT_SUCCESS;

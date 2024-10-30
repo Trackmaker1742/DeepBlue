@@ -1,7 +1,7 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "scene.h"
+#include "config.h"
 #include "object2d.h"
 #include "player.h"
 
@@ -35,7 +35,7 @@ public:
     uint16_t getRendX();
     uint16_t getRendY();
 
-    void init(Scene* scene);
+    void init(Config* config);
 
     // Update platformer camera
     void updatePlatCam(Player *player, float dt);

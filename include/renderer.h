@@ -4,12 +4,13 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-#include "scene.h"
+#include "config.h"
 #include "object2d.h"
 #include "camera.h"
 #include "player.h"
 #include "stage.h"
 #include "editor.h"
+#include "scene.h"
 
 class Renderer 
 {
@@ -20,7 +21,7 @@ private:
     int16_t delta_y;
     // Stage *stage;
 
-    Scene *scene;
+    Config *config;
 
     bool init_x = false;    // Flag for initializing the initial position (for moving bg)
     uint16_t initial_x;    // Initial x position of player
@@ -72,7 +73,7 @@ private:
     uint16_t last_row = 11; // Start from 0 row
 
 public:
-    Renderer(Scene *sc, Camera *c);
+    Renderer(Config *sc, Camera *c);
 
     void renderPlayerPlat(Player *player);
     void renderPlayerVertShooter(Player *player);
@@ -91,11 +92,11 @@ public:
     void renderGridLines(Stage *stage, Player *player, Editor *edit);
     void renderEditorMenu(Stage *stage, Editor *edit);
 
-    void renderMainMenu();
-    void renderStageSelect();
-    void renderGallery();
-    void renderSettings();
-    void renderPauseMenu();
+    void renderMainMenu(Scene *scene);
+    void renderStageSelect(Scene *scene);
+    void renderGallery(Scene *scene);
+    void renderSettings(Scene *scene);
+    void renderPauseMenu(Scene *scene);
 
     ~Renderer();
 };

@@ -63,7 +63,12 @@ private:
     // Data value in save file
     std::vector<std::vector<uint8_t>> bg_param_values;
 
-    std::vector<const char*> csv_paths;    
+    std::vector<const char*> csv_paths;
+
+    // Variables for file iterating
+    std::string path = "";
+    std::string file_path = "";     // Mainly for blocktiles
+    std::string folder_path = "";   // Mainly for menus
 
 public:
     // Checking if a line has a specific string
@@ -110,6 +115,9 @@ public:
         std::vector<std::string> &block_names,
         std::vector<std::string> &block_paths,
         std::vector<std::vector<uint8_t>> &bg_param);
+
+    // Background folder handler
+    void readBgAssetFolders(std::vector<std::vector<std::string>> &bg_paths);
 
     // Getters
     uint16_t getValue(int i);

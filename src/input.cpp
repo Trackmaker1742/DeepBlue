@@ -24,6 +24,9 @@ void Input::init()
     remapKey(SDLK_o, Action::EXTRA3);
     remapKey(SDLK_p, Action::EXTRA4);
 
+    // Pause
+    remapKey(SDLK_ESCAPE, Action::PAUSE);
+
     // Default controller bind
     remapControllerButton(SDL_CONTROLLER_BUTTON_DPAD_UP, Action::MOVE_UP);
     remapControllerButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN, Action::MOVE_DOWN);

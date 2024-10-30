@@ -355,8 +355,8 @@ void Collision::playerBlockColli(Stage* stage, Player* player, float dt)
     spring_right_vel_x = player->getGrid() * 20;
     spring_hori_vel_y = player->getGrid() * 13;
 
-    // Boundary (bottom and left)
-    if (player->getX() < 0 || player->getY() < 0)
+    // Boundary (bottom)
+    if (player->getY() < 0)
     {
         // Player respawn when out of bound
         player->setX(stage->getRespX());

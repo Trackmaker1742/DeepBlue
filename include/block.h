@@ -58,6 +58,9 @@ private:
                     // 2: Low geyser
                     // 3: High geyser
                     // 4: Break-able object
+    
+    bool has_sprite_index = false;
+    uint16_t sprite_index;
 
     // Initial position of moving block
     uint16_t init_grid_x;
@@ -88,17 +91,10 @@ public:
     // Rhythm mode blocks
     Block(float X = 0, float Y = 0, uint8_t t = 0, uint8_t l = 0, const char *P = ""); 
 
-    // Initializer for moving blocks
-    void initMove(bool manual);
-
-    void halfAccel(float dt);
-    // Move function for moving blocks
-    void move(float dt);
-    // Reset position for moving blocks
-    void reset();
-
     // Setters
     void setOnScreen(bool os);
+    void setHasSpriteIndex(bool hsi);
+    void setSpriteIndex(uint16_t si);
     void setCanActivate(bool ca);
     void setReverse(bool r);
     void setStoodOn(bool so);
@@ -112,6 +108,8 @@ public:
     bool getOnScreen();
     bool getManual();
     uint8_t getType();
+    bool getHasSpriteIndex();
+    uint16_t getSpriteIndex();
     uint8_t getLane();
     bool getCanActivate();
     bool getReverse();
@@ -120,6 +118,14 @@ public:
     int16_t getTravelDistGridX();
     int16_t getTravelDistGridY();
 
+    // Initializer for moving blocks
+    void initMove(bool manual);
+
+    void halfAccel(float dt);
+    // Move function for moving blocks
+    void move(float dt);
+    // Reset position for moving blocks
+    void reset();
 
     ~Block();
 };

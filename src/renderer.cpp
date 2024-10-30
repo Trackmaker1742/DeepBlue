@@ -1,7 +1,7 @@
 #include "renderer.h"
 
-Renderer::Renderer(Scene *sc, Camera *c) : 
-    scene(sc),
+Renderer::Renderer(Config *sc, Camera *c) : 
+    config(sc),
     // player(p), 
     cam(c)
     // stage(stg)
@@ -29,7 +29,7 @@ void Renderer::renderPlayerPlat(Player *player)
 
         if (player->getVelY() == 0 && !player->getLand())
         {
-            idle_counter += scene->getDeltaTime() * 4;
+            idle_counter += config->getDeltaTime() * 4;
             if (idle_counter > 11) idle_counter = 0;
             src_rect = {
                 (player->getRight() ? 0 : 13) * 64 + int(idle_counter) * 64, 
@@ -47,11 +47,11 @@ void Renderer::renderPlayerPlat(Player *player)
         if (player->getVelY() == 0 && !player->getLand())
         {
             // Higher the speed, the faster the sprite switches
-            if (abs(player->getVelX()) < player->getVelXMax() * 0.25) run_counter += scene->getDeltaTime() * 5;
-            else if (abs(player->getVelX()) < player->getGrid() * 0.5) run_counter += scene->getDeltaTime() * 8;
-            else if (abs(player->getVelX()) < player->getVelXMax() * 0.75) run_counter += scene->getDeltaTime() * 11;
-            else if (abs(player->getVelX()) < player->getVelXMax()) run_counter += scene->getDeltaTime() * 14;
-            else if (abs(player->getVelX()) >= player->getVelXMax()) run_counter += scene->getDeltaTime() * 17;
+            if (abs(player->getVelX()) < player->getVelXMax() * 0.25) run_counter += config->getDeltaTime() * 5;
+            else if (abs(player->getVelX()) < player->getGrid() * 0.5) run_counter += config->getDeltaTime() * 8;
+            else if (abs(player->getVelX()) < player->getVelXMax() * 0.75) run_counter += config->getDeltaTime() * 11;
+            else if (abs(player->getVelX()) < player->getVelXMax()) run_counter += config->getDeltaTime() * 14;
+            else if (abs(player->getVelX()) >= player->getVelXMax()) run_counter += config->getDeltaTime() * 17;
             if (run_counter > 7) run_counter = 0;
 
             // Dynamically switching between parts of sprite sheet
@@ -69,7 +69,7 @@ void Renderer::renderPlayerPlat(Player *player)
     // (looped sprites, use looped counter)
     if (player->getAscend())
     {
-        looped_counter += scene->getDeltaTime() * 6;
+        looped_counter += config->getDeltaTime() * 6;
         if (looped_counter > 2) looped_counter = 0;
         src_rect = {
             (player->getRight() ? 0 : 13) * 64 + int(looped_counter) * 64, 
@@ -80,7 +80,7 @@ void Renderer::renderPlayerPlat(Player *player)
     }
     if (player->getDescend())
     {
-        looped_counter += scene->getDeltaTime() * 6;
+        looped_counter += config->getDeltaTime() * 6;
         if (looped_counter > 2) looped_counter = 0;
         src_rect = {
             5 * 64 + (player->getRight() ? 0 : 13) * 64 + int(looped_counter) * 64, 
@@ -92,8 +92,8 @@ void Renderer::renderPlayerPlat(Player *player)
     // Wall (can work with looped counter)
     if (player->getOnWall())
     {
-        if (player->getClimbUp()) looped_counter += scene->getDeltaTime() * 4;
-        else if (player->getClimbDown()) looped_counter -= scene->getDeltaTime() * 4;
+        if (player->getClimbUp()) looped_counter += config->getDeltaTime() * 4;
+        else if (player->getClimbDown()) looped_counter -= config->getDeltaTime() * 4;
         
         if (looped_counter > 3) looped_counter = 0;
         if (looped_counter < 0) looped_counter = 3;
@@ -116,7 +116,7 @@ void Renderer::renderPlayerPlat(Player *player)
             player_jump_y = player->getY();
             jump_anchor = true;
         }
-        temp_counter += scene->getDeltaTime() * 25;
+        temp_counter += config->getDeltaTime() * 25;
         if (temp_counter > 2)
         {
             temp_counter = 0;
@@ -134,7 +134,7 @@ void Renderer::renderPlayerPlat(Player *player)
         // Reset shared counter between ascend and descend
         looped_counter = 0;
 
-        temp_counter += scene->getDeltaTime() * 7;
+        temp_counter += config->getDeltaTime() * 7;
         if (temp_counter > 1)
         {
             temp_counter = 0;
@@ -152,7 +152,7 @@ void Renderer::renderPlayerPlat(Player *player)
         // Reset shared counter between ascend and descend
         looped_counter = 0;
 
-        temp_counter += scene->getDeltaTime() * 12;
+        temp_counter += config->getDeltaTime() * 12;
         if (temp_counter > 2)
         {
             temp_counter = 0;
@@ -184,7 +184,7 @@ void Renderer::renderPlayerPlat(Player *player)
     }
     if (player->getDashHalt())
     {
-        temp_counter += scene->getDeltaTime() * 10;
+        temp_counter += config->getDeltaTime() * 10;
 
         if (temp_counter > 1)
         {
@@ -201,7 +201,7 @@ void Renderer::renderPlayerPlat(Player *player)
     // Dash effect processing
     if (dash_anchor)
     {
-        dash_effect_counter += scene->getDeltaTime() * 10;
+        dash_effect_counter += config->getDeltaTime() * 10;
         if (dash_effect_counter > 3)
         {
             dash_effect_counter = 0;
@@ -217,7 +217,7 @@ void Renderer::renderPlayerPlat(Player *player)
     // Jump effect processing
     if (jump_anchor)
     {
-        jump_effect_counter += scene->getDeltaTime() * 10;
+        jump_effect_counter += config->getDeltaTime() * 10;
         if (jump_effect_counter > 4)
         {
             jump_effect_counter = 0;
@@ -234,50 +234,50 @@ void Renderer::renderPlayerPlat(Player *player)
     // Render sprites
     des_rect = {
         cam->getRendX() + r_cam_offset_x, 
-        scene->getHeight() - player->getGrid() - cam->getRendY() - r_cam_offset_y, 
+        config->getHeight() - player->getGrid() - cam->getRendY() - r_cam_offset_y, 
         player->getGrid(), 
         player->getGrid()
     };
-    SDL_RenderCopy(scene->getRenderer(), player->getTexture(), &src_rect, &des_rect);
+    SDL_RenderCopy(config->getRenderer(), player->getTexture(), &src_rect, &des_rect);
     // Render effects
     // Dash effect
     if (dash_anchor)
     {
         des_rect_d = {
             cam->getRendX() + int(player_dash_x - (player_temp_right ? player->getGrid() * 0.75 : (-player->getWidth() + player->getGrid() * 0.25)) - cam->getX()), 
-            scene->getHeight() - player->getGrid() - cam->getRendY() - int(player_dash_y - cam->getY()) + int(player_temp_on_ground ? 0 : player->getGrid() * 0.2), 
+            config->getHeight() - player->getGrid() - cam->getRendY() - int(player_dash_y - cam->getY()) + int(player_temp_on_ground ? 0 : player->getGrid() * 0.2), 
             player->getGrid(), 
             player->getGrid()
         };
-        SDL_RenderCopy(scene->getRenderer(), player->getTexture(), &src_rect_d, &des_rect_d);
+        SDL_RenderCopy(config->getRenderer(), player->getTexture(), &src_rect_d, &des_rect_d);
     }
     // Jump effect
     if (jump_anchor)
     {
         des_rect_j = {
             cam->getRendX() + int(player_jump_x - player->getWidth() * 3/4 - cam->getX()), 
-            scene->getHeight() - player->getGrid() - cam->getRendY() - int(player_jump_y - cam->getY()), 
+            config->getHeight() - player->getGrid() - cam->getRendY() - int(player_jump_y - cam->getY()), 
             player->getGrid(), 
             player->getGrid()
         };
-        SDL_RenderCopy(scene->getRenderer(), player->getTexture(), &src_rect_j, &des_rect_j);
+        SDL_RenderCopy(config->getRenderer(), player->getTexture(), &src_rect_j, &des_rect_j);
     }
 
     // // Render the hitbox
-    // SDL_SetRenderDrawBlendMode(scene->getRenderer(), SDL_BLENDMODE_BLEND);
-    // SDL_SetRenderDrawColor(scene->getRenderer(), 255, 0, 0, 150);
+    // SDL_SetRenderDrawBlendMode(config->getRenderer(), SDL_BLENDMODE_BLEND);
+    // SDL_SetRenderDrawColor(config->getRenderer(), 255, 0, 0, 150);
     // des_rect = {
     //     cam->getRendX() + p_cam_offset_x, 
-    //     scene->getHeight() - player->getHeight() - cam->getRendY() - p_cam_offset_y, 
+    //     config->getHeight() - player->getHeight() - cam->getRendY() - p_cam_offset_y, 
     //     player->getWidth(),
     //     player->getHeight()
     // };
-    // SDL_RenderFillRect(scene->getRenderer(), &des_rect);
+    // SDL_RenderFillRect(config->getRenderer(), &des_rect);
 }
 
 void Renderer::renderPlayerVertShooter(Player *player)
 {
-    idle_counter += scene->getDeltaTime() * 4;
+    idle_counter += config->getDeltaTime() * 4;
     if (idle_counter > 11) idle_counter = 0;
     src_rect = {
         int(idle_counter) * 64, 
@@ -288,27 +288,27 @@ void Renderer::renderPlayerVertShooter(Player *player)
 
     des_rect = {
         int(player->getX()), 
-        scene->getHeight() - player->getGrid() - int(player->getY()), 
+        config->getHeight() - player->getGrid() - int(player->getY()), 
         player->getGrid(), 
         player->getGrid()
     };
-    SDL_RenderCopy(scene->getRenderer(), player->getTexture(), &src_rect, &des_rect);
+    SDL_RenderCopy(config->getRenderer(), player->getTexture(), &src_rect, &des_rect);
 
     // Render the hitbox
-    SDL_SetRenderDrawBlendMode(scene->getRenderer(), SDL_BLENDMODE_BLEND);
-    SDL_SetRenderDrawColor(scene->getRenderer(), 255, 0, 0, 150);
+    SDL_SetRenderDrawBlendMode(config->getRenderer(), SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(config->getRenderer(), 255, 0, 0, 150);
     des_rect = {
         int(player->getX()), 
-        scene->getHeight() - player->getGrid() - int(player->getY()), 
+        config->getHeight() - player->getGrid() - int(player->getY()), 
         player->getGrid(), 
         player->getGrid()
     };
-    SDL_RenderFillRect(scene->getRenderer(), &des_rect);
+    SDL_RenderFillRect(config->getRenderer(), &des_rect);
 }
 
 void Renderer::renderPlayerHoriShooter(Player *player)
 {
-    idle_counter += scene->getDeltaTime() * 5;
+    idle_counter += config->getDeltaTime() * 5;
     if (idle_counter > 5) idle_counter = 0;
     src_rect = {
         int(idle_counter) * 96,
@@ -319,60 +319,60 @@ void Renderer::renderPlayerHoriShooter(Player *player)
 
     des_rect = {
         int(player->getX() - player->getGrid() / 6), 
-        scene->getHeight() - player->getGrid() - int(player->getY() - player->getGrid() / 6), 
+        config->getHeight() - player->getGrid() - int(player->getY() - player->getGrid() / 6), 
         player->getGrid(), 
         player->getGrid()
     };
-    SDL_RenderCopy(scene->getRenderer(), player->getTexture(), &src_rect, &des_rect);
+    SDL_RenderCopy(config->getRenderer(), player->getTexture(), &src_rect, &des_rect);
 
     // Render big hitbox
-    SDL_SetRenderDrawBlendMode(scene->getRenderer(), SDL_BLENDMODE_BLEND);
-    SDL_SetRenderDrawColor(scene->getRenderer(), 255, 255, 255, 150);
+    SDL_SetRenderDrawBlendMode(config->getRenderer(), SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(config->getRenderer(), 255, 255, 255, 150);
     des_rect = {
         int(player->getX()), 
-        scene->getHeight() - int(player->getHeight()) - int(player->getY()), 
+        config->getHeight() - int(player->getHeight()) - int(player->getY()), 
         player->getWidth(), 
         player->getHeight()
     };
-    SDL_RenderFillRect(scene->getRenderer(), &des_rect);
+    SDL_RenderFillRect(config->getRenderer(), &des_rect);
     
     // Render small hitbox 1
-    SDL_SetRenderDrawBlendMode(scene->getRenderer(), SDL_BLENDMODE_BLEND);
-    SDL_SetRenderDrawColor(scene->getRenderer(), 255, 0, 0, 150);
+    SDL_SetRenderDrawBlendMode(config->getRenderer(), SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(config->getRenderer(), 255, 0, 0, 150);
     des_rect = {
         int(player->getSmallboxX(0)), 
-        scene->getHeight() - int(player->getSmallboxHeight()) - int(player->getSmallboxY(0)),
+        config->getHeight() - int(player->getSmallboxHeight()) - int(player->getSmallboxY(0)),
         int(player->getSmallboxWidth()), 
         int(player->getSmallboxHeight())
     };
-    SDL_RenderFillRect(scene->getRenderer(), &des_rect);
+    SDL_RenderFillRect(config->getRenderer(), &des_rect);
     
     // Render small hitbox 2
-    SDL_SetRenderDrawBlendMode(scene->getRenderer(), SDL_BLENDMODE_BLEND);
-    SDL_SetRenderDrawColor(scene->getRenderer(), 255, 255, 0, 150);
+    SDL_SetRenderDrawBlendMode(config->getRenderer(), SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(config->getRenderer(), 255, 255, 0, 150);
     des_rect = {
         int(player->getSmallboxX(1)), 
-        scene->getHeight() - int(player->getSmallboxHeight()) - int(player->getSmallboxY(1)),
+        config->getHeight() - int(player->getSmallboxHeight()) - int(player->getSmallboxY(1)),
         int(player->getSmallboxWidth()), 
         int(player->getSmallboxHeight())
     };
-    SDL_RenderFillRect(scene->getRenderer(), &des_rect);
+    SDL_RenderFillRect(config->getRenderer(), &des_rect);
     
     // Render small hitbox 3
-    SDL_SetRenderDrawBlendMode(scene->getRenderer(), SDL_BLENDMODE_BLEND);
-    SDL_SetRenderDrawColor(scene->getRenderer(), 0, 0, 255, 150);
+    SDL_SetRenderDrawBlendMode(config->getRenderer(), SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(config->getRenderer(), 0, 0, 255, 150);
     des_rect = {
         int(player->getSmallboxX(2)), 
-        scene->getHeight() - int(player->getSmallboxHeight()) - int(player->getSmallboxY(2)),
+        config->getHeight() - int(player->getSmallboxHeight()) - int(player->getSmallboxY(2)),
         int(player->getSmallboxWidth()), 
         int(player->getSmallboxHeight())
     };
-    SDL_RenderFillRect(scene->getRenderer(), &des_rect);
+    SDL_RenderFillRect(config->getRenderer(), &des_rect);
 }
 
 void Renderer::renderPlayerRhythm(Player *player)
 {
-    idle_counter += scene->getDeltaTime() * 4;
+    idle_counter += config->getDeltaTime() * 4;
     if (idle_counter > 2) idle_counter = 0;
     src_rect = {
         int(idle_counter) * 64, 
@@ -383,22 +383,22 @@ void Renderer::renderPlayerRhythm(Player *player)
 
     des_rect = {
         int(player->getX()), 
-        scene->getHeight() - player->getGrid() - int(player->getY()), 
+        config->getHeight() - player->getGrid() - int(player->getY()), 
         player->getGrid(), 
         player->getGrid()
     };
-    SDL_RenderCopy(scene->getRenderer(), player->getTexture(), &src_rect, &des_rect);
+    SDL_RenderCopy(config->getRenderer(), player->getTexture(), &src_rect, &des_rect);
 
     // Render the hitbox
-    SDL_SetRenderDrawBlendMode(scene->getRenderer(), SDL_BLENDMODE_BLEND);
-    SDL_SetRenderDrawColor(scene->getRenderer(), 255, 0, 0, 150);
+    SDL_SetRenderDrawBlendMode(config->getRenderer(), SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(config->getRenderer(), 255, 0, 0, 150);
     des_rect = {
         int(player->getX()), 
-        scene->getHeight() - player->getGrid() - int(player->getY()), 
+        config->getHeight() - player->getGrid() - int(player->getY()), 
         player->getGrid(), 
         player->getGrid()
     };
-    SDL_RenderFillRect(scene->getRenderer(), &des_rect);
+    SDL_RenderFillRect(config->getRenderer(), &des_rect);
 }
 
 void Renderer::renderBackground(Stage *stage, Player *player)
@@ -426,25 +426,25 @@ void Renderer::renderBackground(Stage *stage, Player *player)
         // Auto-scroll movement
         if (stage->getBgParam(i, 0))
         {
-            if (layer_auto_i[i] < scene->getWidth())
+            if (layer_auto_i[i] < config->getWidth())
             {
-                layer_auto_i[i] += player->getGrid() * stage->getBgParam(i, 0) * scene->getDeltaTime() / 500;
+                layer_auto_i[i] += player->getGrid() * stage->getBgParam(i, 0) * config->getDeltaTime() / 500;
             }
             else layer_auto_i[i] = 0;
         }
         // Background movement based on player movement
         des1 = - (player->getX() - initial_x) * stage->getBgParam(i, 1) / 100  - layer_auto_i[i];   // Starts at 0
-        des2 = scene->getWidth() + des1;    // Starts at end of screen
+        des2 = config->getWidth() + des1;    // Starts at end of screen
         // Once one bg is no longer in view, 
         // it will loop back or forward to keep covering the screen
-        while (des1 < -scene->getWidth()) des1 += 2 * scene->getWidth();
-        while (des2 < -scene->getWidth()) des2 += 2 * scene->getWidth();
+        while (des1 < -config->getWidth()) des1 += 2 * config->getWidth();
+        while (des2 < -config->getWidth()) des2 += 2 * config->getWidth();
         // Render backgrounds 
         // (the plan is to have around 4-5 layers per stage, then 2 times each bg element in the render)
-        des_rect_f = {des1, 0, float(scene->getWidth()), float(scene->getHeight())};
-        SDL_RenderCopyF(scene->getRenderer(), stage->getBackgroundLayers()[i], NULL, &des_rect_f);
-        des_rect_f = {des2, 0, float(scene->getWidth()), float(scene->getHeight())};
-        SDL_RenderCopyF(scene->getRenderer(), stage->getBackgroundLayers()[i], NULL, &des_rect_f);
+        des_rect_f = {des1, 0, float(config->getWidth()), float(config->getHeight())};
+        SDL_RenderCopyF(config->getRenderer(), stage->getBackgroundLayers()[i], NULL, &des_rect_f);
+        des_rect_f = {des2, 0, float(config->getWidth()), float(config->getHeight())};
+        SDL_RenderCopyF(config->getRenderer(), stage->getBackgroundLayers()[i], NULL, &des_rect_f);
     }
 }
 
@@ -455,9 +455,9 @@ void Renderer::renderBlocks(Stage *stage, Player *player)
         // Skip blocks that are outside of the screen
         // Set on screen state for less intensive collision checking
         if (int(b->getX()) + delta_x < -b->getGrid() || 
-        scene->getHeight() - b->getGrid() - (int(b->getY()) + delta_y) > scene->getHeight() ||
-        int(b->getX()) + delta_x > scene->getWidth() + b->getGrid() ||
-        scene->getHeight() - b->getGrid() - (int(b->getY()) + delta_y) < -b->getGrid())
+        config->getHeight() - b->getGrid() - (int(b->getY()) + delta_y) > config->getHeight() ||
+        int(b->getX()) + delta_x > config->getWidth() + b->getGrid() ||
+        config->getHeight() - b->getGrid() - (int(b->getY()) + delta_y) < -b->getGrid())
         {
             b->setOnScreen(false);
             continue;
@@ -466,11 +466,11 @@ void Renderer::renderBlocks(Stage *stage, Player *player)
     
         des_rect = {
             int(b->getX()) + delta_x, 
-            scene->getHeight() - b->getGrid() - (int(b->getY()) + delta_y), 
+            config->getHeight() - b->getGrid() - (int(b->getY()) + delta_y), 
             b->getGrid(), 
             b->getGrid()
         };
-        SDL_RenderCopy(scene->getRenderer(), b->getTexture(), NULL, &des_rect);
+        SDL_RenderCopy(config->getRenderer(), b->getTexture(), NULL, &des_rect);
     }
 }
 void Renderer::renderMovingBlocks(Stage *stage, Player *player)
@@ -479,18 +479,18 @@ void Renderer::renderMovingBlocks(Stage *stage, Player *player)
     {
         // Skip blocks that are outside of the screen
         if (int(b->getX()) + delta_x < -b->getGrid() || 
-        scene->getHeight() - b->getGrid() - (int(b->getY()) + delta_y) > scene->getHeight() ||
-        int(b->getX()) + delta_x > scene->getWidth() + b->getGrid() ||
-        scene->getHeight() - b->getGrid() - (int(b->getY()) + delta_y) < -b->getGrid())
+        config->getHeight() - b->getGrid() - (int(b->getY()) + delta_y) > config->getHeight() ||
+        int(b->getX()) + delta_x > config->getWidth() + b->getGrid() ||
+        config->getHeight() - b->getGrid() - (int(b->getY()) + delta_y) < -b->getGrid())
             continue;
 
         des_rect = {
             int(b->getX()) + delta_x, 
-            scene->getHeight() - b->getGrid() - (int(b->getY()) + delta_y), 
+            config->getHeight() - b->getGrid() - (int(b->getY()) + delta_y), 
             b->getGrid(), 
             b->getGrid()
         };
-        SDL_RenderCopy(scene->getRenderer(), b->getTexture(), NULL, &des_rect);
+        SDL_RenderCopy(config->getRenderer(), b->getTexture(), NULL, &des_rect);
     }
 }
 void Renderer::renderProjectiles(Stage *stage, Player *player)
@@ -499,18 +499,18 @@ void Renderer::renderProjectiles(Stage *stage, Player *player)
     {
         // Skip projectiles that are outside of the screen
         if (int(p->getX()) + delta_x < -p->getGrid() || 
-        scene->getHeight() - p->getGrid() - (int(p->getY()) + delta_y) > scene->getHeight() ||
-        int(p->getX()) + delta_x > scene->getWidth() + p->getGrid() ||
-        scene->getHeight() - p->getGrid() - (int(p->getY()) + delta_y) < -p->getGrid())
+        config->getHeight() - p->getGrid() - (int(p->getY()) + delta_y) > config->getHeight() ||
+        int(p->getX()) + delta_x > config->getWidth() + p->getGrid() ||
+        config->getHeight() - p->getGrid() - (int(p->getY()) + delta_y) < -p->getGrid())
             continue;
 
         des_rect = {
             int(p->getX()) + delta_x, 
-            scene->getHeight() - p->getGrid() - (int(p->getY()) + delta_y), 
+            config->getHeight() - p->getGrid() - (int(p->getY()) + delta_y), 
             p->getGrid(), 
             p->getGrid()
         };
-        SDL_RenderCopy(scene->getRenderer(), p->getTexture(), NULL, &des_rect);
+        SDL_RenderCopy(config->getRenderer(), p->getTexture(), NULL, &des_rect);
     }
 }
 
@@ -573,107 +573,107 @@ void Renderer::renderStageRhythm(Stage *stage, Player *player)
 void Renderer::renderGridLines(Stage *stage, Player *player, Editor *edit)
 {
     // Render grid lines for level creation purposes
-    SDL_SetRenderDrawColor(scene->getRenderer(), 255, 0, 0, 255);
+    SDL_SetRenderDrawColor(config->getRenderer(), 255, 0, 0, 255);
 
     // With the player at the center, the grid array will start from that minus the screen width
     // and end at the player x + screen width
-    int16_t array_start = (player->getX() - scene->getWidth()) / (player->getGrid() / 2);
-    int16_t array_end = (player->getX() + scene->getWidth()) / (player->getGrid() / 2);
+    int16_t array_start = (player->getX() - config->getWidth()) / (player->getGrid() / 2);
+    int16_t array_end = (player->getX() + config->getWidth()) / (player->getGrid() / 2);
     for (int i = array_start; i < array_end; i++)
     {
-        SDL_RenderDrawLine(scene->getRenderer(),
+        SDL_RenderDrawLine(config->getRenderer(),
             i * (player->getGrid() / 2) + delta_x,
             0,
             i * (player->getGrid() / 2) + delta_x,
-            scene->getHeight()
+            config->getHeight()
         );
     }
     // The same concept applies to vertical gridlines
     // In platforming mode, player has double the grid size of normal blocks
     // Therefore, it needs to be divided by 2 in order to get the right grid size
-    array_start = (player->getY() - scene->getHeight()) / (player->getGrid() / 2);
-    array_end = (player->getY() + scene->getHeight()) / (player->getGrid() / 2);
+    array_start = (player->getY() - config->getHeight()) / (player->getGrid() / 2);
+    array_end = (player->getY() + config->getHeight()) / (player->getGrid() / 2);
     for (int i = array_start; i < array_end; i++)
     {
-        SDL_RenderDrawLine(scene->getRenderer(),
+        SDL_RenderDrawLine(config->getRenderer(),
             0,
-            scene->getHeight() - (i * (player->getGrid() / 2) + delta_y),
-            scene->getWidth(),
-            scene->getHeight() - (i * (player->getGrid() / 2) + delta_y)
+            config->getHeight() - (i * (player->getGrid() / 2) + delta_y),
+            config->getWidth(),
+            config->getHeight() - (i * (player->getGrid() / 2) + delta_y)
         );
     }
     // Transparent color layer for better visibility
-    SDL_SetRenderDrawBlendMode(scene->getRenderer(), SDL_BLENDMODE_BLEND);
-    SDL_SetRenderDrawColor(scene->getRenderer(), 192, 192, 192, 144);
-    des_rect = {0, 0, scene->getWidth(), scene->getHeight()};
-    SDL_RenderFillRect(scene->getRenderer(), &des_rect);
+    SDL_SetRenderDrawBlendMode(config->getRenderer(), SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(config->getRenderer(), 192, 192, 192, 144);
+    des_rect = {0, 0, config->getWidth(), config->getHeight()};
+    SDL_RenderFillRect(config->getRenderer(), &des_rect);
 
     // Player position highlight
     // Currently, the player character will act as the cursor for block placing
     uint16_t highlight_x = player->getCenterX() / (player->getGrid() / 2);
     uint16_t highlight_y = player->getCenterY() / (player->getGrid() / 2);
-    SDL_SetRenderDrawBlendMode(scene->getRenderer(), SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawBlendMode(config->getRenderer(), SDL_BLENDMODE_BLEND);
     if (!edit->getAddMBlock())
-        SDL_SetRenderDrawColor(scene->getRenderer(), 255, 0, 0, 144);
+        SDL_SetRenderDrawColor(config->getRenderer(), 255, 0, 0, 144);
     else 
     {
         if (edit->getInitMBlock())
-            SDL_SetRenderDrawColor(scene->getRenderer(), 0, 255, 0, 144);
+            SDL_SetRenderDrawColor(config->getRenderer(), 0, 255, 0, 144);
         else 
-            SDL_SetRenderDrawColor(scene->getRenderer(), 0, 0, 255, 144);
+            SDL_SetRenderDrawColor(config->getRenderer(), 0, 0, 255, 144);
     }
     des_rect = {
         highlight_x * (player->getGrid() / 2) + delta_x, 
-        scene->getHeight() - player->getGrid() / 2 - (highlight_y * (player->getGrid() / 2) + delta_y), 
+        config->getHeight() - player->getGrid() / 2 - (highlight_y * (player->getGrid() / 2) + delta_y), 
         player->getGrid() / 2, 
         player->getGrid() / 2
     };
-    SDL_RenderFillRect(scene->getRenderer(), &des_rect);
+    SDL_RenderFillRect(config->getRenderer(), &des_rect);
 
     // // Camera outline (for easier debugging)
-    // SDL_SetRenderDrawColor(scene->getRenderer(), 255, 0, 0, 255);
+    // SDL_SetRenderDrawColor(config->getRenderer(), 255, 0, 0, 255);
     // // Horizontal lines
-    // SDL_RenderDrawLine(scene->getRenderer(), 
+    // SDL_RenderDrawLine(config->getRenderer(), 
     //     0,
     //     int(cam->getRendY()),
-    //     scene->getWidth(),
+    //     config->getWidth(),
     //     int(cam->getRendY())
     // );
-    // SDL_RenderDrawLine(scene->getRenderer(), 
+    // SDL_RenderDrawLine(config->getRenderer(), 
     //     0,
     //     int(cam->getRendY()) + cam->getGrid(),
-    //     scene->getWidth(),
+    //     config->getWidth(),
     //     int(cam->getRendY()) + cam->getGrid()
     // );
     // // Vertical lines
-    // SDL_RenderDrawLine(scene->getRenderer(), 
+    // SDL_RenderDrawLine(config->getRenderer(), 
     //     int(cam->getRendX()),
     //     0,
     //     int(cam->getRendX()),
-    //     scene->getHeight()
+    //     config->getHeight()
     // );
-    // SDL_RenderDrawLine(scene->getRenderer(), 
+    // SDL_RenderDrawLine(config->getRenderer(), 
     //     int(cam->getRendX()) + cam->getGrid(),
     //     0,
     //     int(cam->getRendX()) + cam->getGrid(),
-    //     scene->getHeight()
+    //     config->getHeight()
     // );
 }
 void Renderer::renderEditorMenu(Stage *stage, Editor *edit)
 {
 
     // Menu background (solid color for now)
-    uint16_t menu_width = scene->getWidth() / 3;
-    SDL_SetRenderDrawBlendMode(scene->getRenderer(), SDL_BLENDMODE_BLEND);
-    SDL_SetRenderDrawColor(scene->getRenderer(), 220, 220, 220, 220);
+    uint16_t menu_width = config->getWidth() / 3;
+    SDL_SetRenderDrawBlendMode(config->getRenderer(), SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(config->getRenderer(), 220, 220, 220, 220);
     des_rect =
     {
-        scene->getWidth() - menu_width,
+        config->getWidth() - menu_width,
         0,
         menu_width,
-        scene->getHeight()
+        config->getHeight()
     };
-    SDL_RenderFillRect(scene->getRenderer(), &des_rect);
+    SDL_RenderFillRect(config->getRenderer(), &des_rect);
     
     // Current SEM position for scrolling
     current_row = edit->getSEMCount() / item_per_row;
@@ -700,65 +700,132 @@ void Renderer::renderEditorMenu(Stage *stage, Editor *edit)
     {
         des_rect = 
         {
-            (scene->getWidth() - menu_width + edit->getGrid()) + (i % item_per_row * edit->getGrid() * 4 / 3),
+            (config->getWidth() - menu_width + edit->getGrid()) + (i % item_per_row * edit->getGrid() * 4 / 3),
             edit->getGrid() + ((i / item_per_row - row_offset) * edit->getGrid() * 4 / 3),
             edit->getGrid(),
             edit->getGrid()
         };
-        SDL_RenderCopy(scene->getRenderer(), stage->getBlockTextures()[i], NULL, &des_rect);
+        SDL_RenderCopy(config->getRenderer(), stage->getBlockTextures()[i], NULL, &des_rect);
     }
 
     // Menu buttons, menu blocks, highlight for selected block, etc.
     // Selected block highlight
     // std::cout << stage->getSEMCount() << "\n";
-    SDL_SetRenderDrawBlendMode(scene->getRenderer(), SDL_BLENDMODE_BLEND);
-    SDL_SetRenderDrawColor(scene->getRenderer(), 255, 0, 0, 144);
+    SDL_SetRenderDrawBlendMode(config->getRenderer(), SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(config->getRenderer(), 255, 0, 0, 144);
     des_rect = 
     {
-        (scene->getWidth() - menu_width + edit->getGrid()) + (current_column * edit->getGrid() * 4 / 3),
+        (config->getWidth() - menu_width + edit->getGrid()) + (current_column * edit->getGrid() * 4 / 3),
         edit->getGrid() + (current_row * edit->getGrid() * 4 / 3),
         edit->getGrid(),
         edit->getGrid()
     };
-    SDL_RenderFillRect(scene->getRenderer(), &des_rect);
+    SDL_RenderFillRect(config->getRenderer(), &des_rect);
 }
 
 // Menu render has to be run here to keep consistency
 // And moving bg is pretty long anyway
 // Separating input from render is a good practice as well
-void Renderer::renderMainMenu()
+void Renderer::renderMainMenu(Scene *scene)
 {
     // Render background
-    des_rect = {0, 0, scene->getWidth(), scene->getHeight()};
-    SDL_RenderCopy(scene->getRenderer(), scene->getBackground(0), NULL, &des_rect);
+    // Moving bg and stuff will be handled later
+    des_rect = {0, 0, config->getWidth(), config->getHeight()};
+    SDL_RenderCopy(config->getRenderer(), scene->getBgTexture(MenuIndex::MAIN, 0), NULL, &des_rect);
+    // Render elements
+    SDL_SetRenderDrawBlendMode(config->getRenderer(), SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(config->getRenderer(), 0, 120, 200, 144);
+    // Red highlight for gallery, cause it will be a while until I can finish it
+    if (scene->getCounter() == 2) SDL_SetRenderDrawColor(config->getRenderer(), 255, 0, 0, 144);
+    int box_width = 350;
+    int box_height = 100;
+    des_rect = 
+    {
+        config->getWidth() / 2 - box_width / 2,
+        config->getHeight() / 2 + scene->getCounter() * box_height - 25,
+        box_width,
+        box_height
+    };
+    SDL_RenderFillRect(config->getRenderer(), &des_rect);
 }
 
-void Renderer::renderStageSelect()
+void Renderer::renderStageSelect(Scene *scene)
 {
     // Render background
-    des_rect = {0, 0, scene->getWidth(), scene->getHeight()};
-    SDL_RenderCopy(scene->getRenderer(), scene->getBackground(1), NULL, &des_rect);
+    // Moving bg and stuff will be handled later
+    des_rect = {0, 0, config->getWidth(), config->getHeight()};
+    SDL_RenderCopy(config->getRenderer(), scene->getBgTexture(MenuIndex::STAGESELECT, 0), NULL, &des_rect);
+    // Render elements
+    SDL_SetRenderDrawBlendMode(config->getRenderer(), SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(config->getRenderer(), 0, 120, 200, 144);
+    int box_width = 150;
+    int box_height = 400;
+    des_rect = 
+    {
+        150 + scene->getCounter() * (box_width * 2),
+        config->getHeight() / 2 - box_height / 2,
+        box_width,
+        box_height
+    };
+    SDL_RenderFillRect(config->getRenderer(), &des_rect);
 }
 
-void Renderer::renderGallery()
+// void Renderer::renderGallery(Scene *scene)
+// {
+//     // Render background
+//     des_rect = {0, 0, config->getWidth(), config->getHeight()};
+//     SDL_RenderCopy(config->getRenderer(), config->getBackground(2), NULL, &des_rect);
+// }
+
+void Renderer::renderSettings(Scene *scene)
 {
     // Render background
-    des_rect = {0, 0, scene->getWidth(), scene->getHeight()};
-    SDL_RenderCopy(scene->getRenderer(), scene->getBackground(2), NULL, &des_rect);
+    des_rect = {0, 0, config->getWidth(), config->getHeight()};
+    SDL_RenderCopy(config->getRenderer(), scene->getBgTexture(MenuIndex::SETTINGS, 0), NULL, &des_rect);
+
+    // Render elements
+    SDL_SetRenderDrawColor(config->getRenderer(), 0, 120, 200, 144);
+    int box_width = 300;
+    int box_height = 125;
+    if (scene->getCounter() < 4)
+        des_rect = 
+        {
+            config->getWidth() / 2 + box_width,
+            config->getHeight() / 2 - box_height * 5 / 2 + scene->getCounter() * box_height * 5 / 3,
+            box_width,
+            box_height
+        };
+    else
+        des_rect =
+        {
+            config->getWidth() / 2 - box_width * 2,
+            config->getHeight() / 2 - box_height * 5 / 2 + (scene->getCounter() - 1) * box_height * 5 / 3,
+            box_width,
+            box_height
+        };
+    SDL_RenderFillRect(config->getRenderer(), &des_rect);
 }
 
-void Renderer::renderSettings()
+void Renderer::renderPauseMenu(Scene *scene)
 {
-    // Render background
-    des_rect = {0, 0, scene->getWidth(), scene->getHeight()};
-    SDL_RenderCopy(scene->getRenderer(), scene->getBackground(3), NULL, &des_rect);
-}
+    SDL_SetRenderDrawBlendMode(config->getRenderer(), SDL_BLENDMODE_BLEND);
 
-void Renderer::renderPauseMenu()
-{
     // Render background
-    des_rect = {0, 0, scene->getWidth(), scene->getHeight()};
-    SDL_RenderCopy(scene->getRenderer(), scene->getBackground(4), NULL, &des_rect);
+    des_rect = {0, 0, config->getWidth(), config->getHeight()};
+    SDL_RenderCopy(config->getRenderer(), scene->getBgTexture(MenuIndex::PAUSE, 0), NULL, &des_rect);
+
+    // Render elements
+    SDL_SetRenderDrawColor(config->getRenderer(), 0, 120, 200, 144);
+    int box_width = 400;
+    int box_height = 200;
+    des_rect = 
+    {
+        config->getWidth() / 2 - box_width / 2,
+        config->getHeight() / 2 - box_height + scene->getCounter() * box_height,
+        box_width,
+        box_height
+    };
+    SDL_RenderFillRect(config->getRenderer(), &des_rect);
 }
 
 Renderer::~Renderer()

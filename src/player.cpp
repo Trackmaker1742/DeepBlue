@@ -293,6 +293,13 @@ void Player::platformerMvtAccel(Input *input, float dt)
 // Player platformer movement
 void Player::platformerMvt(Input *input, float dt)
 {
+    // Left boundary (right boundary is determined by stage so no need to deal with it just yet)
+    if (getX() < getGrid() / 5) 
+    {
+        setX(getGrid() / 5);
+        setVelX(0);
+    }
+
     // Enter editor mode
     if (input->getPress(Action::EXTRA1)) 
     {
@@ -540,7 +547,7 @@ void Player::shooterMvt(Input *input, float dt, uint16_t game_width, uint16_t ga
 }
 
 // Different attack style
-void Player::shooterVertAtk(Scene *scene, Input *input, float dt)
+void Player::shooterVertAtk(Config *config, Input *input, float dt)
 {
     // Allows for hold, no need to spam attack to shoot
     // An interval of half a second for default projectile speed
@@ -548,7 +555,7 @@ void Player::shooterVertAtk(Scene *scene, Input *input, float dt)
     if (input->getPress(Action::ACTION1) && shooter_can_atk)
     {
         projectiles.push_back(new Projectile(getX() + getWidth() + getGrid() / 4, getY(), "res/Character Sheets/Drool.png"));
-        projectiles.back()->initStraightProj(scene->getRenderer(), false);
+        projectiles.back()->initStraightProj(config->getRenderer(), false);
         shooter_can_atk = false;
     }
     if (!shooter_can_atk)
@@ -558,7 +565,7 @@ void Player::shooterVertAtk(Scene *scene, Input *input, float dt)
     }
 }
 
-void Player::shooterHoriAtk(Scene *scene, Input *input, float dt)
+void Player::shooterHoriAtk(Config *config, Input *input, float dt)
 {
     // Allows for hold, no need to spam attack to shoot
     // An interval of half one third of a second for projectile
@@ -600,7 +607,7 @@ void Player::shooterHoriAtk(Scene *scene, Input *input, float dt)
                 }
             }
                 
-            projectiles.back()->initStraightProj(scene->getRenderer(), false);
+            projectiles.back()->initStraightProj(config->getRenderer(), false);
             shooter_can_atk = false;
         }
     }
@@ -618,7 +625,7 @@ void Player::shooterHoriAtk(Scene *scene, Input *input, float dt)
     {
         projectiles[i]->projectileMovement(dt);
         
-        if (projectiles[i]->getX() > scene->getWidth()) 
+        if (projectiles[i]->getX() > config->getWidth()) 
         {
             delete projectiles[i];
             projectiles[i] = nullptr;
@@ -816,6 +823,15 @@ void Player::editorMvt(Input *input, float dt)
     if (input->getPress(Action::MOVE_RIGHT))
     {
         setX(getX() + speed * dt);   
+    }
+}
+
+void Player::unload()
+{
+    if (texture != nullptr) 
+    {
+        SDL_DestroyTexture(texture); // Free the texture resource
+        texture = nullptr; // Optional: Set to nullptr for safety
     }
 }
 

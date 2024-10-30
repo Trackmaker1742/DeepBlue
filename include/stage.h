@@ -30,10 +30,6 @@ private:
     // Back and normal block array
     std::vector<Block*> blocks;
     // Moving block arrays (for easier parsing)
-    // Things to note with moving block, it's annoying to have the block
-    // move left and down due to negative number string
-    // So when making moving block, it's recommended to start 
-    // from bottom left of the movement pattern
     std::vector<Block*> moving_blocks;    // Initial position of moving blocks
     // Front layer array
     std::vector<Block*> front_blocks;
@@ -45,7 +41,7 @@ private:
     // to assign x and y coords
     std::vector<std::vector<std::string>> block_str;
     // Foreground element layout in integer array
-    std::vector<std::vector<uint8_t>> front_str;
+    std::vector<std::vector<std::string>> front_str;
 
     // Projectile array
     std::vector<Projectile*> projectiles;
@@ -81,26 +77,27 @@ public:
     uint8_t getBgCountMax();
 
     std::string getPrefix(const std::string &str);
+    std::string getSuffix(const std::string &str);
 
     // Setters
     void setRespX(uint16_t x);
     void setRespY(uint16_t y);
 
     // Initialize
-    void initSpritePath(char stage_number);
+    void initSpritePath(File_Handler *file, char stage_number);
     void initBackground();
     void initBlockEditTexture();
     // Background blocks and normal blocks can be in the same csv
     // So splitting them might not be needed
-    void initBlockLayer(char stage_number);  // Block layer (interactable)
-    void initFrontLayer(char stage_number);  // Foreground elements (grass, stuff rendered after the player)
-    void initPlatAll(char stage_number);
+    void initBlockLayer(File_Handler *file, char stage_number);  // Block layer (interactable)
+    void initFrontLayer(File_Handler *file, char stage_number);  // Foreground elements (grass, stuff rendered after the player)
+    void initPlatAll(File_Handler *file, char stage_number);
 
-    void initVertShooterAll(char stage_number);
-    void initHoriShooterAll(char stage_number);
+    void initVertShooterAll(File_Handler *file, char stage_number);
+    void initHoriShooterAll(File_Handler *file, char stage_number);
 
-    void initRhyObs(char stage_number);
-    void initRhyAll(char stage_number);
+    void initRhyObs(File_Handler *file, char stage_number);
+    void initRhyAll(File_Handler *file, char stage_number);
 
     // Update for moving blocks
     void update(float dt);
@@ -109,8 +106,13 @@ public:
     void addBlock(int x, int y, int index, bool move = false);
     void deleteBlock(int index, bool move = false);
 
+    void clearTextureArray(std::vector<SDL_Texture*> textures);
+    void clearBlockArray(std::vector<Block*> block_array);
+
     // Unload everything in a stage (blocks, spawn)
-    void unloadStage();
+    void unload();
+
+    void showState();
 
     ~Stage();
 };

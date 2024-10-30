@@ -22,14 +22,13 @@ uint8_t Stage::getBgCountMax() { return background_count_max; }
 void Stage::setRespX(uint16_t x) { resp_x = x; }
 void Stage::setRespY(uint16_t y) { resp_y = y; }
 
-void Stage::initSpritePath(char stage_number)
+void Stage::initSpritePath(File_Handler *file, char stage_number)
 {
     // Saving stage directory for editor mode
     stage_dir = "res/Stages/Stage ";
     stage_dir += stage_number;
     stage_dir += '/';
 
-    File_Handler *file = new File_Handler();
     file->readStageAssetFolders(stage_number, 
         background_paths,
         block_names,
@@ -43,8 +42,6 @@ void Stage::initSpritePath(char stage_number)
     //     std::cout << path << "\n";
     // }
 
-    delete file;
-
     std::cout << "Sprite Paths Initialized!\n";
 }
 void Stage::initBackground()
@@ -52,9 +49,7 @@ void Stage::initBackground()
     int i = 0;
     for (std::string path : background_paths)
     {
-        SDL_Surface* surface = IMG_Load(path.c_str());
-        background_layers.push_back(SDL_CreateTextureFromSurface(renderer, surface));
-        SDL_FreeSurface(surface);
+        background_layers.push_back(IMG_LoadTexture(renderer, path.c_str()));
         path.erase(path.begin() + i);
         i++;
     }
@@ -66,9 +61,7 @@ void Stage::initBlockEditTexture()
 {
     for (std::string path : block_paths)
     {
-        SDL_Surface *surface = IMG_Load(path.c_str());
-        block_textures.push_back(SDL_CreateTextureFromSurface(renderer, surface));
-        SDL_FreeSurface(surface);
+        block_textures.push_back(IMG_LoadTexture(renderer, path.c_str()));
     }
 
     std::cout << "Editor Textures Initialized!\n";
@@ -82,21 +75,17 @@ std::string Stage::getPrefix(const std::string &str)
     // Return the substring before the dash, or the whole string if no dash is found
     return (pos != std::string::npos) ? str.substr(0, pos) : str;
 }
-
-void Stage::initBlockLayer(char stage_number)
+std::string Stage::getSuffix(const std::string &str)
 {
-    // Clear block arrays
-    block_str.clear();
-    front_str.clear();
+    // Find the position of the first dash
+    size_t pos = str.find('-');
+    // Return the substring after the dash
+    return str.substr(pos + 1, str.length());
+}
 
-    // Pointer vectors, need to be deleted
-    blocks.clear();
-    moving_blocks.clear();
-    front_blocks.clear();
-
+void Stage::initBlockLayer(File_Handler *file, char stage_number)
+{
     // Read stage layout straight from csv file
-    File_Handler *file = new File_Handler();
-
     file->readCSV(stage_number, block_str);
     // for (auto bs : block_str)
     // {
@@ -121,7 +110,7 @@ void Stage::initBlockLayer(char stage_number)
             {
                 // Add blocks
                 // Works with both blocks with 1 sprite and blocks with multiple sprites
-                if (cur_block.length() < 5)
+                if (cur_block.length() < 6)
                 {
                     // Parsing blocks name
                     for (int k = 0; k < block_names.size(); k++)
@@ -141,6 +130,13 @@ void Stage::initBlockLayer(char stage_number)
                         block_paths[temp_asset_index].c_str(), 
                         std::stoi(getPrefix(cur_block))
                     ));
+                    // Sprite indexing for block with multiple sprites
+                    if (cur_block.length() > 2)
+                    {
+                        blocks.back()->setHasSpriteIndex(true);
+                        blocks.back()->setSpriteIndex(std::stoi(getSuffix(cur_block)));
+                    }
+                    else blocks.back()->setHasSpriteIndex(false);
                 }
                 // Adding moving blocks to block array
                 else
@@ -167,11 +163,18 @@ void Stage::initBlockLayer(char stage_number)
                                 }
                                 moving_blocks.push_back(new Block
                                 (
-                                    j, 
-                                    i, 
+                                    j,
+                                    i,
                                     block_paths[temp_asset_index].c_str(), 
                                     std::stoi(getPrefix(value_str))
                                 ));
+                                // Sprite indexing for block with multiple sprites
+                                if (value_str.length() > 2)
+                                {
+                                    moving_blocks.back()->setHasSpriteIndex(true);
+                                    moving_blocks.back()->setSpriteIndex(std::stoi(getSuffix(value_str)));
+                                }
+                                else moving_blocks.back()->setHasSpriteIndex(false);
                                 counter++;
                                 break;
                             // Travel dist x
@@ -215,18 +218,15 @@ void Stage::initBlockLayer(char stage_number)
         b->initTexture(renderer);
     }
 
-    // Delete file object
-    delete file;
-
     std::cout << "Block Layer Initialized!\n";
 }
 
-void Stage::initFrontLayer(char stage_number)
+void Stage::initFrontLayer(File_Handler *file, char stage_number)
 {
     
 }
 
-// void Stage::initRhyObs(char stage_number)
+// void Stage::initRhyObs(File_Handler *file, char stage_number)
 // {
 //     // Clear block arrays
 //     block_str.clear();
@@ -264,9 +264,8 @@ void Stage::initFrontLayer(char stage_number)
 //         }
 //     }
 
-//     // Clear int array, delete file object
+//     // Clear int array
 //     block_int.clear();
-//     delete file;
 
 //     // Texture and spawn handler
 //     for (Block *b : blocks)
@@ -282,25 +281,25 @@ void Stage::initFrontLayer(char stage_number)
 //     }
 // }
 
-void Stage::initPlatAll(char stage_number)
+void Stage::initPlatAll(File_Handler *file, char stage_number)
 {
-    initSpritePath(stage_number);
+    initSpritePath(file, stage_number);
     initBackground();
     initBlockEditTexture();
-    initBlockLayer(stage_number);
-    std::cout << "Stage Initialized!\n";
+    initBlockLayer(file, stage_number);
+    std::cout << "Platformer Stage Initialized!\n";
 }
 
-void Stage::initVertShooterAll(char stage_number)
+void Stage::initVertShooterAll(File_Handler *file, char stage_number)
 {
-    initSpritePath(stage_number);
+    initSpritePath(file, stage_number);
     initBackground();
     // Init enemy array or something, idk
 }
 
-void Stage::initHoriShooterAll(char stage_number)
+void Stage::initHoriShooterAll(File_Handler *file, char stage_number)
 {
-    initSpritePath(stage_number);
+    initSpritePath(file, stage_number);
     initBackground();
     // Init enemy array or something, idk
 }
@@ -367,8 +366,13 @@ void Stage::addBlock(int x, int y, int index, bool move)
             y, 
             block_paths[index].c_str(), 
             std::stoi(getPrefix(block_names[index]))));
+        if (block_names[index].length() > 2)
+        {
+            blocks.back()->setHasSpriteIndex(true);
+            blocks.back()->setSpriteIndex(std::stoi(getSuffix(block_names[index])));
+        }
         blocks.back()->initTexture(renderer);
-        std::cout << "block added\n";
+        std::cout << block_names[index] << " block added\n";
     }
     else
     {
@@ -377,6 +381,11 @@ void Stage::addBlock(int x, int y, int index, bool move)
             y, 
             block_paths[index].c_str(), 
             std::stoi(getPrefix(block_names[index]))));
+        if (block_names[index].length() > 2)
+        {
+            moving_blocks.back()->setHasSpriteIndex(true);
+            moving_blocks.back()->setSpriteIndex(std::stoi(getSuffix(block_names[index])));
+        }
         moving_blocks.back()->initTexture(renderer);
         moving_blocks.back()->initMove(false);
         std::cout << "moving block added\n";
@@ -400,20 +409,46 @@ void Stage::deleteBlock(int index, bool move)
     }
 }
 
-void Stage::unloadStage()
+void Stage::unload()
 {
-    background_paths.clear();
-    block_paths.clear();
-    obstacle_path.clear();
-
     // Pointer vectors, need to be deleted
+    for (SDL_Texture* texture : block_textures) {
+        if (texture != nullptr) {
+            SDL_DestroyTexture(texture);    // Free the texture resource
+            texture = nullptr;              // Optional: Set to nullptr for safety
+        }
+    }
+    block_textures.clear();
+
+    block_names.clear();
+    block_paths.clear();
+
     for (int i = 0; i < blocks.size(); i++)
     {
         delete blocks[i];
-        blocks.erase(blocks.begin() + i);
+        blocks[i] = nullptr;
     }
     blocks.clear();
+    for (int i = 0; i < moving_blocks.size(); i++)
+    {
+        delete moving_blocks[i];
+        moving_blocks[i] = nullptr;
+    }
+    moving_blocks.clear();
+
+    for (SDL_Texture* texture : background_layers) {
+        if (texture != nullptr) {
+            SDL_DestroyTexture(texture);
+            texture = nullptr;
+        }
+    }
     background_layers.clear();
+
+    block_str.clear();
+    front_str.clear();
+
+    background_paths.clear();
+    background_parameter.clear();
     
     // Set spawn back to 0
     resp_x = 0;

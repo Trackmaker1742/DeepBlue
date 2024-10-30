@@ -219,9 +219,10 @@ void File_Handler::readStageAssetFolders(char stage_number,
     std::vector<std::string> &block_paths,
     std::vector<std::vector<uint8_t>> &bg_param)
 {
-    std::string path = "res/Stages/Stage ";
+    path = "";
+    path = "res/Stages/Stage ";
     path += stage_number;
-    std::string file_path = "";
+    file_path = "";
     std::string temp = "";
     
     // Iterate through background folder
@@ -265,7 +266,7 @@ void File_Handler::readStageAssetFolders(char stage_number,
 
     temp = "";
 
-    // Iterate through blocktile folder
+    // Iterate through general blocktile folder
     temp = "res/Blocktile/";
     for (const auto& entry : std::filesystem::directory_iterator(temp)) {
         // If the entry is a regular file, add its name to the vector
@@ -281,7 +282,7 @@ void File_Handler::readStageAssetFolders(char stage_number,
         }
     }
 
-    // Iterate through blocktile folder
+    // Iterate through stage specific blocktile folder
     temp = temp + "Stage " + stage_number + '/';
     for (const auto& entry : std::filesystem::directory_iterator(temp)) {
         // If the entry is a regular file, add its name to the vector
@@ -298,9 +299,35 @@ void File_Handler::readStageAssetFolders(char stage_number,
     }
 }
 
+void File_Handler::readBgAssetFolders(
+    std::vector<std::vector<std::string>> &bg_paths)
+{
+    path = "";
+    path = "res/Menu/";
+    folder_path = "";
+    file_path = "";
+    for (const auto &folder : std::filesystem::directory_iterator(path)) {
+        // If the entry is a directory (which it will be)
+        if (std::filesystem::is_directory(folder.status()))
+        {
+            folder_path = path + folder.path().filename().string();
+            std::vector<std::string> temp_str_array;
+            // Iterate all files
+            for (const auto &file_entry : std::filesystem::directory_iterator(folder_path))
+            {
+                file_path = folder_path + '/' + file_entry.path().filename().string();
+                temp_str_array.push_back(file_path);
+            }
+            bg_paths.push_back(temp_str_array);
+        }
+        else continue;
+    }
+}
+
 uint16_t File_Handler::getValue(int i) { return values[i]; }
 
 File_Handler::~File_Handler()
 {
+    std::cout << "File Handler terminated!\n";
     // csv_paths.clear();
 }

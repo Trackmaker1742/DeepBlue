@@ -3,32 +3,40 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <windows.h>
+#include <vector>
+#include <string>
 
+#include "config.h"
 #include "input.h"
+#include "file_handler.h"
+#include "stage.h"
+#include "player.h"
+
+enum class MenuIndex
+{
+    MAIN,
+    STAGESELECT,
+    GALLERY,
+    SETTINGS,
+    PAUSE,
+
+    INDEX_MAX
+};
 
 class Scene
 {
 private:
-    // Input pointer for easier reference
-    // Not belonging to Scene
-    Input *input;
-
-    // Default values for game window and fps
-    uint16_t width = 800;
-    uint16_t height = 600;
-    uint8_t fps = 60;
-    uint8_t display_option = 0;
-
-    SDL_Surface *icon = IMG_Load("res/icon.png");
-
-    // Delta time calculation
-    float delta_time;
-
-    uint8_t current_scene = 0;
-
-    SDL_Window *window;
     SDL_Renderer *renderer;
+    // String matrix containing an arrray of paths for each menu
+    // Index list
+    // 0: Main
+    // 1: Stage Select
+    // 2: Gallery
+    // 3: Settings
+    // 4: Pause
+    std::vector<std::vector<std::string>> bg_paths;
+    
+    std::vector<std::vector<SDL_Texture*>> bg_texture_matrix;
 
     // Game state
     uint8_t game_state = 1; // 0: Quit game
@@ -42,54 +50,42 @@ private:
                             // 7: Vertical shooting stage (3)
                             // 8: Horizontal shooting stage (5)
                             // 9: Rhythm stage (7)
-                            // 10: Cutscenes (disable controls)
+                            // 10: Cutscene (disable controls)
+    uint8_t prev_state;
 
-    uint8_t menu_counter = 0;   // Handle menu pointer position
-                                // Reset to 0 for each menu switch
+    uint8_t menu_counter = 0;
 
-    // I'll need an array for each of these, huh
-
-    std::vector<SDL_Texture*> bg_array; // 0: Main
-                                        // 1: Stage
-                                        // 2: Setting
-                                        // 3: Gallery
-                                        // 4: Pause
+    uint8_t stage_number = 0;   // + 48 to convert from int to coresponding char
 
 public:
-    Scene(Input *in);
-
-    // (Re-)Initialize the game window
-    void init(uint16_t w, uint16_t h, uint8_t f, uint8_t dopt);
-    void update(uint16_t w, uint16_t h, uint8_t f, uint8_t dopt);
-
-    // Setters
-    void setDeltaTime(float dt);
-    void setState(uint8_t st);
+    Scene(SDL_Renderer *rend);
 
     // Getters
-    uint16_t getWidth();
-    uint16_t getHeight();
-    uint8_t getFPS();
-    float getDeltaTime();
-    SDL_Window *getWindow();
-    SDL_Renderer *getRenderer();
+    SDL_Texture *getBgTexture(MenuIndex m_index, int index);
     uint8_t getState();
-    SDL_Texture *getBackground(int i);    // Proper indexing for each bg I guess
+    uint8_t getCounter();
+    uint8_t getStageNum();
 
-    // Init Menu
-    void initMenu(const char *path);
-    void initStageEditMenu();
+    // Setters
+    void setState(uint8_t st);
 
-    void initAllMenu();
+    void backButton(Input *input);
 
-    // Update Menu
-    void updateMainMenu();
-    void updateStageSelect();
-    void updateSettings();
-    void updateGallery();
-    void updatePauseMenu();
+    // Init Scene
+    void initMenuTextures(File_Handler *file);
+    
+    void initStage(Config *config, File_Handler *file, 
+        Stage *stage, Player *player);
 
-    ~Scene();
+    void pauseHandler(Input *input);
+
+    // Update Scene
+    void updateMain(Input *input);
+    void updateStageSelect(Input *input, Config *config, 
+        File_Handler *file, Stage *stage, Player *player);
+    void updateSettings(Input *input);
+    void updateGallery(Input *input);
+    void updatePause(Input *input, Stage *stage, Player *player);
 };
 
 #endif

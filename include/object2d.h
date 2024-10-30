@@ -4,7 +4,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-#include "scene.h"
+#include "config.h"
 
 class Object2d
 {
@@ -31,7 +31,6 @@ private:
 protected:
     // Sprite handler
     const char* path;
-    SDL_Surface* surface;
     SDL_Texture* texture;
 
 public:
