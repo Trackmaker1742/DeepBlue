@@ -15,7 +15,7 @@ void Config::init(uint16_t w, uint16_t h, uint8_t f, uint8_t dopt)
     display_option = dopt;
     // Switch case for display option (later)
     SetProcessDPIAware();   // Used to avoid Windows DPI scaling
-    window = SDL_CreateWindow("Deep Blue", 0, 0, width, height, SDL_WINDOW_ALLOW_HIGHDPI);
+    window = SDL_CreateWindow("Deep Blue", 0, 50, width, height, SDL_WINDOW_ALLOW_HIGHDPI);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     SDL_SetWindowIcon(window, icon);
 }
