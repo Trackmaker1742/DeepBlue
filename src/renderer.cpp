@@ -736,7 +736,8 @@ void Renderer::renderMainMenu(Scene *scene)
     SDL_SetRenderDrawBlendMode(config->getRenderer(), SDL_BLENDMODE_BLEND);
     SDL_SetRenderDrawColor(config->getRenderer(), 0, 120, 200, 144);
     // Red highlight for gallery, cause it will be a while until I can finish it
-    if (scene->getCounter() == 2) SDL_SetRenderDrawColor(config->getRenderer(), 255, 0, 0, 144);
+    if (scene->getCounter() == 0 && scene->getCounter() == 2) 
+        SDL_SetRenderDrawColor(config->getRenderer(), 255, 0, 0, 144);
     int box_width = 350;
     int box_height = 100;
     des_rect = 
