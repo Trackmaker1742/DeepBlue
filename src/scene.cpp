@@ -28,7 +28,7 @@ void Scene::backButton(Input *input)
 void Scene::initMenuTextures(File_Handler *file)
 {
     // Read assets and save file paths into a string matrix
-    file->readBgAssetFolders(bg_paths);
+    file->readMenuBgAsset(bg_paths);
 
     // Iterate through the string matrix to create texture, then save into a texture array
     for (std::vector<std::string> bg_paths_array : bg_paths)

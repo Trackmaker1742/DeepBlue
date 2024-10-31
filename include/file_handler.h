@@ -8,6 +8,7 @@
 #include <string>
 #include <sstream>
 #include <filesystem>
+#include <unordered_map>
 
 class File_Handler 
 {
@@ -63,12 +64,19 @@ private:
     // Data value in save file
     std::vector<std::vector<uint8_t>> bg_param_values;
 
-    std::vector<const char*> csv_paths;
+    std::vector<const char*> csv_paths; // Multiple level sections?
 
     // Variables for file iterating
-    std::string path = "";
+    const std::string stage_dir = "res/Stages/Stage ";  // Stage directory initial
+    const std::string menu_dir = "res/Menu/";           // Menu directory
+    const std::string block_dir = "res/Blocktile/";     // General block directory
     std::string file_path = "";     // Mainly for blocktiles
     std::string folder_path = "";   // Mainly for menus
+
+    const std::string stage_layout_file = "/block_layer.csv";
+    const std::string background_param_file = "param.txt";
+    const std::string background_folder = "/background/";
+    const std::string stage_block_folder = "/block/";
 
 public:
     // Checking if a line has a specific string
@@ -92,7 +100,7 @@ public:
     void readConfig();
     // Function for reading save file
     void readSave();
-    
+
     // Function for reading stage layout in CSV form
     // and store in string, because moving block needs extra processing
     void readCSV(char stage_number, 
@@ -110,14 +118,26 @@ public:
     // |-back_layer.csv
     // |-block_layer.csv
     // |-front_layer.csv
-    void readStageAssetFolders(char stage_number, 
+    
+    int gameModeCheck(std::string stage_directory);
+
+    void readStageBgAsset(std::string directory, 
         std::vector<std::string> &bg_layers,
-        std::vector<std::string> &block_names,
-        std::vector<std::string> &block_paths,
         std::vector<std::vector<uint8_t>> &bg_param);
+        
+    void readBlockAsset(std::string directory,
+        std::vector<std::string> &block_names,
+        std::vector<std::string> &block_paths);
+
+    void readAllStageAssets(char stage_number, 
+        std::vector<std::string> &bg_layers,
+        std::vector<std::vector<uint8_t>> &bg_param,
+        std::vector<std::string> &block_names,
+        std::vector<std::string> &block_paths);
+    void readShooterAssets(char stage_number);
 
     // Background folder handler
-    void readBgAssetFolders(std::vector<std::vector<std::string>> &bg_paths);
+    void readMenuBgAsset(std::vector<std::vector<std::string>> &bg_paths);
 
     // Getters
     uint16_t getValue(int i);

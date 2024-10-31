@@ -29,11 +29,11 @@ void Stage::initSpritePath(File_Handler *file, char stage_number)
     stage_dir += stage_number;
     stage_dir += '/';
 
-    file->readStageAssetFolders(stage_number, 
+    file->readAllStageAssets(stage_number, 
         background_paths,
+        background_parameter,
         block_names,
-        block_paths,
-        background_parameter);
+        block_paths);
     // Set maximum background number
     background_count_max = background_parameter.size();
 

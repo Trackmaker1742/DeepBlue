@@ -173,12 +173,8 @@ void File_Handler::readSave()
 void File_Handler::readCSV(char stage_number, 
     std::vector<std::vector<std::string>> &blocks_str)
 {
-    std::string path = "res/Stages/Stage ";
-    path += stage_number;
-    path += "/block_layer.csv";
-
     // Open stage layout csv
-    std::ifstream layout(path);
+    std::ifstream layout(stage_dir + stage_number + stage_layout_file);
 
     // Parsing relevant data
     std::string temp_row_str;
@@ -195,48 +191,49 @@ void File_Handler::readCSV(char stage_number,
         blocks_str.push_back(temp_row_array);
     }
 
-    // Debug
-    // std::cout << stage_int.size() << " ";
-    // std::cout << stage_int[1].size() << " ";
-    // std::cout << stage_int[2].size() << " ";
-        
-    // for (int i = 0; i < stage_int.size(); i++)
-    // {
-    //     for (int j = 0; j < stage_int[i].size(); j++)
-    //     {
-    //         std::cout << stage_int[i][j] << " ";
-    //     }
-    //     std::cout << "\n";
-    // }
-
     // Close file
     layout.close();
 }
 
-void File_Handler::readStageAssetFolders(char stage_number, 
-    std::vector<std::string> &bg_layers, 
-    std::vector<std::string> &block_names,
-    std::vector<std::string> &block_paths,
+int File_Handler::gameModeCheck(std::string stage_directory)
+{
+    // Define a map of files and their corresponding return values
+    std::unordered_map<std::string, int> file_checks = 
+    {
+        {"platformer", 1},
+        {"shooter", 2},
+        {"rhythm", 3}
+        // Add more files here as needed
+    };
+
+    for (const auto& [file_name, return_value] : file_checks) 
+    {
+        if (std::filesystem::exists(stage_directory + file_name)) 
+        {
+            return return_value;
+        }
+    }
+
+    // Return a default value if no file is found
+    return 0;
+}
+
+void File_Handler::readStageBgAsset(std::string directory, 
+    std::vector<std::string> &bg_layers,
     std::vector<std::vector<uint8_t>> &bg_param)
 {
-    path = "";
-    path = "res/Stages/Stage ";
-    path += stage_number;
     file_path = "";
-    std::string temp = "";
-    
-    // Iterate through background folder
-    // Parallax fix zone
-    temp = path + "/background/";
-    for (const auto& entry : std::filesystem::directory_iterator(temp)) 
+
+    // Iterate through stage background assets
+    for (const auto& entry : std::filesystem::directory_iterator(directory)) 
     {
         // If the entry is a regular file, add its name to the vector
         if (std::filesystem::is_regular_file(entry.status())) {
             // Do stuff when encountering the param file, skip to the next file
-            if (entry.path().filename().string() == "param.txt")
+            if (entry.path().filename().string() == background_param_file)
             {
                 // Open param file
-                file_path = temp + entry.path().filename().string();
+                file_path = directory + entry.path().filename().string();
                 std::ifstream param(file_path);
 
                 // Parsing relevant data
@@ -259,58 +256,63 @@ void File_Handler::readStageAssetFolders(char stage_number,
             }
             bg_param_values.clear();
             // Adding background files to the list
-            file_path = temp + entry.path().filename().string();
+            file_path = directory + entry.path().filename().string();
             bg_layers.push_back(file_path);
-        }
-    }
-
-    temp = "";
-
-    // Iterate through general blocktile folder
-    temp = "res/Blocktile/";
-    for (const auto& entry : std::filesystem::directory_iterator(temp)) {
-        // If the entry is a regular file, add its name to the vector
-        if (std::filesystem::is_regular_file(entry.status())) {
-            file_path = entry.path().filename().string();
-            // Trimming the .png portion of the string
-            // Saving block name into array for stage design and indexing
-            block_names.push_back(file_path.substr(0, file_path.length() - 4));
-            // Adding directory to the file
-            file_path = temp + file_path;
-            // Saving entire block path into an array
-            block_paths.push_back(file_path); 
-        }
-    }
-
-    // Iterate through stage specific blocktile folder
-    temp = temp + "Stage " + stage_number + '/';
-    for (const auto& entry : std::filesystem::directory_iterator(temp)) {
-        // If the entry is a regular file, add its name to the vector
-        if (std::filesystem::is_regular_file(entry.status())) {
-            file_path = entry.path().filename().string();
-            // Trimming the .png portion of the string
-            // Saving block name into array for stage design and indexing
-            block_names.push_back(file_path.substr(0, file_path.length() - 4));
-            // Adding directory to the file
-            file_path = temp + file_path;
-            // Saving entire block path into an array
-            block_paths.push_back(file_path);
         }
     }
 }
 
-void File_Handler::readBgAssetFolders(
+void File_Handler::readBlockAsset(std::string directory,
+    std::vector<std::string> &block_names,
+    std::vector<std::string> &block_paths)
+{
+    file_path = "";
+
+    // Iterate through shared blocks
+    for (const auto& entry : std::filesystem::directory_iterator(directory)) {
+        // If the entry is a regular file, add its name to the vector
+        if (std::filesystem::is_regular_file(entry.status())) {
+            file_path = entry.path().filename().string();
+            // Trimming the .png portion of the string
+            // Saving block name into array for stage design and indexing
+            block_names.push_back(file_path.substr(0, file_path.length() - 4));
+            // Adding directory to the file
+            file_path = directory + file_path;
+            // Saving entire block path into an array
+            block_paths.push_back(file_path); 
+        }
+    }
+}
+
+void File_Handler::readAllStageAssets(char stage_number, 
+    std::vector<std::string> &bg_layers,
+    std::vector<std::vector<uint8_t>> &bg_param, 
+    std::vector<std::string> &block_names,
+    std::vector<std::string> &block_paths)
+{
+    // Iterate through background folder
+    readStageBgAsset(stage_dir + stage_number + background_folder, bg_layers, bg_param);
+
+    // Skip reading block assets for shooter stages
+    if (gameModeCheck(stage_dir + stage_number + '/') == 2) return;
+
+    // Iterate through general blocktile folder
+    readBlockAsset(block_dir, block_names, block_paths);
+    // Iterate through stage specific blocktile folder
+    readBlockAsset(stage_dir + stage_number + stage_block_folder, block_names, block_paths);
+}
+
+void File_Handler::readMenuBgAsset(
     std::vector<std::vector<std::string>> &bg_paths)
 {
-    path = "";
-    path = "res/Menu/";
-    folder_path = "";
     file_path = "";
-    for (const auto &folder : std::filesystem::directory_iterator(path)) {
+    folder_path = "";
+    
+    for (const auto &folder : std::filesystem::directory_iterator(menu_dir)) {
         // If the entry is a directory (which it will be)
         if (std::filesystem::is_directory(folder.status()))
         {
-            folder_path = path + folder.path().filename().string();
+            folder_path = menu_dir + folder.path().filename().string();
             std::vector<std::string> temp_str_array;
             // Iterate all files
             for (const auto &file_entry : std::filesystem::directory_iterator(folder_path))
@@ -329,5 +331,4 @@ uint16_t File_Handler::getValue(int i) { return values[i]; }
 File_Handler::~File_Handler()
 {
     std::cout << "File Handler terminated!\n";
-    // csv_paths.clear();
 }
