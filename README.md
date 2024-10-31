@@ -10,3 +10,4 @@ I: save edit<br>
 O: change from normal block placement (red) to moving block placement<br>
 (green for initial position, blue for end position)<br>
 Arrow keys: navigate block menu<br>
+Esc: pause<br>
