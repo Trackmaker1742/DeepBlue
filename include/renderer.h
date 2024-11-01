@@ -3,6 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 
 #include "config.h"
 #include "object2d.h"
@@ -71,6 +72,8 @@ private:
     uint16_t row_offset;
     uint16_t first_row = 0;
     uint16_t last_row = 11; // Start from 0 row
+
+    // TTF_Font *font = TTF_OpenFont("res/LHANDW.TTF", 24);
 
 public:
     Renderer(Config *sc, Camera *c);
