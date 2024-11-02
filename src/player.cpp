@@ -92,7 +92,7 @@ void Player::initPlat(SDL_Renderer *renderer)
     // Velocity, acceleration
     vel_terminal = -getGrid() * 17;
     vel_x_max = getGrid() * 6;
-    setAccelX(getGrid() * 4);
+    setAccelX(getGrid() * 5);
     setAccelY(-getGrid() * 30);
 
     // Dash
