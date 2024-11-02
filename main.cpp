@@ -32,6 +32,8 @@ std::thread save_edit_thread;
 
 int main(int argc, char *argv[])
 {
+    TTF_Init();
+
     // Play audio
     Audio *audio = new Audio();
     audio->init();
@@ -241,7 +243,6 @@ int main(int argc, char *argv[])
 
     delete audio;
     delete input;
-    delete config;
     delete stage;
     delete cam;
     delete renderer;
@@ -249,6 +250,9 @@ int main(int argc, char *argv[])
 
     SDL_DestroyRenderer(config->getRenderer());
     SDL_DestroyWindow(config->getWindow());
+    delete config;
+    
+    TTF_Quit();
     SDL_Quit();
 
     return EXIT_SUCCESS;

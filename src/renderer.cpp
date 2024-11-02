@@ -778,7 +778,7 @@ void Renderer::renderStageSelect(Scene *scene)
 //     SDL_RenderCopy(config->getRenderer(), config->getBackground(2), NULL, &des_rect);
 // }
 
-SDL_Texture *Renderer::loadTextTexture(const std::string& text, TTF_Font* font, SDL_Color color, SDL_Renderer* renderer) 
+SDL_Texture *Renderer::loadTextTexture(const std::string& text, TTF_Font *font, SDL_Color color, SDL_Renderer* renderer) 
 {
     SDL_Surface *textSurface = TTF_RenderText_Solid(font, text.c_str(), color);
     if (textSurface == nullptr) 
@@ -801,10 +801,7 @@ SDL_Texture *Renderer::loadTextTexture(const std::string& text, TTF_Font* font, 
 void Renderer::loadTextureForText()
 {
     SDL_Color text_color = {255, 0, 0};
-    texture_text = loadTextTexture("funni looking ahh text", font, text_color, config->getRenderer());
-
-    text_rect = {100, 100, 0, 0};
-    SDL_QueryTexture(texture_text, nullptr, nullptr, &text_rect.w, &text_rect.h);
+    texture_text = loadTextTexture(std::to_string(config->getWidth()), font, text_color, config->getRenderer());
 }
 
 void Renderer::renderSettings(Scene *scene)
@@ -812,6 +809,17 @@ void Renderer::renderSettings(Scene *scene)
     // Render background
     des_rect = {0, 0, config->getWidth(), config->getHeight()};
     SDL_RenderCopy(config->getRenderer(), scene->getBgTexture(MenuIndex::SETTINGS, 0), NULL, &des_rect);
+
+    // Render config data
+    des_rect = 
+    {
+        config->getWidth() / 4 * 3,
+        config->getHeight() / 3,
+        0,
+        0
+    };
+    SDL_QueryTexture(texture_text, nullptr, nullptr, &des_rect.w, &des_rect.h);
+    SDL_RenderCopy(config->getRenderer(), texture_text, nullptr, &des_rect);
 
     // Render elements
     SDL_SetRenderDrawColor(config->getRenderer(), 0, 120, 200, 144);
@@ -834,9 +842,6 @@ void Renderer::renderSettings(Scene *scene)
             box_height
         };
     SDL_RenderFillRect(config->getRenderer(), &des_rect);
-    
-    // Render config data
-    SDL_RenderCopy(config->getRenderer(), texture_text, nullptr, &text_rect);
 }
 
 void Renderer::renderPauseMenu(Scene *scene)
@@ -863,5 +868,6 @@ void Renderer::renderPauseMenu(Scene *scene)
 
 Renderer::~Renderer()
 {
+    TTF_CloseFont(font);
     std::cout << "Renderer terminated!\n";
 }

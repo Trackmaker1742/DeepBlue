@@ -31,11 +31,14 @@ private:
                     // 11: Wall (both sides) (3 sprites)
                     // 12: Bridge (player can jump through it from 
                     //              the bottom, bottom left, right side)
-                    
+
                     // 13: Spring (up)
                     // 14: Spring (down)
                     // 15: Spring (left)
                     // 16: Spring (right)
+
+                    // 17: Conveyor left
+                    // 18: Conveyor right
 
                     // New moving block formatting style
                     // Give each block a certain amount of moves to each direction
