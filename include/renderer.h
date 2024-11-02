@@ -72,8 +72,11 @@ private:
     uint16_t row_offset;
     uint16_t first_row = 0;
     uint16_t last_row = 11; // Start from 0 row
-
-    // TTF_Font *font = TTF_OpenFont("res/LHANDW.TTF", 24);
+    
+    // Font used
+    TTF_Font *font = TTF_OpenFont("res/Water.ttf", 24);
+    SDL_Texture *texture_text;
+    SDL_Rect text_rect;
 
 public:
     Renderer(Config *sc, Camera *c);
@@ -98,6 +101,8 @@ public:
     void renderMainMenu(Scene *scene);
     void renderStageSelect(Scene *scene);
     void renderGallery(Scene *scene);
+    SDL_Texture *loadTextTexture(const std::string& text, TTF_Font* font, SDL_Color color, SDL_Renderer* renderer);
+    void loadTextureForText();
     void renderSettings(Scene *scene);
     void renderPauseMenu(Scene *scene);
 

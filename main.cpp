@@ -66,6 +66,7 @@ int main(int argc, char *argv[])
 
     // Renderer
     Renderer *renderer = new Renderer(config, cam);
+    renderer->loadTextureForText();
 
     // Player
     Player *player = new Player(config->getFPS());

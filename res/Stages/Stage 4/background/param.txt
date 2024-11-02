@@ -1,15 +1,19 @@
 Index | 1
-Autoscroll_speed | 5
+Autoscroll_speed | 0
 Speed | 5
 
 Index | 2
-Autoscroll-speed | 15
-Speed | 10
+Autoscroll-speed | 5
+Speed | 7
 
 Index | 3
-Autoscroll-speed | 25
-Speed | 15
+Autoscroll-speed | 0
+Speed | 10
 
 Index | 4
-Autoscroll-speed | 40
+Autoscroll-speed | 0
+Speed | 15
+
+Index | 5
+Autoscroll-speed | 0
 Speed | 20

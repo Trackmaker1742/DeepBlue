@@ -45,7 +45,8 @@ target_link_libraries(DeepBlue
     SDL2main
     SDL2
     SDL2_image
-    SDL2_mixer 
+    SDL2_mixer
+    SDL2_ttf
 )
 
 add_custom_command(TARGET DeepBlue POST_BUILD

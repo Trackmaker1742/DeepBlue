@@ -230,7 +230,7 @@ void Player::initRhythm(SDL_Renderer *renderer)
     rhythm_atk = false;
     rhythm_atk_counter = 0;
     rhythm_atk_frame_max = game_fps / 5;
-    rhythm_atk_grid = 96;   // 1.5 times the size of a normal grid
+    rhythm_atk_grid = getGrid() * 1.5;  // 1.5 times the size of a normal grid
 
     initTexture(rhythm_path, renderer);
 }

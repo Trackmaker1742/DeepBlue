@@ -778,6 +778,35 @@ void Renderer::renderStageSelect(Scene *scene)
 //     SDL_RenderCopy(config->getRenderer(), config->getBackground(2), NULL, &des_rect);
 // }
 
+SDL_Texture *Renderer::loadTextTexture(const std::string& text, TTF_Font* font, SDL_Color color, SDL_Renderer* renderer) 
+{
+    SDL_Surface *textSurface = TTF_RenderText_Solid(font, text.c_str(), color);
+    if (textSurface == nullptr) 
+    {
+        std::cout << "Unable to render text surface! TTF_Error: " << TTF_GetError() << "\n";
+        return nullptr;
+    }
+
+    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, textSurface);
+    SDL_FreeSurface(textSurface);
+
+    if (texture == nullptr) 
+    {
+        std::cout << "Unable to create texture from rendered text! SDL_Error: " << SDL_GetError() << "\n";
+    }
+
+    return texture;
+}
+
+void Renderer::loadTextureForText()
+{
+    SDL_Color text_color = {255, 0, 0};
+    texture_text = loadTextTexture("funni looking ahh text", font, text_color, config->getRenderer());
+
+    text_rect = {100, 100, 0, 0};
+    SDL_QueryTexture(texture_text, nullptr, nullptr, &text_rect.w, &text_rect.h);
+}
+
 void Renderer::renderSettings(Scene *scene)
 {
     // Render background
@@ -805,6 +834,9 @@ void Renderer::renderSettings(Scene *scene)
             box_height
         };
     SDL_RenderFillRect(config->getRenderer(), &des_rect);
+    
+    // Render config data
+    SDL_RenderCopy(config->getRenderer(), texture_text, nullptr, &text_rect);
 }
 
 void Renderer::renderPauseMenu(Scene *scene)
