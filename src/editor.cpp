@@ -64,7 +64,7 @@ void Editor::menuAction(Input *input, Player *player, Stage *stage)
         !playerBlockOverlap(player, stage->getBlockVec()) &&
         !playerBlockOverlap(player, stage->getMovingBlockVec()))
     {
-        input->setHold(Action::ACTION1, false);
+        // input->setHold(Action::ACTION1, false);
         // Adding normal block
         if (!add_moving_block)
         {
@@ -113,7 +113,7 @@ void Editor::menuAction(Input *input, Player *player, Stage *stage)
     // Removing block
     if (input->getPress(Action::ACTION2))
     {
-        input->setHold(Action::ACTION2, false);
+        // input->setHold(Action::ACTION2, false);
         // If cursor overlaps normal block
         if (playerBlockOverlap(player, stage->getBlockVec()))
         {
