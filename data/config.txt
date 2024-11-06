@@ -2,8 +2,8 @@
 # The order of the settings are not important
 
 # Window size (width, height)
-width | 960
-height | 540
+width | 1920
+height | 1080
 
 # Display option (0: windowed, 1: borderless windowed, 2: fullscreen)
 Display_option | 0

@@ -26,10 +26,10 @@ private:
     float accel_y = 0;
         
     // Grid size
-    uint16_t grid = 32;
+    uint16_t grid = 64;
     
 protected:
-    const uint16_t default_grid = 32;
+    const uint16_t default_grid = 64;
     // Sprite handler
     const char* path;
     SDL_Texture* texture;
