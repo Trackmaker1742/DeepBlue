@@ -32,6 +32,7 @@ std::thread save_edit_thread;
 
 int main(int argc, char *argv[])
 {
+    SDL_Init(SDL_INIT_EVERYTHING);
     TTF_Init();
 
     // Play audio
@@ -68,7 +69,7 @@ int main(int argc, char *argv[])
 
     // Renderer
     Renderer *renderer = new Renderer(config, cam);
-    renderer->loadTextureForText();
+    renderer->loadTextureForText(scene);
 
     // Player
     Player *player = new Player(config->getFPS());
@@ -100,6 +101,10 @@ int main(int argc, char *argv[])
             break;
             // Main menu
             case 1:
+                // if (input->getPress(Action::EXTRA1))
+                // {
+                //     config->update();
+                // }
                 scene->updateMain(input);
                 renderer->renderMainMenu(scene);
             break;
@@ -230,6 +235,8 @@ int main(int argc, char *argv[])
             break;
         }
         
+        // To make press input work
+        input->unHold();
         // Present renderer
         SDL_RenderPresent(config->getRenderer());
         // Get prev frame time (for delta_time)

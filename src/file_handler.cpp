@@ -144,7 +144,7 @@ void File_Handler::readConfig()
     }
     
     // Debug
-    // std::cout << values[0] << " " << values[1] << "\n";
+    // std::cout << values[0] << " " << values[1] << " " << values[2] << " " << values[3] << "\n";
     
     // Close config
     config.close();

@@ -9,6 +9,24 @@ uint8_t Scene::getState() { return game_state; }
 uint8_t Scene::getPrevState() { return prev_state; }
 uint8_t Scene::getCounter() { return menu_counter; }
 uint8_t Scene::getStageNum() { return stage_number; }
+uint8_t Scene::getSettingCounter(Settings setting) { return setting_counters[static_cast<int>(setting)]; }
+std::vector<std::string> Scene::getPresetArray(Settings setting)
+{
+    switch (setting)
+    {
+        case Settings::RESOLUTION:
+            return preset_resolution;
+        break;
+        case Settings::DISPLAY_OPTION:
+            return preset_display_option;
+        break;
+        case Settings::FRAMERATE:
+            return preset_framerate;
+        break;
+        default:
+        break;
+    }
+}
 
 // Setters
 void Scene::setState(uint8_t st) { game_state = st; }
@@ -18,10 +36,39 @@ void Scene::backButton(Input *input)
     // Back button
     if (input->getPress(Action::ACTION2))
     {
-        input->setHold(Action::ACTION2, false);
         game_state = prev_state; // Go back to previous state
         menu_counter = 0;
     }
+}
+
+bool Scene::press(Dir direction, Input *input)
+{
+    switch (direction)
+    {
+        case Dir::UP:
+            if (input->getPress(Action::MOVE_UP) ||
+                input->getPress(Action::EXTRA_UP))
+                return true;
+        break;
+        case Dir::DOWN:
+            if (input->getPress(Action::MOVE_DOWN) ||
+                input->getPress(Action::EXTRA_DOWN))
+                return true;
+        break;
+        case Dir::LEFT:
+            if (input->getPress(Action::MOVE_LEFT) ||
+                input->getPress(Action::EXTRA_LEFT))
+                return true;
+        break;
+        case Dir::RIGHT:
+            if (input->getPress(Action::MOVE_RIGHT) ||
+                input->getPress(Action::EXTRA_RIGHT))
+                return true;
+        break;
+        default:
+        break;
+    }
+    return false;
 }
 
 // Scene stuff
@@ -92,7 +139,6 @@ void Scene::pauseHandler(Input *input)
     // Input for entering pause menu
     if (input->getPress(Action::PAUSE))
     {
-        input->setHold(Action::PAUSE, false);
         prev_state = game_state;
         game_state = 5;
         menu_counter = 0;
@@ -103,20 +149,19 @@ void Scene::pauseHandler(Input *input)
 void Scene::updateMain(Input *input)
 {
     // Navigation (top to bottom)
-    if (input->getPress(Action::MOVE_UP) && menu_counter > 0)
+    if (press(Dir::UP, input) && 
+        menu_counter > 0)
     {
-        input->setHold(Action::MOVE_UP, false);
         menu_counter--;
     }
-    if (input->getPress(Action::MOVE_DOWN) && menu_counter < 4)
+    if (press(Dir::DOWN, input) && 
+        menu_counter < 4)
     {
-        input->setHold(Action::MOVE_DOWN, false);
         menu_counter++;
     }
     // Choose the highlighted option
     if (input->getPress(Action::ACTION1))
     {
-        input->setHold(Action::ACTION1, false);
         switch (menu_counter)
         {
             case 0: // New game
@@ -152,20 +197,19 @@ void Scene::updateStageSelect(Input *input, Config *config,
     // Will need more condition, 
     // since you can only pick stages after unlocking them
     // Navigation (left to right)
-    if (input->getPress(Action::MOVE_LEFT) && menu_counter > 0)
+    if (press(Dir::LEFT, input) && 
+        menu_counter > 0)
     {
-        input->setHold(Action::MOVE_LEFT, false);
         menu_counter--;
     }
-    if (input->getPress(Action::MOVE_RIGHT) && menu_counter < 8)
+    if (press(Dir::RIGHT, input) && 
+        menu_counter < 8)
     {
-        input->setHold(Action::MOVE_RIGHT, false);
         menu_counter++;
     }
     // Choose the highlighted option
     if (input->getPress(Action::ACTION1))
     {
-        input->setHold(Action::ACTION1, false);
         stage_number = menu_counter + 1;    // For loading the correct stage
         initStage(config, file, stage, player);
         menu_counter = 0;
@@ -177,31 +221,52 @@ void Scene::updateStageSelect(Input *input, Config *config,
 void Scene::updateSettings(Input *input)
 {
     // Navigation (top to bottom)
-    if (input->getPress(Action::MOVE_UP) && menu_counter > 0 && menu_counter != 4)
+    if (press(Dir::UP, input) && 
+        menu_counter > 0 && menu_counter != 4)
     {
-        input->setHold(Action::MOVE_UP, false);
         menu_counter--;
     }
-    if (input->getPress(Action::MOVE_DOWN) && menu_counter < 3)
+    if (press(Dir::DOWN, input) && 
+        menu_counter < 3)
     {
-        input->setHold(Action::MOVE_DOWN, false);
         menu_counter++;
     }
-    // Side to side for save and back button
-    if (input->getPress(Action::MOVE_LEFT) && menu_counter == 3)
+    // Change resolution, display option, framerate based on preset values
+    if (menu_counter >= 0 && menu_counter < 3)
     {
-        input->setHold(Action::MOVE_LEFT, false);
-        menu_counter++;
+        switch (menu_counter)
+        {
+            case static_cast<int>(Settings::RESOLUTION):
+                setting_counter_max = preset_resolution.size();
+            break;
+            case static_cast<int>(Settings::DISPLAY_OPTION):
+                setting_counter_max = preset_display_option.size();
+            break;
+            case static_cast<int>(Settings::FRAMERATE):
+                setting_counter_max = preset_framerate.size();
+            break;
+            default:
+            break;
+        }
+        if (press(Dir::LEFT, input) &&
+            setting_counters[menu_counter] > 0)
+        {
+            setting_counters[menu_counter]--;
+        }
+        if (press(Dir::RIGHT, input) &&
+            setting_counters[menu_counter] < setting_counter_max - 1)
+        {
+            setting_counters[menu_counter]++;
+        }
     }
-    if (input->getPress(Action::MOVE_RIGHT) && menu_counter == 4)
-    {
-        input->setHold(Action::MOVE_RIGHT, false);
-        menu_counter--;
-    }
+
+    std::cout << int(setting_counters[0]) << " " 
+        << int(setting_counters[1]) << " " 
+        << int(setting_counters[2]) << "\n";
+    
     // Press save
     if (input->getPress(Action::ACTION1) && menu_counter == 3)
     {
-        input->setHold(Action::ACTION1, false);
         switch (menu_counter)
         {
             case 3:
@@ -232,22 +297,18 @@ void Scene::updateSettings(Input *input)
 //     // Navigation (all 4 directions)
 //     if (input->getPress(0) && menu_counter > 5)
 //     {
-//         input->setHold(0, false);
 //         menu_counter -= 6;
 //     }
 //     if (input->getPress(1) && menu_counter < 24)
 //     {
-//         input->setHold(1, false);
 //         menu_counter += 6;
 //     }
 //     if (input->getPress(2) && menu_counter > 0)
 //     {
-//         input->setHold(2, false);
 //         menu_counter--;
 //     }
 //     if (input->getPress(3) && menu_counter < 29)
 //     {
-//         input->setHold(3, false);
 //         menu_counter++;
 //     }
 //     // Choose the highlighted option
@@ -255,7 +316,6 @@ void Scene::updateSettings(Input *input)
 //     // No need for clicking
 //     if (input->getPress(4))
 //     {
-//         input->setHold(4, false);
 //         // Zoom into item, add description
 //     }
 // }
@@ -263,20 +323,19 @@ void Scene::updateSettings(Input *input)
 void Scene::updatePause(Input *input, Stage *stage, Player *player)
 {
     // Navigation (top to bottom)
-    if (input->getPress(Action::MOVE_UP) && menu_counter > 0)
+    if (press(Dir::UP, input) && 
+        menu_counter > 0)
     {
-        input->setHold(Action::MOVE_UP, false);
         menu_counter--;
     }
-    if (input->getPress(Action::MOVE_DOWN) && menu_counter < 2)
+    if (press(Dir::DOWN, input) && 
+        menu_counter < 2)
     {
-        input->setHold(Action::MOVE_DOWN, false);
         menu_counter++;
     }
     // Choose the highlighted option
     if (input->getPress(Action::ACTION1))
     {
-        input->setHold(Action::ACTION1, false);
         switch (menu_counter)
         {
             case 0: // Resume

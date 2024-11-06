@@ -4,6 +4,7 @@ void Input::init()
 {
     button.resize(static_cast<int>(Action::ACTION_MAX), false);
     hold.resize(static_cast<int>(Action::ACTION_MAX), true);
+    press.resize(static_cast<int>(Action::ACTION_MAX), false);
 
     // Default keybind
     remapKey(SDLK_w, Action::MOVE_UP);
@@ -59,13 +60,21 @@ bool Input::handleInput()
     return false;
 }
 
-void Input::setHold(Action action, bool hol)
-{
-    hold[static_cast<int>(action)] = false;
-}
 bool Input::getPress(Action action)
 {
     return button[static_cast<int>(action)] && hold[static_cast<int>(action)];
+}
+bool Input::getHold(Action action)
+{
+    return button[static_cast<int>(action)];
+}
+
+void Input::unHold()
+{
+    for (int i = 0; i < static_cast<int>(Action::ACTION_MAX); i++)
+    {
+        if (hold[i] && press[i]) hold[i] = false;
+    }
 }
 
 void Input::handleKeyboardEvent(const SDL_KeyboardEvent &keyEvent) 
@@ -76,7 +85,12 @@ void Input::handleKeyboardEvent(const SDL_KeyboardEvent &keyEvent)
         Action action = it->second;
         bool key_pressed = (keyEvent.type == SDL_KEYDOWN);
         button[static_cast<int>(action)] = key_pressed;
-        if (!key_pressed) hold[static_cast<int>(action)] = true;
+        press[static_cast<int>(action)] = key_pressed;
+        if (!key_pressed)
+        {
+            hold[static_cast<int>(action)] = true;
+            press[static_cast<int>(action)] = false;
+        }
     }
 }
 // void Input::handleControllerButtonEvent(const SDL_ControllerButtonEvent &buttonEvent) {

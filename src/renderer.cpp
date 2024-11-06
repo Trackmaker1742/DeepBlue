@@ -798,10 +798,21 @@ SDL_Texture *Renderer::loadTextTexture(const std::string& text, TTF_Font *font, 
     return texture;
 }
 
-void Renderer::loadTextureForText()
+void Renderer::loadTextureForText(Scene *scene)
 {
-    SDL_Color text_color = {255, 0, 0};
-    texture_text = loadTextTexture(std::to_string(config->getWidth()), font, text_color, config->getRenderer());
+    SDL_Color text_color = {0, 0, 0};
+    for (std::string str : scene->getPresetArray(Settings::RESOLUTION))
+    {
+        reso_textures.push_back(loadTextTexture(str, font, text_color, config->getRenderer()));
+    }
+    for (std::string str : scene->getPresetArray(Settings::DISPLAY_OPTION))
+    {
+        display_opt_textures.push_back(loadTextTexture(str, font, text_color, config->getRenderer()));
+    }
+    for (std::string str : scene->getPresetArray(Settings::FRAMERATE))
+    {
+        framerate_textures.push_back(loadTextTexture(str, font, text_color, config->getRenderer()));
+    }
 }
 
 void Renderer::renderSettings(Scene *scene)
@@ -810,21 +821,44 @@ void Renderer::renderSettings(Scene *scene)
     des_rect = {0, 0, config->getWidth(), config->getHeight()};
     SDL_RenderCopy(config->getRenderer(), scene->getBgTexture(MenuIndex::SETTINGS, 0), NULL, &des_rect);
 
-    // Render config data
+    int box_width = 325;
+    int box_height = 125;
+
+    // Render current resolution
     des_rect = 
     {
-        config->getWidth() / 4 * 3,
-        config->getHeight() / 3,
+        config->getWidth() / 2 + box_width,
+        config->getHeight() / 2 - box_height * 5 / 2,
         0,
         0
     };
-    SDL_QueryTexture(texture_text, nullptr, nullptr, &des_rect.w, &des_rect.h);
-    SDL_RenderCopy(config->getRenderer(), texture_text, nullptr, &des_rect);
+    SDL_QueryTexture(reso_textures[scene->getSettingCounter(Settings::RESOLUTION)], nullptr, nullptr, &des_rect.w, &des_rect.h);
+    SDL_RenderCopy(config->getRenderer(), reso_textures[scene->getSettingCounter(Settings::RESOLUTION)], nullptr, &des_rect);
+
+    // Render current display option
+    des_rect = 
+    {
+        config->getWidth() / 2 + box_width,
+        config->getHeight() / 2 - box_height * 5 / 2 + box_height * 5 / 3,
+        0,
+        0
+    };
+    SDL_QueryTexture(display_opt_textures[scene->getSettingCounter(Settings::DISPLAY_OPTION)], nullptr, nullptr, &des_rect.w, &des_rect.h);
+    SDL_RenderCopy(config->getRenderer(), display_opt_textures[scene->getSettingCounter(Settings::DISPLAY_OPTION)], nullptr, &des_rect);
+
+    // Render current framerate
+    des_rect = 
+    {
+        config->getWidth() / 2 + box_width,
+        config->getHeight() / 2 - box_height * 5 / 2 + 2 * box_height * 5 / 3,
+        0,
+        0
+    };
+    SDL_QueryTexture(framerate_textures[scene->getSettingCounter(Settings::FRAMERATE)], nullptr, nullptr, &des_rect.w, &des_rect.h);
+    SDL_RenderCopy(config->getRenderer(), framerate_textures[scene->getSettingCounter(Settings::FRAMERATE)], nullptr, &des_rect);
 
     // Render elements
     SDL_SetRenderDrawColor(config->getRenderer(), 0, 120, 200, 144);
-    int box_width = 300;
-    int box_height = 125;
     if (scene->getCounter() < 4)
         des_rect = 
         {

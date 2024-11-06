@@ -74,9 +74,10 @@ private:
     uint16_t last_row = 11; // Start from 0 row
     
     // Font used
-    TTF_Font *font = TTF_OpenFont("res/Water.ttf", 50);
-    SDL_Texture *texture_text;
-    SDL_Rect text_rect;
+    TTF_Font *font = TTF_OpenFont("res/Water.ttf", 60);
+    std::vector<SDL_Texture*> reso_textures;
+    std::vector<SDL_Texture*> display_opt_textures;
+    std::vector<SDL_Texture*> framerate_textures;
 
 public:
     Renderer(Config *sc, Camera *c);
@@ -102,7 +103,7 @@ public:
     void renderStageSelect(Scene *scene);
     void renderGallery(Scene *scene);
     SDL_Texture *loadTextTexture(const std::string& text, TTF_Font *font, SDL_Color color, SDL_Renderer* renderer);
-    void loadTextureForText();
+    void loadTextureForText(Scene *scene);
     void renderSettings(Scene *scene);
     void renderPauseMenu(Scene *scene);
 

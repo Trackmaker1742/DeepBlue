@@ -15,10 +15,12 @@ private:
     Input *input;
 
     // Default values for game window and fps
-    uint16_t width = 800;
-    uint16_t height = 600;
-    uint8_t fps = 60;
+    uint16_t width = 0;
+    uint16_t height = 0;
     uint8_t display_option = 0;
+    uint8_t fps = 0;
+
+    SDL_DisplayMode display_mode;
 
     SDL_Surface *icon = IMG_Load("res/icon.png");
 

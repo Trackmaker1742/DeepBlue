@@ -1,12 +1,18 @@
 #include "block.h"
 
 Block::Block(float X, float Y, const char* P, uint8_t t) : 
-    Object2d(X * 64, Y * 64, P), type(t)
+    Object2d(X, Y, P), type(t)
 { }
 
 Block::Block(float X, float Y, uint8_t t, uint8_t l, const char* P) : 
-    Object2d(X * 64, Y * 64, P), type(t), lane(l)
+    Object2d(X, Y, P), type(t), lane(l)
 { }
+
+void Block::init()
+{
+    setX(getX() * default_grid);
+    setY(getY() * default_grid);
+}
 
 // Setters
 void Block::setOnScreen(bool os) { on_screen = os; }

@@ -94,6 +94,9 @@ public:
     // Rhythm mode blocks
     Block(float X = 0, float Y = 0, uint8_t t = 0, uint8_t l = 0, const char *P = ""); 
 
+    // Init grid and other stuff for normal block
+    void init();
+
     // Setters
     void setOnScreen(bool os);
     void setHasSpriteIndex(bool hsi);

@@ -29,7 +29,7 @@ void Editor::menuAction(Input *input, Player *player, Stage *stage)
     // Return to normal mode
     if (input->getPress(Action::EXTRA1) && !changed && !saving && initial_m_block)
     {
-        input->setHold(Action::EXTRA1, false);
+        // input->setHold(Action::EXTRA1, false);
         player->setEditor(false);
         reset = true;
         return;
@@ -38,33 +38,32 @@ void Editor::menuAction(Input *input, Player *player, Stage *stage)
     if (input->getPress(Action::EXTRA_UP) &&
         se_menu_counter > 5)
     {
-        input->setHold(Action::EXTRA_UP, false);
+        // input->setHold(Action::EXTRA_UP, false);
         se_menu_counter -= 6;
     }
     if (input->getPress(Action::EXTRA_DOWN) &&
         se_menu_counter < stage->getBlockTextures().size() - 1)
     {
-        input->setHold(Action::EXTRA_DOWN, false);
+        // input->setHold(Action::EXTRA_DOWN, false);
         se_menu_counter += 6;
     }
     if (input->getPress(Action::EXTRA_LEFT) &&
         se_menu_counter > 0)
     {
-        input->setHold(Action::EXTRA_LEFT, false);
+        // input->setHold(Action::EXTRA_LEFT, false);
         se_menu_counter--;
     }
     if (input->getPress(Action::EXTRA_RIGHT) &&
         se_menu_counter < stage->getBlockTextures().size() - 1)
     {
-        input->setHold(Action::EXTRA_RIGHT, false);
+        // input->setHold(Action::EXTRA_RIGHT, false);
         se_menu_counter++;
     }
     // Adding block
-    if (input->getPress(Action::ACTION1) && 
+    if (input->getHold(Action::ACTION1) && 
         !playerBlockOverlap(player, stage->getBlockVec()) &&
         !playerBlockOverlap(player, stage->getMovingBlockVec()))
     {
-        // input->setHold(Action::ACTION1, false);
         // Adding normal block
         if (!add_moving_block)
         {
@@ -111,9 +110,8 @@ void Editor::menuAction(Input *input, Player *player, Stage *stage)
         saved = false;
     }
     // Removing block
-    if (input->getPress(Action::ACTION2))
+    if (input->getHold(Action::ACTION2))
     {
-        // input->setHold(Action::ACTION2, false);
         // If cursor overlaps normal block
         if (playerBlockOverlap(player, stage->getBlockVec()))
         {
@@ -132,13 +130,13 @@ void Editor::menuAction(Input *input, Player *player, Stage *stage)
     // Save button
     if (input->getPress(Action::EXTRA2) && !saved && changed && !saving)
     {
-        input->setHold(Action::EXTRA2, false);
+        // input->setHold(Action::EXTRA2, false);
         if (initial_m_block) saving = true;
     }
     // Switch to adding moving block
     if (input->getPress(Action::EXTRA3))
     {
-        input->setHold(Action::EXTRA3, false);
+        // input->setHold(Action::EXTRA3, false);
         add_moving_block = !add_moving_block;
     }
     if (changed && saving)

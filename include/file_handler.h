@@ -19,14 +19,12 @@ private:
     {
         "width",
         "height",
-        "fps",
-        "display option",
-        "scaling"
+        "display_option",
+        "fps"
     };
     // Array for values (same order as data type for easier parsing)
     std::vector<uint16_t> values =
     {
-        0,
         0,
         0,
         0,

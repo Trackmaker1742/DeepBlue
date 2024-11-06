@@ -18,9 +18,22 @@ enum class MenuIndex
     STAGESELECT,
     GALLERY,
     SETTINGS,
-    PAUSE,
+    PAUSE
+};
 
-    INDEX_MAX
+enum class Dir
+{
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT
+};
+
+enum class Settings
+{
+    RESOLUTION,
+    DISPLAY_OPTION,
+    FRAMERATE
 };
 
 class Scene
@@ -57,6 +70,37 @@ private:
 
     uint8_t stage_number = 0;   // + 48 to convert from int to coresponding char
 
+    std::vector<uint8_t> setting_counters =
+    {
+        0,
+        0,
+        0
+    };
+    uint8_t setting_counter_max = 0;
+    std::vector<std::string> preset_resolution =
+    {
+        "1280 x 720",
+        "1920 x 1080",
+        "2560 x 1440",
+        "3840 x 2160"
+    };
+    std::vector<std::string> preset_display_option =
+    {
+        "Windowed",
+        "Borderless Windowed",
+        "Fullscreen"
+    };
+    std::vector<std::string> preset_framerate =
+    {
+        "30",
+        "60",
+        "75",
+        "90",
+        "120",
+        "144",
+        "240"
+    };
+
 public:
     Scene(SDL_Renderer *rend);
 
@@ -66,11 +110,14 @@ public:
     uint8_t getPrevState();
     uint8_t getCounter();
     uint8_t getStageNum();
+    uint8_t getSettingCounter(Settings setting);
+    std::vector<std::string> getPresetArray(Settings setting);
 
     // Setters
     void setState(uint8_t st);
 
     void backButton(Input *input);
+    bool press(Dir direction, Input *input);
 
     // Init Scene
     void initMenuTextures(File_Handler *file);

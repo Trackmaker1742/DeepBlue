@@ -19,8 +19,8 @@ float Object2d::getVelX() { return vel_x; }
 float Object2d::getVelY() { return vel_y; }
 float Object2d::getAccelX() { return accel_x; }
 float Object2d::getAccelY() { return accel_y; }
-uint16_t Object2d::getGridX() { return x / 64; }
-uint16_t Object2d::getGridY() { return y / 64; }
+uint16_t Object2d::getGridX() { return x / default_grid; }
+uint16_t Object2d::getGridY() { return y / default_grid; }
 
 void Object2d::setGrid(uint16_t g) { grid = g; }
 uint16_t Object2d::getGrid() { return grid; }

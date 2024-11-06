@@ -2,14 +2,11 @@
 # The order of the settings are not important
 
 # Window size (width, height)
-width | 1920
-height | 1080
+width | 960
+height | 540
+
+# Display option (0: windowed, 1: borderless windowed, 2: fullscreen)
+Display_option | 0
 
 # Frame rate (FPS)
 FPS | 120
-
-# Scaling (min: 10, max: 100 (native, default))
-Scaling | 100
-
-# Display option (0: windowed, 1: fullscreen, 2: borderless windowed)
-Display option | 0

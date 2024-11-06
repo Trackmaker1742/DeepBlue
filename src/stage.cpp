@@ -130,6 +130,7 @@ void Stage::initBlockLayer(File_Handler *file, char stage_number)
                         block_paths[temp_asset_index].c_str(), 
                         std::stoi(getPrefix(cur_block))
                     ));
+                    blocks.back()->init();
                     // Sprite indexing for block with multiple sprites
                     if (cur_block.length() > 2)
                     {
@@ -168,6 +169,7 @@ void Stage::initBlockLayer(File_Handler *file, char stage_number)
                                     block_paths[temp_asset_index].c_str(), 
                                     std::stoi(getPrefix(value_str))
                                 ));
+                                moving_blocks.back()->init();
                                 // Sprite indexing for block with multiple sprites
                                 if (value_str.length() > 2)
                                 {
@@ -366,6 +368,7 @@ void Stage::addBlock(int x, int y, int index, bool move)
             y, 
             block_paths[index].c_str(), 
             std::stoi(getPrefix(block_names[index]))));
+        blocks.back()->init();
         if (block_names[index].length() > 2)
         {
             blocks.back()->setHasSpriteIndex(true);
@@ -381,6 +384,7 @@ void Stage::addBlock(int x, int y, int index, bool move)
             y, 
             block_paths[index].c_str(), 
             std::stoi(getPrefix(block_names[index]))));
+        moving_blocks.back()->init();
         if (block_names[index].length() > 2)
         {
             moving_blocks.back()->setHasSpriteIndex(true);

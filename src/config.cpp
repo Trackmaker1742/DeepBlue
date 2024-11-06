@@ -6,29 +6,66 @@
 Config::Config(Input *in) : input(in)
 { }
 
-void Config::init(uint16_t w, uint16_t h, uint8_t f, uint8_t dopt)
+void Config::init(uint16_t w, uint16_t h, uint8_t dopt, uint8_t f)
 {
     // Update the window values
     width = w;
     height = h;
-    fps = f;
     display_option = dopt;
-    // Switch case for display option (later)
+    fps = f;
+
+    SDL_GetDesktopDisplayMode(0, &display_mode);
+
     SetProcessDPIAware();   // Used to avoid Windows DPI scaling
-    window = SDL_CreateWindow("Deep Blue", 0, 50, width, height, SDL_WINDOW_ALLOW_HIGHDPI);
+
+    // Switch case for display option (later)
+    uint32_t flag;
+    switch (display_option)
+    {
+        case 0:
+            window = SDL_CreateWindow("Deep Blue", 0, 50, width, height, SDL_WINDOW_ALLOW_HIGHDPI);
+        break;
+        case 1:
+            // width = display_mode.w;
+            // height = display_mode.h;
+            window = SDL_CreateWindow("Deep Blue", 0, 0, width, height, SDL_WINDOW_FULLSCREEN_DESKTOP);
+        break;
+        case 2:
+            // width = display_mode.w;
+            // height = display_mode.h;
+            window = SDL_CreateWindow("Deep Blue", 0, 0, width, height, SDL_WINDOW_FULLSCREEN);
+        break;
+        default:
+        break;
+    }
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     SDL_SetWindowIcon(window, icon);
 }
-
-void Config::update(uint16_t w, uint16_t h, uint8_t f, uint8_t dopt)
+void Config::update(uint16_t w, uint16_t h, uint8_t dopt, uint8_t f)
 {
     // Update the window values
     width = w;
     height = h;
-    fps = f;
     display_option = dopt;
+    fps = f;
     // Switch case for display option (later)
-    SDL_SetWindowSize(window, width, height);
+    switch (display_option)
+    {
+        // Windowed
+        case 0:
+            SDL_SetWindowSize(window, width, height);
+        break;
+        // Borderless windowed (fullscreen size)
+        case 1:
+            SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+        break;
+        // Fullscreen
+        case 2:
+            SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
+        break;
+        default:
+        break;
+    }
 }
 
 // Setters
