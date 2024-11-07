@@ -29,13 +29,14 @@ private:
     uint16_t grid = 64;
     
 protected:
-    const uint16_t default_grid = 64;
     // Sprite handler
     const char* path;
     SDL_Texture* texture;
 
 public:
     Object2d(float X = 0, float Y = 0, const char* P = "");
+
+    const uint16_t default_grid = 64;
 
     // Setters
     void setX(float x);
@@ -63,6 +64,7 @@ public:
     // Intitializations
     void initTexture(SDL_Renderer* renderer);
     void initTexture(const char *p, SDL_Renderer *renderer);
+    void updateScale(uint8_t sf);
 
     ~Object2d();
 };

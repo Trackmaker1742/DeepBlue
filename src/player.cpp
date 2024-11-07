@@ -74,7 +74,7 @@ std::vector<Projectile*> Player::getProjectiles() { return projectiles; }
 
 void Player::initPlat(SDL_Renderer *renderer)
 {
-    setGrid(default_grid * 2);
+    setGrid(getGrid() * 2);
 
     editor = false;
 
@@ -131,7 +131,7 @@ void Player::initPlat(SDL_Renderer *renderer)
 
 void Player::initVertShooter(SDL_Renderer *renderer)
 {
-    setGrid(default_grid * 3 / 2);
+    setGrid(getGrid() * 3 / 2);
     width = getGrid();
     height = getGrid();
 
@@ -163,7 +163,7 @@ void Player::initVertShooter(SDL_Renderer *renderer)
 
 void Player::initHoriShooter(SDL_Renderer *renderer)
 {
-    setGrid(default_grid * 3);
+    setGrid(getGrid() * 3);
     width = getGrid() * 2/3;
     height = getGrid() * 2/3;
 
@@ -202,7 +202,7 @@ void Player::initHoriShooter(SDL_Renderer *renderer)
 
 void Player::initRhythm(SDL_Renderer *renderer)
 {
-    setGrid(default_grid * 2);
+    setGrid(getGrid() * 2);
 
     center_x = getX() + getWidth() / 2;
     center_y = getY() + getHeight() / 2;
@@ -267,11 +267,11 @@ void Player::platformerMvtAccel(Input *input, float dt)
         }
 
         // Decel
-        if (getVelX() &&                                    // Speed != 0
-            input->getHold(Action::MOVE_LEFT) && input->getHold(Action::MOVE_RIGHT) ||     // Dual input
-            !input->getHold(Action::MOVE_LEFT) && !input->getHold(Action::MOVE_RIGHT) ||   // No input
-            input->getHold(Action::MOVE_LEFT) && getVelX() > 0 ||          // Go left when speed > 0
-            input->getHold(Action::MOVE_RIGHT) && getVelX() < 0)            // Go right when speed < 0
+        if (getVelX() &&                                                                    // Speed != 0
+            input->getHold(Action::MOVE_LEFT) && input->getHold(Action::MOVE_RIGHT) ||      // Dual input
+            !input->getHold(Action::MOVE_LEFT) && !input->getHold(Action::MOVE_RIGHT) ||    // No input
+            input->getHold(Action::MOVE_LEFT) && getVelX() > 0 ||                           // Go left when speed > 0
+            input->getHold(Action::MOVE_RIGHT) && getVelX() < 0)                            // Go right when speed < 0
         {
             // Decel works by applying 2.5 times the speed of the opposite direction
             // Left
@@ -475,11 +475,11 @@ void Player::shooterMvtAccel(Input *input, float dt)
     }
     // Decel (First half)
     // Vertical
-    if (getVelY() &&                                                                    // Speed != 0
-        input->getHold(Action::MOVE_UP) && input->getHold(Action::MOVE_DOWN) ||       // Dual input
-        !input->getHold(Action::MOVE_UP) && !input->getHold(Action::MOVE_DOWN) ||     // No input
-        input->getHold(Action::MOVE_UP) && getVelY() < 0 ||                            // Go up when speed < 0
-        input->getHold(Action::MOVE_DOWN) && getVelY() > 0)                            // Go down when speed > 0
+    if (getVelY() &&                                                                // Speed != 0
+        input->getHold(Action::MOVE_UP) && input->getHold(Action::MOVE_DOWN) ||     // Dual input
+        !input->getHold(Action::MOVE_UP) && !input->getHold(Action::MOVE_DOWN) ||   // No input
+        input->getHold(Action::MOVE_UP) && getVelY() < 0 ||                         // Go up when speed < 0
+        input->getHold(Action::MOVE_DOWN) && getVelY() > 0)                         // Go down when speed > 0
     {
         // Decel works by applying 3 times the speed of the opposite direction
         // Down
@@ -497,10 +497,10 @@ void Player::shooterMvtAccel(Input *input, float dt)
     }
     // Horizontal
     if (getVelX() &&                                                                    // Speed != 0
-        input->getHold(Action::MOVE_LEFT) && input->getHold(Action::MOVE_RIGHT) ||    // Dual input
-        !input->getHold(Action::MOVE_LEFT) && !input->getHold(Action::MOVE_RIGHT) ||  // No input
-        input->getHold(Action::MOVE_LEFT) && getVelX() > 0 ||                          // Go left when speed > 0
-        input->getHold(Action::MOVE_RIGHT) && getVelX() < 0)                           // Go right when speed < 0
+        input->getHold(Action::MOVE_LEFT) && input->getHold(Action::MOVE_RIGHT) ||      // Dual input
+        !input->getHold(Action::MOVE_LEFT) && !input->getHold(Action::MOVE_RIGHT) ||    // No input
+        input->getHold(Action::MOVE_LEFT) && getVelX() > 0 ||                           // Go left when speed > 0
+        input->getHold(Action::MOVE_RIGHT) && getVelX() < 0)                            // Go right when speed < 0
     {
         // Decel works by applying 3 times the speed of the opposite direction
         // Left

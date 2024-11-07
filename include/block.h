@@ -65,7 +65,7 @@ private:
     bool has_sprite_index = false;
     uint16_t sprite_index;
 
-    // Initial position of moving block
+    // Initial position of moving block, and grid position of normal block
     uint16_t init_grid_x;
     uint16_t init_grid_y;
 
@@ -88,6 +88,8 @@ private:
 
     uint8_t lane;   // For rhythm game
 
+    bool first_init = true;     // Changing grid size for the first time
+
 public:
     // Platformer mode blocks
     Block(float X = 0, float Y = 0, const char *P = "", uint8_t t = 0);
@@ -95,7 +97,7 @@ public:
     Block(float X = 0, float Y = 0, uint8_t t = 0, uint8_t l = 0, const char *P = ""); 
 
     // Init grid and other stuff for normal block
-    void init();
+    void init(uint16_t sf);
 
     // Setters
     void setOnScreen(bool os);

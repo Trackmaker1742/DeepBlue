@@ -19,8 +19,8 @@ float Object2d::getVelX() { return vel_x; }
 float Object2d::getVelY() { return vel_y; }
 float Object2d::getAccelX() { return accel_x; }
 float Object2d::getAccelY() { return accel_y; }
-uint16_t Object2d::getGridX() { return x / default_grid; }
-uint16_t Object2d::getGridY() { return y / default_grid; }
+uint16_t Object2d::getGridX() { return x / grid; }
+uint16_t Object2d::getGridY() { return y / grid; }
 
 void Object2d::setGrid(uint16_t g) { grid = g; }
 uint16_t Object2d::getGrid() { return grid; }
@@ -49,6 +49,11 @@ void Object2d::initTexture(const char *p, SDL_Renderer *renderer)
     // Load sprite into texture
     texture = IMG_LoadTexture(renderer, p);
     SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
+}
+
+void Object2d::updateScale(uint8_t sf)
+{
+    grid = default_grid * sf;
 }
 
 Object2d::~Object2d()

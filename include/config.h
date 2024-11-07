@@ -35,6 +35,9 @@ private:
     uint8_t menu_counter = 0;   // Handle menu pointer position
                                 // Reset to 0 for each menu switch
 
+    uint8_t d_grid = 64;
+    uint16_t scaling_factor;    // Default grid size that scales with resolution
+
 public:
     Config(Input *in);
 
@@ -53,7 +56,8 @@ public:
     float getDeltaTime();
     SDL_Window *getWindow();
     SDL_Renderer *getRenderer();
-    uint8_t getState();
+    uint8_t getDGrid();
+    uint16_t getScaleFactor();
     
     ~Config();
 };
