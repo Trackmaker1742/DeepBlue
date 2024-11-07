@@ -14,7 +14,7 @@ void Config::init(uint16_t w, uint16_t h, uint8_t dopt, uint8_t f)
     display_option = dopt;
     fps = f;
 
-    scaling_factor = width / 1080;
+    scale_factor = float(height) / 1080;
 
     SDL_GetDesktopDisplayMode(0, &display_mode);
 
@@ -81,7 +81,7 @@ float Config::getDeltaTime() { return delta_time; }
 SDL_Window *Config::getWindow() { return window; }
 SDL_Renderer *Config::getRenderer() { return renderer; }
 uint8_t Config::getDGrid() { return d_grid; }
-uint16_t Config::getScaleFactor() { return scaling_factor; }
+float Config::getScaleFactor() { return scale_factor; }
 
 Config::~Config()
 { 

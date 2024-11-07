@@ -222,11 +222,11 @@ public:
 
     std::vector<Projectile*> getProjectiles();
     
-    void initPlat(SDL_Renderer *renderer);      // Used to init and reinit all the values related to 
+    void initPlat(Config *config);      // Used to init and reinit all the values related to 
                                                 // fps or scaling (grid size) to dynamically change settings 
-    void initRhythm(SDL_Renderer *renderer);
-    void initVertShooter(SDL_Renderer *renderer);
-    void initHoriShooter(SDL_Renderer *renderer);
+    void initRhythm(Config *config);
+    void initVertShooter(Config *config);
+    void initHoriShooter(Config *config);
 
     // Player platformer movement
     void resetMoves();

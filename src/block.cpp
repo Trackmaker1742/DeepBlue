@@ -8,7 +8,7 @@ Block::Block(float X, float Y, uint8_t t, uint8_t l, const char* P) :
     Object2d(X, Y, P), type(t), lane(l)
 { }
 
-void Block::init(uint16_t sf)
+void Block::init(float sf)
 {
     if (first_init)
     {
@@ -17,7 +17,8 @@ void Block::init(uint16_t sf)
         first_init = false;
     }
     updateScale(sf);
-
+    setX(init_grid_x * getGrid());
+    setY(init_grid_y * getGrid());
 }
 
 // Setters

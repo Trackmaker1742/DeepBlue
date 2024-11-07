@@ -99,7 +99,7 @@ void Scene::initStage(Config *config,
         // Platforming init
         case 1: case 2: case 4: case 6: case 8:
             stage->initPlatAll(file, stage_number + 48);
-            player->initPlat(config->getRenderer());
+            player->initPlat(config);
             // Set spawn
             player->setX(stage->getRespX());
             player->setY(stage->getRespY());
@@ -108,7 +108,7 @@ void Scene::initStage(Config *config,
         // Vertical shooter init
         case 3:
             stage->initVertShooterAll(file, stage_number + 48);
-            player->initVertShooter(config->getRenderer());
+            player->initVertShooter(config);
             // Set spawn
             player->setX(config->getWidth() / 2);
             player->setY(config->getHeight() / 2);
@@ -117,7 +117,7 @@ void Scene::initStage(Config *config,
         // Horizontal shooter init
         case 5:
             stage->initHoriShooterAll(file, stage_number + 48);
-            player->initHoriShooter(config->getRenderer());
+            player->initHoriShooter(config);
             // Set spawn
             player->setX(config->getWidth() / 2);
             player->setY(config->getHeight() / 2);
@@ -126,7 +126,7 @@ void Scene::initStage(Config *config,
         // Rhythm init
         case 7:
             // Stage init rhythm all
-            player->initRhythm(config->getRenderer());
+            player->initRhythm(config);
             game_state = 9;
         break;
         default:
@@ -267,18 +267,7 @@ void Scene::updateSettings(Input *input)
     // Press save
     if (input->getPress(Action::ACTION1) && menu_counter == 3)
     {
-        switch (menu_counter)
-        {
-            case 3:
-                // Save the new config
-            break;
-            case 4:
-                game_state = prev_state; // Go back to previous state
-                menu_counter = 0;
-            break;
-            default:
-            break;
-        }
+        
     }
     // Back button
     backButton(input);

@@ -61,6 +61,7 @@ int main(int argc, char *argv[])
 
     // Stage
     Stage *stage = new Stage(config->getRenderer());
+    stage->updateScale(config->getScaleFactor());
 
     // Camera
     // Only applies to platforming sections as of rn

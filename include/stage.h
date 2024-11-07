@@ -60,9 +60,13 @@ private:
     // with the top half using the same sprite as low geyser
     std::vector<std::string> obstacle_path;
 
+    float scale_factor;
+
 public:
     Stage();
     Stage(SDL_Renderer *rend);
+
+    void updateScale(float sf);
 
     // Getters
     std::string getStageDir();

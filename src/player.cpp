@@ -72,8 +72,9 @@ float Player::getSmallboxHeight() { return smallbox_height; }
 
 std::vector<Projectile*> Player::getProjectiles() { return projectiles; }
 
-void Player::initPlat(SDL_Renderer *renderer)
+void Player::initPlat(Config *config)
 {
+    updateScale(config->getScaleFactor());
     setGrid(getGrid() * 2);
 
     editor = false;
@@ -126,11 +127,12 @@ void Player::initPlat(SDL_Renderer *renderer)
     climb_down = false;
     dash_halt = false;
 
-    initTexture(platformer_path, renderer);
+    initTexture(platformer_path, config->getRenderer());
 }
 
-void Player::initVertShooter(SDL_Renderer *renderer)
+void Player::initVertShooter(Config *config)
 {
+    updateScale(config->getScaleFactor());
     setGrid(getGrid() * 3 / 2);
     width = getGrid();
     height = getGrid();
@@ -158,11 +160,12 @@ void Player::initVertShooter(SDL_Renderer *renderer)
     // Player status
     level = 0;
 
-    initTexture(vert_shooter_path, renderer);
+    initTexture(vert_shooter_path, config->getRenderer());
 }
 
-void Player::initHoriShooter(SDL_Renderer *renderer)
+void Player::initHoriShooter(Config *config)
 {
+    updateScale(config->getScaleFactor());
     setGrid(getGrid() * 3);
     width = getGrid() * 2/3;
     height = getGrid() * 2/3;
@@ -197,11 +200,12 @@ void Player::initHoriShooter(SDL_Renderer *renderer)
     hold_light = false;
     hold_dark = false;
 
-    initTexture(hori_shooter_path, renderer);
+    initTexture(hori_shooter_path, config->getRenderer());
 }
 
-void Player::initRhythm(SDL_Renderer *renderer)
+void Player::initRhythm(Config *config)
 {
+    updateScale(config->getScaleFactor());
     setGrid(getGrid() * 2);
 
     center_x = getX() + getWidth() / 2;
@@ -232,7 +236,7 @@ void Player::initRhythm(SDL_Renderer *renderer)
     rhythm_atk_frame_max = game_fps / 5;
     rhythm_atk_grid = getGrid() * 1.5;  // 1.5 times the size of a normal grid
 
-    initTexture(rhythm_path, renderer);
+    initTexture(rhythm_path, config->getRenderer());
 }
 
 void Player::stopDash()

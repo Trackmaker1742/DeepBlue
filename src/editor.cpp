@@ -60,12 +60,12 @@ void Editor::menuAction(Input *input, Player *player, Stage *stage)
         se_menu_counter++;
     }
     // Adding block
-    if (input->getHold(Action::ACTION1) && 
-        !playerBlockOverlap(player, stage->getBlockVec()) &&
-        !playerBlockOverlap(player, stage->getMovingBlockVec()))
+    // Adding normal block
+    if (!add_moving_block)
     {
-        // Adding normal block
-        if (!add_moving_block)
+        if (input->getHold(Action::ACTION1) && 
+            !playerBlockOverlap(player, stage->getBlockVec()) &&
+            !playerBlockOverlap(player, stage->getMovingBlockVec()))
         {
             stage->addBlock
             (
@@ -73,9 +73,16 @@ void Editor::menuAction(Input *input, Player *player, Stage *stage)
                 int(player->getCenterY() / grid),
                 se_menu_counter
             );
+            changed = true;
+            saved = false;
         }
-        // Adding moving block
-        else
+    }
+    // Adding moving block
+    else
+    {
+        if (input->getPress(Action::ACTION1) && 
+            !playerBlockOverlap(player, stage->getBlockVec()) &&
+            !playerBlockOverlap(player, stage->getMovingBlockVec()))
         {
             if (initial_m_block)
             {
@@ -105,9 +112,9 @@ void Editor::menuAction(Input *input, Player *player, Stage *stage)
                 );
                 initial_m_block = true;
             }
+            changed = true;
+            saved = false;
         }
-        changed = true;
-        saved = false;
     }
     // Removing block
     if (input->getHold(Action::ACTION2))

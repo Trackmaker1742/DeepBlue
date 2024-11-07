@@ -51,7 +51,7 @@ void Object2d::initTexture(const char *p, SDL_Renderer *renderer)
     SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
 }
 
-void Object2d::updateScale(uint8_t sf)
+void Object2d::updateScale(float sf)
 {
     grid = default_grid * sf;
 }
