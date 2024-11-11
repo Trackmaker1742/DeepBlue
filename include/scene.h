@@ -80,9 +80,19 @@ private:
     std::vector<std::string> preset_resolution =
     {
         "1280 x 720",
+        "1280 x 800",
+        
         "1920 x 1080",
+        "1920 x 1200",
+        
         "2560 x 1440",
-        "3840 x 2160"
+        "2560 x 1600",
+
+        "2880 x 1620",
+        "2880 x 1800",
+        
+        "3840 x 2160",
+        "3840 x 2400",
     };
     std::vector<std::string> preset_display_option =
     {
