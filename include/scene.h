@@ -120,6 +120,8 @@ public:
     bool press(Dir direction, Input *input);
 
     // Init Scene
+    void initSettingValues(uint16_t w, uint16_t h, uint8_t dopt, uint16_t f);
+
     void initMenuTextures(File_Handler *file);
     
     void initStage(Config *config, File_Handler *file, 
@@ -131,7 +133,7 @@ public:
     void updateMain(Input *input);
     void updateStageSelect(Input *input, Config *config, 
         File_Handler *file, Stage *stage, Player *player);
-    void updateSettings(Input *input);
+    void updateSettings(Input *input, Config *config, File_Handler *file);
     void updateGallery(Input *input);
     void updatePause(Input *input, Stage *stage, Player *player);
 };

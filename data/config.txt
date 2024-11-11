@@ -1,12 +1,4 @@
-# Case insensitive, but the word must have all the right characters
-# The order of the settings are not important
-
-# Window size (width, height)
-width | 1920
-height | 1080
-
-# Display option (0: windowed, 1: borderless windowed, 2: fullscreen)
+Width | 1920
+Height | 1080
 Display_option | 0
-
-# Frame rate (FPS)
 FPS | 120

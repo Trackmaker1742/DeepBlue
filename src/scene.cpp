@@ -72,6 +72,38 @@ bool Scene::press(Dir direction, Input *input)
 }
 
 // Scene stuff
+void Scene::initSettingValues(uint16_t w, uint16_t h, uint8_t dopt, uint16_t f)
+{
+    std::string resolution;
+    resolution = std::to_string(w) + " x " + std::to_string(h);
+    
+    // Set counter to match the value in the file
+    for (int i = 0; i < preset_resolution.size(); i++)
+    {
+        if (resolution == preset_resolution[i])
+        {
+            setting_counters[0] = i;
+        }
+    }
+    for (int i = 0; i < preset_display_option.size(); i++)
+    {
+        if (dopt == i)
+        {
+            setting_counters[1] = i;
+        }
+    }
+    for (int i = 0; i < preset_framerate.size(); i++)
+    {
+        if (std::to_string(f) == preset_framerate[i])
+        {
+            setting_counters[2] = i;
+        }
+    }
+    // std::cout << int(setting_counters[0]) << " " 
+    //     << int(setting_counters[1]) << " " 
+    //     << int(setting_counters[2]) << "\n";
+}
+
 void Scene::initMenuTextures(File_Handler *file)
 {
     // Read assets and save file paths into a string matrix
@@ -218,7 +250,7 @@ void Scene::updateStageSelect(Input *input, Config *config,
     backButton(input);
 }
 
-void Scene::updateSettings(Input *input)
+void Scene::updateSettings(Input *input, Config *config, File_Handler *file)
 {
     // Navigation (top to bottom)
     if (press(Dir::UP, input) && 
@@ -259,15 +291,20 @@ void Scene::updateSettings(Input *input)
             setting_counters[menu_counter]++;
         }
     }
-
-    std::cout << int(setting_counters[0]) << " " 
-        << int(setting_counters[1]) << " " 
-        << int(setting_counters[2]) << "\n";
     
-    // Press save
+    // Press apply new settings
     if (input->getPress(Action::ACTION1) && menu_counter == 3)
     {
-        
+        // Write into the file
+        file->writeSave(
+            preset_resolution[setting_counters[0]],
+            setting_counters[1],
+            preset_framerate[setting_counters[2]]);
+        // Update the game window
+        config->update(file->getValue(0), 
+            file->getValue(1), 
+            file->getValue(2), 
+            file->getValue(3));
     }
     // Back button
     backButton(input);

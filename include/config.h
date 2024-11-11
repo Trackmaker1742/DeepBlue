@@ -18,7 +18,7 @@ private:
     uint16_t width = 0;
     uint16_t height = 0;
     uint8_t display_option = 0;
-    uint8_t fps = 0;
+    uint16_t fps = 0;
 
     SDL_DisplayMode display_mode;
 
@@ -42,8 +42,8 @@ public:
     Config(Input *in);
 
     // (Re-)Initialize the game window
-    void init(uint16_t w, uint16_t h, uint8_t f, uint8_t dopt);
-    void update(uint16_t w, uint16_t h, uint8_t f, uint8_t dopt);
+    void init(uint16_t w, uint16_t h, uint8_t dopt, uint16_t f);
+    void update(uint16_t w, uint16_t h, uint8_t dopt, uint16_t f);
 
     // Setters
     void setDeltaTime(float dt);

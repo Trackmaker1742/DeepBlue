@@ -137,6 +137,8 @@ public:
     // Background folder handler
     void readMenuBgAsset(std::vector<std::vector<std::string>> &bg_paths);
 
+    void writeSave(std::string resolution, int display_option, std::string framerate);
+
     // Getters
     uint16_t getValue(int i);
 

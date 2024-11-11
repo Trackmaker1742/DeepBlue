@@ -57,6 +57,10 @@ int main(int argc, char *argv[])
     
     // Menu
     Scene *scene = new Scene(config->getRenderer());
+    scene->initSettingValues(file->getValue(0), 
+        file->getValue(1), 
+        file->getValue(2), 
+        file->getValue(3));
     scene->initMenuTextures(file);
 
     // Stage
@@ -121,7 +125,7 @@ int main(int argc, char *argv[])
             // break;
             // Settings
             case 4:
-                scene->updateSettings(input);
+                scene->updateSettings(input, config, file);
                 renderer->renderSettings(scene);
             break;
             // Pause menu

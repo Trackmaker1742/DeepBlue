@@ -326,6 +326,27 @@ void File_Handler::readMenuBgAsset(
     }
 }
 
+void File_Handler::writeSave(std::string resolution, int display_option, std::string framerate)
+{
+    std::istringstream reso(resolution);
+
+    char separator = 'x';
+
+    reso >> values[0] >> separator >> values[1];
+
+    values[2] = display_option;
+    values[3] = std::stoi(framerate);
+
+    std::ofstream config(config_path, std::ios::out | std::ios::trunc);
+
+    config << "Width | " << values[0] << "\n"
+        << "Height | " << values[1] << "\n"
+        << "Display_option | " << values[2] << "\n"
+        << "FPS | " << values[3] << "\n";
+
+    config.close();
+}
+
 uint16_t File_Handler::getValue(int i) { return values[i]; }
 
 File_Handler::~File_Handler()

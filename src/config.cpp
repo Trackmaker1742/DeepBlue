@@ -6,7 +6,7 @@
 Config::Config(Input *in) : input(in)
 { }
 
-void Config::init(uint16_t w, uint16_t h, uint8_t dopt, uint8_t f)
+void Config::init(uint16_t w, uint16_t h, uint8_t dopt, uint16_t f)
 {
     // Update the window values
     width = w;
@@ -14,7 +14,7 @@ void Config::init(uint16_t w, uint16_t h, uint8_t dopt, uint8_t f)
     display_option = dopt;
     fps = f;
 
-    scale_factor = float(height) / 1080;
+    scale_factor = float(width) / 1920;
 
     SDL_GetDesktopDisplayMode(0, &display_mode);
 
@@ -25,7 +25,7 @@ void Config::init(uint16_t w, uint16_t h, uint8_t dopt, uint8_t f)
     switch (display_option)
     {
         case 0:
-            window = SDL_CreateWindow("Deep Blue", 0, 50, width, height, SDL_WINDOW_ALLOW_HIGHDPI);
+            window = SDL_CreateWindow("Deep Blue", 0, 45, width, height, SDL_WINDOW_ALLOW_HIGHDPI);
         break;
         case 1:
             // width = display_mode.w;
@@ -43,7 +43,7 @@ void Config::init(uint16_t w, uint16_t h, uint8_t dopt, uint8_t f)
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     SDL_SetWindowIcon(window, icon);
 }
-void Config::update(uint16_t w, uint16_t h, uint8_t dopt, uint8_t f)
+void Config::update(uint16_t w, uint16_t h, uint8_t dopt, uint16_t f)
 {
     // Update the window values
     width = w;
