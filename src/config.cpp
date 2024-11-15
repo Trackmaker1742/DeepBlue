@@ -14,35 +14,42 @@ void Config::init(uint16_t w, uint16_t h, uint8_t dopt, uint16_t f)
     display_option = dopt;
     fps = f;
 
-    scale_factor = float(width) / 1920;
-
+    // Get the display mode for primary display
     SDL_GetDesktopDisplayMode(0, &display_mode);
 
-    SetProcessDPIAware();   // Used to avoid Windows DPI scaling
+    SetProcessDPIAware(); // Used to avoid Windows DPI scaling
 
-    // Switch case for display option (later)
+    // Switch case for display option
     uint32_t flag;
     switch (display_option)
     {
         case 0:
-            window = SDL_CreateWindow("Deep Blue", 0, 45, width, height, SDL_WINDOW_ALLOW_HIGHDPI);
-        break;
+            // Windowed mode with specified dimensions
+            window = SDL_CreateWindow("Deep Blue", 0, 0, width, height, SDL_WINDOW_ALLOW_HIGHDPI);
+            SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED); // Center the window
+            break;
         case 1:
-            // width = display_mode.w;
-            // height = display_mode.h;
+            // Borderless fullscreen mode, use display resolution
+            width = display_mode.w;
+            height = display_mode.h;
             window = SDL_CreateWindow("Deep Blue", 0, 0, width, height, SDL_WINDOW_FULLSCREEN_DESKTOP);
-        break;
+            break;
         case 2:
-            // width = display_mode.w;
-            // height = display_mode.h;
+            // Exclusive fullscreen mode, use display resolution
+            width = display_mode.w;
+            height = display_mode.h;
             window = SDL_CreateWindow("Deep Blue", 0, 0, width, height, SDL_WINDOW_FULLSCREEN);
-        break;
+            break;
         default:
-        break;
+            break;
     }
+
+    scale_factor = float(width) / 1920;
+    
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     SDL_SetWindowIcon(window, icon);
 }
+
 void Config::update(uint16_t w, uint16_t h, uint8_t dopt, uint16_t f)
 {
     // Update the window values
@@ -50,28 +57,43 @@ void Config::update(uint16_t w, uint16_t h, uint8_t dopt, uint16_t f)
     height = h;
     display_option = dopt;
     fps = f;
-    // Switch case for display option (later)
+
+    // Get the display mode for primary display
+    SDL_GetDesktopDisplayMode(0, &display_mode);
+
+    // Switch case for display option
     switch (display_option)
     {
-        // Windowed
+        // Windowed mode
         case 0:
-            SDL_SetWindowSize(window, width, height);
-        break;
-        // Borderless windowed (fullscreen size)
+            SDL_SetWindowFullscreen(window, 0);  // Exit fullscreen mode
+            SDL_SetWindowSize(window, width, height);  // Set to specified windowed size
+            SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED); // Center the window
+            break;
+        // Borderless fullscreen mode, adjust window size to display resolution
         case 1:
+            width = display_mode.w;
+            height = display_mode.h;
             SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
-        break;
-        // Fullscreen
+            SDL_SetWindowSize(window, width, height); // Update window size
+            break;
+        // Exclusive fullscreen mode, adjust window size to display resolution
         case 2:
+            width = display_mode.w;
+            height = display_mode.h;
             SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
-        break;
+            SDL_SetWindowSize(window, width, height); // Update window size
+            break;
         default:
-        break;
+            break;
     }
+
+    scale_factor = float(width) / 1920;
 }
 
 // Setters
 void Config::setDeltaTime(float dt) { delta_time = dt; }
+void Config::setRenderer(SDL_Renderer *r) { renderer = r; }
 
 // Getters
 uint16_t Config::getWidth() { return width; }

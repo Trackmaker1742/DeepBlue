@@ -11,9 +11,5 @@ Autoscroll-speed | 0
 Speed | 15
 
 Index | 4
-Autoscroll-speed | 100
-Speed | 15
-
-Index | 5
 Autoscroll-speed | 0
 Speed | 20

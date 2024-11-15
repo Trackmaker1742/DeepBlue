@@ -65,6 +65,7 @@ private:
                             // 9: Rhythm stage (7)
                             // 10: Cutscene (disable controls)
     uint8_t prev_state;
+    uint8_t pre_pause_state;
 
     uint8_t menu_counter = 0;
 
@@ -111,6 +112,8 @@ private:
         "240"
     };
 
+    std::string temp_reso_str = "";
+
 public:
     Scene(SDL_Renderer *rend);
 
@@ -118,6 +121,7 @@ public:
     SDL_Texture *getBgTexture(MenuIndex m_index, int index);
     uint8_t getState();
     uint8_t getPrevState();
+    uint8_t getPrePauseState();
     uint8_t getCounter();
     uint8_t getStageNum();
     uint8_t getSettingCounter(Settings setting);
@@ -143,7 +147,8 @@ public:
     void updateMain(Input *input);
     void updateStageSelect(Input *input, Config *config, 
         File_Handler *file, Stage *stage, Player *player);
-    void updateSettings(Input *input, Config *config, File_Handler *file);
+    void updateSettings(Input *input, Config *config, 
+        File_Handler *file, Stage *stage, Player *player);
     void updateGallery(Input *input);
     void updatePause(Input *input, Stage *stage, Player *player);
 };

@@ -60,7 +60,7 @@ public:
     void menuAction(Input *input, Player *player, Stage *stage);
     void saveChanges(std::vector<Block*> blocks, std::vector<Block*> m_blocks);
     bool playerBlockOverlap(Player *player, std::vector<Block*> blocks);
-    void updateBlockArray(Input *input, std::vector<Block> &block_array);
+    // void updateBlockArray(Input *input, std::vector<Block> &block_array);
 
     ~Editor();
 };

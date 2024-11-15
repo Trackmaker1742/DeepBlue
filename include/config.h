@@ -47,7 +47,7 @@ public:
 
     // Setters
     void setDeltaTime(float dt);
-    void setState(uint8_t st);
+    void setRenderer(SDL_Renderer *r);
 
     // Getters
     uint16_t getWidth();

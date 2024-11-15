@@ -19,6 +19,7 @@ void Player::setRight(bool r) { right = r; }
 void Player::setOnGround(bool og) { on_ground = og; }
 void Player::setOnWall(bool ow) { on_wall = ow; }
 void Player::setOnMovingBlock(bool omb) { on_moving_block = omb; }
+void Player::setOnSpring(bool os) { on_spring = os; }
 void Player::setDashHalt(bool dh) { dash_halt = dh; }
 
 bool Player::getRight() { return right; }
@@ -115,6 +116,10 @@ void Player::initPlat(Config *config)
     jump_count = 2;
 
     on_moving_block = false;
+
+    on_spring = false;
+    spring_counter = 0;
+    spring_frame_max = game_fps / 7;
 
     jump_start = false;
     jump = false;
@@ -239,6 +244,12 @@ void Player::initRhythm(Config *config)
     initTexture(rhythm_path, config->getRenderer());
 }
 
+void Player::resetMoves()
+{
+    can_dash = true;
+    jump_count = 2;
+}
+
 void Player::stopDash()
 {
     on_dash = false;
@@ -246,10 +257,18 @@ void Player::stopDash()
     dash_counter = 0;
 }
 
-void Player::resetMoves()
+void Player::springGravity()
 {
-    can_dash = true;
-    jump_count = 2;
+    if (spring_counter < spring_frame_max)
+    {
+        on_spring = true;
+        spring_counter++;
+    }
+    else
+    {
+        on_spring = false;
+        spring_counter = 0;
+    }
 }
 
 void Player::platformerMvtAccel(Input *input, float dt)
@@ -326,8 +345,11 @@ void Player::platformerMvt(Input *input, float dt)
     platformerMvtAccel(input, dt);
 
     // Speed cap
-    if (getVelX() < -vel_x_max && !on_wall_jump) setVelX(-vel_x_max);
-    if (getVelX() > vel_x_max && !on_wall_jump) setVelX(vel_x_max);
+    if (!on_spring)
+    {
+        if (getVelX() < -vel_x_max && !on_wall_jump) setVelX(-vel_x_max);
+        if (getVelX() > vel_x_max && !on_wall_jump) setVelX(vel_x_max);
+    }
     
     // Reset stuff while on the ground and wall
     if (on_ground || on_wall) 
@@ -410,9 +432,9 @@ void Player::platformerMvt(Input *input, float dt)
     {
         setVelY(vel_terminal);
     }
-    if (on_ground || on_dash || on_wall)
+    if (on_ground || on_dash || on_wall || on_spring)
     {
-        setVelY(0); 
+        setVelY(0);
     }
     else 
     {
@@ -451,6 +473,11 @@ void Player::platformerMvt(Input *input, float dt)
             on_dash_delay = false;
             dash_counter = 0;
         }
+    }
+    // Spring handler
+    if (on_spring)
+    {
+        springGravity();
     }
 }
 
@@ -834,8 +861,8 @@ void Player::unload()
 {
     if (texture != nullptr) 
     {
-        SDL_DestroyTexture(texture); // Free the texture resource
-        texture = nullptr; // Optional: Set to nullptr for safety
+        SDL_DestroyTexture(texture);    // Free the texture resource
+        texture = nullptr;              // Optional: Set to nullptr for safety
     }
 }
 

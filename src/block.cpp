@@ -8,19 +8,6 @@ Block::Block(float X, float Y, uint8_t t, uint8_t l, const char* P) :
     Object2d(X, Y, P), type(t), lane(l)
 { }
 
-void Block::init(float sf)
-{
-    if (first_init)
-    {
-        init_grid_x = getX();
-        init_grid_y = getY();
-        first_init = false;
-    }
-    updateScale(sf);
-    setX(init_grid_x * getGrid());
-    setY(init_grid_y * getGrid());
-}
-
 // Setters
 void Block::setOnScreen(bool os) { on_screen = os; }
 void Block::setHasSpriteIndex(bool hsi) { has_sprite_index = hsi; }
@@ -29,8 +16,8 @@ void Block::setCanActivate(bool ca) { can_activate = ca; }
 void Block::setReverse(bool r) { reverse = r; }
 void Block::setStoodOn(bool so) { stood_on = so; }
 void Block::setClimbedOn(bool co) { climbed_on = co; }
-void Block::setTravelDistX(int16_t tdx) { dist_x_max = tdx; }
-void Block::setTravelDistY(int16_t tdy) { dist_y_max = tdy; }
+void Block::setTravelDistGridX(int16_t tdgx) { dist_grid_x_max = tdgx; }
+void Block::setTravelDistGridY(int16_t tdgy) { dist_grid_y_max = tdgy; }
 
 // Getters
 uint16_t Block::getInitGridX() { return init_grid_x; }
@@ -48,14 +35,26 @@ bool Block::getClimbedOn() { return climbed_on; }
 int16_t Block::getTravelDistGridX() { return dist_x_max / getGrid(); }
 int16_t Block::getTravelDistGridY() { return dist_y_max / getGrid(); }
 
+void Block::init(float sf)
+{
+    if (first_init)
+    {
+        init_grid_x = getX();
+        init_grid_y = getY();
+        first_init = false;
+    }
+    updateScale(sf);
+    setX(init_grid_x * getGrid());
+    setY(init_grid_y * getGrid());
+    dist_x_max = dist_grid_x_max * getGrid();
+    dist_y_max = dist_grid_y_max * getGrid();
+}
+
 void Block::initMove(bool m)
 {
     manual = m;
     setAccelX(getGrid() * 2);
     setAccelY(getGrid() * 2);
-
-    init_grid_x = getGridX();
-    init_grid_y = getGridY();
 
     dist_x = 0;
     dist_y = 0;

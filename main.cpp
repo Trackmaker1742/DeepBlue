@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
 
     // Stage
     Stage *stage = new Stage(config->getRenderer());
-    stage->updateScale(config->getScaleFactor());
+    stage->updateScaleFactor(config->getScaleFactor());
 
     // Camera
     // Only applies to platforming sections as of rn
@@ -125,14 +125,14 @@ int main(int argc, char *argv[])
             // break;
             // Settings
             case 4:
-                scene->updateSettings(input, config, file);
+                scene->updateSettings(input, config, file, stage, player);
                 renderer->renderSettings(scene);
             break;
             // Pause menu
             case 5:
                 // Render current game state for cooler looking pause menu
                 // Performance intensive but it looks cool
-                switch (scene->getPrevState())
+                switch (scene->getPrePauseState())
                 {
                     case 6:
                         renderer->renderStagePlat(stage, player, edit); 

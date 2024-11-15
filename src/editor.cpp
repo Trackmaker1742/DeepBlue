@@ -100,16 +100,16 @@ void Editor::menuAction(Input *input, Player *player, Stage *stage)
                     initial_m_block_se_menu_counter,
                     true
                 );
-                stage->getMovingBlockVec().back()->setTravelDistX
+                stage->getMovingBlockVec().back()->setTravelDistGridX
                 (
-                    int(player->getCenterX() / grid) * stage->getMovingBlockVec().back()->getGrid()
-                    - stage->getMovingBlockVec().back()->getX()
+                    int(player->getCenterX() / grid) - stage->getMovingBlockVec().back()->getX()
                 );
-                stage->getMovingBlockVec().back()->setTravelDistY
+                stage->getMovingBlockVec().back()->setTravelDistGridY
                 (
-                    int(player->getCenterY() / grid) * stage->getMovingBlockVec().back()->getGrid()
-                    - stage->getMovingBlockVec().back()->getY()
+                    int(player->getCenterY() / grid) - stage->getMovingBlockVec().back()->getY()
                 );
+                stage->getMovingBlockVec().back()->init(stage->getScaleFactor());
+                stage->getMovingBlockVec().back()->initMove(false);
                 initial_m_block = true;
             }
             changed = true;

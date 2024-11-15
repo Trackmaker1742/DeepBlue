@@ -7,6 +7,7 @@
 #include <sstream>
 #include <algorithm>
 
+#include "config.h"
 #include "file_handler.h"
 #include "block.h"
 #include "enemy.h"
@@ -66,8 +67,6 @@ public:
     Stage();
     Stage(SDL_Renderer *rend);
 
-    void updateScale(float sf);
-
     // Getters
     std::string getStageDir();
     std::vector<SDL_Texture*> getBackgroundLayers();
@@ -79,6 +78,7 @@ public:
     uint16_t getRespY();
     uint8_t getBgParam(int i, int j);
     uint8_t getBgCountMax();
+    float getScaleFactor();
 
     std::string getPrefix(const std::string &str);
     std::string getSuffix(const std::string &str);
@@ -87,6 +87,8 @@ public:
     void setRespX(uint16_t x);
     void setRespY(uint16_t y);
 
+    void updateScaleFactor(float sf);
+    void updateScale();
     // Initialize
     void initSpritePath(File_Handler *file, char stage_number);
     void initBackground();

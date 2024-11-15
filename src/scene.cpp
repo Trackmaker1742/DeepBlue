@@ -7,6 +7,7 @@ Scene::Scene(SDL_Renderer *rend) : renderer(rend)
 SDL_Texture *Scene::getBgTexture(MenuIndex m_index, int index) { return bg_texture_matrix[int(m_index)][index]; }
 uint8_t Scene::getState() { return game_state; }
 uint8_t Scene::getPrevState() { return prev_state; }
+uint8_t Scene::getPrePauseState() { return pre_pause_state; }
 uint8_t Scene::getCounter() { return menu_counter; }
 uint8_t Scene::getStageNum() { return stage_number; }
 uint8_t Scene::getSettingCounter(Settings setting) { return setting_counters[static_cast<int>(setting)]; }
@@ -33,10 +34,13 @@ void Scene::setState(uint8_t st) { game_state = st; }
 
 void Scene::backButton(Input *input)
 {
+    uint8_t temp;
     // Back button
     if (input->getPress(Action::ACTION2))
     {
+        temp = game_state;
         game_state = prev_state; // Go back to previous state
+        prev_state = temp;
         menu_counter = 0;
     }
 }
@@ -74,15 +78,15 @@ bool Scene::press(Dir direction, Input *input)
 // Scene stuff
 void Scene::initSettingValues(uint16_t w, uint16_t h, uint8_t dopt, uint16_t f)
 {
-    std::string resolution;
-    resolution = std::to_string(w) + " x " + std::to_string(h);
+    temp_reso_str = std::to_string(w) + " x " + std::to_string(h);
     
     // Set counter to match the value in the file
     for (int i = 0; i < preset_resolution.size(); i++)
     {
-        if (resolution == preset_resolution[i])
+        if (temp_reso_str == preset_resolution[i])
         {
             setting_counters[0] = i;
+            break;
         }
     }
     for (int i = 0; i < preset_display_option.size(); i++)
@@ -90,6 +94,7 @@ void Scene::initSettingValues(uint16_t w, uint16_t h, uint8_t dopt, uint16_t f)
         if (dopt == i)
         {
             setting_counters[1] = i;
+            break;
         }
     }
     for (int i = 0; i < preset_framerate.size(); i++)
@@ -97,6 +102,7 @@ void Scene::initSettingValues(uint16_t w, uint16_t h, uint8_t dopt, uint16_t f)
         if (std::to_string(f) == preset_framerate[i])
         {
             setting_counters[2] = i;
+            break;
         }
     }
     // std::cout << int(setting_counters[0]) << " " 
@@ -172,6 +178,7 @@ void Scene::pauseHandler(Input *input)
     if (input->getPress(Action::PAUSE))
     {
         prev_state = game_state;
+        pre_pause_state = prev_state;
         game_state = 5;
         menu_counter = 0;
     }
@@ -250,7 +257,8 @@ void Scene::updateStageSelect(Input *input, Config *config,
     backButton(input);
 }
 
-void Scene::updateSettings(Input *input, Config *config, File_Handler *file)
+void Scene::updateSettings(Input *input, Config *config,
+    File_Handler *file, Stage *stage, Player *player)
 {
     // Navigation (top to bottom)
     if (press(Dir::UP, input) && 
@@ -295,16 +303,75 @@ void Scene::updateSettings(Input *input, Config *config, File_Handler *file)
     // Press apply new settings
     if (input->getPress(Action::ACTION1) && menu_counter == 3)
     {
-        // Write into the file
-        file->writeSave(
-            preset_resolution[setting_counters[0]],
-            setting_counters[1],
-            preset_framerate[setting_counters[2]]);
+        SDL_SetWindowFullscreen(config->getWindow(), 0);
         // Update the game window
         config->update(file->getValue(0), 
             file->getValue(1), 
             file->getValue(2), 
             file->getValue(3));
+
+        // Write new settings into file
+        // If borderless fullscreen or fullscreen
+        if (setting_counters[1] > 0)
+        {
+            temp_reso_str = std::to_string(config->getWidth()) + " x " + std::to_string(config->getHeight());
+            for (int i = 0; i < preset_resolution.size(); i++)
+            {
+                if (temp_reso_str == preset_resolution[i])
+                {
+                    setting_counters[0] = i;
+                    break;
+                }
+            }
+            file->writeSave(
+                temp_reso_str,
+                setting_counters[1],
+                preset_framerate[setting_counters[2]]
+            );
+        }
+        else
+        {
+            file->writeSave(
+                preset_resolution[setting_counters[0]],
+                setting_counters[1],
+                preset_framerate[setting_counters[2]]
+            );
+        }
+        
+        stage->updateScaleFactor(config->getScaleFactor());
+        
+        // Update scaling for each game mode using the pause menu
+        if (prev_state == 5)
+        {
+            // Player
+            switch (pre_pause_state)
+            {
+                case 6:
+                    player->setX(player->getX() / player->getGrid());
+                    player->setY(player->getY() / player->getGrid());
+                    player->initPlat(config);
+                    player->setX(player->getX() * player->getGrid());
+                    player->setY(player->getY() * player->getGrid());
+                break;
+                case 7:
+                    player->setX(player->getX() / player->getGrid());
+                    player->setY(player->getY() / player->getGrid());
+                    player->initVertShooter(config);
+                    player->setX(player->getX() * player->getGrid());
+                    player->setY(player->getY() * player->getGrid());
+                break;
+                case 8:
+                    player->initHoriShooter(config);
+                break;
+                case 9:
+                    player->initRhythm(config);
+                break;
+                default:
+                    break;
+            }
+        }
+        // Stage
+        stage->updateScale();
     }
     // Back button
     backButton(input);
@@ -365,7 +432,7 @@ void Scene::updatePause(Input *input, Stage *stage, Player *player)
         switch (menu_counter)
         {
             case 0: // Resume
-                game_state = prev_state;
+                game_state = pre_pause_state;
                 menu_counter = 0;
             break;
             case 1: // Settings

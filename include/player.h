@@ -64,6 +64,12 @@ private:
     // On block variable, to deal with standing on block collision
     bool on_moving_block;
 
+    // Spring related variables
+    // Only used for horizontal springs (left and right)
+    bool on_spring;
+    uint8_t spring_counter;
+    float spring_frame_max;     // = fps / 7
+
     // Invul state, used for rhythm and shooter
     // 1 second is the max invul time
     bool invul;
@@ -166,6 +172,7 @@ public:
     void setOnGround(bool og);
     void setOnWall(bool ow);
     void setOnMovingBlock(bool omb);
+    void setOnSpring(bool os);
     void setDashHalt(bool dh);
 
     bool getRight();
@@ -231,6 +238,7 @@ public:
     // Player platformer movement
     void resetMoves();
     void stopDash();
+    void springGravity();
     void platformerMvtAccel(Input *input, float dt);
     void platformerMvt(Input *input, float dt);
 

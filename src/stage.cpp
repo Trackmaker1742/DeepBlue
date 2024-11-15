@@ -6,9 +6,22 @@ Stage::Stage()
 Stage::Stage(SDL_Renderer *rend) : renderer(rend)
 { }
 
-void Stage::updateScale(float sf)
+void Stage::updateScaleFactor(float sf)
 {
     scale_factor = sf;
+}
+void Stage::updateScale()
+{
+    // Iterate through all block arrays
+    for (Block *b : blocks)
+    {
+        b->init(scale_factor);
+    }
+    for (Block *b : moving_blocks)
+    {
+        b->reset();
+        b->init(scale_factor);
+    }
 }
 
 // Getters
@@ -22,6 +35,7 @@ uint16_t Stage::getRespX() { return resp_x; }
 uint16_t Stage::getRespY() { return resp_y; }
 uint8_t Stage::getBgParam(int i, int j) { return background_parameter[i][j]; }
 uint8_t Stage::getBgCountMax() { return background_count_max; }
+float Stage::getScaleFactor() { return scale_factor; }
 
 // Setters
 void Stage::setRespX(uint16_t x) { resp_x = x; }
@@ -174,7 +188,6 @@ void Stage::initBlockLayer(File_Handler *file, char stage_number)
                                     block_paths[temp_asset_index].c_str(), 
                                     std::stoi(getPrefix(value_str))
                                 ));
-                                moving_blocks.back()->init(scale_factor);
                                 // Sprite indexing for block with multiple sprites
                                 if (value_str.length() > 2)
                                 {
@@ -186,16 +199,17 @@ void Stage::initBlockLayer(File_Handler *file, char stage_number)
                                 break;
                             // Travel dist x
                             case 1:
-                                moving_blocks.back()->setTravelDistX(std::stoi(value_str) * moving_blocks.back()->getGrid());
+                                moving_blocks.back()->setTravelDistGridX(std::stoi(value_str));
                                 counter++;
                                 break;
                             // Travel dist y
                             case 2:
-                                moving_blocks.back()->setTravelDistY(std::stoi(value_str) * moving_blocks.back()->getGrid());
+                                moving_blocks.back()->setTravelDistGridY(std::stoi(value_str));
                                 counter++;
                                 break;
                             // Movement type and init
                             case 3:
+                                moving_blocks.back()->init(scale_factor);
                                 moving_blocks.back()->initMove(std::stoi(value_str));
                                 counter = 0;
                                 break;
@@ -389,14 +403,12 @@ void Stage::addBlock(int x, int y, int index, bool move)
             y, 
             block_paths[index].c_str(), 
             std::stoi(getPrefix(block_names[index]))));
-        moving_blocks.back()->init(scale_factor);
         if (block_names[index].length() > 2)
         {
             moving_blocks.back()->setHasSpriteIndex(true);
             moving_blocks.back()->setSpriteIndex(std::stoi(getSuffix(block_names[index])));
         }
         moving_blocks.back()->initTexture(renderer);
-        moving_blocks.back()->initMove(false);
         std::cout << "moving block added\n";
     }
 }

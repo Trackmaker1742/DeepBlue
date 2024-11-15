@@ -18,7 +18,7 @@ private:
                     // 1: Spawn block
                     // 2: Checkpoint block
                     // 3: Goal block
-                    // 4: Danger block
+                    // 4: Unknown (spikes have been moved to 13 and up)
                     // 5: Item block (24 items planned, probably will be more if possible)
 
                     // 6: Square block (9 sprites)
@@ -32,11 +32,25 @@ private:
                     // 12: Bridge (player can jump through it from 
                     //              the bottom, bottom left, right side)
 
-                    // 13: Spring (up)
-                    // 14: Spring (down)
-                    // 15: Spring (left)
-                    // 16: Spring (right)
+                    // 13: Spike (all direction)
+                    // 14: Spike (up-down)
+                    // 15: Spike (left-right)
+                    // 16: Spike (up)
+                    // 17: Spike (down)
+                    // 18: Spike (left)
+                    // 19: Spike (right)
 
+                    // 20: Spring (up)
+                    // 21: Spring (down)
+                    // 22: Spring (left)
+                    // 23: Spring (right)
+                    // 24: Spring (up-left)
+                    // 25: Spring (up-right)
+
+                    // Leaving around 4 more for extra springs
+
+
+                    // tbd
                     // 17: Conveyor left
                     // 18: Conveyor right
 
@@ -72,6 +86,8 @@ private:
     // Travel distance of each block 
     float dist_x;   // Temp dist value for accel and decel
     float dist_y;
+    int16_t dist_grid_x_max = 0;
+    int16_t dist_grid_y_max = 0;
     int16_t dist_x_max = 0;   // Max travel distance of each block
     int16_t dist_y_max = 0;
 
@@ -107,8 +123,8 @@ public:
     void setReverse(bool r);
     void setStoodOn(bool so);
     void setClimbedOn(bool co);
-    void setTravelDistX(int16_t tdx);
-    void setTravelDistY(int16_t tdy);
+    void setTravelDistGridX(int16_t tdgx);
+    void setTravelDistGridY(int16_t tdgy);
 
     // Getters
     uint16_t getInitGridX();
