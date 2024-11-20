@@ -1,7 +1,7 @@
 #include "player.h"
 
-Player::Player(uint8_t fps, float X, float Y, const char *P) : 
-    Object2d(X, Y, P), game_fps(fps)
+Player::Player(float X, float Y, const char *P) : 
+    Object2d(X, Y, P)
 { }
     
 uint16_t Player::getWidth() { return width; }
@@ -75,6 +75,7 @@ std::vector<Projectile*> Player::getProjectiles() { return projectiles; }
 
 void Player::initPlat(Config *config)
 {
+    game_fps = config->getFPS();
     updateScale(config->getScaleFactor());
     setGrid(getGrid() * 2);
 
@@ -87,13 +88,17 @@ void Player::initPlat(Config *config)
     center_x = getX() + getWidth() / 2;
     center_y = getY() + getHeight() / 2;
 
-    on_ground = false;
+    on_ground = true;
     // Rendering stuff
     right = true;
 
     // Velocity, acceleration
     vel_terminal = -getGrid() * 17;
     vel_x_max = getGrid() * 6;
+    setX(0);
+    setY(0);
+    setVelX(0);
+    setVelY(0);
     setAccelX(getGrid() * 5);
     setAccelY(-getGrid() * 30);
 
@@ -137,6 +142,7 @@ void Player::initPlat(Config *config)
 
 void Player::initVertShooter(Config *config)
 {
+    game_fps = config->getFPS();
     updateScale(config->getScaleFactor());
     setGrid(getGrid() * 3 / 2);
     width = getGrid();
@@ -170,6 +176,7 @@ void Player::initVertShooter(Config *config)
 
 void Player::initHoriShooter(Config *config)
 {
+    game_fps = config->getFPS();
     updateScale(config->getScaleFactor());
     setGrid(getGrid() * 3);
     width = getGrid() * 2/3;
@@ -210,6 +217,7 @@ void Player::initHoriShooter(Config *config)
 
 void Player::initRhythm(Config *config)
 {
+    game_fps = config->getFPS();
     updateScale(config->getScaleFactor());
     setGrid(getGrid() * 2);
 

@@ -448,9 +448,9 @@ void Renderer::renderBackground(Stage *stage, Player *player)
     }
 }
 
-void Renderer::renderBlocks(Stage *stage, Player *player)
+void Renderer::renderBlocks(std::vector<Block*> blocks, Player *player)
 {
-    for (Block *b : stage->getBlockVec())
+    for (Block *b : blocks)
     {
         // Skip blocks that are outside of the screen
         // Set on screen state for less intensive collision checking
@@ -473,26 +473,26 @@ void Renderer::renderBlocks(Stage *stage, Player *player)
         SDL_RenderCopy(config->getRenderer(), b->getTexture(), NULL, &des_rect);
     }
 }
-void Renderer::renderMovingBlocks(Stage *stage, Player *player)
-{
-    for (Block *b : stage->getMovingBlockVec())
-    {
-        // Skip blocks that are outside of the screen
-        if (int(b->getX()) + delta_x < -b->getGrid() || 
-        config->getHeight() - b->getGrid() - (int(b->getY()) + delta_y) > config->getHeight() ||
-        int(b->getX()) + delta_x > config->getWidth() + b->getGrid() ||
-        config->getHeight() - b->getGrid() - (int(b->getY()) + delta_y) < -b->getGrid())
-            continue;
+// void Renderer::renderMovingBlocks(Stage *stage, Player *player)
+// {
+//     for (Block *b : stage->getMovingBlockVec())
+//     {
+//         // Skip blocks that are outside of the screen
+//         if (int(b->getX()) + delta_x < -b->getGrid() || 
+//         config->getHeight() - b->getGrid() - (int(b->getY()) + delta_y) > config->getHeight() ||
+//         int(b->getX()) + delta_x > config->getWidth() + b->getGrid() ||
+//         config->getHeight() - b->getGrid() - (int(b->getY()) + delta_y) < -b->getGrid())
+//             continue;
 
-        des_rect = {
-            int(b->getX()) + delta_x, 
-            config->getHeight() - b->getGrid() - (int(b->getY()) + delta_y), 
-            b->getGrid(), 
-            b->getGrid()
-        };
-        SDL_RenderCopy(config->getRenderer(), b->getTexture(), NULL, &des_rect);
-    }
-}
+//         des_rect = {
+//             int(b->getX()) + delta_x, 
+//             config->getHeight() - b->getGrid() - (int(b->getY()) + delta_y), 
+//             b->getGrid(), 
+//             b->getGrid()
+//         };
+//         SDL_RenderCopy(config->getRenderer(), b->getTexture(), NULL, &des_rect);
+//     }
+// }
 void Renderer::renderProjectiles(Stage *stage, Player *player)
 {
     for (auto p : player->getProjectiles())
@@ -523,19 +523,41 @@ void Renderer::renderStagePlat(Stage *stage, Player *player, Editor *edit)
     delta_x = cam->getRendX() - cam->getX();
     delta_y = cam->getRendY() - cam->getY();
 
-    // Render blocks
-    renderBlocks(stage, player);
-    // Render moving blocks
-    renderMovingBlocks(stage, player);
+    if (player->getEditor())
+    {
+        // Render moving blocks
+        renderBlocks(stage->getMovingBlockVec(), player);
+        // Render blocks
+        renderBlocks(stage->getBlockVec(), player);
+        // Render player
+        renderPlayerPlat(player);
+        // Render front blocks
+        renderBlocks(stage->getFrontVec(), player);
+    }
+    else
+    {
+
+    }
+
+
     // Render editor mode
     if (player->getEditor()) 
     {
         // Render grid array
         renderGridLines(stage, player, edit);
+    }
+    else
+    {
+    }
+
+    // Render editor mode
+    if (player->getEditor()) 
+    {
+        renderHighlight(stage, player, edit);
+        // Render player
+        renderPlayerPlat(player);
         renderEditorMenu(stage, edit);
     }
-    // Render player
-    renderPlayerPlat(player);
 }
 void Renderer::renderStageShooter(Stage *stage, Player *player)
 {
@@ -546,10 +568,10 @@ void Renderer::renderStageShooter(Stage *stage, Player *player)
     delta_x = cam->getRendX() - cam->getX();
     delta_y = cam->getRendY() - cam->getY();
 
-    // Render blocks
-    renderBlocks(stage, player);
     // Render moving blocks
-    renderMovingBlocks(stage, player);
+    renderBlocks(stage->getMovingBlockVec(), player);
+    // Render blocks
+    renderBlocks(stage->getBlockVec(), player);
     // Render projectiles
     renderProjectiles(stage, player);
 }
@@ -562,10 +584,10 @@ void Renderer::renderStageRhythm(Stage *stage, Player *player)
     delta_x = cam->getRendX() - cam->getX();
     delta_y = cam->getRendY() - cam->getY();
 
-    // Render blocks
-    renderBlocks(stage, player);
     // Render moving blocks
-    renderMovingBlocks(stage, player);
+    renderBlocks(stage->getMovingBlockVec(), player);
+    // Render blocks
+    renderBlocks(stage->getBlockVec(), player);
     // Render player
     renderPlayerRhythm(player);
 }
@@ -602,33 +624,6 @@ void Renderer::renderGridLines(Stage *stage, Player *player, Editor *edit)
             config->getHeight() - (i * (player->getGrid() / 2) + delta_y)
         );
     }
-    // Transparent color layer for better visibility
-    SDL_SetRenderDrawBlendMode(config->getRenderer(), SDL_BLENDMODE_BLEND);
-    SDL_SetRenderDrawColor(config->getRenderer(), 192, 192, 192, 144);
-    des_rect = {0, 0, config->getWidth(), config->getHeight()};
-    SDL_RenderFillRect(config->getRenderer(), &des_rect);
-
-    // Player position highlight
-    // Currently, the player character will act as the cursor for block placing
-    uint16_t highlight_x = player->getCenterX() / (player->getGrid() / 2);
-    uint16_t highlight_y = player->getCenterY() / (player->getGrid() / 2);
-    SDL_SetRenderDrawBlendMode(config->getRenderer(), SDL_BLENDMODE_BLEND);
-    if (!edit->getAddMBlock())
-        SDL_SetRenderDrawColor(config->getRenderer(), 255, 0, 0, 144);
-    else 
-    {
-        if (edit->getInitMBlock())
-            SDL_SetRenderDrawColor(config->getRenderer(), 0, 255, 0, 144);
-        else 
-            SDL_SetRenderDrawColor(config->getRenderer(), 0, 0, 255, 144);
-    }
-    des_rect = {
-        highlight_x * (player->getGrid() / 2) + delta_x, 
-        config->getHeight() - player->getGrid() / 2 - (highlight_y * (player->getGrid() / 2) + delta_y), 
-        player->getGrid() / 2, 
-        player->getGrid() / 2
-    };
-    SDL_RenderFillRect(config->getRenderer(), &des_rect);
 
     // // Camera outline (for easier debugging)
     // SDL_SetRenderDrawColor(config->getRenderer(), 255, 0, 0, 255);
@@ -658,6 +653,49 @@ void Renderer::renderGridLines(Stage *stage, Player *player, Editor *edit)
     //     int(cam->getRendX()) + cam->getGrid(),
     //     config->getHeight()
     // );
+}
+void Renderer::renderTransparentLayer()
+{
+    // Transparent color layer for better visibility
+    SDL_SetRenderDrawBlendMode(config->getRenderer(), SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(config->getRenderer(), 192, 192, 192, 144);
+    des_rect = {0, 0, config->getWidth(), config->getHeight()};
+    SDL_RenderFillRect(config->getRenderer(), &des_rect);
+}
+void Renderer::renderHighlight(Stage *stage, Player *player, Editor *edit)
+{
+    // Player position highlight
+    // Currently, the player character will act as the cursor for block placing
+    uint16_t highlight_x = player->getCenterX() / (player->getGrid() / 2);
+    uint16_t highlight_y = player->getCenterY() / (player->getGrid() / 2);
+    SDL_SetRenderDrawBlendMode(config->getRenderer(), SDL_BLENDMODE_BLEND);
+    switch (edit->getBlockTypeCounter())
+    {
+        // Normal block
+        case 0:
+            SDL_SetRenderDrawColor(config->getRenderer(), 255, 0, 0, 144);
+        break;
+        // Moving block
+        case 1:
+            if (edit->getInitMBlock())
+                SDL_SetRenderDrawColor(config->getRenderer(), 0, 255, 0, 144);
+            else 
+                SDL_SetRenderDrawColor(config->getRenderer(), 0, 0, 255, 144);
+        break;
+        // Front block
+        case 2:
+            SDL_SetRenderDrawColor(config->getRenderer(), 0, 0, 0, 144);
+        break;
+        default:
+        break;
+    }
+    des_rect = {
+        highlight_x * (player->getGrid() / 2) + delta_x, 
+        config->getHeight() - player->getGrid() / 2 - (highlight_y * (player->getGrid() / 2) + delta_y), 
+        player->getGrid() / 2, 
+        player->getGrid() / 2
+    };
+    SDL_RenderFillRect(config->getRenderer(), &des_rect);
 }
 void Renderer::renderEditorMenu(Stage *stage, Editor *edit)
 {

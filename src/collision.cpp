@@ -29,10 +29,8 @@ void Collision::specialBlockColli(Stage *stage, std::vector<Block*> Blocks, Play
                         // Handle the item buffs from here seems like the fastest option
                         // Nah, I think I should handle it from player, and have this as a trigger for the buff
                 break;
-                case 5: // Danger block
-                    player->setX(stage->getRespX());
-                    player->setY(stage->getRespY());
-                    player->resetMoves();
+                case 5: // Skill upgrades
+                    
                 break;
             }
         }
@@ -57,23 +55,29 @@ void Collision::blockTopColli(Stage *stage, std::vector<Block*> Blocks, Player *
         player_prev_x + player->getWidth() > b->getX() &&
         player->getX() + player->getWidth() > b->getX())
         {
+            // Top of spike blocks
+            if (b->getType() == 13 ||   // All side
+                b->getType() == 14 ||   // Up-down
+                b->getType() == 16)     // Up
+            {
+                if (player->getY() > b->getY() && 
+                player->getY() < b->getY() + b->getGrid() && 
+                player_prev_y >= player->getY())
+                {
+                    player->setX(stage->getRespX());
+                    player->setY(stage->getRespY());
+                    player->resetMoves();
+                    break;
+                }
+            }
             // Not slope (can move)
-            if (b->getType() != 7 && b->getType() != 8)
+            if (b->getType() != 7 && b->getType() != 8 &&
+            b->getType() != 13 && b->getType() != 14 && b->getType() != 16)
             {
                 if (player->getY() > b->getY() && 
                 player->getY() <= b->getY() + b->getGrid() && 
                 player_prev_y >= player->getY())
                 {
-                    // Top of spike blocks
-                    if (b->getType() == 13 ||   // All side
-                        b->getType() == 14 ||   // Up-down
-                        b->getType() == 16)     // Up
-                    {
-                        player->setX(stage->getRespX());
-                        player->setY(stage->getRespY());
-                        player->resetMoves();
-                        break;
-                    }
                     // Moving blocks
                     if (b->getVelX()) 
                     {
@@ -337,7 +341,7 @@ void Collision::blockBotSideColli(Stage *stage, std::vector<Block*> Blocks, Play
                 }
             }
             // Normal blocks
-            else if (player->getY() + player->getHeight() * 0.8 < b->getY() && 
+            else if (player_prev_y + player->getHeight() < b->getY() && 
             player->getY() + player->getHeight() > b->getY())
             {
                 // Spike blocks 
@@ -352,7 +356,7 @@ void Collision::blockBotSideColli(Stage *stage, std::vector<Block*> Blocks, Play
                 }
                 player->setY(b->getY() - player->getHeight());
                 player->setVelY(0);
-                break;
+                continue;
             }
         }
     }

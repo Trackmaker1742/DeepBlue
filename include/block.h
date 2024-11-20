@@ -4,6 +4,7 @@
 #include <SDL2/SDL.h>
 #include <vector>
 #include <math.h>
+#include <string.h>
 
 #include "object2d.h"
 
@@ -78,6 +79,7 @@ private:
     
     bool has_sprite_index = false;
     uint16_t sprite_index;
+    std::string block_name;
 
     // Initial position of moving block, and grid position of normal block
     uint16_t init_grid_x;
@@ -109,6 +111,8 @@ private:
 public:
     // Platformer mode blocks
     Block(float X = 0, float Y = 0, const char *P = "", uint8_t t = 0);
+    // Front mode blocks
+    Block(float X = 0, float Y = 0, const char *P = "", std::string b_name = "");
     // Rhythm mode blocks
     Block(float X = 0, float Y = 0, uint8_t t = 0, uint8_t l = 0, const char *P = ""); 
 
@@ -134,6 +138,7 @@ public:
     uint8_t getType();
     bool getHasSpriteIndex();
     uint16_t getSpriteIndex();
+    std::string getBlockName();
     uint8_t getLane();
     bool getCanActivate();
     bool getReverse();

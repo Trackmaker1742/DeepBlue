@@ -6,30 +6,21 @@ Stage::Stage()
 Stage::Stage(SDL_Renderer *rend) : renderer(rend)
 { }
 
-void Stage::updateScaleFactor(float sf)
+void Stage::init()
 {
-    scale_factor = sf;
-}
-void Stage::updateScale()
-{
-    // Iterate through all block arrays
-    for (Block *b : blocks)
-    {
-        b->init(scale_factor);
-    }
-    for (Block *b : moving_blocks)
-    {
-        b->reset();
-        b->init(scale_factor);
-    }
+    std::vector<Block*> temp_array;
+    blocks.push_back(temp_array);
+    blocks.push_back(temp_array);
+    blocks.push_back(temp_array);
 }
 
 // Getters
 std::string Stage::getStageDir() { return stage_dir; }
 std::vector<SDL_Texture*> Stage::getBackgroundLayers() { return background_layers; }
 std::vector<SDL_Texture*> Stage::getBlockTextures() { return block_textures; }
-std::vector<Block*> Stage::getBlockVec() { return blocks; }
-std::vector<Block*> Stage::getMovingBlockVec() { return moving_blocks; }
+std::vector<Block*> Stage::getBlockVec() { return blocks[0]; }
+std::vector<Block*> Stage::getMovingBlockVec() { return blocks[1]; }
+std::vector<Block*> Stage::getFrontVec() { return blocks[2]; }
 std::vector<Projectile*> Stage::getProjVec() { return projectiles; }
 uint16_t Stage::getRespX() { return resp_x; }
 uint16_t Stage::getRespY() { return resp_y; }
@@ -40,6 +31,28 @@ float Stage::getScaleFactor() { return scale_factor; }
 // Setters
 void Stage::setRespX(uint16_t x) { resp_x = x; }
 void Stage::setRespY(uint16_t y) { resp_y = y; }
+
+void Stage::updateScaleFactor(float sf)
+{
+    scale_factor = sf;
+}
+void Stage::updateScale()
+{
+    // Iterate through all block arrays
+    for (Block *b : blocks[0])
+    {
+        b->init(scale_factor);
+    }
+    for (Block *b : blocks[1])
+    {
+        b->reset();
+        b->init(scale_factor);
+    }
+    for (Block *b : blocks[2])
+    {
+        b->init(scale_factor);
+    }
+}
 
 void Stage::initSpritePath(File_Handler *file, char stage_number)
 {
@@ -105,19 +118,12 @@ std::string Stage::getSuffix(const std::string &str)
 void Stage::initBlockLayer(File_Handler *file, char stage_number)
 {
     // Read stage layout straight from csv file
-    file->readCSV(stage_number, block_str);
-    // for (auto bs : block_str)
-    // {
-    //     for (auto b : bs)
-    //         std::cout << b << ",";
-    //     std::cout << "\n";
-    // }
+    file->readCSV(stage_number, "/block_layer.csv", block_str);
 
     std::string cur_block;
     int temp_asset_index;
 
     // Convert normal block string array into block array
-    // Gonna have to overhaul a lot of this
     for (int i = 0; i < block_str.size(); i++)
     {
         for (int j = 0; j < block_str[i].size(); j++)
@@ -142,21 +148,21 @@ void Stage::initBlockLayer(File_Handler *file, char stage_number)
                             break;
                         }
                     }
-                    blocks.push_back(new Block
+                    blocks[0].push_back(new Block
                     (
                         j, 
                         i, 
                         block_paths[temp_asset_index].c_str(), 
                         std::stoi(getPrefix(cur_block))
                     ));
-                    blocks.back()->init(scale_factor);
+                    blocks[0].back()->init(scale_factor);
                     // Sprite indexing for block with multiple sprites
                     if (cur_block.length() > 2)
                     {
-                        blocks.back()->setHasSpriteIndex(true);
-                        blocks.back()->setSpriteIndex(std::stoi(getSuffix(cur_block)));
+                        blocks[0].back()->setHasSpriteIndex(true);
+                        blocks[0].back()->setSpriteIndex(std::stoi(getSuffix(cur_block)));
                     }
-                    else blocks.back()->setHasSpriteIndex(false);
+                    else blocks[0].back()->setHasSpriteIndex(false);
                 }
                 // Adding moving blocks to block array
                 else
@@ -181,7 +187,7 @@ void Stage::initBlockLayer(File_Handler *file, char stage_number)
                                         break;
                                     }
                                 }
-                                moving_blocks.push_back(new Block
+                                blocks[1].push_back(new Block
                                 (
                                     j,
                                     i,
@@ -191,26 +197,26 @@ void Stage::initBlockLayer(File_Handler *file, char stage_number)
                                 // Sprite indexing for block with multiple sprites
                                 if (value_str.length() > 2)
                                 {
-                                    moving_blocks.back()->setHasSpriteIndex(true);
-                                    moving_blocks.back()->setSpriteIndex(std::stoi(getSuffix(value_str)));
+                                    blocks[1].back()->setHasSpriteIndex(true);
+                                    blocks[1].back()->setSpriteIndex(std::stoi(getSuffix(value_str)));
                                 }
-                                else moving_blocks.back()->setHasSpriteIndex(false);
+                                else blocks[1].back()->setHasSpriteIndex(false);
                                 counter++;
                                 break;
                             // Travel dist x
                             case 1:
-                                moving_blocks.back()->setTravelDistGridX(std::stoi(value_str));
+                                blocks[1].back()->setTravelDistGridX(std::stoi(value_str));
                                 counter++;
                                 break;
                             // Travel dist y
                             case 2:
-                                moving_blocks.back()->setTravelDistGridY(std::stoi(value_str));
+                                blocks[1].back()->setTravelDistGridY(std::stoi(value_str));
                                 counter++;
                                 break;
                             // Movement type and init
                             case 3:
-                                moving_blocks.back()->init(scale_factor);
-                                moving_blocks.back()->initMove(std::stoi(value_str));
+                                blocks[1].back()->init(scale_factor);
+                                blocks[1].back()->initMove(std::stoi(value_str));
                                 counter = 0;
                                 break;
                             default:
@@ -222,7 +228,7 @@ void Stage::initBlockLayer(File_Handler *file, char stage_number)
         }
     }
     // Init block texture and spawn
-    for (Block *b : blocks)
+    for (Block *b : blocks[0])
     {
         b->initTexture(renderer);
 
@@ -234,7 +240,7 @@ void Stage::initBlockLayer(File_Handler *file, char stage_number)
         }
     }
     // Init moving block texture
-    for (Block *b : moving_blocks)
+    for (Block *b : blocks[1])
     {
         b->initTexture(renderer);
     }
@@ -244,7 +250,59 @@ void Stage::initBlockLayer(File_Handler *file, char stage_number)
 
 void Stage::initFrontLayer(File_Handler *file, char stage_number)
 {
+    file->readCSV(stage_number, "/front_layer.csv", front_str);
+
+    std::string cur_block;
+    int temp_asset_index;
+
+    // Convert normal block string array into block array
+    for (int i = 0; i < front_str.size(); i++)
+    {
+        for (int j = 0; j < front_str[i].size(); j++)
+        {
+            cur_block = front_str[front_str.size() - 1 - i][j];
+            // Skip if there is no block
+            if (cur_block == "0") continue;
+            else
+            {
+                // Add blocks
+                // Parsing blocks name
+                for (int k = 0; k < block_names.size(); k++)
+                {
+                    // If the block in the array matches with the name of the asset,
+                    // save the index of the block to use for block init
+                    if (cur_block == block_names[k])
+                    {
+                        temp_asset_index = k;
+                        break;
+                    }
+                }
+                blocks[2].push_back(new Block
+                (
+                    j, 
+                    i, 
+                    block_paths[temp_asset_index].c_str(), 
+                    block_names[temp_asset_index]
+                ));
+                blocks[2].back()->init(scale_factor);
+                // Sprite indexing for block with multiple sprites
+                if (cur_block.length() > 2)
+                {
+                    blocks[2].back()->setHasSpriteIndex(true);
+                    blocks[2].back()->setSpriteIndex(std::stoi(getSuffix(cur_block)));
+                }
+                else blocks[2].back()->setHasSpriteIndex(false);
+            }
+        }
+    }
     
+    // Init front block texture
+    for (Block *b : blocks[2])
+    {
+        b->initTexture(renderer);
+    }
+
+    std::cout << "Front Layer Initialized!\n";
 }
 
 // void Stage::initRhyObs(File_Handler *file, char stage_number)
@@ -308,6 +366,7 @@ void Stage::initPlatAll(File_Handler *file, char stage_number)
     initBackground();
     initBlockEditTexture();
     initBlockLayer(file, stage_number);
+    initFrontLayer(file, stage_number);
     std::cout << "Platformer Stage Initialized!\n";
 }
 
@@ -336,7 +395,7 @@ void Stage::update(float dt)
     // Moving block start & end array should have the same size, 
     // so there won't be any issue reading both using 1 iterator
     // Start at 1 because index formatting
-    for (Block *b: moving_blocks)
+    for (Block *b: blocks[1])
     {
         b->move(dt);
     }
@@ -378,56 +437,39 @@ void Stage::update(float dt)
 //     }
 // }
 
-void Stage::addBlock(int x, int y, int index, bool move)
+void Stage::addBlock(int x, int y, int index, uint8_t type)
 {
-    if (!move)
+    if (type < 2)
     {
-        blocks.push_back(new Block(
+        blocks[type].push_back(new Block(
             x, 
             y, 
             block_paths[index].c_str(), 
             std::stoi(getPrefix(block_names[index]))));
-        blocks.back()->init(scale_factor);
-        if (block_names[index].length() > 2)
-        {
-            blocks.back()->setHasSpriteIndex(true);
-            blocks.back()->setSpriteIndex(std::stoi(getSuffix(block_names[index])));
-        }
-        blocks.back()->initTexture(renderer);
-        std::cout << block_names[index] << " block added\n";
     }
     else
     {
-        moving_blocks.push_back(new Block(
+        blocks[type].push_back(new Block(
             x, 
             y, 
             block_paths[index].c_str(), 
-            std::stoi(getPrefix(block_names[index]))));
-        if (block_names[index].length() > 2)
-        {
-            moving_blocks.back()->setHasSpriteIndex(true);
-            moving_blocks.back()->setSpriteIndex(std::stoi(getSuffix(block_names[index])));
-        }
-        moving_blocks.back()->initTexture(renderer);
-        std::cout << "moving block added\n";
+            block_names[index]));
     }
+
+    blocks[type].back()->init(scale_factor);
+    if (block_names[index].length() > 2)
+    {
+        blocks[type].back()->setHasSpriteIndex(true);
+        blocks[type].back()->setSpriteIndex(std::stoi(getSuffix(block_names[index])));
+    }
+    blocks[type].back()->initTexture(renderer);
 }
-void Stage::deleteBlock(int index, bool move)
+
+void Stage::deleteBlock(int index, uint8_t type)
 {
-    if (!move)
-    {
-        delete blocks[index];
-        blocks[index] = nullptr;
-        blocks.erase(blocks.begin() + index);
-        std::cout << "block deleted\n";
-    }
-    else
-    {
-        delete moving_blocks[index];
-        moving_blocks[index] = nullptr;
-        moving_blocks.erase(moving_blocks.begin() + index);
-        std::cout << "moving block deleted\n";
-    }
+    delete blocks[type][index];
+    blocks[type][index] = nullptr;
+    blocks[type].erase(blocks[type].begin() + index);
 }
 
 void Stage::unload()
@@ -446,16 +488,22 @@ void Stage::unload()
 
     for (int i = 0; i < blocks.size(); i++)
     {
-        delete blocks[i];
-        blocks[i] = nullptr;
+        delete blocks[0][i];
+        blocks[0][i] = nullptr;
     }
-    blocks.clear();
-    for (int i = 0; i < moving_blocks.size(); i++)
+    blocks[0].clear();
+    for (int i = 0; i < blocks[1].size(); i++)
     {
-        delete moving_blocks[i];
-        moving_blocks[i] = nullptr;
+        delete blocks[1][i];
+        blocks[1][i] = nullptr;
     }
-    moving_blocks.clear();
+    blocks[1].clear();
+    for (int i = 0; i < blocks[2].size(); i++)
+    {
+        delete blocks[2][i];
+        blocks[2][i] = nullptr;
+    }
+    blocks[2].clear();
 
     for (SDL_Texture* texture : background_layers) {
         if (texture != nullptr) {

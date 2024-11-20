@@ -28,12 +28,16 @@ private:
     // Block sprite path (able to detect the block type in csv)
     std::vector<std::string> block_paths;
 
+    // Type index
+    // 0: normal block
+    // 1: moving block
+    // 2: front block
     // Back and normal block array
-    std::vector<Block*> blocks;
-    // Moving block arrays (for easier parsing)
-    std::vector<Block*> moving_blocks;    // Initial position of moving blocks
-    // Front layer array
-    std::vector<Block*> front_blocks;
+    std::vector<std::vector<Block*>> blocks;
+    // // Moving block arrays (for easier parsing)
+    // std::vector<Block*> moving_blocks;    // Initial position of moving blocks
+    // // Front layer array
+    // std::vector<Block*> front_blocks;
 
     // Background textures
     std::vector<SDL_Texture*> background_layers;
@@ -67,12 +71,15 @@ public:
     Stage();
     Stage(SDL_Renderer *rend);
 
+    void init();
+
     // Getters
     std::string getStageDir();
     std::vector<SDL_Texture*> getBackgroundLayers();
     std::vector<SDL_Texture*> getBlockTextures();
     std::vector<Block*> getBlockVec();
     std::vector<Block*> getMovingBlockVec();
+    std::vector<Block*> getFrontVec();
     std::vector<Projectile*> getProjVec();
     uint16_t getRespX();
     uint16_t getRespY();
@@ -108,9 +115,13 @@ public:
     // Update for moving blocks
     void update(float dt);
 
-    // Adding block
-    void addBlock(int x, int y, int index, bool move = false);
-    void deleteBlock(int index, bool move = false);
+    // Block function (normal, moving)
+    // Type index
+    // 0: normal block
+    // 1: moving block
+    // 2: front block
+    void addBlock(int x, int y, int index, uint8_t type = 0);
+    void deleteBlock(int index, uint8_t type = 0);
 
     void clearTextureArray(std::vector<SDL_Texture*> textures);
     void clearBlockArray(std::vector<Block*> block_array);

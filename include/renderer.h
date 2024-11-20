@@ -88,8 +88,8 @@ public:
     void renderPlayerRhythm(Player *player);
 
     void renderBackground(Stage *stage, Player *player);
-    void renderBlocks(Stage *stage, Player *player);
-    void renderMovingBlocks(Stage *stage, Player *player);
+    void renderBlocks(std::vector<Block*> blocks, Player *player);
+    // void renderMovingBlocks(Stage *stage, Player *player);
     void renderProjectiles(Stage *stage, Player *player);
 
     void renderStagePlat(Stage *stage, Player *player, Editor *edit);
@@ -97,6 +97,8 @@ public:
     void renderStageRhythm(Stage *stage, Player *player);
     
     void renderGridLines(Stage *stage, Player *player, Editor *edit);
+    void renderTransparentLayer();
+    void renderHighlight(Stage *stage, Player *player, Editor *edit);
     void renderEditorMenu(Stage *stage, Editor *edit);
 
     void renderMainMenu(Scene *scene);

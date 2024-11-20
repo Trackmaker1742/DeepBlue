@@ -71,7 +71,6 @@ private:
     std::string file_path = "";     // Mainly for blocktiles
     std::string folder_path = "";   // Mainly for menus
 
-    const std::string stage_layout_file = "/block_layer.csv";
     const std::string background_param_file = "param.txt";
     const std::string background_folder = "/background/";
     const std::string stage_block_folder = "/block/";
@@ -102,6 +101,7 @@ public:
     // Function for reading stage layout in CSV form
     // and store in string, because moving block needs extra processing
     void readCSV(char stage_number, 
+        std::string layer_file,
         std::vector<std::vector<std::string>> &blocks_str);
 
     // Parse a full stage folder

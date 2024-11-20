@@ -4,6 +4,10 @@ Block::Block(float X, float Y, const char* P, uint8_t t) :
     Object2d(X, Y, P), type(t)
 { }
 
+Block::Block(float X, float Y, const char *P, std::string b_name) :
+    Object2d(X, Y, P), block_name(b_name)
+{ }
+
 Block::Block(float X, float Y, uint8_t t, uint8_t l, const char* P) : 
     Object2d(X, Y, P), type(t), lane(l)
 { }
@@ -27,6 +31,7 @@ bool Block::getManual() { return manual; }
 uint8_t Block::getType() { return type; }
 bool Block::getHasSpriteIndex() { return has_sprite_index; }
 uint16_t Block::getSpriteIndex() { return sprite_index; }
+std::string Block::getBlockName() { return block_name; }
 uint8_t Block::getLane() { return lane; }
 bool Block::getCanActivate() { return can_activate; }
 bool Block::getReverse() { return reverse; }

@@ -11,7 +11,7 @@ uint16_t Editor::getSEMCount() { return se_menu_counter; }
 bool Editor::getChanged() { return changed; }
 bool Editor::getSaving() { return saving; }
 bool Editor::getSaved() { return saved; }
-bool Editor::getAddMBlock() { return add_moving_block; }
+uint8_t Editor::getBlockTypeCounter() { return block_type_counter; }
 bool Editor::getInitMBlock() { return initial_m_block; }
 
 void Editor::menuAction(Input *input, Player *player, Stage *stage)
@@ -59,64 +59,86 @@ void Editor::menuAction(Input *input, Player *player, Stage *stage)
         // input->setHold(Action::EXTRA_RIGHT, false);
         se_menu_counter++;
     }
-    // Adding block
-    // Adding normal block
-    if (!add_moving_block)
+    // Adding, removing block
+    switch (block_type_counter)
     {
-        if (input->getHold(Action::ACTION1) && 
-            !playerBlockOverlap(player, stage->getBlockVec()) &&
-            !playerBlockOverlap(player, stage->getMovingBlockVec()))
-        {
-            stage->addBlock
-            (
-                int(player->getCenterX() / grid), 
-                int(player->getCenterY() / grid),
-                se_menu_counter
-            );
-            changed = true;
-            saved = false;
-        }
-    }
-    // Adding moving block
-    else
-    {
-        if (input->getPress(Action::ACTION1) && 
-            !playerBlockOverlap(player, stage->getBlockVec()) &&
-            !playerBlockOverlap(player, stage->getMovingBlockVec()))
-        {
-            if (initial_m_block)
-            {
-                initial_m_block_x = player->getCenterX() / grid;
-                initial_m_block_y = player->getCenterY() / grid;
-                initial_m_block_se_menu_counter = se_menu_counter;
-                initial_m_block = false;
-            }
-            else
+        // Normal block
+        case 0:
+            if (input->getHold(Action::ACTION1) && 
+                !playerBlockOverlap(player, stage->getBlockVec()) &&
+                !playerBlockOverlap(player, stage->getMovingBlockVec()) &&
+                !playerBlockOverlap(player, stage->getFrontVec()))
             {
                 stage->addBlock
                 (
-                    initial_m_block_x,
-                    initial_m_block_y,
-                    initial_m_block_se_menu_counter,
-                    true
+                    int(player->getCenterX() / grid), 
+                    int(player->getCenterY() / grid),
+                    se_menu_counter
                 );
-                stage->getMovingBlockVec().back()->setTravelDistGridX
-                (
-                    int(player->getCenterX() / grid) - stage->getMovingBlockVec().back()->getX()
-                );
-                stage->getMovingBlockVec().back()->setTravelDistGridY
-                (
-                    int(player->getCenterY() / grid) - stage->getMovingBlockVec().back()->getY()
-                );
-                stage->getMovingBlockVec().back()->init(stage->getScaleFactor());
-                stage->getMovingBlockVec().back()->initMove(false);
-                initial_m_block = true;
+                changed = true;
+                saved = false;
+                std::cout << "block added\n";
             }
-            changed = true;
-            saved = false;
-        }
+        break;
+        // Moving block
+        case 1:
+            if (input->getPress(Action::ACTION1))
+            {
+                if (initial_m_block)
+                {
+                    initial_m_block_x = player->getCenterX() / grid;
+                    initial_m_block_y = player->getCenterY() / grid;
+                    initial_m_block_se_menu_counter = se_menu_counter;
+                    initial_m_block = false;
+                }
+                else
+                {
+                    stage->addBlock
+                    (
+                        initial_m_block_x,
+                        initial_m_block_y,
+                        initial_m_block_se_menu_counter,
+                        1
+                    );
+                    stage->getMovingBlockVec().back()->setTravelDistGridX
+                    (
+                        int(player->getCenterX() / grid) - stage->getMovingBlockVec().back()->getX()
+                    );
+                    stage->getMovingBlockVec().back()->setTravelDistGridY
+                    (
+                        int(player->getCenterY() / grid) - stage->getMovingBlockVec().back()->getY()
+                    );
+                    stage->getMovingBlockVec().back()->init(stage->getScaleFactor());
+                    stage->getMovingBlockVec().back()->initMove(false);
+                    initial_m_block = true;
+                }
+                changed = true;
+                saved = false;
+                std::cout << "moving block added\n";
+            }
+        break;
+        // Front block
+        case 2:
+            if (input->getHold(Action::ACTION1) && 
+                !playerBlockOverlap(player, stage->getBlockVec()) && 
+                !playerBlockOverlap(player, stage->getFrontVec()))
+            {
+                stage->addBlock
+                (
+                    int(player->getCenterX() / grid), 
+                    int(player->getCenterY() / grid),
+                    se_menu_counter,
+                    2
+                );
+                changed = true;
+                saved = false;
+                std::cout << "front block added\n";
+            }
+        break;
+        default:
+        break;
     }
-    // Removing block
+    // Removing normal, moving block
     if (input->getHold(Action::ACTION2))
     {
         // If cursor overlaps normal block
@@ -129,11 +151,19 @@ void Editor::menuAction(Input *input, Player *player, Stage *stage)
         // If cursor overlaps moving block
         if (playerBlockOverlap(player, stage->getMovingBlockVec()))
         {
-            stage->deleteBlock(overlapped_block_index, true);
+            stage->deleteBlock(overlapped_block_index, 1);
+            changed = true;
+            saved = false;
+        }
+        // If cursor overlaps moving block
+        if (playerBlockOverlap(player, stage->getFrontVec()))
+        {
+            stage->deleteBlock(overlapped_block_index, 2);
             changed = true;
             saved = false;
         }
     }
+    
     // Save button
     if (input->getPress(Action::EXTRA2) && !saved && changed && !saving)
     {
@@ -143,18 +173,22 @@ void Editor::menuAction(Input *input, Player *player, Stage *stage)
     // Switch to adding moving block
     if (input->getPress(Action::EXTRA3))
     {
-        // input->setHold(Action::EXTRA3, false);
-        add_moving_block = !add_moving_block;
+        if (block_type_counter < 2) block_type_counter++;
+        else block_type_counter = 0;
     }
+    
     if (changed && saving)
     {
-        stage_dir = stage->getStageDir();
-        stage_dir += "block_layer.csv";
+        block_layer_dir = stage->getStageDir();
+        block_layer_dir += "block_layer.csv";
+        
+        front_layer_dir = stage->getStageDir();
+        front_layer_dir += "front_layer.csv";
     }
-    // Note to self, work on the rendering, moving block creation, 
-    // just general stuff that would make level creation not a pain for anyone that's not me
 }
-void Editor::saveChanges(std::vector<Block*> blocks, std::vector<Block*> m_blocks)
+void Editor::saveChanges(std::vector<Block*> blocks, 
+    std::vector<Block*> m_blocks,
+    std::vector<Block*> f_blocks)
 {
     // Save function
     for (Block *b : blocks)
@@ -172,10 +206,11 @@ void Editor::saveChanges(std::vector<Block*> blocks, std::vector<Block*> m_block
         if (x_max < b->getInitGridX()) x_max = b->getInitGridX();
         if (y_max < b->getInitGridY()) y_max = b->getInitGridY();
     }
-    // Create and write into file
+
+    // Create and write into block_layer.csv
     std::ofstream b_layer;
     // Open and clear file
-    b_layer.open(stage_dir, std::ios::out | std::ios::trunc);
+    b_layer.open(block_layer_dir, std::ios::out | std::ios::trunc);
     // Iterate and write into file
     for (int i = y_max; i >= 0; i--)
     {
@@ -253,6 +288,38 @@ void Editor::saveChanges(std::vector<Block*> blocks, std::vector<Block*> m_block
         b_layer << "\n";
     }
     b_layer.close();
+
+    // Create and write into front_layer.csv
+    std::ofstream f_layer;
+    // Open and clear file
+    f_layer.open(front_layer_dir, std::ios::out | std::ios::trunc);
+    // Iterate and write into file
+    for (int i = y_max; i >= 0; i--)
+    {
+        for (int j = 0; j <= x_max; j++)
+        {
+            // Normal f_blocks
+            for (int k = 0; k < f_blocks.size(); k++)
+            {
+                if (f_blocks[k]->getGridX() == j && 
+                    f_blocks[k]->getGridY() == i)
+                {
+                    is_block = true;
+                    block_index = k;  
+                    break; 
+                }
+                else is_block = false;
+            }
+            if (is_block)
+            {
+                f_layer << f_blocks[block_index]->getBlockName() << ",";
+                continue;   // Very important, if this isn't here, extra moving f_blocks will be added, leading to malloc error
+            }
+            else f_layer << "0,";
+        }
+        f_layer << "\n";
+    }
+    f_layer.close();
 
     saving = false;
     saved = true;

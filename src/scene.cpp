@@ -129,7 +129,7 @@ void Scene::initMenuTextures(File_Handler *file)
 }
 
 void Scene::initStage(Config *config, 
-    File_Handler *file, Stage *stage, Player *player)
+    File_Handler *file, Stage *stage, Player *player, Camera *cam)
 {
     // Change game state (manual for now)
     switch (stage_number)
@@ -141,6 +141,7 @@ void Scene::initStage(Config *config,
             // Set spawn
             player->setX(stage->getRespX());
             player->setY(stage->getRespY());
+            cam->init(config);
             game_state = 6;
         break;
         // Vertical shooter init
@@ -168,7 +169,7 @@ void Scene::initStage(Config *config,
             game_state = 9;
         break;
         default:
-            break;
+        break;
     }
 }
 
@@ -231,7 +232,7 @@ void Scene::updateMain(Input *input)
 }
 
 void Scene::updateStageSelect(Input *input, Config *config, 
-    File_Handler *file, Stage *stage, Player *player)
+    File_Handler *file, Stage *stage, Player *player, Camera *cam)
 {
     // Will need more condition, 
     // since you can only pick stages after unlocking them
@@ -250,7 +251,7 @@ void Scene::updateStageSelect(Input *input, Config *config,
     if (input->getPress(Action::ACTION1))
     {
         stage_number = menu_counter + 1;    // For loading the correct stage
-        initStage(config, file, stage, player);
+        initStage(config, file, stage, player, cam);
         menu_counter = 0;
     }
     // Back button
@@ -258,7 +259,7 @@ void Scene::updateStageSelect(Input *input, Config *config,
 }
 
 void Scene::updateSettings(Input *input, Config *config,
-    File_Handler *file, Stage *stage, Player *player)
+    File_Handler *file, Stage *stage, Player *player, Camera *cam)
 {
     // Navigation (top to bottom)
     if (press(Dir::UP, input) && 
@@ -338,6 +339,7 @@ void Scene::updateSettings(Input *input, Config *config,
             );
         }
         
+        cam->init(config);
         stage->updateScaleFactor(config->getScaleFactor());
         
         // Update scaling for each game mode using the pause menu

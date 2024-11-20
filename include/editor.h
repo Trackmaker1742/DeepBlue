@@ -19,7 +19,12 @@ private:
     bool saved = true;
     bool reset = true;
 
-    bool add_moving_block = false;
+    // Type index
+    // 0: normal block
+    // 1: moving block
+    // 2: front block
+    uint8_t block_type_counter = 0;
+
     bool initial_m_block = true;
 
     int initial_m_block_x;
@@ -36,7 +41,8 @@ private:
     uint16_t y_max = 0;
     
     // Temp block array for faster iteration
-    std::string stage_dir;
+    std::string block_layer_dir;
+    std::string front_layer_dir;
 
     bool is_block = false;
     uint16_t block_index = 0;
@@ -54,11 +60,13 @@ public:
     bool getChanged();
     bool getSaving();
     bool getSaved();
-    bool getAddMBlock();
+    uint8_t getBlockTypeCounter();
     bool getInitMBlock();
 
     void menuAction(Input *input, Player *player, Stage *stage);
-    void saveChanges(std::vector<Block*> blocks, std::vector<Block*> m_blocks);
+    void saveChanges(std::vector<Block*> blocks, 
+        std::vector<Block*> m_blocks,
+        std::vector<Block*> f_blocks);
     bool playerBlockOverlap(Player *player, std::vector<Block*> blocks);
     // void updateBlockArray(Input *input, std::vector<Block> &block_array);
 

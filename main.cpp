@@ -65,19 +65,19 @@ int main(int argc, char *argv[])
 
     // Stage
     Stage *stage = new Stage(config->getRenderer());
+    stage->init();
     stage->updateScaleFactor(config->getScaleFactor());
 
     // Camera
     // Only applies to platforming sections as of rn
     Camera *cam = new Camera();
-    cam->init(config);
 
     // Renderer
     Renderer *renderer = new Renderer(config, cam);
     renderer->loadTextureForText(scene);
 
     // Player
-    Player *player = new Player(config->getFPS());
+    Player *player = new Player();
 
     // Collision checker
     Collision *colli = new Collision();
@@ -90,6 +90,8 @@ int main(int argc, char *argv[])
 
     bool quit = false;
     SDL_RaiseWindow(config->getWindow());
+
+    bool first = false;
 
     while (!input->handleInput() && quit != true)
     {
@@ -115,7 +117,7 @@ int main(int argc, char *argv[])
             break;
             // Stage select menu
             case 2:
-                scene->updateStageSelect(input, config, file, stage, player);
+                scene->updateStageSelect(input, config, file, stage, player, cam);
                 renderer->renderStageSelect(scene);
             break;
             // // Gallery
@@ -125,7 +127,7 @@ int main(int argc, char *argv[])
             // break;
             // Settings
             case 4:
-                scene->updateSettings(input, config, file, stage, player);
+                scene->updateSettings(input, config, file, stage, player, cam);
                 renderer->renderSettings(scene);
             break;
             // Pause menu
@@ -195,7 +197,10 @@ int main(int argc, char *argv[])
                     {
                         running = true;
                         edit->setChanged(false);
-                        save_edit_thread = std::thread(Editor::saveChanges, edit, stage->getBlockVec(), stage->getMovingBlockVec());
+                        save_edit_thread = std::thread(Editor::saveChanges, edit, 
+                            stage->getBlockVec(), 
+                            stage->getMovingBlockVec(),
+                            stage->getFrontVec());
                         save_edit_thread.detach();
                     }
                 }

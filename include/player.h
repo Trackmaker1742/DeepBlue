@@ -155,7 +155,7 @@ private:
     const char *rhythm_path = "res/Character Sheets/sky_delta_sheet.png";
 
 public:
-    Player(uint8_t fps, float X = 0, float Y = 0, const char *P = "");
+    Player(float X = 0, float Y = 0, const char *P = "");
     
     uint16_t getWidth();
     uint16_t getHeight();

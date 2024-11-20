@@ -11,6 +11,7 @@
 #include "file_handler.h"
 #include "stage.h"
 #include "player.h"
+#include "camera.h"
 
 enum class MenuIndex
 {
@@ -139,16 +140,16 @@ public:
     void initMenuTextures(File_Handler *file);
     
     void initStage(Config *config, File_Handler *file, 
-        Stage *stage, Player *player);
+        Stage *stage, Player *player, Camera *cam);
 
     void pauseHandler(Input *input);
 
     // Update Scene
     void updateMain(Input *input);
     void updateStageSelect(Input *input, Config *config, 
-        File_Handler *file, Stage *stage, Player *player);
+        File_Handler *file, Stage *stage, Player *player, Camera *cam);
     void updateSettings(Input *input, Config *config, 
-        File_Handler *file, Stage *stage, Player *player);
+        File_Handler *file, Stage *stage, Player *player, Camera *cam);
     void updateGallery(Input *input);
     void updatePause(Input *input, Stage *stage, Player *player);
 };

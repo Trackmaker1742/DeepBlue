@@ -170,11 +170,12 @@ void File_Handler::readSave()
     save.close();
 }
 
-void File_Handler::readCSV(char stage_number, 
+void File_Handler::readCSV(char stage_number,
+    std::string layer_file,
     std::vector<std::vector<std::string>> &blocks_str)
 {
     // Open stage layout csv
-    std::ifstream layout(stage_dir + stage_number + stage_layout_file);
+    std::ifstream layout(stage_dir + stage_number + layer_file);
 
     // Parsing relevant data
     std::string temp_row_str;
