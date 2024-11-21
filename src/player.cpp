@@ -387,6 +387,7 @@ void Player::platformerMvt(Input *input, float dt)
             setY(getY() - wall_climb_speed * dt);
             climb_down = true;
         }
+        setVelX(getVelX() < 0 ? -1 : 1);
     }
 
     // Jump / double jump / wall jump
