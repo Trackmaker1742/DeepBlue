@@ -455,8 +455,8 @@ void Stage::addBlock(int x, int y, int index, uint8_t type)
             block_paths[index].c_str(), 
             block_names[index]));
     }
-
-    blocks[type].back()->init(scale_factor);
+    // Moving block will handle init separately
+    if (type != 1) blocks[type].back()->init(scale_factor);
     if (block_names[index].length() > 2)
     {
         blocks[type].back()->setHasSpriteIndex(true);

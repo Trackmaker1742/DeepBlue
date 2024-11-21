@@ -142,21 +142,21 @@ void Editor::menuAction(Input *input, Player *player, Stage *stage)
     if (input->getHold(Action::ACTION2))
     {
         // If cursor overlaps normal block
-        if (playerBlockOverlap(player, stage->getBlockVec()))
+        if (block_type_counter == 0 && playerBlockOverlap(player, stage->getBlockVec()))
         {
             stage->deleteBlock(overlapped_block_index);
             changed = true;
             saved = false;
         }
         // If cursor overlaps moving block
-        if (playerBlockOverlap(player, stage->getMovingBlockVec()))
+        if (block_type_counter == 1 && playerBlockOverlap(player, stage->getMovingBlockVec()))
         {
             stage->deleteBlock(overlapped_block_index, 1);
             changed = true;
             saved = false;
         }
         // If cursor overlaps moving block
-        if (playerBlockOverlap(player, stage->getFrontVec()))
+        if (block_type_counter == 2 && playerBlockOverlap(player, stage->getFrontVec()))
         {
             stage->deleteBlock(overlapped_block_index, 2);
             changed = true;
