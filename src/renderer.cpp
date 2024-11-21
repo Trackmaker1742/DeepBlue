@@ -525,6 +525,52 @@ void Renderer::renderStagePlat(Stage *stage, Player *player, Editor *edit)
 
     if (player->getEditor())
     {
+        switch (edit->getBlockTypeCounter())
+        {
+            case 0:
+                // Render moving blocks
+                renderBlocks(stage->getMovingBlockVec(), player);
+                // Render front blocks
+                renderBlocks(stage->getFrontVec(), player);
+                // Render transparent layer
+                renderTransparentLayer();
+                // Render blocks
+                renderBlocks(stage->getBlockVec(), player);
+            break;
+            case 1:
+                // Render blocks
+                renderBlocks(stage->getBlockVec(), player);
+                // Render front blocks
+                renderBlocks(stage->getFrontVec(), player);
+                // Render transparent layer
+                renderTransparentLayer();
+                // Render moving blocks
+                renderBlocks(stage->getMovingBlockVec(), player);
+            break;
+            case 2:
+                // Render blocks
+                renderBlocks(stage->getBlockVec(), player);
+                // Render moving blocks
+                renderBlocks(stage->getMovingBlockVec(), player);
+                // Render transparent layer
+                renderTransparentLayer();
+                // Render front blocks
+                renderBlocks(stage->getFrontVec(), player);
+            break;
+            default:
+            break;
+        }
+        // Render grid array
+        renderGridLines(stage, player, edit);
+        // Render highlight
+        renderHighlight(stage, player, edit);
+        // Render player
+        renderPlayerPlat(player);
+        // Render editor menu
+        renderEditorMenu(stage, edit);
+    }
+    else
+    {
         // Render moving blocks
         renderBlocks(stage->getMovingBlockVec(), player);
         // Render blocks
@@ -533,30 +579,6 @@ void Renderer::renderStagePlat(Stage *stage, Player *player, Editor *edit)
         renderPlayerPlat(player);
         // Render front blocks
         renderBlocks(stage->getFrontVec(), player);
-    }
-    else
-    {
-
-    }
-
-
-    // Render editor mode
-    if (player->getEditor()) 
-    {
-        // Render grid array
-        renderGridLines(stage, player, edit);
-    }
-    else
-    {
-    }
-
-    // Render editor mode
-    if (player->getEditor()) 
-    {
-        renderHighlight(stage, player, edit);
-        // Render player
-        renderPlayerPlat(player);
-        renderEditorMenu(stage, edit);
     }
 }
 void Renderer::renderStageShooter(Stage *stage, Player *player)
@@ -658,7 +680,7 @@ void Renderer::renderTransparentLayer()
 {
     // Transparent color layer for better visibility
     SDL_SetRenderDrawBlendMode(config->getRenderer(), SDL_BLENDMODE_BLEND);
-    SDL_SetRenderDrawColor(config->getRenderer(), 192, 192, 192, 144);
+    SDL_SetRenderDrawColor(config->getRenderer(), 200, 200, 200, 200);
     des_rect = {0, 0, config->getWidth(), config->getHeight()};
     SDL_RenderFillRect(config->getRenderer(), &des_rect);
 }
