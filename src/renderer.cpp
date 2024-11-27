@@ -475,7 +475,7 @@ void Renderer::renderBlocks(std::vector<Block*> blocks, Player *player)
 }
 // void Renderer::renderMovingBlocks(Stage *stage, Player *player)
 // {
-//     for (Block *b : stage->getMovingBlockVec())
+//     for (Block *b : stage->getBlockVec(0))
 //     {
 //         // Skip blocks that are outside of the screen
 //         if (int(b->getX()) + delta_x < -b->getGrid() || 
@@ -528,34 +528,34 @@ void Renderer::renderStagePlat(Stage *stage, Player *player, Editor *edit)
         switch (edit->getBlockTypeCounter())
         {
             case 0:
-                // Render moving blocks
-                renderBlocks(stage->getMovingBlockVec(), player);
+                // Render blocks
+                renderBlocks(stage->getBlockVec(1), player);
                 // Render front blocks
-                renderBlocks(stage->getFrontVec(), player);
+                renderBlocks(stage->getBlockVec(2), player);
                 // Render transparent layer
                 renderTransparentLayer();
-                // Render blocks
-                renderBlocks(stage->getBlockVec(), player);
+                // Render moving blocks
+                renderBlocks(stage->getBlockVec(0), player);
             break;
             case 1:
-                // Render blocks
-                renderBlocks(stage->getBlockVec(), player);
+                // Render moving blocks
+                renderBlocks(stage->getBlockVec(0), player);
                 // Render front blocks
-                renderBlocks(stage->getFrontVec(), player);
+                renderBlocks(stage->getBlockVec(2), player);
                 // Render transparent layer
                 renderTransparentLayer();
-                // Render moving blocks
-                renderBlocks(stage->getMovingBlockVec(), player);
+                // Render blocks
+                renderBlocks(stage->getBlockVec(1), player);
             break;
             case 2:
                 // Render blocks
-                renderBlocks(stage->getBlockVec(), player);
+                renderBlocks(stage->getBlockVec(1), player);
                 // Render moving blocks
-                renderBlocks(stage->getMovingBlockVec(), player);
+                renderBlocks(stage->getBlockVec(0), player);
                 // Render transparent layer
                 renderTransparentLayer();
                 // Render front blocks
-                renderBlocks(stage->getFrontVec(), player);
+                renderBlocks(stage->getBlockVec(2), player);
             break;
             default:
             break;
@@ -572,13 +572,13 @@ void Renderer::renderStagePlat(Stage *stage, Player *player, Editor *edit)
     else
     {
         // Render moving blocks
-        renderBlocks(stage->getMovingBlockVec(), player);
+        renderBlocks(stage->getBlockVec(0), player);
         // Render blocks
-        renderBlocks(stage->getBlockVec(), player);
+        renderBlocks(stage->getBlockVec(1), player);
         // Render player
         renderPlayerPlat(player);
         // Render front blocks
-        renderBlocks(stage->getFrontVec(), player);
+        renderBlocks(stage->getBlockVec(2), player);
     }
 }
 void Renderer::renderStageShooter(Stage *stage, Player *player)
@@ -591,9 +591,9 @@ void Renderer::renderStageShooter(Stage *stage, Player *player)
     delta_y = cam->getRendY() - cam->getY();
 
     // Render moving blocks
-    renderBlocks(stage->getMovingBlockVec(), player);
+    renderBlocks(stage->getBlockVec(0), player);
     // Render blocks
-    renderBlocks(stage->getBlockVec(), player);
+    renderBlocks(stage->getBlockVec(1), player);
     // Render projectiles
     renderProjectiles(stage, player);
 }
@@ -607,9 +607,9 @@ void Renderer::renderStageRhythm(Stage *stage, Player *player)
     delta_y = cam->getRendY() - cam->getY();
 
     // Render moving blocks
-    renderBlocks(stage->getMovingBlockVec(), player);
+    renderBlocks(stage->getBlockVec(0), player);
     // Render blocks
-    renderBlocks(stage->getBlockVec(), player);
+    renderBlocks(stage->getBlockVec(1), player);
     // Render player
     renderPlayerRhythm(player);
 }
@@ -693,19 +693,19 @@ void Renderer::renderHighlight(Stage *stage, Player *player, Editor *edit)
     SDL_SetRenderDrawBlendMode(config->getRenderer(), SDL_BLENDMODE_BLEND);
     switch (edit->getBlockTypeCounter())
     {
-        // Normal block
-        case 0:
-            SDL_SetRenderDrawColor(config->getRenderer(), 255, 0, 0, 144);
-        break;
         // Moving block
-        case 1:
+        case 0:
             if (edit->getInitMBlock())
                 SDL_SetRenderDrawColor(config->getRenderer(), 0, 255, 0, 144);
             else 
                 SDL_SetRenderDrawColor(config->getRenderer(), 0, 0, 255, 144);
         break;
-        // Front block
-        case 2:
+        // Normal block
+        case 1:
+            SDL_SetRenderDrawColor(config->getRenderer(), 255, 0, 0, 144);
+        break;
+        // Front block, back block
+        case 2: case 3:
             SDL_SetRenderDrawColor(config->getRenderer(), 0, 0, 0, 144);
         break;
         default:
@@ -721,7 +721,6 @@ void Renderer::renderHighlight(Stage *stage, Player *player, Editor *edit)
 }
 void Renderer::renderEditorMenu(Stage *stage, Editor *edit)
 {
-
     // Menu background (solid color for now)
     uint16_t menu_width = config->getWidth() / 3;
     SDL_SetRenderDrawBlendMode(config->getRenderer(), SDL_BLENDMODE_BLEND);

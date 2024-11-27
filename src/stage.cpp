@@ -8,19 +8,23 @@ Stage::Stage(SDL_Renderer *rend) : renderer(rend)
 
 void Stage::init()
 {
-    std::vector<Block*> temp_array;
-    blocks.push_back(temp_array);
-    blocks.push_back(temp_array);
-    blocks.push_back(temp_array);
+    std::vector<Block*> temp_b_array;
+    blocks.push_back(temp_b_array);
+    blocks.push_back(temp_b_array);
+    blocks.push_back(temp_b_array);
+    blocks.push_back(temp_b_array);
+
+    layer_files[0] = "/moving_layer.csv";
+    layer_files[1] = "/normal_layer.csv";
+    layer_files[2] = "/front_layer.csv";
+    layer_files[3] = "/back_layer.csv";
 }
 
 // Getters
-std::string Stage::getStageDir() { return stage_dir; }
+std::string Stage::getLayerDir(int i) { return layer_dirs[i]; }
 std::vector<SDL_Texture*> Stage::getBackgroundLayers() { return background_layers; }
 std::vector<SDL_Texture*> Stage::getBlockTextures() { return block_textures; }
-std::vector<Block*> Stage::getBlockVec() { return blocks[0]; }
-std::vector<Block*> Stage::getMovingBlockVec() { return blocks[1]; }
-std::vector<Block*> Stage::getFrontVec() { return blocks[2]; }
+std::vector<Block*> Stage::getBlockVec(int i) { return blocks[i]; }
 std::vector<Projectile*> Stage::getProjVec() { return projectiles; }
 uint16_t Stage::getRespX() { return resp_x; }
 uint16_t Stage::getRespY() { return resp_y; }
@@ -41,14 +45,18 @@ void Stage::updateScale()
     // Iterate through all block arrays
     for (Block *b : blocks[0])
     {
+        b->reset();
         b->init(scale_factor);
     }
     for (Block *b : blocks[1])
     {
-        b->reset();
         b->init(scale_factor);
     }
     for (Block *b : blocks[2])
+    {
+        b->init(scale_factor);
+    }
+    for (Block *b : blocks[3])
     {
         b->init(scale_factor);
     }
@@ -59,7 +67,11 @@ void Stage::initSpritePath(File_Handler *file, char stage_number)
     // Saving stage directory for editor mode
     stage_dir = "res/Stages/Stage ";
     stage_dir += stage_number;
-    stage_dir += '/';
+
+    for (int i = 0; i < layer_count_max; i++)
+    {
+        layer_dirs[i] = stage_dir + layer_files[i];
+    }
 
     file->readAllStageAssets(stage_number, 
         background_paths,
@@ -115,10 +127,101 @@ std::string Stage::getSuffix(const std::string &str)
     return str.substr(pos + 1, str.length());
 }
 
-void Stage::initBlockLayer(File_Handler *file, char stage_number)
+void Stage::initMovingLayer(File_Handler *file, char stage_number)
+{
+    block_str.clear();
+    file->readCSV(stage_number, layer_files[0], block_str);
+    
+    std::string cur_block;
+    int temp_asset_index;
+
+    // Convert normal block string array into block array
+    for (int i = 0; i < block_str.size(); i++)
+    {
+        for (int j = 0; j < block_str[i].size(); j++)
+        {
+            cur_block = block_str[block_str.size() - 1 - i][j];
+            // Skip if there is no block
+            if (cur_block == "0") continue;
+            else
+            {
+                // Adding moving blocks to block array
+                // A counter is used to keep track of which field of data is currently being saved
+                // In 06|10|11|01, 06 would have a counter of 0, 01 would have a counter of 3
+                std::stringstream data_stream(cur_block);
+                std::string value_str;
+                int counter = 0;
+                while(std::getline(data_stream, value_str, '|'))
+                {
+                    switch (counter)
+                    {
+                        // Block type
+                        case 0:
+                            // Parsing blocks name
+                            for (int k = 0; k < block_names.size(); k++)
+                            {
+                                if (value_str == block_names[k])
+                                {
+                                    temp_asset_index = k;
+                                    break;
+                                }
+                            }
+                            blocks[0].push_back(new Block
+                            (
+                                j,
+                                i,
+                                block_paths[temp_asset_index].c_str(), 
+                                std::stoi(getPrefix(value_str))
+                            ));
+                            // Sprite indexing for block with multiple sprites
+                            if (value_str.length() > 2)
+                            {
+                                blocks[0].back()->setHasSpriteIndex(true);
+                                blocks[0].back()->setSpriteIndex(std::stoi(getSuffix(value_str)));
+                            }
+                            else blocks[0].back()->setHasSpriteIndex(false);
+                            counter++;
+                            break;
+                        // Travel dist x
+                        case 1:
+                            blocks[0].back()->setTravelDistGridX(std::stoi(value_str));
+                            counter++;
+                            break;
+                        // Travel dist y
+                        case 2:
+                            blocks[0].back()->setTravelDistGridY(std::stoi(value_str));
+                            counter++;
+                            break;
+                        // Movement type and init
+                        case 3:
+                            blocks[0].back()->init(scale_factor);
+                            blocks[0].back()->initMove(std::stoi(value_str));
+                            counter = 0;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
+    }
+
+    block_str.clear();
+
+    // Init moving block texture
+    for (Block *b : blocks[0])
+    {
+        b->initTexture(renderer);
+    }
+
+    std::cout << "Moving Block Layer Initialized!\n";
+}
+
+void Stage::initStaticLayer(File_Handler *file, char stage_number, uint8_t array_index)
 {
     // Read stage layout straight from csv file
-    file->readCSV(stage_number, "/block_layer.csv", block_str);
+    block_str.clear();
+    file->readCSV(stage_number, layer_files[array_index], block_str);
 
     std::string cur_block;
     int temp_asset_index;
@@ -148,87 +251,43 @@ void Stage::initBlockLayer(File_Handler *file, char stage_number)
                             break;
                         }
                     }
-                    blocks[0].push_back(new Block
-                    (
-                        j, 
-                        i, 
-                        block_paths[temp_asset_index].c_str(), 
-                        std::stoi(getPrefix(cur_block))
-                    ));
-                    blocks[0].back()->init(scale_factor);
+                    if (array_index == 1)
+                    {
+                        blocks[array_index].push_back(new Block
+                        (
+                            j, 
+                            i, 
+                            block_paths[temp_asset_index].c_str(), 
+                            std::stoi(getPrefix(cur_block))
+                        ));
+                    }
+                    else
+                    {
+                        blocks[array_index].push_back(new Block
+                        (
+                            j, 
+                            i, 
+                            block_paths[temp_asset_index].c_str(), 
+                            block_names[temp_asset_index]
+                        ));
+                    }
+                    blocks[array_index].back()->init(scale_factor);
                     // Sprite indexing for block with multiple sprites
                     if (cur_block.length() > 2)
                     {
-                        blocks[0].back()->setHasSpriteIndex(true);
-                        blocks[0].back()->setSpriteIndex(std::stoi(getSuffix(cur_block)));
+                        blocks[array_index].back()->setHasSpriteIndex(true);
+                        blocks[array_index].back()->setSpriteIndex(std::stoi(getSuffix(cur_block)));
                     }
-                    else blocks[0].back()->setHasSpriteIndex(false);
-                }
-                // Adding moving blocks to block array
-                else
-                {
-                    // A counter is used to keep track of which field of data is currently being saved
-                    // In 06|10|11|01, 06 would have a counter of 0, 01 would have a counter of 3
-                    std::stringstream data_stream(cur_block);
-                    std::string value_str;
-                    int counter = 0;
-                    while(std::getline(data_stream, value_str, '|'))
-                    {
-                        switch (counter)
-                        {
-                            // Block type
-                            case 0:
-                                // Parsing blocks name
-                                for (int k = 0; k < block_names.size(); k++)
-                                {
-                                    if (value_str == block_names[k])
-                                    {
-                                        temp_asset_index = k;
-                                        break;
-                                    }
-                                }
-                                blocks[1].push_back(new Block
-                                (
-                                    j,
-                                    i,
-                                    block_paths[temp_asset_index].c_str(), 
-                                    std::stoi(getPrefix(value_str))
-                                ));
-                                // Sprite indexing for block with multiple sprites
-                                if (value_str.length() > 2)
-                                {
-                                    blocks[1].back()->setHasSpriteIndex(true);
-                                    blocks[1].back()->setSpriteIndex(std::stoi(getSuffix(value_str)));
-                                }
-                                else blocks[1].back()->setHasSpriteIndex(false);
-                                counter++;
-                                break;
-                            // Travel dist x
-                            case 1:
-                                blocks[1].back()->setTravelDistGridX(std::stoi(value_str));
-                                counter++;
-                                break;
-                            // Travel dist y
-                            case 2:
-                                blocks[1].back()->setTravelDistGridY(std::stoi(value_str));
-                                counter++;
-                                break;
-                            // Movement type and init
-                            case 3:
-                                blocks[1].back()->init(scale_factor);
-                                blocks[1].back()->initMove(std::stoi(value_str));
-                                counter = 0;
-                                break;
-                            default:
-                                break;
-                        }
-                    }
+                    else blocks[array_index].back()->setHasSpriteIndex(false);
                 }
             }
         }
     }
+
+    block_str.clear();
+
     // Init block texture and spawn
-    for (Block *b : blocks[0])
+    for (Block *b : blocks[array_index])
     {
         b->initTexture(renderer);
 
@@ -239,76 +298,14 @@ void Stage::initBlockLayer(File_Handler *file, char stage_number)
             resp_y = b->getY();
         }
     }
-    // Init moving block texture
-    for (Block *b : blocks[1])
-    {
-        b->initTexture(renderer);
-    }
 
     std::cout << "Block Layer Initialized!\n";
-}
-
-void Stage::initFrontLayer(File_Handler *file, char stage_number)
-{
-    file->readCSV(stage_number, "/front_layer.csv", front_str);
-
-    std::string cur_block;
-    int temp_asset_index;
-
-    // Convert normal block string array into block array
-    for (int i = 0; i < front_str.size(); i++)
-    {
-        for (int j = 0; j < front_str[i].size(); j++)
-        {
-            cur_block = front_str[front_str.size() - 1 - i][j];
-            // Skip if there is no block
-            if (cur_block == "0") continue;
-            else
-            {
-                // Add blocks
-                // Parsing blocks name
-                for (int k = 0; k < block_names.size(); k++)
-                {
-                    // If the block in the array matches with the name of the asset,
-                    // save the index of the block to use for block init
-                    if (cur_block == block_names[k])
-                    {
-                        temp_asset_index = k;
-                        break;
-                    }
-                }
-                blocks[2].push_back(new Block
-                (
-                    j, 
-                    i, 
-                    block_paths[temp_asset_index].c_str(), 
-                    block_names[temp_asset_index]
-                ));
-                blocks[2].back()->init(scale_factor);
-                // Sprite indexing for block with multiple sprites
-                if (cur_block.length() > 2)
-                {
-                    blocks[2].back()->setHasSpriteIndex(true);
-                    blocks[2].back()->setSpriteIndex(std::stoi(getSuffix(cur_block)));
-                }
-                else blocks[2].back()->setHasSpriteIndex(false);
-            }
-        }
-    }
-    
-    // Init front block texture
-    for (Block *b : blocks[2])
-    {
-        b->initTexture(renderer);
-    }
-
-    std::cout << "Front Layer Initialized!\n";
 }
 
 // void Stage::initRhyObs(File_Handler *file, char stage_number)
 // {
 //     // Clear block arrays
-//     block_str.clear();
+//     normal_str.clear();
 //     moving_blocks_str.clear();
     
 //     front_str.clear();
@@ -365,8 +362,9 @@ void Stage::initPlatAll(File_Handler *file, char stage_number)
     initSpritePath(file, stage_number);
     initBackground();
     initBlockEditTexture();
-    initBlockLayer(file, stage_number);
-    initFrontLayer(file, stage_number);
+    initMovingLayer(file, stage_number);
+    initStaticLayer(file, stage_number, 1);
+    initStaticLayer(file, stage_number, 2);
     std::cout << "Platformer Stage Initialized!\n";
 }
 
@@ -395,7 +393,7 @@ void Stage::update(float dt)
     // Moving block start & end array should have the same size, 
     // so there won't be any issue reading both using 1 iterator
     // Start at 1 because index formatting
-    for (Block *b: blocks[1])
+    for (Block *b: blocks[0])
     {
         b->move(dt);
     }
@@ -456,7 +454,7 @@ void Stage::addBlock(int x, int y, int index, uint8_t type)
             block_names[index]));
     }
     // Moving block will handle init separately
-    if (type != 1) blocks[type].back()->init(scale_factor);
+    if (type != 0) blocks[type].back()->init(scale_factor);
     if (block_names[index].length() > 2)
     {
         blocks[type].back()->setHasSpriteIndex(true);
@@ -513,11 +511,10 @@ void Stage::unload()
     }
     background_layers.clear();
 
-    block_str.clear();
-    front_str.clear();
-
     background_paths.clear();
     background_parameter.clear();
+
+    background_count_max = 0;
     
     // Set spawn back to 0
     resp_x = 0;

@@ -101,6 +101,7 @@ public:
     void renderHighlight(Stage *stage, Player *player, Editor *edit);
     void renderEditorMenu(Stage *stage, Editor *edit);
 
+    // Veggie's work area
     void renderMainMenu(Scene *scene);
     void renderStageSelect(Scene *scene);
     void renderGallery(Scene *scene);

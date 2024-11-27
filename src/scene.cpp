@@ -1,4 +1,5 @@
 #include "scene.h"
+#include "cmath"
 
 Scene::Scene(SDL_Renderer *rend) : renderer(rend)
 { }
@@ -262,16 +263,10 @@ void Scene::updateSettings(Input *input, Config *config,
     File_Handler *file, Stage *stage, Player *player, Camera *cam)
 {
     // Navigation (top to bottom)
-    if (press(Dir::UP, input) && 
-        menu_counter > 0 && menu_counter != 4)
-    {
-        menu_counter--;
-    }
-    if (press(Dir::DOWN, input) && 
-        menu_counter < 3)
-    {
-        menu_counter++;
-    }
+    if (press(Dir::UP, input)) menu_counter--;
+    if (press(Dir::DOWN, input)) menu_counter++;
+
+    menu_counter = (menu_counter + 4) % 4;
     // Change resolution, display option, framerate based on preset values
     if (menu_counter >= 0 && menu_counter < 3)
     {

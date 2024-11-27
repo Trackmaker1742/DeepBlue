@@ -388,19 +388,23 @@ void Collision::springBlockColli(std::vector<Block*> blocks, Player *player)
                     break;
                 case 22:
                     player->setVelX(spring_left_vel_x);
+                    player->setRight(false);
                     player->setOnSpring(true);
                     break;
                 case 23:
                     player->setVelX(spring_right_vel_x);
+                    player->setRight(true);
                     player->setOnSpring(true);
                     break;
                 case 24:
                     player->setVelX(spring_left_vel_x);
                     player->setVelY(spring_hori_vel_y);
+                    player->setRight(false);
                     break;
                 case 25:
                     player->setVelX(spring_right_vel_x);
                     player->setVelY(spring_hori_vel_y);
+                    player->setRight(true);
                     break;
                 default:
                 break;
@@ -427,18 +431,18 @@ void Collision::playerBlockColli(Stage* stage, Player* player, float dt)
 
     // Collision check shared with moving block of the same type
     // Blocks not affecting movements (items, checkpoints,...)
-    specialBlockColli(stage, stage->getBlockVec(), player);
-    specialBlockColli(stage, stage->getMovingBlockVec(), player);
+    specialBlockColli(stage, stage->getBlockVec(1), player);
+    specialBlockColli(stage, stage->getBlockVec(0), player);
     // Spring blocks collision handler
-    springBlockColli(stage->getBlockVec(), player);
-    springBlockColli(stage->getMovingBlockVec(), player);
+    springBlockColli(stage->getBlockVec(1), player);
+    springBlockColli(stage->getBlockVec(0), player);
     // Blocks affecting movement (normal block, slope,...)
     player->setOnGround(false);
-    blockTopColli(stage, stage->getBlockVec(), player, dt);
-    blockTopColli(stage, stage->getMovingBlockVec(), player, dt);
+    blockTopColli(stage, stage->getBlockVec(1), player, dt);
+    blockTopColli(stage, stage->getBlockVec(0), player, dt);
     player->setOnWall(false);
-    blockBotSideColli(stage, stage->getBlockVec(), player, dt);
-    blockBotSideColli(stage, stage->getMovingBlockVec(), player, dt);
+    blockBotSideColli(stage, stage->getBlockVec(1), player, dt);
+    blockBotSideColli(stage, stage->getBlockVec(0), player, dt);
     // Ascend, descend check
     if (player->getVelY() != 0)
     {
@@ -505,7 +509,7 @@ void Collision::playerRhythmColli(Stage *stage, Player *player)
     // ####
 
     // Object collision
-    for (Block *b : stage->getBlockVec())
+    for (Block *b : stage->getBlockVec(1))
     {
         // If player, block are on the same lane
         if (player->getLane() == b->getLane())

@@ -13,17 +13,21 @@
 class Editor
 {
 private:
-    // If true, player can't exit edit mode until either changes are saved or discarded
-    bool changed = false;
+    static const int max_block_type = 4;
+
+    bool changed[max_block_type] = {false, false, false, false};
+    
+    // bool changed = false;
     bool saving = false;
     bool saved = true;
     bool reset = true;
 
     // Type index
-    // 0: normal block
-    // 1: moving block
+    // 0: moving block
+    // 1: normal block
     // 2: front block
-    uint8_t block_type_counter = 0;
+    // 3: back block
+    uint8_t block_type_counter = 1;
 
     bool initial_m_block = true;
 
@@ -39,34 +43,33 @@ private:
 
     uint16_t x_max = 0;
     uint16_t y_max = 0;
-    
-    // Temp block array for faster iteration
-    std::string block_layer_dir;
-    std::string front_layer_dir;
 
     bool is_block = false;
     uint16_t block_index = 0;
-    bool is_moving_block = false;
-    uint16_t moving_block_index = 0;
 
 public:
     Editor();
 
-    void setChanged(bool c);
+    void setSaving(bool s);
     void setSaved(bool s);
 
     uint16_t getGrid();
     uint16_t getSEMCount();
-    bool getChanged();
+    bool getChanged(int i);
     bool getSaving();
     bool getSaved();
     uint8_t getBlockTypeCounter();
     bool getInitMBlock();
 
+    void init();
+    void completeSaving();
+
     void menuAction(Input *input, Player *player, Stage *stage);
-    void saveChanges(std::vector<Block*> blocks, 
-        std::vector<Block*> m_blocks,
-        std::vector<Block*> f_blocks);
+    
+    void setMaxXYSize(std::vector<Block*> blocks);
+    void saveMovingBlocks(std::vector<Block*> blocks, std::string layer_dir);
+    void saveNormalBlocks(std::vector<Block*> blocks, std::string layer_dir);
+    void saveNoColliBlocks(std::vector<Block*> blocks, std::string layer_dir, int type);
     bool playerBlockOverlap(Player *player, std::vector<Block*> blocks);
     // void updateBlockArray(Input *input, std::vector<Block> &block_array);
 
