@@ -40,8 +40,8 @@ public:
     // Update platformer camera
     void updatePlatCam(Player *player, float dt);
 
-    // Update rhythm camera
-    void updateRhyCam(Player *player, float dt);
+    // // Update rhythm camera
+    // void updateRhyCam(Player *player, float dt);
 
     ~Camera();
 };

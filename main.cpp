@@ -99,6 +99,8 @@ int main(int argc, char *argv[])
         uint64_t current_frame = SDL_GetTicks64();
         config->setDeltaTime((current_frame - prev_frame) / 1000.0f);
 
+        // std::cout << int(scene->getState()) << "\n";
+
         // Display the coresponding game state result
         switch (scene->getState())
         {
@@ -148,7 +150,7 @@ int main(int argc, char *argv[])
                         renderer->renderPlayerHoriShooter(player);
                     break;
                     case 9:
-                        renderer->renderStageRhythm(stage, player);
+                        // renderer->renderStageRhythm(stage, player);
                     break;
                     default:
                     break;
@@ -259,9 +261,9 @@ int main(int argc, char *argv[])
                 // Pause menu
                 scene->pauseHandler(input);
 
-                player->rhythmMvt(input, config->getDeltaTime());
-                cam->updateRhyCam(player, config->getDeltaTime());
-                renderer->renderStageRhythm(stage, player);
+                // player->rhythmMvt(input, config->getDeltaTime());
+                // cam->updateRhyCam(player, config->getDeltaTime());
+                // renderer->renderStageRhythm(stage, player);
             break;
             case 10:
             break;

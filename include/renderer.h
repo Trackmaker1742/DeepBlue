@@ -24,9 +24,6 @@ private:
 
     Config *config;
 
-    bool init_x = false;    // Flag for initializing the initial position (for moving bg)
-    uint16_t initial_x;    // Initial x position of player
-
     // Rect for sprite handling
     SDL_Rect src_rect;
     SDL_Rect des_rect;
@@ -59,12 +56,6 @@ private:
     bool jump_anchor = false;
     float jump_effect_counter = 0;
 
-    // Layer 1 doesn't need to pan slowly
-    // Other layers need to have a counter to move the bg
-    // even when the player isn't moving
-    bool layer_auto_i_init = false;
-    std::vector<float> layer_auto_i;
-
     // Stage edit menu
     uint16_t current_row;
     uint16_t current_column;
@@ -85,7 +76,7 @@ public:
     void renderPlayerPlat(Player *player);
     void renderPlayerVertShooter(Player *player);
     void renderPlayerHoriShooter(Player *player);
-    void renderPlayerRhythm(Player *player);
+    // void renderPlayerRhythm(Player *player);
 
     void renderBackground(Stage *stage, Player *player);
     void renderBlocks(std::vector<Block*> blocks, Player *player);
@@ -94,7 +85,7 @@ public:
 
     void renderStagePlat(Stage *stage, Player *player, Editor *edit);
     void renderStageShooter(Stage *stage, Player *player);
-    void renderStageRhythm(Stage *stage, Player *player);
+    // void renderStageRhythm(Stage *stage, Player *player);
     
     void renderGridLines(Stage *stage, Player *player, Editor *edit);
     void renderTransparentLayer();

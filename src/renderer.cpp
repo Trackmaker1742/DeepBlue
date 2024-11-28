@@ -370,53 +370,39 @@ void Renderer::renderPlayerHoriShooter(Player *player)
     // SDL_RenderFillRect(config->getRenderer(), &des_rect);
 }
 
-void Renderer::renderPlayerRhythm(Player *player)
-{
-    idle_counter += config->getDeltaTime() * 4;
-    if (idle_counter > 2) idle_counter = 0;
-    src_rect = {
-        int(idle_counter) * 64, 
-        (player->getRight() ? 0 : 1) * 64,
-        64,
-        64
-    };
+// void Renderer::renderPlayerRhythm(Player *player)
+// {
+//     idle_counter += config->getDeltaTime() * 4;
+//     if (idle_counter > 2) idle_counter = 0;
+//     src_rect = {
+//         int(idle_counter) * 64, 
+//         (player->getRight() ? 0 : 1) * 64,
+//         64,
+//         64
+//     };
 
-    des_rect = {
-        int(player->getX()), 
-        config->getHeight() - player->getGrid() - int(player->getY()), 
-        player->getGrid(), 
-        player->getGrid()
-    };
-    SDL_RenderCopy(config->getRenderer(), player->getTexture(), &src_rect, &des_rect);
+//     des_rect = {
+//         int(player->getX()), 
+//         config->getHeight() - player->getGrid() - int(player->getY()), 
+//         player->getGrid(), 
+//         player->getGrid()
+//     };
+//     SDL_RenderCopy(config->getRenderer(), player->getTexture(), &src_rect, &des_rect);
 
-    // Render the hitbox
-    SDL_SetRenderDrawBlendMode(config->getRenderer(), SDL_BLENDMODE_BLEND);
-    SDL_SetRenderDrawColor(config->getRenderer(), 255, 0, 0, 150);
-    des_rect = {
-        int(player->getX()), 
-        config->getHeight() - player->getGrid() - int(player->getY()), 
-        player->getGrid(), 
-        player->getGrid()
-    };
-    SDL_RenderFillRect(config->getRenderer(), &des_rect);
-}
+//     // Render the hitbox
+//     SDL_SetRenderDrawBlendMode(config->getRenderer(), SDL_BLENDMODE_BLEND);
+//     SDL_SetRenderDrawColor(config->getRenderer(), 255, 0, 0, 150);
+//     des_rect = {
+//         int(player->getX()), 
+//         config->getHeight() - player->getGrid() - int(player->getY()), 
+//         player->getGrid(), 
+//         player->getGrid()
+//     };
+//     SDL_RenderFillRect(config->getRenderer(), &des_rect);
+// }
 
 void Renderer::renderBackground(Stage *stage, Player *player)
 {
-    if (!init_x) 
-    {
-        initial_x = 0;
-        init_x = true;
-    }
-    // Init layers' iterators for auto background scrolling
-    if (!layer_auto_i_init)
-    {
-        for (int i = 0; i < stage->getBgCountMax(); i++)
-        {
-            layer_auto_i.push_back(0);
-        }
-        layer_auto_i_init = true;
-    }
     // Render background
     // 2 background image will be rendered at the same time
     // Divide des1 to slow down the bg speed
@@ -426,14 +412,16 @@ void Renderer::renderBackground(Stage *stage, Player *player)
         // Auto-scroll movement
         if (stage->getBgParam(i, 0))
         {
-            if (layer_auto_i[i] < config->getWidth())
+            if (stage->getBgAutoI(i) < config->getWidth())
             {
-                layer_auto_i[i] += player->getGrid() * stage->getBgParam(i, 0) * config->getDeltaTime() / 500;
+                // stage->getBgAutoI(i) += player->getGrid() * stage->getBgParam(i, 0) * config->getDeltaTime() / 500;
+                stage->setBgAutoI(i, 
+                    stage->getBgAutoI(i) + player->getGrid() * stage->getBgParam(i, 0) * config->getDeltaTime() / 500);
             }
-            else layer_auto_i[i] = 0;
+            else stage->setBgAutoI(i, 0);
         }
         // Background movement based on player movement
-        des1 = - (player->getX() - initial_x) * stage->getBgParam(i, 1) / 100  - layer_auto_i[i];   // Starts at 0
+        des1 = - player->getX() * stage->getBgParam(i, 1) / 100  - stage->getBgAutoI(i);   // Starts at 0
         des2 = config->getWidth() + des1;    // Starts at end of screen
         // Once one bg is no longer in view, 
         // it will loop back or forward to keep covering the screen
@@ -597,22 +585,22 @@ void Renderer::renderStageShooter(Stage *stage, Player *player)
     // Render projectiles
     renderProjectiles(stage, player);
 }
-void Renderer::renderStageRhythm(Stage *stage, Player *player)
-{
-    // Render background
-    renderBackground(stage, player);
+// void Renderer::renderStageRhythm(Stage *stage, Player *player)
+// {
+//     // Render background
+//     renderBackground(stage, player);
 
-    // Camera stuff for other renders
-    delta_x = cam->getRendX() - cam->getX();
-    delta_y = cam->getRendY() - cam->getY();
+//     // Camera stuff for other renders
+//     delta_x = cam->getRendX() - cam->getX();
+//     delta_y = cam->getRendY() - cam->getY();
 
-    // Render moving blocks
-    renderBlocks(stage->getBlockVec(0), player);
-    // Render blocks
-    renderBlocks(stage->getBlockVec(1), player);
-    // Render player
-    renderPlayerRhythm(player);
-}
+//     // Render moving blocks
+//     renderBlocks(stage->getBlockVec(0), player);
+//     // Render blocks
+//     renderBlocks(stage->getBlockVec(1), player);
+//     // Render player
+//     renderPlayerRhythm(player);
+// }
 
 void Renderer::renderGridLines(Stage *stage, Player *player, Editor *edit)
 {

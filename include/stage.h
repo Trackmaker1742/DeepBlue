@@ -48,21 +48,25 @@ private:
     // Projectile array
     std::vector<Projectile*> projectiles;
 
-    // Respawn coordinates
-    uint16_t resp_x;
-    uint16_t resp_y;
-
     // Background paths
     std::vector<std::string> background_paths;
     std::vector<std::vector<uint8_t>> background_parameter;
     uint8_t background_count_max = 0;
 
-    // Rhythm obstacles sprites
-    // High geyser sprite will only contain the bottom half,
-    // with the top half using the same sprite as low geyser
-    std::vector<std::string> obstacle_path;
+    // // Rhythm obstacles sprites
+    // // High geyser sprite will only contain the bottom half,
+    // // with the top half using the same sprite as low geyser
+    // std::vector<std::string> obstacle_path;
 
     float scale_factor;
+
+    // Other layers need to have a counter to move the bg
+    // even when the player isn't moving
+    std::vector<float> bg_auto_i;
+
+    // Respawn coordinates
+    uint16_t resp_x;
+    uint16_t resp_y;
 
 public:
     Stage();
@@ -81,6 +85,7 @@ public:
     uint8_t getBgParam(int i, int j);
     uint8_t getBgCountMax();
     float getScaleFactor();
+    float getBgAutoI(int i);
 
     std::string getPrefix(const std::string &str);
     std::string getSuffix(const std::string &str);
@@ -88,6 +93,7 @@ public:
     // Setters
     void setRespX(uint16_t x);
     void setRespY(uint16_t y);
+    void setBgAutoI(int i, float value);
 
     void updateScaleFactor(float sf);
     void updateScale();

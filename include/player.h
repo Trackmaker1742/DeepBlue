@@ -10,6 +10,7 @@
 #include "projectile.h"
 #include "audio.h"
 
+// Time to split up player and have it interact with renderer better
 // Player class can handle all 3 game mode, with different attribute for each
 // Grid is used as an unit of measurement, 
 // allowing for dynamic game update and more consistent calculation
@@ -70,39 +71,42 @@ private:
     uint8_t spring_counter;
     float spring_frame_max;     // = fps / 7
 
+    // Camera variables
+    float ground_anchor;
+
     // Invul state, used for rhythm and shooter
     // 1 second is the max invul time
     bool invul;
     uint16_t invul_counter;
     float invul_frame_max;  // = fps
 
-    // Rhythm stuff
-    // A meter will regenerate over time, maxing out at 100
-    // Taking damage will lower the meter by 30
-    // Meaning 4 consecutive hit will end the game
-    float rhythm_bar;
-    float rhythm_bar_regen_rate;
-    uint8_t current_lane;   // 1 is the lowest, 3 is the highest
-                                //     3
-                                //     3
-                                //   2
-                                //   2                                
-                                // 1
-                                // 1
-                                // Kinda like this
-                                // 2 rows because the sprite will be 128x128
-    float rhythm_speed;     // Default speed during rhythm mode
-    // Rhythm attack creates a hurtbox in front of the player
-    // This block will have its own block collision
-    bool rhythm_can_atk;
-    bool rhythm_atk;
-    uint8_t rhythm_atk_counter;
-    float rhythm_atk_frame_max;     // = fps / 5
-    float rhythm_atk_delay;         // = fps / 2
+    // // Rhythm stuff
+    // // A meter will regenerate over time, maxing out at 100
+    // // Taking damage will lower the meter by 30
+    // // Meaning 4 consecutive hit will end the game
+    // float rhythm_bar;
+    // float rhythm_bar_regen_rate;
+    // uint8_t current_lane;   // 1 is the lowest, 3 is the highest
+    //                             //     3
+    //                             //     3
+    //                             //   2
+    //                             //   2                                
+    //                             // 1
+    //                             // 1
+    //                             // Kinda like this
+    //                             // 2 rows because the sprite will be 128x128
+    // float rhythm_speed;     // Default speed during rhythm mode
+    // // Rhythm attack creates a hurtbox in front of the player
+    // // This block will have its own block collision
+    // bool rhythm_can_atk;
+    // bool rhythm_atk;
+    // uint8_t rhythm_atk_counter;
+    // float rhythm_atk_frame_max;     // = fps / 5
+    // float rhythm_atk_delay;         // = fps / 2
 
-    float rhythm_atk_x;
-    float rhythm_atk_y;
-    uint16_t rhythm_atk_grid;       // Hurtbox size, square because I'm lazy
+    // float rhythm_atk_x;
+    // float rhythm_atk_y;
+    // uint16_t rhythm_atk_grid;       // Hurtbox size, square because I'm lazy
 
     // Shooter stuff
     // Will need a different hitbox for both as well
@@ -174,6 +178,7 @@ public:
     void setOnMovingBlock(bool omb);
     void setOnSpring(bool os);
     void setDashHalt(bool dh);
+    void setGroundAnchor(float ga);
 
     bool getRight();
     bool getOnGround();
@@ -181,20 +186,21 @@ public:
     bool getOnMovingBlock();
     bool getDashHalt();
     bool getOnDash();
+    float getGroundAnchor();
 
     // Anything with health and invul state
     void setInvul(bool i);
     bool getInvul();
 
-    // Rhythm related variables
-    void setRhyBar(float bar);
-    float getRhyBar();
-    uint8_t getLane();
-    bool getRhyAtk();
-    float getRhySpeed();
-    float getRhyAtkX();
-    float getRhyAtkY();
-    uint16_t getRhyAtkGrid();
+    // // Rhythm related variables
+    // void setRhyBar(float bar);
+    // float getRhyBar();
+    // uint8_t getLane();
+    // bool getRhyAtk();
+    // float getRhySpeed();
+    // float getRhyAtkX();
+    // float getRhyAtkY();
+    // uint16_t getRhyAtkGrid();
 
     // Shooter related variables
     bool getVertical();
@@ -231,7 +237,7 @@ public:
     
     void initPlat(Config *config);      // Used to init and reinit all the values related to 
                                                 // fps or scaling (grid size) to dynamically change settings 
-    void initRhythm(Config *config);
+    // void initRhythm(Config *config);
     void initVertShooter(Config *config);
     void initHoriShooter(Config *config);
 
@@ -250,8 +256,8 @@ public:
     void shooterVertAtk(Config *config, Input *input, float dt);
     void shooterHoriAtk(Config *config, Input *input, float dt);
 
-    // Player rhythm movement
-    void rhythmMvt(Input *input, float dt);
+    // // Player rhythm movement
+    // void rhythmMvt(Input *input, float dt);
 
     // For stage edit mode
     void editorMvt(Input *input, float dt);

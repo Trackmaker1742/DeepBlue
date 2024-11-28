@@ -31,10 +31,12 @@ uint16_t Stage::getRespY() { return resp_y; }
 uint8_t Stage::getBgParam(int i, int j) { return background_parameter[i][j]; }
 uint8_t Stage::getBgCountMax() { return background_count_max; }
 float Stage::getScaleFactor() { return scale_factor; }
+float Stage::getBgAutoI(int i) { return bg_auto_i[i]; }
 
 // Setters
 void Stage::setRespX(uint16_t x) { resp_x = x; }
 void Stage::setRespY(uint16_t y) { resp_y = y; }
+void Stage::setBgAutoI(int i, float value) { bg_auto_i[i] = value; }
 
 void Stage::updateScaleFactor(float sf)
 {
@@ -94,6 +96,7 @@ void Stage::initBackground()
     for (std::string path : background_paths)
     {
         background_layers.push_back(IMG_LoadTexture(renderer, path.c_str()));
+        bg_auto_i.push_back(0);
         path.erase(path.begin() + i);
         i++;
     }
@@ -486,22 +489,13 @@ void Stage::unload()
 
     for (int i = 0; i < blocks.size(); i++)
     {
-        delete blocks[0][i];
-        blocks[0][i] = nullptr;
+        for (int j = 0; j < blocks[i].size(); j++)
+        {
+            delete blocks[i][j];
+            blocks[i][j] = nullptr;
+        }
+        blocks[i].clear();
     }
-    blocks[0].clear();
-    for (int i = 0; i < blocks[1].size(); i++)
-    {
-        delete blocks[1][i];
-        blocks[1][i] = nullptr;
-    }
-    blocks[1].clear();
-    for (int i = 0; i < blocks[2].size(); i++)
-    {
-        delete blocks[2][i];
-        blocks[2][i] = nullptr;
-    }
-    blocks[2].clear();
 
     for (SDL_Texture* texture : background_layers) {
         if (texture != nullptr) {
@@ -511,10 +505,13 @@ void Stage::unload()
     }
     background_layers.clear();
 
+    block_str.clear();
+
     background_paths.clear();
     background_parameter.clear();
-
     background_count_max = 0;
+
+    bg_auto_i.clear();
     
     // Set spawn back to 0
     resp_x = 0;

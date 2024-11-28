@@ -77,9 +77,27 @@ void Camera::updatePlatCam(Player *player, float dt)
     }
     else setX(render_x);
     
+    // if (abs(player->getY() - player->getGroundAnchor()) > player->getGrid()) 
+    //     player->setGroundAnchor(player->getY());
+
+    // setVelY(getGrid() * 12);
+
     if (player->getY() > render_y) 
     {
-        if (can_move_vert) setY(player->getY()); 
+        if (can_move_vert) 
+        {
+            // if (getY() - player->getGroundAnchor() - player->getGrid() > getGrid())
+            // {
+            //     setY(getY() - getVelY() * dt);
+            // }
+            // else if (getY() - player->getGroundAnchor() - player->getGrid() < - getGrid())
+            // {
+            //     setY(getY() + getVelY() * dt);
+            // }
+            // else 
+                // setY(player->getGroundAnchor() + player->getGrid() * 3);
+            setY(player->getY()); 
+        }
     }
     else setY(render_y);
 
@@ -89,12 +107,12 @@ void Camera::updatePlatCam(Player *player, float dt)
     player_prev_right = player->getRight();
 }
 
-void Camera::updateRhyCam(Player *player, float dt)
-{
-    // Adjust to the x position and maintain it across all 3 lanes
-    setX(getX() + player->getRhySpeed() * dt);
-    std::cout << getX() + player->getRhySpeed() * dt << "\n";
-}
+// void Camera::updateRhyCam(Player *player, float dt)
+// {
+//     // Adjust to the x position and maintain it across all 3 lanes
+//     setX(getX() + player->getRhySpeed() * dt);
+//     std::cout << getX() + player->getRhySpeed() * dt << "\n";
+// }
 
 Camera::~Camera()
 { 

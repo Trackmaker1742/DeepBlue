@@ -21,6 +21,7 @@ void Player::setOnWall(bool ow) { on_wall = ow; }
 void Player::setOnMovingBlock(bool omb) { on_moving_block = omb; }
 void Player::setOnSpring(bool os) { on_spring = os; }
 void Player::setDashHalt(bool dh) { dash_halt = dh; }
+void Player::setGroundAnchor(float ga) { ground_anchor = ga; }
 
 bool Player::getRight() { return right; }
 bool Player::getOnGround() { return on_ground; }
@@ -28,18 +29,19 @@ bool Player::getOnWall() { return on_wall; }
 bool Player::getOnMovingBlock() { return on_moving_block; }
 bool Player::getDashHalt() { return dash_halt; }
 bool Player::getOnDash() { return on_dash; }
+float Player::getGroundAnchor() { return ground_anchor;}
 
 void Player::setInvul(bool i) { invul = i; }
 bool Player::getInvul() { return invul; }
 
-void Player::setRhyBar(float bar) { rhythm_bar = bar; } 
-float Player::getRhyBar() { return rhythm_bar; }
-uint8_t Player::getLane() { return current_lane; }
-bool Player::getRhyAtk() { return rhythm_atk; }
-float Player::getRhySpeed() { return rhythm_speed; }
-float Player::getRhyAtkX() { return rhythm_atk_x; }
-float Player::getRhyAtkY() { return rhythm_atk_y; }
-uint16_t Player::getRhyAtkGrid() { return rhythm_atk_grid; }
+// void Player::setRhyBar(float bar) { rhythm_bar = bar; } 
+// float Player::getRhyBar() { return rhythm_bar; }
+// uint8_t Player::getLane() { return current_lane; }
+// bool Player::getRhyAtk() { return rhythm_atk; }
+// float Player::getRhySpeed() { return rhythm_speed; }
+// float Player::getRhyAtkX() { return rhythm_atk_x; }
+// float Player::getRhyAtkY() { return rhythm_atk_y; }
+// uint16_t Player::getRhyAtkGrid() { return rhythm_atk_grid; }
 
 bool Player::getVertical() { return vertical; }
 
@@ -125,6 +127,8 @@ void Player::initPlat(Config *config)
     on_spring = false;
     spring_counter = 0;
     spring_frame_max = game_fps / 7;
+
+    ground_anchor = 0;
 
     jump_start = false;
     jump = false;
@@ -215,42 +219,42 @@ void Player::initHoriShooter(Config *config)
     initTexture(hori_shooter_path, config->getRenderer());
 }
 
-void Player::initRhythm(Config *config)
-{
-    game_fps = config->getFPS();
-    updateScale(config->getScaleFactor());
-    setGrid(getGrid() * 2);
+// void Player::initRhythm(Config *config)
+// {
+//     game_fps = config->getFPS();
+//     updateScale(config->getScaleFactor());
+//     setGrid(getGrid() * 2);
 
-    center_x = getX() + getWidth() / 2;
-    center_y = getY() + getHeight() / 2;
+//     center_x = getX() + getWidth() / 2;
+//     center_y = getY() + getHeight() / 2;
     
-    editor = false;
+//     editor = false;
 
-    on_ground = false;
+//     on_ground = false;
 
-    // Invul period after taking damage
-    invul = false;
-    invul_counter = 0;
-    invul_frame_max = game_fps;
+//     // Invul period after taking damage
+//     invul = false;
+//     invul_counter = 0;
+//     invul_frame_max = game_fps;
 
-    current_lane = 2;
+//     current_lane = 2;
 
-    // Dash
-    dash_frame_max = game_fps / 5;
-    dash_frame_delay = game_fps / 2;
+//     // Dash
+//     dash_frame_max = game_fps / 5;
+//     dash_frame_delay = game_fps / 2;
 
-    // Attack
-    rhythm_bar = 0;
-    rhythm_bar_regen_rate = 8;
-    rhythm_speed = getGrid();
-    rhythm_can_atk = false;
-    rhythm_atk = false;
-    rhythm_atk_counter = 0;
-    rhythm_atk_frame_max = game_fps / 5;
-    rhythm_atk_grid = getGrid() * 1.5;  // 1.5 times the size of a normal grid
+//     // Attack
+//     rhythm_bar = 0;
+//     rhythm_bar_regen_rate = 8;
+//     rhythm_speed = getGrid();
+//     rhythm_can_atk = false;
+//     rhythm_atk = false;
+//     rhythm_atk_counter = 0;
+//     rhythm_atk_frame_max = game_fps / 5;
+//     rhythm_atk_grid = getGrid() * 1.5;  // 1.5 times the size of a normal grid
 
-    initTexture(rhythm_path, config->getRenderer());
-}
+//     initTexture(rhythm_path, config->getRenderer());
+// }
 
 void Player::resetMoves()
 {
@@ -330,6 +334,9 @@ void Player::platformerMvt(Input *input, float dt)
         setX(getGrid() / 5);
         setVelX(0);
     }
+
+    if (abs(getY() - ground_anchor) > getGrid() * 5)
+        ground_anchor = getY();
 
     // Enter editor mode
     if (input->getPress(Action::EXTRA1)) 
@@ -678,9 +685,9 @@ void Player::shooterHoriAtk(Config *config, Input *input, float dt)
     // std::cout << projectiles.size() << "\n";
 }
 
-// Player rhythm movement
-void Player::rhythmMvt(Input *input, float dt)
-{
+// // Player rhythm movement
+// void Player::rhythmMvt(Input *input, float dt)
+// {
     // right = true;
     // // Constant default camera speed, player can speed up or slow down
     // // as they want, invisible wall on left and right boundary
@@ -834,7 +841,7 @@ void Player::rhythmMvt(Input *input, float dt)
     //     invul_counter++;
     //     if (invul_counter >= invul_frame_max) invul = false;
     // }
-}
+// }
 
 void Player::editorMvt(Input *input, float dt)
 {
@@ -873,6 +880,7 @@ void Player::unload()
         SDL_DestroyTexture(texture);    // Free the texture resource
         texture = nullptr;              // Optional: Set to nullptr for safety
     }
+    
 }
 
 Player::~Player()

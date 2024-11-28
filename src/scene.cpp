@@ -166,7 +166,7 @@ void Scene::initStage(Config *config,
         // Rhythm init
         case 7:
             // Stage init rhythm all
-            player->initRhythm(config);
+            // player->initRhythm(config);
             game_state = 9;
         break;
         default:
@@ -361,7 +361,7 @@ void Scene::updateSettings(Input *input, Config *config,
                     player->initHoriShooter(config);
                 break;
                 case 9:
-                    player->initRhythm(config);
+                    // player->initRhythm(config);
                 break;
                 default:
                     break;

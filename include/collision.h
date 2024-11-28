@@ -35,8 +35,8 @@ public:
     // Platformer collision
     void playerBlockColli(Stage *stage, Player *player, float dt);
 
-    // Rhythm stuff
-    void playerRhythmColli(Stage *stage, Player *player);
+    // // Rhythm stuff
+    // void playerRhythmColli(Stage *stage, Player *player);
 
     // Horizontal shooter stuff
     void horiPlayerEnemyColli(Player *player, Enemy *enemy);

@@ -25,9 +25,9 @@ Item 04 | 0
 Item 05 | 0     
 # Gold-clad white mask
 Item 06 | 0     
-# Red wine glass
-Item 07 | 0     
 # Blue something
+Item 07 | 0     
+# Red wine glass
 Item 08 | 0     
 # 3 Flowers
 Item 09 | 0     
