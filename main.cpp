@@ -91,8 +91,6 @@ int main(int argc, char *argv[])
     bool quit = false;
     SDL_RaiseWindow(config->getWindow());
 
-    bool first = false;
-
     while (!input->handleInput() && quit != true)
     {
         // Calculating delta time

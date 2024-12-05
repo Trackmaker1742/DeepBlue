@@ -110,8 +110,8 @@ public:
     void initVertShooterAll(File_Handler *file, char stage_number);
     void initHoriShooterAll(File_Handler *file, char stage_number);
 
-    void initRhyObs(File_Handler *file, char stage_number);
-    void initRhyAll(File_Handler *file, char stage_number);
+    // void initRhyObs(File_Handler *file, char stage_number);
+    // void initRhyAll(File_Handler *file, char stage_number);
 
     // Update for moving blocks
     void update(float dt);
@@ -125,13 +125,11 @@ public:
     void addBlock(int x, int y, int index, uint8_t type);
     void deleteBlock(int index, uint8_t type);
 
-    void clearTextureArray(std::vector<SDL_Texture*> textures);
-    void clearBlockArray(std::vector<Block*> block_array);
+    // void clearTextureArray(std::vector<SDL_Texture*> textures);
+    // void clearBlockArray(std::vector<Block*> block_array);
 
     // Unload everything in a stage (blocks, spawn)
     void unload();
-
-    void showState();
 
     ~Stage();
 };

@@ -880,7 +880,6 @@ void Player::unload()
         SDL_DestroyTexture(texture);    // Free the texture resource
         texture = nullptr;              // Optional: Set to nullptr for safety
     }
-    
 }
 
 Player::~Player()

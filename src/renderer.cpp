@@ -516,6 +516,8 @@ void Renderer::renderStagePlat(Stage *stage, Player *player, Editor *edit)
         switch (edit->getBlockTypeCounter())
         {
             case 0:
+                // Render back blocks
+                renderBlocks(stage->getBlockVec(3), player);
                 // Render blocks
                 renderBlocks(stage->getBlockVec(1), player);
                 // Render front blocks
@@ -526,6 +528,8 @@ void Renderer::renderStagePlat(Stage *stage, Player *player, Editor *edit)
                 renderBlocks(stage->getBlockVec(0), player);
             break;
             case 1:
+                // Render back blocks
+                renderBlocks(stage->getBlockVec(3), player);
                 // Render moving blocks
                 renderBlocks(stage->getBlockVec(0), player);
                 // Render front blocks
@@ -536,14 +540,28 @@ void Renderer::renderStagePlat(Stage *stage, Player *player, Editor *edit)
                 renderBlocks(stage->getBlockVec(1), player);
             break;
             case 2:
-                // Render blocks
-                renderBlocks(stage->getBlockVec(1), player);
+                // Render back blocks
+                renderBlocks(stage->getBlockVec(3), player);
                 // Render moving blocks
                 renderBlocks(stage->getBlockVec(0), player);
+                // Render blocks
+                renderBlocks(stage->getBlockVec(1), player);
                 // Render transparent layer
                 renderTransparentLayer();
                 // Render front blocks
                 renderBlocks(stage->getBlockVec(2), player);
+            break;
+            case 3:
+                // Render moving blocks
+                renderBlocks(stage->getBlockVec(0), player);
+                // Render blocks
+                renderBlocks(stage->getBlockVec(1), player);
+                // Render front blocks
+                renderBlocks(stage->getBlockVec(2), player);
+                // Render transparent layer
+                renderTransparentLayer();
+                // Render back blocks
+                renderBlocks(stage->getBlockVec(3), player);
             break;
             default:
             break;
@@ -559,6 +577,8 @@ void Renderer::renderStagePlat(Stage *stage, Player *player, Editor *edit)
     }
     else
     {
+        // Render back blocks
+        renderBlocks(stage->getBlockVec(3), player);
         // Render moving blocks
         renderBlocks(stage->getBlockVec(0), player);
         // Render blocks

@@ -110,10 +110,25 @@ void Editor::menuAction(Input *input, Player *player, Stage *stage)
             }
         break;
         // Normal block
-        case 1: case 2: case 3:
+        case 1: case 2:
             if (input->getHold(Action::ACTION1) &&
                 !playerBlockOverlap(player, stage->getBlockVec(1)) &&
-                !playerBlockOverlap(player, stage->getBlockVec(2)) &&
+                !playerBlockOverlap(player, stage->getBlockVec(2)))
+            {
+                stage->addBlock
+                (
+                    int(player->getCenterX() / grid), 
+                    int(player->getCenterY() / grid),
+                    se_menu_counter,
+                    block_type_counter
+                );
+                changed[block_type_counter] = true;
+                saved = false;
+            }
+        break;
+        // Normal block
+        case 3:
+            if (input->getHold(Action::ACTION1) &&
                 !playerBlockOverlap(player, stage->getBlockVec(3)))
             {
                 stage->addBlock

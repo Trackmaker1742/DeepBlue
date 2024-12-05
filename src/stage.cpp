@@ -13,6 +13,7 @@ void Stage::init()
     blocks.push_back(temp_b_array);
     blocks.push_back(temp_b_array);
     blocks.push_back(temp_b_array);
+    temp_b_array.clear();
 
     layer_files[0] = "/moving_layer.csv";
     layer_files[1] = "/normal_layer.csv";
@@ -368,6 +369,7 @@ void Stage::initPlatAll(File_Handler *file, char stage_number)
     initMovingLayer(file, stage_number);
     initStaticLayer(file, stage_number, 1);
     initStaticLayer(file, stage_number, 2);
+    initStaticLayer(file, stage_number, 3);
     std::cout << "Platformer Stage Initialized!\n";
 }
 
